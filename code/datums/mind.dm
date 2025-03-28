@@ -60,14 +60,12 @@
 	var/list/antag_datums
 	var/antag_hud_icon_state = null //this mind's ANTAG_HUD should have this icon_state
 	var/datum/atom_hud/antag/antag_hud = null //this mind's antag HUD
-
 	/// The prime mind. During cloning of scanning, we follow this chain to find who
 	/// is the person that controls the mind. The priority for prime minds is given to
 	/// the most recently created, living mind
 	var/datum/mind/prime
 	/// Minds that have been printed based on us
 	var/list/children = list()
-
 	var/holy_role = NONE //is this person a chaplain or admin role allowed to use bibles, Any rank besides 'NONE' allows for this.
 	var/isAntagTarget = FALSE
 
