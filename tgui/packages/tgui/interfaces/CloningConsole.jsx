@@ -71,16 +71,8 @@ export const CloningConsole = (props) => {
                   <Collapsible title={recordsLength}>
                     <h2>Current Records: </h2>
                     {records.map((record) => (
-                      <Section
-                        backgroundColor="#191919"
-                        color="white"
-                        key={record}
-                      >
-                        <Collapsible
-                          title={
-                            record['name']
-                          }
-                          color='green'>
+                      <Section backgroundColor="#191919" color="white" key={record}>
+                        <Collapsible title={record['name']} color="green">
                           <div
                             key={record['name']}
                             style={{
@@ -196,19 +188,8 @@ export const CloningConsole = (props) => {
               >
                 {diskData.length !== 0 ? (
                   <Collapsible
-                    title={
-                      diskData['name']
-                        ? diskData['name']
-                        : 'Empty Disk'
-                    }
-                    color={
-                      diskData['name']
-                        ? diskData['last_death'] < 0
-                            ? 'green'
-                            : 'blue'
-                        : 'grey'
-                    }
-                  >
+                    title={diskData['name'] ? diskData['name'] : 'Empty Disk'}
+                    color={diskData['name'] ? (diskData['last_death'] < 0 ? 'green' : 'blue') : 'grey'}>
                     {diskData['id'] ? (
                       <Box
                         style={{
