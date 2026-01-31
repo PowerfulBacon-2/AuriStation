@@ -68,28 +68,40 @@
 /// Set the base circulation rating to the specified value
 /// The final blood effectiveness is calculated from circulation * oxygenation
 /datum/blood_source/proc/set_circulation_rating(multiplier, source)
-	ADD_CUMULATIVE_TRAIT(src, TRAIT_VALUE_CIRCULATION, source, multiplier)
+	if (multiplier == 0)
+		REMOVE_TRAIT(src, TRAIT_VALUE_CIRCULATION, source)
+	else
+		ADD_CUMULATIVE_TRAIT(src, TRAIT_VALUE_CIRCULATION, source, multiplier)
 
 /// Multiply the circulation rating by the specified value
 /// The final blood effectiveness is calculated from circulation * oxygenation
 /datum/blood_source/proc/multiply_circulation_rating(multiplier, source)
-	ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_VALUE_CIRCULATION, source, multiplier)
+	if (multiplier == 1)
+		REMOVE_TRAIT(src, TRAIT_VALUE_CIRCULATION, source)
+	else
+		ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_VALUE_CIRCULATION, source, multiplier)
 
 /// Set the base oxygenation rating to the specified value
 /// The final blood effectiveness is calculated from circulation * oxygenation
 /datum/blood_source/proc/set_oxygenation_rating(multiplier, source)
-	ADD_CUMULATIVE_TRAIT(src, TRAIT_VALUE_OXYGENATION, source, multiplier)
+	if (multiplier == 0)
+		REMOVE_TRAIT(src, TRAIT_VALUE_OXYGENATION, source)
+	else
+		ADD_CUMULATIVE_TRAIT(src, TRAIT_VALUE_OXYGENATION, source, multiplier)
 
 /// Multiply the oxygenation rating by the specified value
 /// The final blood effectiveness is calculated from circulation * oxygenation
 /datum/blood_source/proc/multiply_oxygenation_rating(multiplier, source)
-	ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_VALUE_OXYGENATION, source, multiplier)
+	if (multiplier == 1)
+		REMOVE_TRAIT(src, TRAIT_VALUE_OXYGENATION, source)
+	else
+		ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_VALUE_OXYGENATION, source, multiplier)
 
 /// Enter shock, raised by a particular source. We are in shock if we have at least
 /// 1 shock source.
 /datum/blood_source/proc/enter_shock(source)
-	ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_VALUE_CIRCULATION, source, 0)
+	ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_VALUE_CIRCULATION, source, 0.5)
 
 /// Exit shock
 /datum/blood_source/proc/exit_shock(source)
-	ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_VALUE_CIRCULATION, source, 1)
+	REMOVE_TRAIT(src, TRAIT_VALUE_CIRCULATION, source)

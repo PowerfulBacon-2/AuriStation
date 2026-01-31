@@ -226,13 +226,15 @@
 						dmgreport += "<tr><td><font color='#cc3333'>[capitalize(limb.name)]:</font></td>"
 					else
 						dmgreport += "<tr><td><font color='#cc3333'>[capitalize(limb.plaintext_zone)]:</font></td>"
-					dmgreport += "<td></td>"
-					dmgreport += "<td></td>"
-					dmgreport += "<td></td>"
-					dmgreport += "<td></td>"
+					dmgreport += "<td><font color='#ff3333'>[limb.get_injury_amount(BRUTE)]</font></td>"
+					dmgreport += "<td><font color='#ff9933'>[limb.get_injury_amount(BURN)]</font></td>"
+					dmgreport += "<td><font color='#00cc66'>[limb.get_injury_amount(TOX)]</font></td>"
+					dmgreport += "<td><font color='#33ccff'>[limb.get_injury_amount(OXY)]</font></td>"
 					var/list/injury_texts = list()
 					for (var/datum/injury/injury in limb.injuries)
 						if (!injury.examine_description)
+							continue
+						if (injury.type == BRUTE || injury.type == BURN || injury.type == TOX || injury.type == OXY)
 							continue
 						if (injury.heal_description)
 							injury_texts += span_tooltip(injury.heal_description, injury.examine_description)

@@ -919,13 +919,21 @@
 
 /datum/reagent/medicine/epinephrine
 	name = "Epinephrine"
-	description = "Minor boost to stun resistance. Slowly heals damage if a patient is in critical condition, as well as regulating oxygen loss. Overdose causes weakness and toxin damage."
+	description = "Minor boost to stun resistance. Slowly heals damage if a patient is in critical condition, as well as dilating blood vessels which regulates shock. Overdose causes weakness and toxin damage."
 	reagent_state = LIQUID
 	color = "#D2FFFA"
 	chemical_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	metabolization_rate = 0.25 * REAGENTS_METABOLISM
 	overdose_threshold = 30
 	metabolized_traits = list(TRAIT_NOCRITDAMAGE)
+
+/datum/reagent/medicine/epinephrine/on_mob_metabolize(mob/living/carbon/affected_mob)
+	. = ..()
+	affected_mob.blood.multiply_circulation_rating(1.5, FROM_EPINEPHRINE)
+
+/datum/reagent/medicine/epinephrine/on_mob_end_metabolize(mob/living/carbon/affected_mob)
+	. = ..()
+	affected_mob.blood.multiply_circulation_rating(1, FROM_EPINEPHRINE)
 
 /datum/reagent/medicine/epinephrine/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()

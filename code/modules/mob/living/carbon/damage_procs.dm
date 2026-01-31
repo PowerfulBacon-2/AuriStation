@@ -2,7 +2,7 @@
 /mob/living/carbon/getBruteLoss()
 	var/amount = ..()
 	for(var/obj/item/bodypart/BP as() in bodyparts)
-		var/datum/injury/injury = BP.get_injury(/datum/injury/acute/brute)
+		var/datum/injury/injury = BP.get_injury(BRUTE)
 		if (injury)
 			amount += injury.progression
 	return amount
@@ -10,11 +10,26 @@
 /mob/living/carbon/getFireLoss()
 	var/amount = ..()
 	for(var/obj/item/bodypart/BP as() in bodyparts)
-		var/datum/injury/injury = BP.get_injury(/datum/injury/acute/burn)
+		var/datum/injury/injury = BP.get_injury(BURN)
 		if (injury)
 			amount += injury.progression
 	return amount
 
+/mob/living/carbon/getToxLoss()
+	var/amount = ..()
+	for(var/obj/item/bodypart/BP as() in bodyparts)
+		var/datum/injury/injury = BP.get_injury(TOX)
+		if (injury)
+			amount += injury.progression
+	return amount
+
+/mob/living/carbon/getOxyLoss()
+	var/amount = ..()
+	for(var/obj/item/bodypart/BP as() in bodyparts)
+		var/datum/injury/injury = BP.get_injury(OXY)
+		if (injury)
+			amount += injury.progression
+	return amount
 
 /mob/living/carbon/adjustBruteLoss(amount, updating_health = TRUE, forced = FALSE, required_status)
 	if(!forced && HAS_TRAIT(src, TRAIT_GODMODE))

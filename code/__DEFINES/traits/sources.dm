@@ -169,6 +169,7 @@
 #define FROM_MORPHINE "morphine"
 #define FROM_BRAVE_BULL "brave_bull"
 #define FROM_GENETIC_DAMAGE "genetic_damage"
+#define FROM_EPINEPHRINE "epinephrine"
 
 /// Trait granted by [/mob/living/silicon/robot]
 /// Traits applied to a silicon mob by their module.
