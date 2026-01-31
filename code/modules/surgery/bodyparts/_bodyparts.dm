@@ -203,6 +203,7 @@
 	owner?.pain.set_pain_source(pain, body_zone)
 	// Move on to update the effectiveness of the part
 	check_effectiveness()
+	owner?.updatehealth()
 
 /**
  * Called when a bodypart is checked for injuries.
@@ -331,7 +332,7 @@
 		// Organic bodyparts that need blood and nothing else die without it
 		if (circulation_flags == CIRCULATION_BLOOD)
 			var/desired_hypoxia_damage = max(0, (max_damage * 3) - (((CLAMP01(circulation_disruption) * (max_damage * 3)) ** 0.3) / ((max_damage * 3) ** (-0.7))))
-			increase_injury(CLONE, clamp(damage_applied * 0.1, 0, desired_hypoxia_damage - damage_applied * 0.1))
+			increase_injury(OXY, clamp(damage_applied * 0.1, 0, desired_hypoxia_damage - damage_applied * 0.1))
 
 /// Heal an injury by the base type path of the injury tree, or by the path of the injury
 /// injury: The typepath (or base path of the tree) of the injury to heal.

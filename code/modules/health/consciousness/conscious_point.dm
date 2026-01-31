@@ -16,8 +16,9 @@
 	RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_NOSOFTCRIT), PROC_REF(update_stat))
 	RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_KNOCKEDOUT), PROC_REF(update_stat))
 	RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_KNOCKEDOUT), PROC_REF(update_stat))
+	RegisterSignal(owner, COMSIG_LIVING_HEALTH_UPDATE, PROC_REF(update_health))
 
-/datum/consciousness/point/consciousness_tick(delta_time)
+/datum/consciousness/point/proc/update_health()
 	// Continuously just become the hitpoints of our owner
 	var/new_consciousness = (1 - (owner.get_total_damage() / owner.maxHealth)) * 100
 	if (new_consciousness != value)

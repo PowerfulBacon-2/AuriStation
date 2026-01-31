@@ -60,7 +60,7 @@
 /mob/living/proc/get_injury(injury_type, zone = null)
 	RETURN_TYPE(/datum/injury)
 	var/datum/injury/injury_path = injury_type
-	if (zone)
+	if (has_limbs && zone)
 		var/obj/item/bodypart/part = get_bodypart(zone)
 		if (!part)
 			return
@@ -73,7 +73,7 @@
 /mob/living/proc/get_injury_amount(injury_type, zone = null)
 	var/datum/injury/injury_path = injury_type
 	var/datum/injury/injury = injuries[injury_path:base_type]
-	if (zone)
+	if (has_limbs && zone)
 		var/obj/item/bodypart/part = get_bodypart(zone)
 		if (!part)
 			return 0
@@ -89,9 +89,9 @@
 /mob/living/proc/apply_injury(injury_type, zone = null)
 	RETURN_TYPE(/datum/injury)
 	var/datum/injury/injury_path = injury_type
-	if (zone)
+	if (has_limbs && zone)
 		var/obj/item/bodypart/part = get_bodypart(zone)
-		if (!part)
+		if (part)
 			return null
 		return part.apply_injury_tree(injury_type)
 	// Get or apply the injury
@@ -99,5 +99,6 @@
 		return injuries[injury_path:base_type]
 	var/datum/injury/injury = new injury_type
 	injury.gained_time = world.time
+	injury.mob = src
 	injuries[injury_path:base_type] = injury
 	return injury

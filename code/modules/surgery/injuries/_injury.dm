@@ -132,12 +132,18 @@
 	// Progression of the injury decreased to 0, heal the injury
 	if (progression < minimum_progression)
 		heal()
-		bodypart?.update_damage()
+		if (bodypart)
+			bodypart.update_damage()
+		else
+			mob.updatehealth()
 		// If progression was 10 before, the delta was -10
 		return -previous_progression
 	else
 		update_progressive_effects()
-		bodypart?.update_damage()
+		if (bodypart)
+			bodypart.update_damage()
+		else
+			mob.updatehealth()
 		// Return however much progression was applied
 		return applied
 

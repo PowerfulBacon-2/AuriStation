@@ -130,13 +130,17 @@
 			var/penetration_proportion = penetration <= 0 ? 0 : CLAMP01((penetration - penetration_rating) / penetration)
 			var/penetration_damage = amount * penetration_proportion
 			// Unprotected damage
-			take_sharpness_damage(penetration_damage, type, flag, zone, penetration)
+			if (penetration_damage > 0)
+				take_sharpness_damage(penetration_damage, type, flag, zone, penetration)
 			// Protected damage
 			var/blunt_damage = amount * (1 - penetration_proportion)
 			var/blunt_rating = (100 - get_armor_rating(ARMOUR_BLUNT)) / 100
 			var/absorbed_damage = blunt_damage * (1 - blunt_rating)
 			var/taken_damage = blunt_damage * blunt_rating
-			absorb_damage_amount(absorbed_damage, type)
+			if (absorbed_damage > 0)
+				absorb_damage_amount(absorbed_damage, type)
+			if (taken_damage <= 0)
+				return
 			// Blunt damage splits into 50% consciousness and 50% actual damage, if brute
 			// stamina and burn damage doesn't result in blunt force trauma
 			if (type == BRUTE)
