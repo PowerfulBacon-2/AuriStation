@@ -12,11 +12,15 @@
 	register_signals()
 
 /datum/pain_source/proc/register_signals()
+	RegisterSignal(owner, SIGNAL_UPDATETRAIT(TRAIT_NOCRITDAMAGE), PROC_REF(update_pain))
 
 /datum/pain_source/proc/on_life()
 
-/datum/pain_source/proc/update_pain(pain_value)
+/datum/pain_source/proc/set_pain(pain_value)
 	pain = pain_value
+	update_pain()
+
+/datum/pain_source/proc/update_pain()
 	update_damage_overlay(pain)
 	owner.update_health_hud()
 	owner.med_hud_set_health()
@@ -25,7 +29,7 @@
 	// The more pain we have, the less conscious we are
 	var/consciousness_modifier = -min((consciousness_impact / impact_maximum) * owner.consciousness.max_value, owner.consciousness.max_value)
 	owner.consciousness.set_consciousness_source(consciousness_modifier, FROM_PAIN_SHOCK)
-	if (pain >= 100)
+	if (pain >= 100 && !HAS_TRAIT(owner, TRAIT_NOCRITDAMAGE))
 		enter_pain_crit()
 	else
 		exit_pain_crit()
@@ -79,7 +83,7 @@
 		REMOVE_TRAIT(src, TRAIT_PAIN_LEVEL, source)
 	else
 		ADD_CUMULATIVE_TRAIT(src, TRAIT_PAIN_LEVEL, source, amount)
-	update_pain(GET_TRAIT_VALUE(src, TRAIT_PAIN_LEVEL))
+	set_pain(GET_TRAIT_VALUE(src, TRAIT_PAIN_LEVEL))
 
 /// Set a consciousness modifier.
 /// Source: The source of the modifier
@@ -89,7 +93,7 @@
 		REMOVE_TRAIT(src, TRAIT_PAIN_LEVEL, source)
 	else
 		ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_PAIN_LEVEL, source, amount)
-	update_pain(GET_TRAIT_VALUE(src, TRAIT_PAIN_LEVEL))
+	set_pain(GET_TRAIT_VALUE(src, TRAIT_PAIN_LEVEL))
 
 /// Add a pain message caused by a specific source
 /datum/pain_source/proc/add_pain_message(message, source)
