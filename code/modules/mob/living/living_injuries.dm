@@ -13,17 +13,17 @@
 	if (has_limbs)
 		// If we have no zone but the injury must be applied to a limb,
 		// then randomly select a zone.
-		if (!zone && !(injury_path:injury_flags & INJURY_BODY))
+		if (!zone && !(injury_path::injury_flags & INJURY_BODY))
 			zone = ran_zone()
 		// If the injury can be applied to a limb and a zone was selected
 		// apply to that area
-		if (zone && !(injury_path:injury_flags & INJURY_LIMB))
+		if (zone && (injury_path::injury_flags & INJURY_LIMB))
 			var/obj/item/bodypart/part = get_bodypart(zone)
 			if (!part)
 				return 0
 			return part.increase_injury(injury_type, amount)
 		// The injury cannot be applied to the body or a limb
-		if (!(injury_path:injury_flags & INJURY_BODY))
+		if (!(injury_path::injury_flags & INJURY_BODY))
 			return 0
 	// Either get the existing injury, or apply the new injury
 	if (amount > 0)
@@ -49,17 +49,17 @@
 	if (has_limbs)
 		// If we have no zone but the injury must be applied to a limb,
 		// then randomly select a zone.
-		if (!zone && !(injury_path:injury_flags & INJURY_BODY))
+		if (!zone && !(injury_path::injury_flags & INJURY_BODY))
 			return 0
 		// If the injury can be applied to a limb and a zone was selected
 		// apply to that area
-		if (zone && !(injury_path:injury_flags & INJURY_LIMB))
+		if (zone && (injury_path::injury_flags & INJURY_LIMB))
 			var/obj/item/bodypart/part = get_bodypart(zone)
 			if (!part)
 				return 0
 			return part.set_injury(injury_type, amount)
 		// The injury cannot be applied to the body or a limb
-		if (!(injury_path:injury_flags & INJURY_BODY))
+		if (!(injury_path::injury_flags & INJURY_BODY))
 			return 0
 	if (amount > 0)
 		var/datum/injury/injury = apply_injury(injury_type)
@@ -70,8 +70,9 @@
 			return 0
 		return injury.set_progression(amount)
 
-/// Removes an injury from the mob.
-/// This represents injuries acting on the whole body for a mob,
+/// Removes an injury from the mob. If no zone is provided, bodypart specific injuries will
+/// be removed from the entire body.
+/// Returns true if successful.
 /// injury_type: The type, or base-type (for injury trees), of the injury to progress.
 /// amount: The amount to progress the injury by
 /// zone: Optional zone, applies the injury to a specific bodypart instead of the whole body
@@ -83,28 +84,28 @@
 	if (has_limbs)
 		// If we have no zone but the injury must be applied to a limb,
 		// then randomly select a zone.
-		if (!zone && !(injury_path:injury_flags & INJURY_BODY))
-			zone = ran_zone()
+		if (!zone && !(injury_path::injury_flags & INJURY_BODY))
+			CRASH("TODO: In this case we remove all instances of the injury")
 		// If the injury can be applied to a limb and a zone was selected
 		// apply to that area
-		if (zone && !(injury_path:injury_flags & INJURY_LIMB))
+		if (zone && (injury_path::injury_flags & INJURY_LIMB))
 			var/obj/item/bodypart/part = get_bodypart(zone)
 			if (!part)
-				return 0
-			return part.heal_injury(injury_type, amount)
+				return FALSE
+			var/datum/injury/injury = part.get_injury(injury_type)
+			if (!injury)
+				return FALSE
+			part.remove_injury_tree(injury)
+			return TRUE
 		// The injury cannot be applied to the body or a limb
-		if (!(injury_path:injury_flags & INJURY_BODY))
-			return 0
-	// Either get the existing injury, or apply the new injury
-	if (amount > 0)
-		var/datum/injury/injury = apply_injury(injury_type)
-		return injury.adjust_progression(-amount)
-	else
-		// When healing an injury, we don't apply it
-		var/datum/injury/injury = get_injury(injury_type)
-		if (!injury)
-			return 0
-		return injury.adjust_progression(-amount)
+		if (!(injury_path::injury_flags & INJURY_BODY))
+			return FALSE
+	var/datum/injury/injury = injuries[injury_path::base_type]
+	if (!injury)
+		return FALSE
+	injury.remove_from_human(src)
+	injuries -= injury_path::base_type
+	return TRUE
 
 /// Get an injury by its base type. For all damages, the base type is the type of
 /// the injury, for some progressive/graphed injuries, the base-type is the first
@@ -116,20 +117,20 @@
 		var/obj/item/bodypart/part = get_bodypart(zone)
 		if (!part)
 			return
-		return part.get_injury(injury_path:base_type)
-	return injuries[injury_path:base_type]
+		return part.get_injury(injury_path::base_type)
+	return injuries[injury_path::base_type]
 
 /// Get an injury's progression by its base type. For all damages, the base type is the type of
 /// the injury, for some progressive/graphed injuries, the base-type is the first
 /// injury in the graph (the healthy state).
 /mob/living/proc/get_injury_amount(injury_type, zone = null)
 	var/datum/injury/injury_path = injury_type
-	var/datum/injury/injury = injuries[injury_path:base_type]
+	var/datum/injury/injury = injuries[injury_path::base_type]
 	if (has_limbs && zone)
 		var/obj/item/bodypart/part = get_bodypart(zone)
 		if (!part)
 			return 0
-		injury = part.get_injury(injury_path:base_type)
+		injury = part.get_injury(injury_path::base_type)
 	if (!injury)
 		return 0
 	return injury.progression
@@ -147,10 +148,10 @@
 			return null
 		return part.apply_injury_tree(injury_type)
 	// Get or apply the injury
-	if (injuries[injury_path:base_type])
-		return injuries[injury_path:base_type]
+	if (injuries[injury_path::base_type])
+		return injuries[injury_path::base_type]
 	var/datum/injury/injury = new injury_type
 	injury.gained_time = world.time
 	injury.mob = src
-	injuries[injury_path:base_type] = injury
+	injuries[injury_path::base_type] = injury
 	return injury

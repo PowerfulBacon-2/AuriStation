@@ -836,14 +836,14 @@
 /obj/item/bodypart/proc/get_injury(base_path)
 	var/datum/injury/injury_path = base_path
 	for (var/datum/injury/injury in injuries)
-		if (injury.base_type == injury_path:base_type)
+		if (injury.base_type == injury_path::base_type)
 			return injury
 	return null
 
 /obj/item/bodypart/proc/get_injury_amount(base_path)
 	var/datum/injury/injury_path = base_path
 	for (var/datum/injury/injury in injuries)
-		if (injury.base_type == injury_path:base_type)
+		if (injury.base_type == injury_path::base_type)
 			return injury.progression
 	return 0
 
@@ -853,7 +853,7 @@
 /// to damage will result in multiple trees of that damage type.
 /obj/item/bodypart/proc/apply_injury_tree(datum/injury/injury_path)
 	for (var/datum/injury/injury in injuries)
-		if (injury.base_type == injury_path:base_type)
+		if (injury.base_type == injury_path::base_type)
 			return injury
 	// You can't instantiate new instances of a graph-based injury
 	if (injury_path::injury_flags & INJURY_GRAPH)

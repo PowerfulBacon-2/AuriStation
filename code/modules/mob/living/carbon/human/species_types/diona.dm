@@ -229,12 +229,12 @@
 			continue
 		if(istype(BP, /obj/item/bodypart/head))
 			for (var/datum/injury/injury in BP.injuries)
-				nymph.adjust_injury(injury, injury.progression - injury:progression)
+				nymph.adjust_injury(injury, injury.progression - injury::progression)
 			nymph.updatehealth()
 			continue //Exclude the head nymph from the alive_nymphs list, since that list is used for secondary consciousness transfer.
 		var/mob/living/simple_animal/hostile/retaliate/nymph/limb_nymph = new /mob/living/simple_animal/hostile/retaliate/nymph(H.loc)
 		for (var/datum/injury/injury in BP.injuries)
-			limb_nymph.adjust_injury(injury, injury.progression - injury:progression)
+			limb_nymph.adjust_injury(injury, injury.progression - injury::progression)
 		limb_nymph.updatehealth()
 		if(limb_nymph.stat != DEAD)
 			alive_nymphs += limb_nymph

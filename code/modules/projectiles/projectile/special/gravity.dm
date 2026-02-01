@@ -23,7 +23,7 @@
 	for(var/atom/movable/A in range(power, T))
 		if(A == src || (firer && A == src.firer) || A.anchored || thrown_items[A])
 			continue
-		if(ismob(A)) //because (ismob(A) && A:mob_negates_gravity()) is a recipe for bugs.
+		if(ismob(A))
 			var/mob/M = A
 			if(M.mob_negates_gravity())
 				continue
