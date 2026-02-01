@@ -21,7 +21,7 @@
 
 /datum/pain_source/proc/on_life()
 	if (adjusted_pain > PAIN_MAX_ACCLIMATION)
-		var/healed_amount = CLAMP(adjusted_pain - PAIN_MAX_ACCLIMATION, 0, PAIN_RECOVERY_RATE)
+		var/healed_amount = clamp(adjusted_pain - PAIN_MAX_ACCLIMATION, 0, PAIN_RECOVERY_RATE)
 		// Heal pain
 		if (healed_amount > 0)
 			adjusted_pain -= healed_amount
