@@ -12,8 +12,11 @@
 	/// Are we in pain crit?
 	var/pain_crit = FALSE
 
-/datum/pain_source/proc/Initialize(mob/living/owner)
+/datum/pain_source/New(mob/living/owner)
+	. = ..()
 	src.owner = owner
+
+/datum/pain_source/proc/Initialize(mob/living/owner)
 	register_signals()
 
 /datum/pain_source/proc/register_signals()

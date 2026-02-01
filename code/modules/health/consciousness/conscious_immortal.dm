@@ -4,7 +4,7 @@
 	value = 100
 	max_value = 100
 
-/datum/consciousness/immortal/New(mob/living/owner)
+/datum/consciousness/immortal/Initialize()
 	. = ..()
 	// In case we ever read and update the value
 	ADD_CUMULATIVE_TRAIT(src, TRAIT_CONSCIOUSNESS_LEVEL, INNATE_TRAIT, 100)

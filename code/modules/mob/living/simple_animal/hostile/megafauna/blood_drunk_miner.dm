@@ -41,7 +41,7 @@ Difficulty: Medium
 	loot = list(/obj/structure/closet/crate/necropolis/bdm)
 	wander = FALSE
 	del_on_death = TRUE
-	blood = new /datum/blood_source/organic
+	blood = /datum/blood_source/organic
 	gps_name = "Drunk Signal"
 	achievement_type = /datum/award/achievement/boss/blood_miner_kill
 	crusher_achievement_type = /datum/award/achievement/boss/blood_miner_crusher

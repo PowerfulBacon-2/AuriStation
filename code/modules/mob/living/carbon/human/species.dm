@@ -470,22 +470,27 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	if (TRAIT_NO_BLOOD in inherent_traits)
 		C.blood = new /datum/blood_source/none()
 		previous_blood.transfer_to(C.blood)
-		C.blood.Initialize(C)
+		if (C.initialized_stats)
+			C.blood.Initialize(C)
 	else
 		C.blood = new blood_type()
 		previous_blood.transfer_to(C.blood)
-		C.blood.Initialize(C)
+		if (C.initialized_stats)
+			C.blood.Initialize(C)
 	qdel(previous_blood)
 
 	// We might be a path still at this point
 	if (istype(C.consciousness))
 		qdel(C.consciousness)
 	C.consciousness = new consciousness_type(C)
+	if (C.initialized_stats)
+		C.consciousness.Initialize()
 
 	if (istype(C.pain))
 		qdel(C.pain)
-	C.pain = new pain_type()
-	C.pain.Initialize(C)
+	C.pain = new pain_type(C)
+	if (C.initialized_stats)
+		C.pain.Initialize(C)
 
 	if(exotic_bloodtype && C.dna.blood_type != exotic_bloodtype)
 		C.dna.blood_type = exotic_bloodtype

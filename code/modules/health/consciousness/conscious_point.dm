@@ -1,6 +1,6 @@
 /datum/consciousness/point
 
-/datum/consciousness/point/New(mob/living/owner)
+/datum/consciousness/point/Initialize()
 	. = ..()
 	// By default, using a point system our health is just our damage
 	set_consciousness_source(owner.maxHealth, FROM_HITPOINTS)

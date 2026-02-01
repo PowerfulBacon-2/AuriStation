@@ -25,7 +25,12 @@
 	var/datum/consciousness/consciousness = /datum/consciousness/point/nocrit
 
 	/// Pain rating for the mob
-	var/datum/pain_source/pain = new /datum/pain_source
+	var/datum/pain_source/pain = /datum/pain_source
+
+	/// If the mob uses blood, then the information about that blood is stored here.
+	var/datum/blood_source/blood = /datum/blood_source/none
+
+	var/initialized_stats = FALSE
 
 	/// Body-wide injuries applied to the mob.
 	var/list/body_injuries = list()
@@ -118,9 +123,6 @@
 	var/list/weather_immunities = list()
 
 	var/stun_absorption = null //converted to a list of stun absorption sources this mob has when one is added
-
-	/// If the mob uses blood, then the information about that blood is stored here.
-	var/datum/blood_source/blood = new /datum/blood_source/none
 
 	var/see_override = 0 //0 for no override, sets see_invisible = see_override in silicon & carbon life process via update_sight()
 

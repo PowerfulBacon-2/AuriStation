@@ -12,6 +12,8 @@
 /datum/consciousness/New(mob/living/owner)
 	. = ..()
 	src.owner = owner
+
+/datum/consciousness/proc/Initialize()
 	register_signals(owner)
 
 /// Register signals on the owner
@@ -19,7 +21,6 @@
 	SHOULD_CALL_PARENT(TRUE)
 	RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_IGNOREDAMAGESLOWDOWN), PROC_REF(update_movespeed))
 	RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_IGNOREDAMAGESLOWDOWN), PROC_REF(update_movespeed))
-	RegisterSignal(owner, COMSIG_LIVING_HEALTH_UPDATE, PROC_REF(update_stat))
 
 /// Called every life tick
 /datum/consciousness/proc/consciousness_tick(delta_time)

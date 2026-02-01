@@ -25,7 +25,7 @@
 	attack_vis_effect = ATTACK_EFFECT_KICK
 	maxHealth = 50
 	gold_core_spawnable = FRIENDLY_SPAWN
-	blood = new /datum/blood_source/organic
+	blood = /datum/blood_source/organic
 	ai_controller = /datum/ai_controller/basic_controller/cow
 	/// what this cow munches on, and what can be used to tame it.
 	var/list/food_types = list(/obj/item/food/grown/wheat)

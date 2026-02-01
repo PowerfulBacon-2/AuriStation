@@ -366,7 +366,7 @@
 		var/mob/living/carbon/carbontarget = target
 		var/blood_id = carbontarget.blood.get_blood_id()
 		if(blood_id)
-			if(carbontarget.is_bleeding())
+			if(target.is_bleeding())
 				render_list += "<span class='alert ml-1'><b>Subject is bleeding at a rate of [round(carbontarget.get_bleed_rate(), 0.1)]/s!</b></span>\n"
 			else if (carbontarget.is_bandaged())
 				render_list += "<span class='alert ml-1'><b>Subject is bleeding (Bandaged)!</b></span>\n"
@@ -387,6 +387,7 @@
 		render_list += "<span class='info ml-1'>Lung Oxygenation: [carbontarget.blood.get_oxygenation_rating() * 100]%</span>\n"
 		render_list += "<span class='info ml-1'>Blood Circulation: [carbontarget.blood.get_circulation_rating() * 100]%</span>\n"
 		render_list += "<span class='info ml-1'>Final Cell Saturation: [carbontarget.blood.get_effectiveness() * 100]%</span>\n"
+		render_list += "<span class='info ml-1'>Pain Stimulation: [carbontarget.pain.adjusted_pain]%</span>\n"
 
 	// Cybernetics
 	if(iscarbon(target))

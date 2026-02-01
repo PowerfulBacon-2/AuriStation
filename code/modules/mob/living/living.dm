@@ -24,11 +24,8 @@
 	//color correction
 	RegisterSignal(src, COMSIG_MOVABLE_ENTERED_AREA, PROC_REF(apply_color_correction))
 	gravity_setup()
-	// Blood init
-	blood.Initialize(src)
-	pain.Initialize(src)
-	if (!istype(consciousness))
-		consciousness = new consciousness(src)
+	create_internal_stats()
+	initialize_stats()
 
 /mob/living/ComponentInitialize()
 	. = ..()
@@ -37,6 +34,22 @@
 /mob/living/prepare_huds()
 	..()
 	prepare_data_huds()
+
+/mob/living/proc/create_internal_stats()
+	if (!istype(consciousness))
+		consciousness = new consciousness(src)
+	if (!istype(pain))
+		pain = new pain(src)
+	if (!istype(blood))
+		blood = new blood(src)
+
+/mob/living/proc/initialize_stats()
+	if (initialized_stats)
+		return
+	initialized_stats = TRUE
+	consciousness.Initialize(src)
+	blood.Initialize(src)
+	pain.Initialize(src)
 
 /mob/living/proc/prepare_data_huds()
 	med_hud_set_health()

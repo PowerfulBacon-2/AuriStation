@@ -11,13 +11,16 @@
 
 	icon_state = ""		//Remove the inherent human icon that is visible on the map editor. We're rendering ourselves limb by limb, having it still be there results in a bug where the basic human icon appears below as south in all directions and generally looks nasty.
 
+	create_internal_stats()
+	prepare_huds() //Prevents a nasty runtime on human init
+	initialize_stats()
+
 	//initialize limbs first
 	create_bodyparts()
 
 	setup_human_dna()
 
 
-	prepare_huds() //Prevents a nasty runtime on human init
 
 	if(dna.species)
 		set_species(dna.species.type) //This generates new limbs based on the species, beware.

@@ -846,7 +846,6 @@ CREATION_TEST_IGNORE_SELF(/mob/living/carbon)
 	var/r_arm_index_next = 0
 	for(var/bodypart_path in bodyparts)
 		var/obj/item/bodypart/bodypart_instance = new bodypart_path()
-		bodypart_instance.set_owner(src)
 		bodyparts.Remove(bodypart_path)
 		add_bodypart(bodypart_instance)
 		switch(bodypart_instance.body_part)
@@ -858,14 +857,14 @@ CREATION_TEST_IGNORE_SELF(/mob/living/carbon)
 				r_arm_index_next += 2
 				bodypart_instance.held_index = r_arm_index_next //2, 4, 6, 8...
 				hand_bodyparts += bodypart_instance
-
+	for (var/obj/item/bodypart/bodypart_instance in bodyparts)
+		bodypart_instance.set_owner(src)
 
 ///Proc to hook behavior on bodypart additions. Do not directly call. You're looking for [/obj/item/bodypart/proc/attach_limb()].
 /mob/living/carbon/proc/add_bodypart(obj/item/bodypart/new_bodypart)
 	SHOULD_NOT_OVERRIDE(TRUE)
 
 	bodyparts += new_bodypart
-	new_bodypart.set_owner(src)
 
 	switch(new_bodypart.body_part)
 		if(LEG_LEFT, LEG_RIGHT)
