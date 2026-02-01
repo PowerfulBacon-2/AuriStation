@@ -392,7 +392,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define INJURY_ABSORPTION_DURATION (30 SECONDS)
 
 /// Maximum amount of hypoxia damage an organ can take per tick
-#define MAX_HYPOXIA_DAMAGE_PER_TICK 2
+#define MAX_HYPOXIA_DAMAGE_PER_TICK 0.1
 
 /// How much hypoxia damage do organs heal per tick?
 /// This is important as it defines how long it takes for someone
@@ -413,3 +413,9 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 /// Represent that this injury is from a tree, and
 /// should not be added.
 #define INJURY_GRAPH (1 << 2)
+
+/// How quickly do we recover from pain in points per second?
+#define PAIN_RECOVERY_RATE 0.2
+/// The most that we can acclimate to pain, if we have more pain
+/// than this value, then we will adjust to this value over time.
+#define PAIN_MAX_ACCLIMATION 90

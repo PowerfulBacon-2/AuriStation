@@ -4,8 +4,13 @@
 /datum/pain_source
 	/// The owner of the consciousness datum
 	var/mob/living/owner
+	/// How much pain is actually being applied.
+	/// We can get used to serious pain over time, which this value represents
+	var/adjusted_pain
 	/// How much pain are we currently in?
 	var/pain
+	/// Are we in pain crit?
+	var/pain_crit = FALSE
 
 /datum/pain_source/proc/Initialize(mob/living/owner)
 	src.owner = owner
@@ -15,26 +20,40 @@
 	RegisterSignal(owner, SIGNAL_UPDATETRAIT(TRAIT_NOCRITDAMAGE), PROC_REF(update_pain))
 
 /datum/pain_source/proc/on_life()
+	if (adjusted_pain > PAIN_MAX_ACCLIMATION)
+		var/healed_amount = CLAMP(adjusted_pain - PAIN_MAX_ACCLIMATION, 0, PAIN_RECOVERY_RATE)
+		// Heal pain
+		if (healed_amount > 0)
+			adjusted_pain -= healed_amount
+			update_pain()
 
 /datum/pain_source/proc/set_pain(pain_value)
+	var/delta = pain_value - pain
 	pain = pain_value
+	// Immediately apply the new pain
+	if (delta > 0)
+		adjusted_pain += delta
 	update_pain()
 
 /datum/pain_source/proc/update_pain()
-	update_damage_overlay(pain)
+	update_damage_overlay(adjusted_pain)
 	owner.update_health_hud()
 	owner.med_hud_set_health()
-	var/consciousness_impact = max(pain - 20, 0)
+	var/consciousness_impact = max(adjusted_pain - 20, 0)
 	var/impact_maximum = 80
 	// The more pain we have, the less conscious we are
 	var/consciousness_modifier = -min((consciousness_impact / impact_maximum) * owner.consciousness.max_value, owner.consciousness.max_value)
 	owner.consciousness.set_consciousness_source(consciousness_modifier, FROM_PAIN_SHOCK)
-	if (pain >= 100 && !HAS_TRAIT(owner, TRAIT_NOCRITDAMAGE))
+	// If we don't take crit damage, then we don't enter shock from pain
+	if (adjusted_pain >= 100 && !HAS_TRAIT(owner, TRAIT_NOCRITDAMAGE))
 		enter_pain_crit()
 	else
 		exit_pain_crit()
 
 /datum/pain_source/proc/enter_pain_crit()
+	if (pain_crit)
+		return
+	pain_crit = TRUE
 	owner.blood.enter_shock(FROM_PAIN_SHOCK)
 	to_chat(owner, span_pain(pick(\
 		"You collapse from the unbearable pain!",\
@@ -45,6 +64,7 @@
 	)))
 
 /datum/pain_source/proc/exit_pain_crit()
+	pain_crit = FALSE
 	owner.blood.exit_shock(FROM_PAIN_SHOCK)
 
 /// Update the damage overlay, pain level between

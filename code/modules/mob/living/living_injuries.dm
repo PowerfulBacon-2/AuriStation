@@ -51,7 +51,7 @@
 /// amount: The amount to progress the injury by
 /// zone: Optional zone, applies the injury to a specific bodypart instead of the whole body
 /// for mobs that support zone damage.
-/mob/living/proc/remove_injury(injury_type, amount, zone = null)
+/mob/living/proc/remove_injury(injury_type, amount = INFINITY, zone = null)
 	var/datum/injury/injury_path = injury_type
 
 /// Get an injury by its base type. For all damages, the base type is the type of

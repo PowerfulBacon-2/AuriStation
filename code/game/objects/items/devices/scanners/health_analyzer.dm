@@ -49,7 +49,7 @@
 		user.visible_message(span_warning("[user] analyzes the floor's vitals!"), \
 							span_notice("You stupidly try to analyze the floor's vitals!"))
 		to_chat(user, "[span_info("Analyzing results for The floor:\n\tOverall status: <b>Healthy</b>")]\
-				\n[span_info("Key: <font color='#00cccc'>Suffocation</font>/<font color='#00cc66'>Toxin</font>/<font color='#ffcc33'>Burn</font>/<font color='#ff3333'>Brute</font>")]\
+				\n[span_info("Key: <font color='#00cccc'>Hypoxia</font>/<font color='#00cc66'>Toxin</font>/<font color='#ffcc33'>Burn</font>/<font color='#ff3333'>Brute</font>")]\
 				\n[span_info("\tDamage specifics: <font color='#66cccc'>0</font>-<font color='#00cc66'>0</font>-<font color='#ff9933'>0</font>-<font color='#ff3333'>0</font>")]\
 				\n[span_info("Body temperature: ???")]")
 		return
@@ -208,7 +208,7 @@
 		<td style='width:5em;'><font color='#ff3333'><b>Brute</b></font></td>
 		<td style='width:4em;'><font color='#ff9933'><b>Burn</b></font></td>
 		<td style='width:4em;'><font color='#00cc66'><b>Toxin</b></font></td>
-		<td style='width:8em;'><font color='#00cccc'><b>Suffocation</b></td>
+		<td style='width:8em;'><font color='#00cccc'><b>Hypoxia</b></td>
 		<td style='width:calc(100%-28em);'><font color='#7c7c7c'><b>Injuries</b></td>
 	</font></tr>
 	<tr>
