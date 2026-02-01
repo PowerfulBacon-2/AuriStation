@@ -392,14 +392,17 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define INJURY_ABSORPTION_DURATION (30 SECONDS)
 
 /// Maximum amount of hypoxia damage an organ can take per tick
-#define MAX_HYPOXIA_DAMAGE_PER_TICK 0.1
+#define MAX_HYPOXIA_ORGAN_DAMAGE_PER_TICK 0.1
 
 /// How much hypoxia damage do organs heal per tick?
 /// This is important as it defines how long it takes for someone
 /// to get out of critical condition when the brain is suffering hypoxia.
 /// The brain has 200 health and we regain consciousness after the brain
 /// heals to 100 hypoxia damage or less.
-#define HYPOXIA_HEAL_PER_TICK 2
+#define HYPOXIA_ORGAN_HEAL_PER_TICK 2
+
+/// How much hypoxia damage is healed per-tick per-bodypart.
+#define HYPOXIA_BODYPART_HEAL_PER_TICK 0.05
 
 // Injury flags:
 // Where can the injury be applied?

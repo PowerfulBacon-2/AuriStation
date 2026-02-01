@@ -23,6 +23,9 @@
 	. = ..()
 	if (world.time > stam_regen_start_time)
 		return
+	// No regeneration allowed
+	if (bodypart && HAS_TRAIT(bodypart, TRAIT_BODYPART_NO_STAMINA_REGENERATION))
+		return
 	// TODO: Replicate old stamina healing behaviour, don't allow
 	// the victim to be stunlocked forever inside of pain-crit.
 	var/heal_rate = clamp(progression / 50, 1, 2)

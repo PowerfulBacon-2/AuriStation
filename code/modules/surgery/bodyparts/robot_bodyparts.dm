@@ -413,21 +413,33 @@
 
 /obj/item/bodypart/head/robot/android
 	change_exempt_flags = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/chest/robot/android
 	change_exempt_flags = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_arm/robot/android
 	change_exempt_flags = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_arm/robot/android
 	change_exempt_flags = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_leg/robot/android
 	change_exempt_flags = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_leg/robot/android
 	change_exempt_flags = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 #undef ROBOTIC_LIGHT_BRUTE_MSG
 #undef ROBOTIC_MEDIUM_BRUTE_MSG

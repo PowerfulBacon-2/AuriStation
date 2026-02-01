@@ -44,6 +44,31 @@
 /// for mobs that support zone damage.
 /mob/living/proc/set_injury(injury_type, amount, zone = null)
 	var/datum/injury/injury_path = injury_type
+	// If a mob does not have limbs, then it must apply to the entire
+	// body.
+	if (has_limbs)
+		// If we have no zone but the injury must be applied to a limb,
+		// then randomly select a zone.
+		if (!zone && !(injury_path:injury_flags & INJURY_BODY))
+			return 0
+		// If the injury can be applied to a limb and a zone was selected
+		// apply to that area
+		if (zone && !(injury_path:injury_flags & INJURY_LIMB))
+			var/obj/item/bodypart/part = get_bodypart(zone)
+			if (!part)
+				return 0
+			return part.set_injury(injury_type, amount)
+		// The injury cannot be applied to the body or a limb
+		if (!(injury_path:injury_flags & INJURY_BODY))
+			return 0
+	if (amount > 0)
+		var/datum/injury/injury = apply_injury(injury_type)
+		return injury.set_progression(amount)
+	else
+		var/datum/injury/injury = get_injury(injury_type)
+		if (!injury)
+			return 0
+		return injury.set_progression(amount)
 
 /// Removes an injury from the mob.
 /// This represents injuries acting on the whole body for a mob,
@@ -53,6 +78,33 @@
 /// for mobs that support zone damage.
 /mob/living/proc/remove_injury(injury_type, amount = INFINITY, zone = null)
 	var/datum/injury/injury_path = injury_type
+	// If a mob does not have limbs, then it must apply to the entire
+	// body.
+	if (has_limbs)
+		// If we have no zone but the injury must be applied to a limb,
+		// then randomly select a zone.
+		if (!zone && !(injury_path:injury_flags & INJURY_BODY))
+			zone = ran_zone()
+		// If the injury can be applied to a limb and a zone was selected
+		// apply to that area
+		if (zone && !(injury_path:injury_flags & INJURY_LIMB))
+			var/obj/item/bodypart/part = get_bodypart(zone)
+			if (!part)
+				return 0
+			return part.heal_injury(injury_type, amount)
+		// The injury cannot be applied to the body or a limb
+		if (!(injury_path:injury_flags & INJURY_BODY))
+			return 0
+	// Either get the existing injury, or apply the new injury
+	if (amount > 0)
+		var/datum/injury/injury = apply_injury(injury_type)
+		return injury.adjust_progression(-amount)
+	else
+		// When healing an injury, we don't apply it
+		var/datum/injury/injury = get_injury(injury_type)
+		if (!injury)
+			return 0
+		return injury.adjust_progression(-amount)
 
 /// Get an injury by its base type. For all damages, the base type is the type of
 /// the injury, for some progressive/graphed injuries, the base-type is the first

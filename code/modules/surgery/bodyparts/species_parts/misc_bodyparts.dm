@@ -24,54 +24,78 @@
 	limb_id = "abductor"
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/chest/abductor
 	limb_id = "abductor"
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_arm/abductor
 	limb_id = "abductor"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_arm/abductor
 	limb_id = "abductor"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_leg/abductor
 	limb_id = "abductor"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_leg/abductor
 	limb_id = "abductor"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 ///SLIME
 /obj/item/bodypart/head/slime
 	limb_id = SPECIES_SLIMEPERSON
 	is_dimorphic = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/chest/slime
 	limb_id = SPECIES_SLIMEPERSON
 	is_dimorphic = TRUE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_arm/slime
 	limb_id = SPECIES_SLIMEPERSON
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_arm/slime
 	limb_id = SPECIES_SLIMEPERSON
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_leg/slime
 	limb_id = SPECIES_SLIMEPERSON
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_leg/slime
 	limb_id = SPECIES_SLIMEPERSON
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 ///LUMINESCENT
 /obj/item/bodypart/head/luminescent
@@ -105,28 +129,39 @@
 	limb_id = "zombie"
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
-
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/chest/zombie
 	limb_id = "zombie"
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_arm/zombie
 	limb_id = "zombie"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_arm/zombie
 	limb_id = "zombie"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_leg/zombie
 	limb_id = "zombie"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_leg/zombie
 	limb_id = "zombie"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 ///FLY
 /obj/item/bodypart/head/fly
@@ -166,27 +201,39 @@
 	limb_id = "shadow"
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/chest/shadow
 	limb_id = "shadow"
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_arm/shadow
 	limb_id = "shadow"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_arm/shadow
 	limb_id = "shadow"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_leg/shadow
 	limb_id = "shadow"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_leg/shadow
 	limb_id = "shadow"
 	should_draw_greyscale = FALSE
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 ///SKELETON
 /obj/item/bodypart/head/skeleton
@@ -194,6 +241,8 @@
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/head/skeleton/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
@@ -203,6 +252,8 @@
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/head/skeleton/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
@@ -211,6 +262,8 @@
 	limb_id = SPECIES_SKELETON
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_arm/skeleton/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
@@ -219,6 +272,8 @@
 	limb_id = SPECIES_SKELETON
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_arm/skeleton/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
@@ -227,6 +282,8 @@
 	limb_id = SPECIES_SKELETON
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_leg/skeleton/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
@@ -235,6 +292,8 @@
 	limb_id = SPECIES_SKELETON
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_leg/skeleton/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
@@ -265,6 +324,8 @@
 	limb_id = "golem"
 	is_dimorphic = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/head/golem/setup_injury_trees()
 	return
@@ -273,6 +334,8 @@
 	limb_id = "golem"
 	is_dimorphic = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/chest/golem/setup_injury_trees()
 	return
@@ -280,6 +343,8 @@
 /obj/item/bodypart/l_arm/golem
 	limb_id = "golem"
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_arm/golem/setup_injury_trees()
 	return
@@ -287,6 +352,8 @@
 /obj/item/bodypart/r_arm/golem
 	limb_id = "golem"
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_arm/golem/setup_injury_trees()
 	return
@@ -294,6 +361,8 @@
 /obj/item/bodypart/l_leg/golem
 	limb_id = "golem"
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_leg/golem/setup_injury_trees()
 	return
@@ -301,6 +370,8 @@
 /obj/item/bodypart/r_leg/golem
 	limb_id = "golem"
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_leg/golem/setup_injury_trees()
 	return

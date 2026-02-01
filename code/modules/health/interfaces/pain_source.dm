@@ -19,12 +19,17 @@
 /datum/pain_source/proc/Initialize(mob/living/owner)
 	register_signals()
 
+/datum/pain_source/proc/reset_adjusted_pain()
+	adjusted_pain = pain
+	update_pain()
+
 /datum/pain_source/proc/register_signals()
 	RegisterSignal(owner, SIGNAL_UPDATETRAIT(TRAIT_NOCRITDAMAGE), PROC_REF(update_pain))
 
 /datum/pain_source/proc/on_life()
-	if (adjusted_pain > PAIN_MAX_ACCLIMATION)
-		var/healed_amount = clamp(adjusted_pain - PAIN_MAX_ACCLIMATION, 0, PAIN_RECOVERY_RATE)
+	var/target_pain = min(pain, PAIN_MAX_ACCLIMATION)
+	if (adjusted_pain > target_pain)
+		var/healed_amount = clamp(adjusted_pain - target_pain, 0, PAIN_RECOVERY_RATE)
 		// Heal pain
 		if (healed_amount > 0)
 			adjusted_pain -= healed_amount

@@ -315,6 +315,7 @@
 		return
 	ADD_TRAIT(owner, TRAIT_NO_BLEEDING, "[type]")
 	ADD_TRAIT(bodypart, TRAIT_BODYPART_NO_STAMINA_REGENERATION, "[type]")
+	ADD_TRAIT(bodypart, TRAIT_BODYPART_UNUSABLE, "[type]")
 
 /datum/status_effect/tourniquet/tick()
 	bodypart = owner.get_bodypart(bodyzone_target)
@@ -326,11 +327,10 @@
 /datum/status_effect/tourniquet/on_remove()
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_NO_BLEEDING, "[type]")
-	var/duration_applied = world.time - time_applied
-	var/message = null
 	if (!bodypart)
 		return
 	REMOVE_TRAIT(bodypart, TRAIT_BODYPART_NO_STAMINA_REGENERATION, "[type]")
+	REMOVE_TRAIT(bodypart, TRAIT_BODYPART_UNUSABLE, "[type]")
 
 /datum/status_effect/tourniquet/Destroy()
 	. = ..()

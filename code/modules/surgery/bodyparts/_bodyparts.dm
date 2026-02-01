@@ -142,6 +142,8 @@
 	if(can_be_disabled)
 		RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS), PROC_REF(on_paralysis_trait_gain))
 		RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_PARALYSIS), PROC_REF(on_paralysis_trait_loss))
+		RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_BODYPART_UNUSABLE), PROC_REF(check_effectiveness))
+		RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_BODYPART_UNUSABLE), PROC_REF(check_effectiveness))
 	name = "[limb_id] [parse_zone(body_zone)]"
 	if(is_dimorphic)
 		limb_gender = pick("m", "f")
@@ -322,7 +324,7 @@
 /obj/item/bodypart/proc/on_life(delta_time, times_fired)
 	SHOULD_CALL_PARENT(TRUE)
 	var/circulation_disruption = 1
-	if (!(owner.blood.circulation_type_provided & circulation_flags))
+	if (circulation_flags && !(owner.blood.circulation_type_provided & circulation_flags))
 		circulation_disruption = 0
 	else
 		circulation_disruption = owner.blood.get_effectiveness()
@@ -333,6 +335,9 @@
 		if (circulation_flags == CIRCULATION_BLOOD)
 			var/desired_hypoxia_damage = max(0, (max_damage * 3) - (((CLAMP01(circulation_disruption) * (max_damage * 3)) ** 0.3) / ((max_damage * 3) ** (-0.7))))
 			increase_injury(OXY, clamp(damage_applied * 0.1, 0, desired_hypoxia_damage - damage_applied * 0.1))
+	else
+		// Heal oxy damage
+		increase_injury(OXY, -HYPOXIA_BODYPART_HEAL_PER_TICK)
 
 /// Heal an injury by the base type path of the injury tree, or by the path of the injury
 /// injury: The typepath (or base path of the tree) of the injury to heal.
@@ -377,6 +382,18 @@
 		return located_injury.adjust_progression(amount)
 	var/datum/injury/located_injury = apply_injury_tree(injury_type, null)
 	return located_injury.adjust_progression(amount)
+
+/// Set the progression of an injury to a specified amount
+/// injury_type: The type of injury to progress. If the injury type belongs to a graph-based injury
+/// then the injury increase will apply to the tree regardless of the current state that the graph
+/// is at.
+/// Amount: The amount to progress the injury by. Accepts negative values.
+/// allow_absorption: If true, damage can be absorbed by the injury.
+/// Returns the amount that the injury was progressed by, which may not be the same as the amount
+/// in cases where the injury was fully healed before the entire amount could be applied.
+/obj/item/bodypart/proc/set_injury(injury_type, amount, allow_absorption = FALSE)
+	var/datum/injury/located_injury = apply_injury_tree(injury_type, null)
+	return located_injury.set_progression(amount, allow_absorption)
 
 //Returns total damage.
 /obj/item/bodypart/proc/get_damage(include_stamina = FALSE)
@@ -839,8 +856,10 @@
 		if (injury.base_type == injury_path:base_type)
 			return injury
 	// You can't instantiate new instances of a graph-based injury
-	if (injury_path:injury_flags & INJURY_GRAPH)
+	if (injury_path::injury_flags & INJURY_GRAPH)
 		return
+	if (!(injury_path::injury_flags & INJURY_LIMB))
+		CRASH("Attempting to apply a non-limb injury to a bodypart, [injury_path] cannot be applied to [src].")
 	var/datum/injury/injury = new injury_path()
 	injuries += injury
 	injury.bodypart = src
@@ -873,6 +892,8 @@
 	effectiveness = initial(effectiveness)
 	for (var/datum/injury/injury in injuries)
 		effectiveness *= injury.effectiveness_modifier
+	if (HAS_TRAIT(src, TRAIT_BODYPART_UNUSABLE))
+		effectiveness = 0
 	if (!owner)
 		return
 	clear_effectiveness_modifiers()

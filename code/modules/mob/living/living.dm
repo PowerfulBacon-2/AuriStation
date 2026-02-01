@@ -864,6 +864,9 @@
 	if(heal_flags & HEAL_ADMIN)
 		suiciding = FALSE
 
+	// Immediately update pain
+	pain.reset_adjusted_pain()
+
 	updatehealth()
 	stop_sound_channel(CHANNEL_HEARTBEAT)
 	SEND_SIGNAL(src, COMSIG_LIVING_POST_FULLY_HEAL, heal_flags)

@@ -4,6 +4,8 @@
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/head/plasmaman/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
@@ -14,6 +16,8 @@
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/chest/plasmaman/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
@@ -23,6 +27,8 @@
 	limb_id = SPECIES_PLASMAMAN
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_arm/plasmaman/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
@@ -32,6 +38,8 @@
 	limb_id = SPECIES_PLASMAMAN
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_arm/plasmaman/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
@@ -41,6 +49,8 @@
 	limb_id = SPECIES_PLASMAMAN
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/l_leg/plasmaman/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
@@ -50,6 +60,8 @@
 	limb_id = SPECIES_PLASMAMAN
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	// Does not require blood to stay alive
+	circulation_flags = NONE
 
 /obj/item/bodypart/r_leg/plasmaman/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)

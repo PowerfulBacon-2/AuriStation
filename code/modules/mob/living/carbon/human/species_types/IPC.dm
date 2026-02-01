@@ -73,7 +73,7 @@
 	var/datum/action/innate/change_screen/change_screen
 
 	speak_no_tongue = FALSE  // who stole my soundblaster?! (-candy/etherware)
-	blood_type = new /datum/blood_source/silicon
+	blood_type = /datum/blood_source/silicon
 	pain_type = /datum/pain_source/none
 	consciousness_type = /datum/consciousness/organic
 

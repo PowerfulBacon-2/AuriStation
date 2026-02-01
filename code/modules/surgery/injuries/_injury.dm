@@ -147,6 +147,32 @@
 		// Return however much progression was applied
 		return applied
 
+/datum/injury/proc/set_progression(new_progression, absorb_damage = TRUE)
+	var/delta_damage = new_progression - progression
+	if (absorb_damage)
+		adjust_progression(delta_damage)
+		return
+	// Increase our total damage amount
+	var/previous_progression = progression
+	progression = new_progression
+	// Progression of the injury decreased to 0, heal the injury
+	if (progression < minimum_progression)
+		heal()
+		if (bodypart)
+			bodypart.update_damage()
+		else
+			mob.updatehealth()
+		// If progression was 10 before, the delta was -10
+		return -previous_progression
+	else
+		update_progressive_effects()
+		if (bodypart)
+			bodypart.update_damage()
+		else
+			mob.updatehealth()
+		// Return however much progression was applied
+		return delta_damage
+
 /datum/injury/proc/update_progressive_effects()
 	return
 
@@ -187,3 +213,6 @@
 /datum/injury/proc/heal()
 	if (healed_type)
 		transition_to(healed_type)
+	else
+		if (bodypart)
+			bodypart.remove_injury_tree(src)

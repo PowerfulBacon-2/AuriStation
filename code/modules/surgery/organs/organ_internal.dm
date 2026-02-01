@@ -224,7 +224,7 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 		// How much hypoxia damage do we want to deal?
 		var/desired_hypoxia_damage = max(0, (maxHealth * 3) - (((CLAMP01(circulation_rating) * (maxHealth * 3)) ** 0.3) / ((maxHealth * 3) ** (-0.7))))
 		// Increase our damage until we reach the desired threshold
-		var/damage_dealt = clamp(desired_hypoxia_damage - hypoxia, -HYPOXIA_HEAL_PER_TICK * delta_time, MAX_HYPOXIA_DAMAGE_PER_TICK * delta_time)
+		var/damage_dealt = clamp(desired_hypoxia_damage - hypoxia, -HYPOXIA_ORGAN_HEAL_PER_TICK * delta_time, MAX_HYPOXIA_ORGAN_DAMAGE_PER_TICK * delta_time)
 		var/hypoxia_damage = min(damage_dealt, maxHealth - hypoxia)
 		// Take the damage and update the effects of it
 		hypoxia += hypoxia_damage
