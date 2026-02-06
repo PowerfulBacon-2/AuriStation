@@ -30,7 +30,7 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/l_arm/plasmaman/setup_injury_trees()
+/obj/item/bodypart/arm/left/plasmaman/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
 
 /obj/item/bodypart/arm/right/plasmaman
@@ -41,7 +41,7 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/r_arm/plasmaman/setup_injury_trees()
+/obj/item/bodypart/arm/right/plasmaman/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
 
 /obj/item/bodypart/leg/left/plasmaman
@@ -52,7 +52,7 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/l_leg/plasmaman/setup_injury_trees()
+/obj/item/bodypart/leg/left/plasmaman/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
 
 /obj/item/bodypart/leg/right/plasmaman
@@ -63,5 +63,5 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/r_leg/plasmaman/setup_injury_trees()
+/obj/item/bodypart/leg/right/plasmaman/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)

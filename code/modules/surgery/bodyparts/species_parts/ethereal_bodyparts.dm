@@ -44,7 +44,7 @@
 	dmg_overlay_type = null
 	uses_mutcolor = TRUE
 
-/obj/item/bodypart/l_arm/ethereal/setup_injury_trees()
+/obj/item/bodypart/arm/left/ethereal/setup_injury_trees()
 	apply_injury_tree(/datum/injury/healthy_skin_burn)
 	apply_injury_tree(/datum/injury/cut_healthy)
 
@@ -63,7 +63,7 @@
 	dmg_overlay_type = null
 	uses_mutcolor = TRUE
 
-/obj/item/bodypart/r_arm/ethereal/setup_injury_trees()
+/obj/item/bodypart/arm/right/ethereal/setup_injury_trees()
 	apply_injury_tree(/datum/injury/healthy_skin_burn)
 	apply_injury_tree(/datum/injury/cut_healthy)
 
@@ -82,7 +82,7 @@
 	dmg_overlay_type = null
 	uses_mutcolor = TRUE
 
-/obj/item/bodypart/l_leg/ethereal/setup_injury_trees()
+/obj/item/bodypart/leg/left/ethereal/setup_injury_trees()
 	apply_injury_tree(/datum/injury/healthy_skin_burn)
 	apply_injury_tree(/datum/injury/cut_healthy)
 
@@ -101,7 +101,7 @@
 	dmg_overlay_type = null
 	uses_mutcolor = TRUE
 
-/obj/item/bodypart/r_leg/ethereal/setup_injury_trees()
+/obj/item/bodypart/leg/right/ethereal/setup_injury_trees()
 	apply_injury_tree(/datum/injury/healthy_skin_burn)
 	apply_injury_tree(/datum/injury/cut_healthy)
 

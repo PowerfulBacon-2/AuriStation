@@ -265,7 +265,7 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/l_arm/skeleton/setup_injury_trees()
+/obj/item/bodypart/arm/left/skeleton/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
 
 /obj/item/bodypart/arm/right/skeleton
@@ -275,7 +275,7 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/r_arm/skeleton/setup_injury_trees()
+/obj/item/bodypart/arm/right/skeleton/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
 
 /obj/item/bodypart/leg/left/skeleton
@@ -285,7 +285,7 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/l_leg/skeleton/setup_injury_trees()
+/obj/item/bodypart/leg/left/skeleton/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
 
 /obj/item/bodypart/leg/right/skeleton
@@ -295,7 +295,7 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/r_leg/skeleton/setup_injury_trees()
+/obj/item/bodypart/leg/right/skeleton/setup_injury_trees()
 	apply_injury_tree(/datum/injury/trauma_healthy)
 
 ///MUSHROOM
@@ -346,7 +346,7 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/l_arm/golem/setup_injury_trees()
+/obj/item/bodypart/arm/left/golem/setup_injury_trees()
 	return
 
 /obj/item/bodypart/arm/right/golem
@@ -355,7 +355,7 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/r_arm/golem/setup_injury_trees()
+/obj/item/bodypart/arm/right/golem/setup_injury_trees()
 	return
 
 /obj/item/bodypart/leg/left/golem
@@ -364,7 +364,7 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/l_leg/golem/setup_injury_trees()
+/obj/item/bodypart/leg/left/golem/setup_injury_trees()
 	return
 
 /obj/item/bodypart/leg/right/golem
@@ -373,7 +373,7 @@
 	// Does not require blood to stay alive
 	circulation_flags = NONE
 
-/obj/item/bodypart/r_leg/golem/setup_injury_trees()
+/obj/item/bodypart/leg/right/golem/setup_injury_trees()
 	return
 
 ///
