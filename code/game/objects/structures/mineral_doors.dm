@@ -12,7 +12,6 @@
 	icon_state = "metal"
 	max_integrity = 200
 	can_atmos_pass = ATMOS_PASS_DENSITY
-	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
 	rad_insulation = RAD_MEDIUM_INSULATION
 
 	var/door_opened = FALSE //if it's open or not.
@@ -229,9 +228,6 @@
 	max_integrity = 300
 	light_range = 2
 
-/obj/structure/mineral_door/uranium/ComponentInitialize()
-	return
-
 /obj/structure/mineral_door/sandstone
 	name = "sandstone door"
 	icon_state = "sandstone"
@@ -251,7 +247,7 @@
 	icon_state = "plasma"
 	sheetType = /obj/item/stack/sheet/mineral/plasma
 
-/obj/structure/mineral_door/transparent/plasma/ComponentInitialize()
+/obj/structure/mineral_door/transparent/plasma/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/atmos_sensitive)
 
@@ -350,9 +346,6 @@
 			return TRUE
 
 	return ..()
-
-/obj/structure/mineral_door/paperframe/ComponentInitialize()
-	return
 
 /obj/structure/mineral_door/paperframe/Destroy()
 	QUEUE_SMOOTH_NEIGHBORS(src)

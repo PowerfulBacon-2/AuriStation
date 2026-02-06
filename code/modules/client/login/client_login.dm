@@ -114,6 +114,7 @@
 	if(first_run)
 		GLOB.clients_unsafe += src
 	GLOB.directory[ckey] = src
+	GLOB.unique_connected_keys |= ckey
 	if(authenticated)
 		GLOB.clients += src
 
@@ -304,6 +305,7 @@
 		view_size = new(src, getScreenSize(mob))
 	view_size.resetFormat()
 	view_size.setZoomMode()
+	view_size.apply()
 	fit_viewport()
 
 	if(first_run)

@@ -49,3 +49,13 @@
 	damage = 15
 	fire_stacks = 2
 	sharpness = SHARP_X
+
+// x200law (Secoff, NT proprietary)
+
+/obj/projectile/bullet/x200law
+	name = "x200 LAW bullet"
+	damage = 22
+	armour_penetration = 0
+	sharpness = SHARP_X
+
+#error Handle new-sec (they use bullets now which fundamentally disagrees with the design of injuries)

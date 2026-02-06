@@ -378,7 +378,7 @@
 			else
 				to_chat(user, span_warning("You are too far to set the plaque's text!"))
 
-		SSpersistence.SaveTrophy(src)
+		SSpersistence.save_trophy(src)
 		return TRUE
 
 	else

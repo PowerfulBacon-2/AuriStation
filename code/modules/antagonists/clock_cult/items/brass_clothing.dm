@@ -29,12 +29,12 @@
 	if(ishuman(C))
 		var/mob/living/carbon/human/H = C
 		H.electrocution_animation(20)
-	C.jitteriness += 1000
-	C.do_jitter_animation(C.jitteriness)
-	C.stuttering += 1
+	C.do_jitter_animation(300) // Maximum jitter
+	C.adjust_jitter(20 SECONDS)
+	C.adjust_stutter(2 SECONDS)
 	spawn(20)
 	if(C)
-		C.jitteriness = max(C.jitteriness - 990, 10)
+		C.remove_status_effect(/datum/status_effect/jitter)
 
 /obj/item/clothing/suit/clockwork/speed
 	name = "robes of divinity"
@@ -54,9 +54,6 @@
 	slowdown = 0.4
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/shroud_active = FALSE
-	var/i
-	var/f
-	var/start
 	var/previous_alpha
 
 /obj/item/clothing/suit/clockwork/cloak/equipped(mob/user, slot)
@@ -90,12 +87,12 @@
 		if(ishuman(C))
 			var/mob/living/carbon/human/H = C
 			H.electrocution_animation(20)
-		C.jitteriness += 1000
-		C.do_jitter_animation(C.jitteriness)
-		C.stuttering += 1
+		C.do_jitter_animation(300) // Maximum jitter
+		C.adjust_jitter(20 SECONDS)
+		C.adjust_stutter(2 SECONDS)
 		spawn(20)
 		if(C)
-			C.jitteriness = max(C.jitteriness - 990, 10)
+			C.remove_status_effect(/datum/status_effect/jitter)
 
 /obj/item/clothing/glasses/clockwork/wraith_spectacles
 	name = "wraith spectacles"

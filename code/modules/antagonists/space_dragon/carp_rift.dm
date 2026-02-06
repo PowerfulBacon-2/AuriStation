@@ -9,7 +9,7 @@
 	name = "Summon Rift"
 	desc = "Summon a rift to bring forth a horde of space carp."
 	background_icon_state = "bg_default"
-	icon_icon = 'icons/hud/actions/actions_space_dragon.dmi'
+	button_icon = 'icons/hud/actions/actions_space_dragon.dmi'
 	button_icon_state = "carp_rift"
 
 /datum/action/innate/summon_rift/on_activate()
@@ -61,7 +61,6 @@
 	name = "carp rift"
 	desc = "A rift akin to the ones space carp use to travel long distances."
 	max_integrity = 300
-	max_hit_damage = 50
 	icon = 'icons/obj/carp_rift.dmi'
 	icon_state = "carp_rift_carpspawn"
 	light_color = LIGHT_COLOR_PURPLE

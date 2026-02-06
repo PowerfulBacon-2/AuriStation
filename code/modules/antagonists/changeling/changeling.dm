@@ -13,7 +13,8 @@
 	hijack_speed = 0.5
 	/// Whether to give this changeling objectives or not
 	give_objectives = TRUE
-	/// Weather we assign objectives which compete with other lings
+	leave_behaviour = ANTAGONIST_LEAVE_KEEP
+	/// Whether we assign objectives which compete with other lings
 	var/competitive_objectives = FALSE
 
 	// Changeling Stuff.
@@ -61,12 +62,12 @@
 	var/datum/action/innate/cellular_emporium/emporium_action
 
 	/// Static typecache of all changeling powers that are usable.
-	var/static/list/all_powers = typecacheof(/datum/action/changeling, TRUE)
+	var/static/list/all_powers = typecacheof(/datum/action/changeling, ignore_root_path = TRUE)
 
 	/// Static list of possible ids. Initialized into the greek alphabet the first time it is used
 	var/static/list/possible_changeling_IDs
 
-	/// Satic list of what each slot associated with (in regard to changeling flesh items).
+	/// Static list of what each slot associated with (in regard to changeling flesh items).
 	var/static/list/slot2type = list(
 		"head" = /obj/item/clothing/head/changeling,
 		"wear_mask" = /obj/item/clothing/mask/changeling,
@@ -85,6 +86,23 @@
 
 	///	Keeps track of the currently selected profile.
 	var/datum/changeling_profile/current_profile
+
+	/// A list of languages granted to changelings
+	var/static/list/granted_languages = list(
+		/datum/language/apidite,
+		/datum/language/buzzwords,
+		/datum/language/calcic,
+		/datum/language/common,
+		/datum/language/uncommon,
+		/datum/language/draconic,
+		/datum/language/moffic,
+		/datum/language/monkey,
+		/datum/language/slime,
+		/datum/language/sonus,
+		/datum/language/sylvan,
+		/datum/language/terrum,
+		/datum/language/voltaic,
+	)
 
 /datum/antagonist/changeling/New()
 	. = ..()
@@ -110,6 +128,9 @@
 	handle_clown_mutation(owner.current, "You have evolved beyond your clownish nature, allowing you to wield weapons without harming yourself.")
 	owner.current.get_language_holder().omnitongue = TRUE
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ling_aler.ogg', 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
+
+	for(var/datum/language/language as anything in granted_languages)
+		owner.current.grant_language(language, source = LANGUAGE_CHANGELING)
 	return ..()
 
 /datum/antagonist/changeling/apply_innate_effects(mob/living/mob_override)
@@ -122,8 +143,12 @@
 	RegisterSignal(living_mob, COMSIG_MOB_LOGIN, PROC_REF(on_login))
 	RegisterSignal(living_mob, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 	RegisterSignal(living_mob, COMSIG_LIVING_POST_FULLY_HEAL, PROC_REF(on_fullhealed))
-	living_mob.hud_used?.lingchemdisplay.invisibility = 0
-	living_mob.hud_used?.lingchemdisplay.maptext = FORMAT_CHEM_CHARGES_TEXT(chem_charges)
+
+	if(living_mob.hud_used)
+		living_mob.hud_used.lingchemdisplay.invisibility = 0
+		living_mob.hud_used.lingchemdisplay.maptext = FORMAT_CHEM_CHARGES_TEXT(chem_charges)
+	else
+		RegisterSignal(living_mob, COMSIG_MOB_HUD_CREATED, PROC_REF(on_hud_created))
 
 	if(!iscarbon(mob_to_tweak))
 		return
@@ -136,6 +161,13 @@
 	if(our_ling_brain)
 		our_ling_brain.organ_flags &= ~ORGAN_VITAL
 		our_ling_brain.decoy_override = TRUE
+
+/datum/antagonist/changeling/proc/on_hud_created(datum/source)
+	SIGNAL_HANDLER
+	var/mob/living/M = source
+	if(M.hud_used)
+		M.hud_used.lingchemdisplay.invisibility = 0
+		M.hud_used.lingchemdisplay.maptext = FORMAT_CHEM_CHARGES_TEXT(chem_charges)
 
 /datum/antagonist/changeling/proc/generate_name()
 	var/static/list/left_changling_names = GLOB.greek_letters.Copy()
@@ -154,11 +186,12 @@
 /datum/antagonist/changeling/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/living_mob = mob_override || owner.current
 	handle_clown_mutation(living_mob, removing = FALSE)
-	UnregisterSignal(living_mob, list(COMSIG_MOB_LOGIN, COMSIG_LIVING_LIFE, COMSIG_LIVING_POST_FULLY_HEAL, COMSIG_MOB_MIDDLECLICKON, COMSIG_MOB_ALTCLICKON))
-	living_mob.hud_used?.lingchemdisplay.invisibility = INVISIBILITY_ABSTRACT
+	UnregisterSignal(living_mob, list(COMSIG_MOB_LOGIN, COMSIG_LIVING_LIFE, COMSIG_LIVING_POST_FULLY_HEAL, COMSIG_MOB_MIDDLECLICKON, COMSIG_MOB_ALTCLICKON, COMSIG_MOB_HUD_CREATED))
+	living_mob?.hud_used?.lingchemdisplay?.invisibility = INVISIBILITY_ABSTRACT
 
 /datum/antagonist/changeling/on_removal()
 	remove_changeling_powers(include_innate = TRUE)
+	owner.current.remove_all_languages(LANGUAGE_CHANGELING, TRUE)
 	if(!iscarbon(owner.current))
 		return
 	var/mob/living/carbon/carbon_owner = owner.current
@@ -402,7 +435,7 @@
 		if(verbose)
 			to_chat(user, span_warning("We already have this DNA in storage!"))
 		return FALSE
-	if(HAS_TRAIT(target, TRAIT_NO_DNA_COPY))
+	if(HAS_TRAIT(target, TRAIT_NOT_TRANSMORPHIC) || HAS_TRAIT(target, TRAIT_NO_DNA_COPY))
 		if(verbose)
 			to_chat(user, span_warning("[target] is not compatible with our biology."))
 		return FALSE
@@ -447,6 +480,11 @@
 	new_profile.undershirt = target.undershirt
 	new_profile.socks = target.socks
 
+	var/obj/item/card/id/id_card = target.wear_id?.GetID()
+	if (istype(id_card))
+		new_profile.id_job_name = id_card.assignment
+		new_profile.id_hud_state = id_card.hud_state
+
 	// Hair and facial hair gradients, alongside their colours.
 	//new_profile.grad_style = LAZYLISTDUPLICATE(target.grad_style)
 	//new_profile.grad_color = LAZYLISTDUPLICATE(target.grad_color)
@@ -468,10 +506,11 @@
 			continue
 		new_profile.name_list[slot] = clothing_item.name
 		new_profile.appearance_list[slot] = clothing_item.appearance
+		new_profile.type_list[slot] = clothing_item.type
 		new_profile.flags_cover_list[slot] = clothing_item.flags_cover
 		new_profile.lefthand_file_list[slot] = clothing_item.lefthand_file
 		new_profile.righthand_file_list[slot] = clothing_item.righthand_file
-		new_profile.item_state_list[slot] = clothing_item.item_state
+		new_profile.inhand_icon_state_list[slot] = clothing_item.inhand_icon_state
 		new_profile.worn_icon_list[slot] = clothing_item.worn_icon
 		new_profile.worn_icon_state_list[slot] = clothing_item.worn_icon_state
 		new_profile.exists_list[slot] = 1
@@ -540,11 +579,24 @@
  * Create a profile based on the changeling's initial appearance.
  */
 /datum/antagonist/changeling/proc/create_initial_profile()
-	if(!ishuman(owner.current))
-		return
+	var/mob/living/carbon/carbon_owner = owner.current //only carbons have dna now, so we have to typecast
+	if(HAS_TRAIT(carbon_owner, TRAIT_NOT_TRANSMORPHIC))
+		carbon_owner.set_species(/datum/species/human)
+		var/prefs_name = carbon_owner.client?.prefs?.read_character_preference(/datum/preference/name/backup_human)
+		if(prefs_name)
+			carbon_owner.fully_replace_character_name(carbon_owner.real_name, prefs_name)
+		else
+			carbon_owner.fully_replace_character_name(carbon_owner.real_name, carbon_owner.generate_random_mob_name())
+		for(var/datum/record/crew/record in GLOB.manifest.general)
+			if(record.name == carbon_owner.real_name)
+				record.species = carbon_owner.dna.species.name
+				record.gender = carbon_owner.gender
 
-	add_new_profile(owner.current)
+				//Not directly assigning carbon_owner.appearance because it might not update in time at roundstart
+				record.character_appearance = get_flat_existing_human_icon(carbon_owner, list(SOUTH, WEST))
 
+	if(ishuman(carbon_owner))
+		add_new_profile(carbon_owner)
 
 /datum/antagonist/changeling/greet()
 	to_chat(owner.current, "<b>You must complete the following tasks:</b>")
@@ -738,9 +790,12 @@
 		new_flesh_item.flags_cover = chosen_profile.flags_cover_list[slot]
 		new_flesh_item.lefthand_file = chosen_profile.lefthand_file_list[slot]
 		new_flesh_item.righthand_file = chosen_profile.righthand_file_list[slot]
-		new_flesh_item.item_state = chosen_profile.item_state_list[slot]
+		new_flesh_item.inhand_icon_state = chosen_profile.inhand_icon_state_list[slot]
 		new_flesh_item.worn_icon = chosen_profile.worn_icon_list[slot]
 		new_flesh_item.worn_icon_state = chosen_profile.worn_icon_state_list[slot]
+
+		REMOVE_TRAIT(new_flesh_item, TRAIT_VALUE_MIMIC_PATH, FROM_CHAMELEON)
+		ADD_VALUE_TRAIT(new_flesh_item, TRAIT_VALUE_MIMIC_PATH, CHANGELING_TRAIT, chosen_profile.type_list[slot], PRIORITY_CHANGELING_MIMIC)
 
 		if(istype(new_flesh_item, /obj/item/card/id/changeling) && chosen_profile.id_job_name)
 			var/obj/item/card/id/changeling/flesh_id = new_flesh_item
@@ -766,6 +821,8 @@
 	var/datum/dna/dna
 	/// Assoc list of item slot to item name - stores the name of every item of this profile.
 	var/list/name_list = list()
+	/// Assoc list of item slot to type - stores the type of every item of this profile.
+	var/list/type_list = list()
 	/// Assoc list of item slot to apperance - stores the appearance of every item of this profile.
 	var/list/appearance_list = list()
 	/// Assoc list of item slot to flag - stores the flags_cover of every item of this profile.
@@ -777,7 +834,7 @@
 	/// Assoc list of item slot to file - stores the righthand file of the item in that slot
 	var/list/righthand_file_list = list()
 	/// Assoc list of item slot to file - stores the inhand file of the item in that slot
-	var/list/item_state_list = list()
+	var/list/inhand_icon_state_list = list()
 	/// Assoc list of item slot to file - stores the worn icon file of the item in that slot
 	var/list/worn_icon_list = list()
 	/// Assoc list of item slot to string - stores the worn icon state of the item in that slot
@@ -823,7 +880,7 @@
 	new_profile.appearance_list = appearance_list.Copy()
 	new_profile.flags_cover_list = flags_cover_list.Copy()
 	new_profile.exists_list = exists_list.Copy()
-	new_profile.item_state_list = item_state_list.Copy()
+	new_profile.inhand_icon_state_list = inhand_icon_state_list.Copy()
 	new_profile.lefthand_file_list = lefthand_file_list.Copy()
 	new_profile.righthand_file_list = righthand_file_list.Copy()
 	new_profile.worn_icon_list = worn_icon_list.Copy()
@@ -843,6 +900,7 @@
 	name = "Xenobio Changeling"
 	give_objectives = FALSE
 	show_in_roundend = FALSE //These are here for admin tracking purposes only
+	leave_behaviour = ANTAGONIST_LEAVE_DESPAWN
 
 /datum/antagonist/changeling/roundend_report()
 	var/list/parts = list()
@@ -879,6 +937,7 @@
 	antagpanel_category = "Changeling"
 	banning_key = ROLE_CHANGELING
 	antag_moodlet = /datum/mood_event/fallen_changeling
+	leave_behaviour = ANTAGONIST_LEAVE_DESPAWN
 
 /datum/mood_event/fallen_changeling
 	description = "My powers! Where are my powers?!"

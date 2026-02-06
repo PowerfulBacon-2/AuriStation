@@ -158,7 +158,7 @@
 		return null
 	return new floor_tile(src)
 
-/turf/open/floor/singularity_pull(S, current_size)
+/turf/open/floor/singularity_pull(obj/anomaly/singularity/singularity, current_size)
 	..()
 	var/sheer = FALSE
 	switch(current_size)

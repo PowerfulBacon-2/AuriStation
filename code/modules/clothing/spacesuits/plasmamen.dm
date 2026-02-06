@@ -8,7 +8,7 @@
 	armor_type = /datum/armor/civilian_padded
 	resistance_flags = FIRE_PROOF
 	icon_state = "plasmaman_suit"
-	item_state = "plasmaman_suit"
+	inhand_icon_state = "plasmaman_suit"
 	var/next_extinguish = 0
 	var/extinguish_cooldown = 100
 	var/extinguishes_left = 10
@@ -29,7 +29,7 @@
 			next_extinguish = world.time + extinguish_cooldown
 			extinguishes_left--
 			H.visible_message(span_warning("[H]'s suit automatically extinguishes [H.p_them()]!"),span_warning("Your suit automatically extinguishes you."))
-			H.ExtinguishMob()
+			H.extinguish_mob()
 			new /obj/effect/particle_effect/water(get_turf(H))
 
 
@@ -40,7 +40,7 @@
 	icon = 'icons/obj/clothing/head/plasmaman_hats.dmi'
 	worn_icon = 'icons/mob/clothing/head/plasmaman_head.dmi'
 	icon_state = "helmet"
-	item_state = "helmet"
+	inhand_icon_state = "helmet"
 	greyscale_colors = "#DF5900#A349A4#DF5900"
 	greyscale_config = /datum/greyscale_config/plasmaman_helmet_default
 	greyscale_config_inhand_left = /datum/greyscale_config/plasmaman_helmet_default_inhand_left
@@ -96,7 +96,7 @@
 	update_overlays()
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
-		H.update_inv_head()
+		H.update_worn_head()
 
 /obj/item/clothing/head/helmet/space/plasmaman/attackby(obj/item/item, mob/living/user)
 	. = ..()
@@ -172,7 +172,7 @@
 		set_light_on(FALSE)
 
 	update_icon()
-	user.update_inv_head() //So the mob overlay updates
+	user.update_worn_head() //So the mob overlay updates
 	update_button_icons(user)
 
 /obj/item/clothing/head/helmet/space/plasmaman/proc/smash_headlamp()
@@ -186,7 +186,7 @@
 	to_chat(usr, span_danger("The [src]'s headlamp is smashed to pieces!"))
 	lamp_functional = FALSE
 	update_icon()
-	usr.update_inv_head() //So the mob overlay updates
+	usr.update_worn_head() //So the mob overlay updates
 	update_button_icons(usr)
 
 /obj/item/clothing/head/helmet/space/plasmaman/update_overlays()
@@ -304,6 +304,7 @@
 	name = "designer envirosuit helmet"
 	desc = "A Plasmi-Deluxe envirosuit helmet with gold woven into the fabric. A designer model like this is probably worth a pretty penny."
 	greyscale_colors = "#C47D0C#C47D0C#C47D0C"
+	custom_price = 4500
 
 /obj/item/clothing/head/helmet/space/plasmaman/curator
 	name = "curator's envirosuit helmet"
@@ -314,7 +315,7 @@
 	greyscale_config_inhand_right = null
 	greyscale_config_worn = null
 	icon_state = "prototype_envirohelm"
-	item_state = "prototype_envirohelm"
+	inhand_icon_state = "prototype_envirohelm"
 	smile_state = "prototype_smile"
 
 /obj/item/clothing/head/helmet/space/plasmaman/botany
@@ -342,7 +343,7 @@
 	greyscale_config_inhand_right = null
 	greyscale_config_worn = null
 	icon_state = "mime_envirohelm"
-	item_state = "mime_envirohelm"
+	inhand_icon_state = "mime_envirohelm"
 	visor_state = "mime_visor"
 
 /obj/item/clothing/head/helmet/space/plasmaman/honk
@@ -354,7 +355,7 @@
 	greyscale_config_inhand_right = null
 	greyscale_config_worn = null
 	icon_state = "honk_envirohelm"
-	item_state = "honk_envirohelm"
+	inhand_icon_state = "honk_envirohelm"
 	smile_state = "clown_smile"
 	visor_state = "clown_visor"
 
@@ -584,7 +585,7 @@
 	greyscale_config_inhand_right = null
 	greyscale_config_worn = null
 	icon_state = "mime_mark2"
-	item_state = "mime_mark2"
+	inhand_icon_state = "mime_mark2"
 	visor_state = "mime_visor_mk2"
 
 /obj/item/clothing/head/helmet/space/plasmaman/mark2/clown
@@ -596,7 +597,7 @@
 	greyscale_config_inhand_right = null
 	greyscale_config_worn = null
 	icon_state = "clown_mark2"
-	item_state = "clown_mark2"
+	inhand_icon_state = "clown_mark2"
 	visor_state = "clown_visor_mk2"
 
 /obj/item/clothing/head/helmet/space/plasmaman/mark2/bartender/Initialize(mapload)

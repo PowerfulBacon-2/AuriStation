@@ -163,7 +163,7 @@
 /obj/item/construction/rcd/arcd/debug
 	name = "\improper CentCom Admin RCD"
 	icon_state = "ircd"
-	item_state = "ircd"
+	inhand_icon_state = "ircd"
 	w_class = WEIGHT_CLASS_TINY
 	max_matter = INFINITY
 	matter = INFINITY
@@ -215,6 +215,10 @@
 	reflectivity = 300
 	heat = 300
 
+/obj/item/clothing/head/helmet/space/hardsuit/debug/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/radiation_protected_clothing)
+
 /obj/item/clothing/suit/space/hardsuit/debug
 	name = "\improper Central Command black hardsuit"
 	desc = "very powerful."
@@ -232,20 +236,23 @@
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 
+/obj/item/clothing/suit/space/hardsuit/debug/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/radiation_protected_clothing)
+
 // debug bag
 
 /obj/item/storage/backpack/debug
 	name = "bag of portable hole"
 	desc = "A backpack that opens into a localized pocket of nullspace."
 	icon_state = "holdingpack"
-	item_state = "holdingpack"
+	inhand_icon_state = "holdingpack"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	item_flags = NO_MAT_REDEMPTION
 	armor_type = /datum/armor/debug
 
 /obj/item/storage/backpack/debug/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/rad_insulation, _amount = RAD_FULL_INSULATION, contamination_proof = TRUE) //please datum mats no more cancer
 	atom_storage.allow_big_nesting = TRUE
 	atom_storage.max_specific_storage = WEIGHT_CLASS_GIGANTIC
 	atom_storage.max_slots = 1000
@@ -302,7 +309,6 @@
 		TRAIT_SLEEPIMMUNE,
 		TRAIT_STUNIMMUNE,
 		TRAIT_PUSHIMMUNE,
-		TRAIT_CONFUSEIMMUNE,
 		TRAIT_RADIMMUNE,
 		TRAIT_VIRUSIMMUNE,
 		TRAIT_PIERCEIMMUNE,
@@ -329,7 +335,8 @@
 		TRAIT_SECURITY_HUD,
 		TRAIT_BARMASTER,
 		TRAIT_SURGEON,
-		TRAIT_METALANGUAGE_KEY_ALLOWED
+		TRAIT_METALANGUAGE_KEY_ALLOWED,
+		TRAIT_SPACEWALK
 	)
 	var/spacewalk_initial
 
@@ -357,13 +364,8 @@
 	picker.see_override = SEE_INVISIBLE_OBSERVER
 	picker.update_sight()
 
-	spacewalk_initial = user.spacewalk
-	user.spacewalk = TRUE
-
 /obj/item/debug/orb_of_power/dropped(mob/living/carbon/human/user)
 	. = ..()
-
-	user.spacewalk = spacewalk_initial
 
 	for(var/each in traits_to_give)
 		REMOVE_TRAIT(user, each, "debug")

@@ -5,8 +5,8 @@
 	power_explanation = "Activating Veil of Many Faces will shroud you in smoke and forge you a new identity.\n\
 		Your name and appearance will be completely randomized, deactivating the ability will restore you to your former self."
 	power_flags = BP_AM_TOGGLE
-	check_flags = BP_CANT_USE_IN_FRENZY|BP_CANT_USE_DURING_SOL
-	purchase_flags = VAMPIRE_DEFAULT_POWER|VASSAL_CAN_BUY
+	check_flags = BP_CANT_USE_IN_FRENZY | BP_CANT_USE_DURING_SOL
+	purchase_flags = VAMPIRE_DEFAULT_POWER | VASSAL_CAN_BUY
 	bloodcost = 15
 	constant_bloodcost = 0.1
 	cooldown_time = 10 SECONDS
@@ -51,13 +51,13 @@
 
 	// Change Name
 	prev_name = user.name
-	var/newname = user.dna.species.random_name()
+	var/newname = generate_random_name_species_based(user.gender, TRUE, user.dna.species)
 	user.real_name = newname
 	user.name = newname
 
 	// Change Appearance
 	user.gender = pick(MALE, FEMALE, PLURAL)
-	user.skin_tone = random_skin_tone()
+	user.skin_tone = pick(GLOB.skin_tones)
 	user.hair_style = random_hair_style(user.gender)
 	user.facial_hair_style = pick(random_facial_hair_style(user.gender), "Shaved")
 	user.hair_color = random_short_color()

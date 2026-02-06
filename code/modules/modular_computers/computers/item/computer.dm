@@ -32,6 +32,8 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	var/ignore_theme_pref = FALSE
 	/// List of themes for this device to allow.
 	var/list/allowed_themes
+	/// Are we using the flashlight
+	var/using_flashlight = FALSE
 	/// Color used for the Thinktronic Classic theme.
 	var/classic_color = COLOR_OLIVE
 	var/datum/computer_file/program/active_program = null	// A currently active program running on the computer.
@@ -40,8 +42,10 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	var/last_world_time = "00:00"
 	var/list/last_header_icons
 
-	var/base_active_power_usage = 50						// Power usage when the computer is open (screen is active) and can be interacted with. Remember hardware can use power too.
-	var/base_idle_power_usage = 5							// Power usage when the computer is idle and screen is off (currently only applies to laptops)
+	// Power consumption of the modular computer per second when the device is on
+	// but the computer is not using any power.
+	var/base_power_usage = 0 WATT
+	var/flashlight_power_usage = 30 WATT
 
 	// Modular computers can run on various devices. Each DEVICE (Laptop, Console, Tablet,..)
 	// must have it's own DMI file. Icon states must be called exactly the same in all files, but may look differently
@@ -97,6 +101,10 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	var/can_store_pai = FALSE
 	/// Level of Virus Defense to be added on initialize to the pre instaled hard drive this happens in tablet/PDA, Normal detomatix halves at 2, fails at 3
 	var/default_virus_defense = ANTIVIRUS_NONE
+	/// Multiplier for power usage
+	var/power_usage_multiplier = 1
+	/// People looking at the computer
+	var/list/computer_users = list()
 
 /obj/item/modular_computer/Initialize(mapload)
 	allowed_themes = GLOB.ntos_device_themes_default
@@ -200,6 +208,13 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 		return card_slot.GetID()
 	return ..()
 
+/obj/item/modular_computer/get_id_examine_strings(mob/user)
+	. = ..()
+	var/obj/item/card/id/stored_id = GetID()
+	if(stored_id)
+		. += "[src] is displaying [stored_id]:"
+		. += stored_id.get_id_examine_strings(user)
+
 /obj/item/modular_computer/RemoveID()
 	var/obj/item/computer_hardware/card_slot/card_slot2 = all_components[MC_CARD2]
 	var/obj/item/computer_hardware/card_slot/card_slot = all_components[MC_CARD]
@@ -299,7 +314,7 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	playsound(start, "sparks", 50, 1)
 	playsound(target, "sparks", 50, 1)
 	do_dash(src, start, target, 0, TRUE)
-	use_power((250 * cpu.max_idle_programs) / GLOB.CELLRATE)
+	use_power((250 * cpu.max_idle_programs))
 	return
 
 /obj/item/modular_computer/proc/get_blink_destination(turf/start, direction, range)
@@ -392,13 +407,17 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 		shutdown_computer()
 		return 0
 
-	if(active_program && active_program.requires_ntnet && !get_ntnet_status(active_program.requires_ntnet_feature))
+	if(active_program && active_program.requires_ntnet && !get_ntnet_status())
 		active_program.event_networkfailure(0) // Active program requires NTNet to run but we've just lost connection. Crash.
 
-	for(var/I in idle_threads)
-		var/datum/computer_file/program/P = I
-		if(P.requires_ntnet && !get_ntnet_status(P.requires_ntnet_feature))
-			P.event_networkfailure(1)
+	for(var/datum/computer_file/program/idle_programs as anything in idle_threads)
+		if(idle_programs.program_state == PROGRAM_STATE_KILLED)
+			idle_threads.Remove(idle_programs)
+			continue
+		idle_programs.process_tick(delta_time)
+		idle_programs.ntnet_status = get_ntnet_status()
+		if(idle_programs.requires_ntnet && !idle_programs.ntnet_status)
+			idle_programs.event_networkfailure(TRUE)
 
 	if(active_program)
 		if(active_program.program_state != PROGRAM_STATE_KILLED)
@@ -414,6 +433,8 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 			P.ntnet_status = get_ntnet_status()
 		else
 			idle_threads.Remove(P)
+
+	handle_flashlight(delta_time)
 
 	handle_power(delta_time) // Handles all computer power interaction
 	//check_update_ui_need()
@@ -571,7 +592,7 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 		to_chat(user, span_danger("\The [src] displays a \"Maximal CPU load reached. Unable to run another program.\" error."))
 		return FALSE
 
-	if(program.requires_ntnet && !get_ntnet_status(program.requires_ntnet_feature)) // The program requires NTNet connection, but we are not connected to NTNet.
+	if(program.requires_ntnet && !get_ntnet_status()) // The program requires NTNet connection, but we are not connected to NTNet.
 		to_chat(user, span_danger("\The [src]'s screen shows \"Unable to connect to NTNet. Please retry. If problem persists contact your system administrator.\" warning."))
 		return FALSE
 
@@ -589,12 +610,11 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	return TRUE
 
 
-
 // Returns 0 for No Signal, 1 for Low Signal and 2 for Good Signal. 3 is for wired connection (always-on)
-/obj/item/modular_computer/proc/get_ntnet_status(specific_action = 0)
+/obj/item/modular_computer/proc/get_ntnet_status()
 	var/obj/item/computer_hardware/network_card/network_card = all_components[MC_NET]
 	if(network_card)
-		return network_card.get_signal(specific_action)
+		return network_card.get_signal()
 	else
 		return 0
 
@@ -602,20 +622,15 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
  * Passes a message to be logged by SSnetworks
  *
  * Should a Modular want to create a log on the network this is the proc to use
- * it will pass all its information onto SSnetworks which have their own add_log proc.
- * It will automatically apply the network argument on its own.
+ * it will pass all its information onto SSmodular_computers which handles logging.
  * Arguments:
  * * text - message to log
- * * log_id - if we want IDs not to be printed on the log (Hardware ID and Identification string)
- * * card = network card, will extract identification string and hardware ID from it (if log_id = TRUE).
  */
-/obj/item/modular_computer/proc/add_log(text, log_id = FALSE, obj/item/computer_hardware/network_card/card)
+/obj/item/modular_computer/proc/add_log(text)
 	if(!get_ntnet_status())
 		return FALSE
-	if(!card)
-		card = all_components[MC_NET]
-	return SSnetworks.add_log(text, card.GetComponent(/datum/component/ntnet_interface).network, card.hardware_id, log_id, card)
-	// We also return network_card so SSnetworks can extract values from it itself
+	return SSmodular_computers.add_log("[src]: [text]")
+
 
 /obj/item/modular_computer/proc/shutdown_computer(loud = 1)
 	playsound(src, 'sound/machines/terminal_off.ogg', 50, TRUE)
@@ -635,9 +650,10 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
   * It is separated from ui_act() to be overwritten as needed.
 */
 /obj/item/modular_computer/proc/toggle_flashlight()
-	if(!has_light)
+	if(!has_light || !use_power(10 WATT))
 		return FALSE
-	set_light_on(!light_on)
+	using_flashlight = !using_flashlight
+	set_light_on(using_flashlight)
 	update_appearance()
 	// Show the light_on overlay on top of the action button icon
 	update_action_buttons(force = TRUE) //force it because we added an overlay, not changed its icon
@@ -657,6 +673,22 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	comp_light_color = color
 	set_light_color(color)
 	return TRUE
+
+/obj/item/modular_computer/proc/handle_flashlight(delta_time)
+	if (!using_flashlight)
+		return
+	var/power_ratio = 1 - CLAMP01(get_power() / (10 KILOWATT))
+	if (DT_PROB(power_ratio * 20, delta_time))
+		do_flicker()
+
+/obj/item/modular_computer/proc/do_flicker(amounts = 5)
+	if (!using_flashlight)
+		return
+	if (amounts <= 0)
+		set_light_on(TRUE)
+		return
+	set_light_on(!light_on)
+	addtimer(CALLBACK(src, PROC_REF(do_flicker), amounts - 1), rand(0.1 SECONDS, 0.3 SECONDS))
 
 /obj/item/modular_computer/screwdriver_act(mob/user, obj/item/tool)
 	if(!deconstructable)
@@ -696,14 +728,9 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	ui_update()
 
 /obj/item/modular_computer/pre_attack(atom/A, mob/living/user, params)
-	if(!istype(A, /obj/item/computer_hardware) && !istype(A, /obj/item/stock_parts/cell/computer))
+	if(!istype(A, /obj/item/computer_hardware))
 		return
 
-	var/obj/item/computer_hardware/battery/battery_module = all_components[MC_CELL]
-
-	if(istype(A, /obj/item/stock_parts/cell/computer) && battery_module)
-		if(battery_module.try_insert(A, user))
-			return TRUE
 	if(istype(A, /obj/item/computer_hardware))
 		var/obj/item/computer_hardware/inserted_hardware = A
 		if(install_component(inserted_hardware, user))
@@ -868,20 +895,18 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	. = list()
 	. += "***** DIAGNOSTICS REPORT *****"
 	. += "Running Hardware Tests... (Maximum Hardware Size: [max_hardware_size]))"
-	var/total_power_usage
+	var/total_power_usage = calculate_power()
 	var/obj/item/computer_hardware/battery/battery_module = all_components[MC_CELL]
 	for(var/port in all_components)
 		var/obj/item/computer_hardware/component = all_components[port]
-		total_power_usage |= component.power_usage
 		. += "INFO :: <span class='cfc_orange'>[component.device_type]</span> accounted for."
 		if(!component.enabled)
 			. += "<span class='cfc_soul_glimmer_humour'>Warning</span> // [component.device_type] Disabled"
 		if(component.hacked)
 			. += "<span class='cfc_magenta'>WARNING ::</span> [component.device_type] <span class='cfc_magenta'>OPERATING BEYOND RATED PARAMETERS</span>"
 	if(battery_module?.battery)
-		. += "INFO :: <span class='cfc_orange'>[battery_module.battery.name]</span> accounted for."
 		. += "INFO :: Cell Current charge [battery_module.battery.percent()]%."
-	. += "Total Power consumption :: [total_power_usage]"
+	. += "Current Power consumption :: [display_power_persec(total_power_usage)]"
 	return
 
 /obj/item/modular_computer/proc/virus_blocked_info(gift_card = FALSE)	// If we caught a Virus, tell the player

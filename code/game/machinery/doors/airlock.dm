@@ -74,6 +74,8 @@
 	var/abandoned = FALSE
 	///Controls if the door closes quickly or not. FALSE = the door autocloses in 1.5 seconds, TRUE = 8 seconds - see autoclose_in()
 	var/normalspeed = TRUE
+	var/cut_ai_wire = FALSE
+	var/autoname = FALSE
 	var/doorOpen = 'sound/machines/airlock.ogg'
 	var/doorClose = 'sound/machines/airlockclose.ogg'
 	var/doorDeni = 'sound/machines/deniedbeep.ogg' // i'm thinkin' Deni's
@@ -109,16 +111,12 @@
 	///How many seconds remain until the door is no longer electrified. -1/MACHINE_ELECTRIFIED_PERMANENT = permanently electrified until someone fixes it.
 	var/secondsElectrified = MACHINE_NOT_ELECTRIFIED
 	var/protected_door = FALSE // Protects the door against any form of power outage, AI control, screwdrivers and welders.
-	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
 	rad_insulation = RAD_MEDIUM_INSULATION
 
 	var/electrification_timing // Set to true while electrified_loop is running, to prevent multiple being started
 
-	network_id = NETWORK_DOOR_AIRLOCKS
-
 /obj/machinery/door/airlock/Initialize(mapload)
 	. = ..()
-
 	//Get the area hack difficulty
 	if (mapload)
 		var/area/A = get_area(src)
@@ -142,7 +140,6 @@
 
 	rebuild_parts()
 
-	RegisterSignal(src, COMSIG_COMPONENT_NTNET_RECEIVE, PROC_REF(ntnet_receive))
 	RegisterSignal(src, COMSIG_MACHINERY_BROKEN, PROC_REF(on_break))
 
 	// Click on the floor to close airlocks
@@ -152,36 +149,6 @@
 	AddElement(/datum/element/connect_loc, src, connections)
 
 	return INITIALIZE_HINT_LATELOAD
-
-/obj/machinery/door/airlock/LateInitialize()
-	. = ..()
-	if (cyclelinkeddir)
-		cyclelinkairlock()
-	if(closeOtherId)
-		update_other_id()
-	if(abandoned)
-		var/outcome = rand(1,100)
-		switch(outcome)
-			if(1 to 5)
-				var/turf/here = get_turf(src)
-				for(var/turf/closed/T in spiral_range_turfs(2, here))
-					here.PlaceOnTop(T.type)
-					qdel(src)
-					return
-				here.PlaceOnTop(/turf/closed/wall)
-				qdel(src)
-				return
-			if(5 to 6)
-				lights = FALSE
-				locked = TRUE
-			if(6 to 8)
-				locked = TRUE
-			if(8 to 10)
-				welded = TRUE
-			if(10 to 30)
-				panel_open = TRUE
-	update_appearance()
-
 
 /obj/machinery/door/airlock/proc/rebuild_parts()
 	if(part_overlays)
@@ -249,58 +216,6 @@
 			cyclelinkairlock()
 		if (NAMEOF(src, secondsElectrified))
 			set_electrified(vval < MACHINE_NOT_ELECTRIFIED ? MACHINE_ELECTRIFIED_PERMANENT : vval) //negative values are bad mkay (unless they're the intended negative value!)
-
-/obj/machinery/door/airlock/check_access_ntnet(datum/netdata/data)
-	// Cutting WIRE_IDSCAN grants remote access
-	return id_scan_hacked() || ..()
-
-/obj/machinery/door/airlock/proc/ntnet_receive(datum/source, datum/netdata/data)
-	// Check if the airlock is powered and can accept control packets.
-	if(!hasPower() || !canAIControl())
-		return
-
-	//Check radio signal jamming
-	if(is_jammed(JAMMER_PROTECTION_WIRELESS))
-		return
-
-
-	// Handle received packet.
-	var/command = data.data["data"]
-	var/command_value = data.data["data_secondary"]
-	switch(command)
-		if("open")
-			if(command_value == "on" && !density)
-				return
-
-			if(command_value == "off" && density)
-				return
-
-			if(density)
-				INVOKE_ASYNC(src, PROC_REF(open))
-			else
-				INVOKE_ASYNC(src, PROC_REF(close))
-
-		if("bolt")
-			if(command_value == "on" && locked)
-				return
-
-			if(command_value == "off" && !locked)
-				return
-
-			if(locked)
-				unbolt()
-			else
-				bolt()
-
-		if("emergency")
-			if(command_value == "on" && emergency)
-				return
-
-			if(command_value == "off" && !emergency)
-				return
-
-			emergency = !emergency
-			update_appearance()
 
 /obj/machinery/door/airlock/lock()
 	bolt()
@@ -866,7 +781,7 @@
 
 //This code might be completely unused, but I'm too afraid to touch it.
 //That said, commenting it out didn't seem to break anything.
-/obj/machinery/door/airlock/Topic(href, href_list, var/nowindow = 0)
+/obj/machinery/door/airlock/Topic(href, href_list, nowindow = 0)
 	// If you add an if(..()) check you must first remove the var/nowindow parameter.
 	// Otherwise it will runtime with this kind of error: null.Topic()
 	if(!nowindow)
@@ -1195,7 +1110,11 @@
 			return
 		INVOKE_ASYNC(src, (density ? PROC_REF(open) : PROC_REF(close)), 2)
 
-/obj/machinery/door/airlock/open(forced=0)
+/obj/machinery/door/airlock/open(forced = FALSE)
+	if(cycle_pump && !operating && !welded && locked && density)
+		cycle_pump.airlock_act(src)
+		return FALSE // The rest will be handled by the pump
+
 	if( operating || welded || locked )
 		return FALSE
 
@@ -1354,9 +1273,9 @@
 	rebuild_parts()
 	update_appearance()
 
-/obj/machinery/door/airlock/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/passing_atom)
+/obj/machinery/door/airlock/CanAStarPass(to_dir, datum/can_pass_info/pass_info)
 //Airlock is passable if it is open (!density), bot has access, and is not bolted shut or powered off)
-	return !density || (check_access(ID) && !locked && hasPower())
+	return !density || (check_access_list(pass_info.access) && !locked && hasPower() && !pass_info.no_id)
 
 ///This does not call parent because airlocks should be possible to emag multiple times. We only care that the door is closed, not protected and has power.
 /obj/machinery/door/airlock/should_emag(mob/user)

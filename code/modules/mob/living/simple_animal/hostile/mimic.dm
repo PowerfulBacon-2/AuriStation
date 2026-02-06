@@ -12,7 +12,7 @@
 	speed = 0
 	maxHealth = 250
 	gender = NEUTER
-	mob_biotypes = list(MOB_INORGANIC)
+	mob_biotypes = MOB_INORGANIC
 
 	melee_damage = 10
 	attack_sound = 'sound/weapons/punch1.ogg'

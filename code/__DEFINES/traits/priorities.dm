@@ -5,3 +5,7 @@
 /// Sound scape
 #define SOUND_PRIORITY_DRUGGED 1
 #define SOUND_PRIORITY_UNCONSCIOUS 2
+
+/// Item mimic paths
+#define PRIORITY_CHANGELING_MIMIC 1
+#define PRIORITY_CHAMELEON_MIMIC 2

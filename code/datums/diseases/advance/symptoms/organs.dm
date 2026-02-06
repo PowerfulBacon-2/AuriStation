@@ -18,7 +18,8 @@
 						<b>Transmission 8:</b> Purges alcohol in the bloodstream."
 
 /datum/symptom/mind_restoration/Start(datum/disease/advance/A)
-	if(!..())
+	. = ..()
+	if(!.)
 		return
 	if(A.resistance >= 6) //heal brain damage
 		trauma_heal_mild = TRUE
@@ -27,22 +28,24 @@
 	if(A.transmission >= 8) //purge alcohol
 		purge_alcohol = TRUE
 
-/datum/symptom/mind_restoration/Activate(var/datum/disease/advance/A)
-	if(!..())
+/datum/symptom/mind_restoration/Activate(datum/disease/advance/A)
+	. = ..()
+	if(!.)
 		return
 	var/mob/living/M = A.affected_mob
 
 
 	if(A.stage >= 3)
-		M.dizziness = max(0, M.dizziness - 2)
+		M.adjust_dizzy(-4 SECONDS)
 		M.drowsyness = max(0, M.drowsyness - 2)
-		M.slurring = max(0, M.slurring - 2)
-		M.confused = max(0, M.confused - 2)
+		// All slurring effects get reduced down a bit
+		for(var/datum/status_effect/speech/slurring/slur in M.status_effects)
+			slur.remove_duration(1 SECONDS)
+
+		M.adjust_confusion(-2 SECONDS)
 		if(purge_alcohol)
 			M.reagents.remove_all_type(/datum/reagent/consumable/ethanol, 3)
-			if(ishuman(M))
-				var/mob/living/carbon/human/H = M
-				H.drunkenness = max(H.drunkenness - 5, 0)
+			M.adjust_drunk_effect(-5)
 
 	if(A.stage >= 4)
 		M.drowsyness = max(0, M.drowsyness - 2)
@@ -86,7 +89,9 @@
 		return
 	switch(A.stage)
 		if(4, 5)
-			M.restoreEars()
+			var/obj/item/organ/ears/ears = M.get_organ_slot(ORGAN_SLOT_EARS)
+			if(ears)
+				ears.adjustEarDamage(-4, -4)
 
 			if(HAS_TRAIT_FROM(M, TRAIT_BLIND, EYE_DAMAGE))
 				if(prob(20))
@@ -104,7 +109,7 @@
 				M.set_blindness(0)
 				M.set_blurriness(0)
 			else if(eyes.damage > 0)
-				eyes.applyOrganDamage(-1)
+				eyes.apply_organ_damage(-1)
 		else
 			if(prob(base_message_chance) && M.stat != DEAD)
 				to_chat(M, span_notice("[pick("Your eyes feel great.","You feel like your eyes can focus more clearly.", "You don't feel the need to blink.","Your ears feel great.","Your healing feels more acute.")]"))
@@ -145,7 +150,7 @@
 		return
 	var/mob/living/carbon/M = A.affected_mob
 	var/status = ORGAN_ORGANIC
-	if(MOB_ROBOTIC in A.infectable_biotypes)
+	if(A.infectable_biotypes & MOB_ROBOTIC)
 		status = null //if the disease is capable of interfacing with robotics, it is allowed to heal mechanical organs
 	if(A.stage >= 4)
 		M.adjustOrganLoss(ORGAN_SLOT_APPENDIX, -1, required_status = status)

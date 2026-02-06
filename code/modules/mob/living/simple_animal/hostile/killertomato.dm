@@ -20,7 +20,6 @@
 	attack_verb_continuous = "slams"
 	attack_verb_simple = "slam"
 	attack_sound = 'sound/weapons/punch1.ogg'
-	ventcrawler = VENTCRAWLER_ALWAYS
 	faction = list(FACTION_PLANTS)
 
 	mobchatspan = "headofsecurity"
@@ -31,6 +30,10 @@
 	maxbodytemp = 500
 	gold_core_spawnable = HOSTILE_SPAWN
 	var/frenzythreshold = 5 //how many tomatoes can this tomato see on screen before going berserk
+
+/mob/living/simple_animal/hostile/killertomato/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
 /mob/living/simple_animal/hostile/killertomato/CanAttack(atom/the_target)
 	var/tomatosseen = 0

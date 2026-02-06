@@ -6,7 +6,7 @@
 	icon_living = "skeleton"
 	icon_dead = "skeleton"
 	gender = NEUTER
-	mob_biotypes = list(MOB_UNDEAD, MOB_HUMANOID)
+	mob_biotypes = MOB_UNDEAD | MOB_HUMANOID
 	turns_per_move = 5
 	speak_emote = list("rattles")
 	emote_see = list("rattles")
@@ -44,7 +44,8 @@
 	icon_living = "eskimo"
 	icon_dead = "eskimo_dead"
 	maxHealth = 55
-	weather_immunities = list("snow")
+	health = 55
+	weather_immunities = list(TRAIT_SNOWSTORM_IMMUNE)
 	gold_core_spawnable = NO_SPAWN
 	melee_damage = 20
 	deathmessage = "collapses into a pile of bones, its gear falling to the floor!"
@@ -61,7 +62,8 @@
 	icon_living = "templar"
 	icon_dead = "templar_dead"
 	maxHealth = 150
-	weather_immunities = list("snow")
+	health = 150
+	weather_immunities = list(TRAIT_SNOWSTORM_IMMUNE)
 	speed = 2
 	gold_core_spawnable = NO_SPAWN
 	speak_chance = 1
@@ -80,7 +82,8 @@
 	desc = "A reanimated skeleton protected by a thick sheet of natural ice armor. Looks slow, though."
 	speed = 5
 	maxHealth = 75
-	weather_immunities = list("snow")
+	health = 75
+	weather_immunities = list(TRAIT_SNOWSTORM_IMMUNE)
 	color = rgb(114,228,250)
 	loot = list(/obj/effect/decal/remains/human{color = rgb(114,228,250)})
 

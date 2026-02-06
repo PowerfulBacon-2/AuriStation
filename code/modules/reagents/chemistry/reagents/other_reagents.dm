@@ -1,12 +1,25 @@
 /datum/reagent/blood
-	data = list("viruses"=null,"blood_DNA"=null,"blood_type"=null,"resistances"=null,"trace_chem"=null,"mind"=null,"ckey"=null,"gender"=null,"real_name"=null,"cloneable"=null,"factions"=null,"quirks"=null)
 	name = "Blood"
-	color = "#C80000" // rgb: 200, 0, 0
+	color = COLOR_BLOOD
 	chemical_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_BOTANY | CHEMICAL_GOAL_BOTANIST_HARVEST
 	metabolization_rate = 12.5 * REAGENTS_METABOLISM //fast rate so it disappears fast.
 	taste_description = "iron"
 	taste_mult = 1.3
 	default_container = /obj/item/reagent_containers/blood
+	data = list(
+		"viruses"=null,
+		"blood_DNA"=null,
+		"blood_type"=null,
+		"resistances"=null,
+		"trace_chem"=null,
+		"mind"=null,
+		"ckey"=null,
+		"gender"=null,
+		"real_name"=null,
+		"cloneable"=null,
+		"factions"=null,
+		"quirks"=null
+	)
 
 /datum/glass_style/shot_glass/blood
 	required_drink_type = /datum/reagent/blood
@@ -34,16 +47,21 @@
 	if(iscarbon(exposed_mob))
 		var/mob/living/carbon/exposed_carbon = exposed_mob
 		if(exposed_carbon.blood.get_blood_id() == /datum/reagent/blood && (method == INJECT || (method == INGEST && HAS_TRAIT(exposed_carbon, TRAIT_DRINKSBLOOD))))
-			if(!data || !(data["blood_type"] in get_safe_blood(exposed_carbon.dna.blood_type)))
-				exposed_carbon.reagents.add_reagent(/datum/reagent/toxin, reac_volume * 0.5)
-			else
-				exposed_carbon.blood.volume = min(exposed_carbon.blood.volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
+			if(data && data["blood_type"])
+				var/datum/blood_type/blood_type = data["blood_type"]
+				if(blood_type.type in exposed_carbon.dna.blood_type.compatible_types)
+					exposed_carbon.blood.volume = min(exposed_carbon.blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
+				else
+					exposed_carbon.reagents.add_reagent(/datum/reagent/toxin, reac_volume * 0.5)
 
 
 /datum/reagent/blood/on_new(list/data)
 	. = ..()
 	if(istype(data))
 		SetViruses(src, data)
+		var/datum/blood_type/blood_type = data["blood_type"]
+		if(blood_type)
+			color = blood_type.blood_color
 
 /datum/reagent/blood/on_merge(list/mix_data)
 	. = ..()
@@ -97,6 +115,23 @@
 		blood = new(exposed_turf)
 	if(data["blood_DNA"])
 		blood.add_blood_DNA(list(data["blood_DNA"] = data["blood_type"]))
+
+/datum/reagent/blood/coolant
+	name = "Synthetic Coolant"
+	data = list(
+		"viruses" = null,
+		"blood_DNA" = null,
+		"blood_type" = /datum/blood_type/synthetic,
+		"resistances" = null,
+		"trace_chem" = null,
+		"mind" = null,
+		"ckey" = null,
+		"gender" = null,
+		"real_name" = null,
+		"cloneable" = null,
+		"factions" = null,
+		"quirks" = null
+	)
 
 /datum/reagent/liquidgibs
 	name = "Liquid gibs"
@@ -235,8 +270,8 @@
 		if(touch_mod < 0.9)
 			to_chat(exposed_mob, span_warning("The water causes you to melt away!"))
 	if(method == TOUCH)
-		exposed_mob.adjust_fire_stacks(-(reac_volume / 10))
-		exposed_mob.ExtinguishMob()
+		exposed_mob.adjust_wet_stacks(reac_volume / 10)
+		exposed_mob.extinguish_mob()
 	..()
 
 /datum/reagent/water/holywater
@@ -262,9 +297,6 @@
 	for(var/datum/component/anti_magic/anti_magic in affected_mob.GetComponents(/datum/component/anti_magic))
 		if(anti_magic.source == type)
 			qdel(anti_magic)
-	if(HAS_TRAIT_FROM(affected_mob, TRAIT_DEPRESSION, HOLYWATER_TRAIT))
-		REMOVE_TRAIT(affected_mob, TRAIT_DEPRESSION, HOLYWATER_TRAIT)
-		to_chat(affected_mob, span_notice("You cheer up, knowing that everything is going to be ok."))
 
 /datum/reagent/water/holywater/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
@@ -272,23 +304,20 @@
 		data = list("misc" = 0)
 
 	data["misc"] += delta_time SECONDS * REM
-	affected_mob.jitteriness = min(affected_mob.jitteriness + (2 * delta_time), 10)
+	affected_mob.adjust_timed_status_effect(4 SECONDS * delta_time, /datum/status_effect/jitter, max_duration = 20 SECONDS)
 	if(IS_CULTIST(affected_mob))
 		for(var/datum/action/innate/cult/blood_magic/BM in affected_mob.actions)
 			to_chat(affected_mob, span_cultlarge("Your blood rites falter as holy water scours your body!"))
 			for(var/datum/action/innate/cult/blood_spell/BS in BM.spells)
 				qdel(BS)
+
 	if(data["misc"] >= (25 SECONDS)) // 10 units
-		if(!affected_mob.stuttering)
-			affected_mob.stuttering = 1
-		affected_mob.stuttering = min(affected_mob.stuttering + (2 * delta_time), 10)
-		affected_mob.Dizzy(5)
+		affected_mob.adjust_stutter_up_to(4 SECONDS * REM * delta_time, 20 SECONDS)
+		affected_mob.set_dizzy_if_lower(10 SECONDS)
 		if(IS_SERVANT_OF_RATVAR(affected_mob) && DT_PROB(10, delta_time))
 			affected_mob.say(text2ratvar(pick("Please don't leave me...", "Rat'var what happened?", "My friends, where are you?", "The hierophant network just went dark, is anyone there?", "The light is fading...", "No... It can't be...")), forced = "holy water")
 			if(prob(40))
-				if(!HAS_TRAIT_FROM(affected_mob, TRAIT_DEPRESSION, HOLYWATER_TRAIT))
-					to_chat(affected_mob, span_largebrass("You feel the light fading and the world collapsing around you..."))
-					ADD_TRAIT(affected_mob, TRAIT_DEPRESSION, HOLYWATER_TRAIT)
+				to_chat(affected_mob, span_largebrass("You feel the light fading and the world collapsing around you..."))
 		if(IS_CULTIST(affected_mob) && DT_PROB(10, delta_time))
 			affected_mob.say(pick("Av'te Nar'Sie","Pa'lid Mors","INO INO ORA ANA","SAT ANA!","Daim'niodeis Arc'iai Le'eones","R'ge Na'sie","Diabo us Vo'iscum","Eld' Mon Nobis"), forced = "holy water")
 			if(prob(10))
@@ -302,8 +331,8 @@
 				affected_mob.mind.remove_antag_datum(/datum/antagonist/cult)
 			if(IS_SERVANT_OF_RATVAR(affected_mob))
 				remove_servant_of_ratvar(affected_mob.mind)
-			affected_mob.jitteriness = 0
-			affected_mob.stuttering = 0
+			affected_mob.remove_status_effect(/datum/status_effect/jitter)
+			affected_mob.remove_status_effect(/datum/status_effect/speech/stutter)
 			affected_mob.reagents.remove_reagent(type, volume)	// maybe this is a little too perfect and a max() cap on the statuses would be better??
 			return
 
@@ -369,7 +398,7 @@
 /datum/reagent/hellwater/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
 	affected_mob.fire_stacks = min(affected_mob.fire_stacks + 1.5 * delta_time, 5)
-	affected_mob.IgniteMob() //Only problem with igniting people is currently the commonly available fire suits make you immune to being on fire
+	affected_mob.ignite_mob() //Only problem with igniting people is currently the commonly available fire suits make you immune to being on fire
 	affected_mob.adjustToxLoss(1 * REM * delta_time, updating_health = FALSE)
 	affected_mob.adjustFireLoss(1 * REM * delta_time, updating_health = FALSE) //Hence the other damages... ain't I a bastard?
 	affected_mob.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2.5*delta_time, 150)
@@ -1048,11 +1077,21 @@
 	process_flags = ORGANIC | SYNTHETIC
 	default_container = /obj/effect/decal/cleanable/greenglow
 
-	var/irradiation_level = 0.5 * REM
+	/// How much tox damage to deal per tick
+	var/tox_damage = 0.5
+	/// How radioactive is this reagent
+	var/rad_power = 1
 
 /datum/reagent/uranium/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.apply_effect(irradiation_level * delta_time / affected_mob.metabolism_efficiency, EFFECT_IRRADIATE)
+	if(SSradiation.can_irradiate_basic(affected_mob))
+		var/datum/component/irradiated/irradiated_component = affected_mob.GetComponent(/datum/component/irradiated)
+		if(!irradiated_component)
+			irradiated_component = affected_mob.AddComponent(/datum/component/irradiated)
+		irradiated_component.adjust_intensity(rad_power * REM * delta_time)
+
+	affected_mob.adjustToxLoss(tox_damage * delta_time * REM, updating_health = FALSE)
+	return UPDATE_MOB_HEALTH
 
 /datum/reagent/uranium/expose_turf(turf/exposed_turf, reac_volume)
 	. = ..()
@@ -1073,7 +1112,8 @@
 	chemical_flags = CHEMICAL_BASIC_ELEMENT
 	taste_description = "the colour blue and regret"
 	process_flags = ORGANIC | SYNTHETIC
-	irradiation_level = 1 * REM
+	rad_power = 2
+	tox_damage = 1
 
 /datum/reagent/bluespace
 	name = "Bluespace Dust"
@@ -1093,7 +1133,7 @@
 	. = ..()
 	if(current_cycle > 10 && DT_PROB(7.5, delta_time))
 		to_chat(affected_mob, span_warning("You feel unstable..."))
-		affected_mob.Jitter(2)
+		affected_mob.set_jitter_if_lower(2 SECONDS)
 		current_cycle = 1
 		addtimer(CALLBACK(affected_mob, TYPE_PROC_REF(/mob/living, bluespace_shuffle)), 30)
 
@@ -1123,6 +1163,7 @@
 	chemical_flags = CHEMICAL_BASIC_ELEMENT
 	taste_description = "gross metal"
 	process_flags = ORGANIC | SYNTHETIC
+	addiction_types = list(/datum/addiction/alcohol = 4)
 
 /datum/glass_style/drinking_glass/fuel
 	required_drink_type = /datum/reagent/fuel
@@ -1147,6 +1188,7 @@
 	color = "#A5F0EE" // rgb: 165, 240, 238
 	chemical_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY | CHEMICAL_GOAL_BOTANIST_HARVEST
 	taste_description = "sourness"
+	addiction_types = list(/datum/addiction/stimulants = 14)
 	reagent_weight = 0.6 //so it sprays further
 	var/clean_types = CLEAN_WASH
 	var/toxic = FALSE //turn to true if someone drinks this, so it won't poison people who are simply getting sprayed down
@@ -1210,10 +1252,16 @@
 
 /datum/reagent/cryptobiolin/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.Dizzy(1)
-	if(!affected_mob.confused)
-		affected_mob.confused = 1
-	affected_mob.confused = max(affected_mob.confused, 20)
+	affected_mob.set_dizzy_if_lower(2 SECONDS)
+
+	// Cryptobiolin adjusts the mob's confusion down to 20 seconds if it's higher,
+	// or up to 1 second if it's lower, but will do nothing if it's in between
+	var/confusion_left = affected_mob.get_timed_status_effect_duration(/datum/status_effect/confusion)
+	if(confusion_left < 1 SECONDS)
+		affected_mob.set_confusion(1 SECONDS)
+
+	else if(confusion_left > 20 SECONDS)
+		affected_mob.set_confusion(20 SECONDS)
 
 /datum/reagent/impedrezene
 	name = "Impedrezene"
@@ -1221,10 +1269,11 @@
 	color = "#C8A5DC" // rgb: 200, 165, 220A
 	chemical_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "numbness"
+	addiction_types = list(/datum/addiction/opioids = 10)
 
 /datum/reagent/impedrezene/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.jitteriness = max(affected_mob.jitteriness - 2.5 * delta_time, 0)
+	affected_mob.adjust_timed_status_effect(-5 SECONDS * delta_time, /datum/status_effect/jitter)
 	if(DT_PROB(55, delta_time))
 		affected_mob.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2)
 	if(DT_PROB(30, delta_time))
@@ -1939,6 +1988,12 @@
 	color = "#4040FF" //A blueish color
 	glitter_type = /obj/effect/decal/cleanable/glitter/blue
 
+/datum/reagent/glitter/confetti
+	name = "Confetti"
+	description = "Tiny plastic flakes that are impossible to sweep up."
+	color = "#7dd87b"
+	glitter_type = /obj/effect/decal/cleanable/confetti
+
 /datum/reagent/pax
 	name = "Pax"
 	description = "A colorless liquid that suppresses violent urges in its subjects."
@@ -1966,10 +2021,8 @@
 
 /datum/reagent/peaceborg/confuse/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	if(affected_mob.confused < 6)
-		affected_mob.confused = clamp(affected_mob.confused + 3 * REM * delta_time, 0, 5)
-	if(affected_mob.dizziness < 6)
-		affected_mob.dizziness = clamp(affected_mob.dizziness + 3 * REM * delta_time, 0, 5)
+	affected_mob.adjust_confusion_up_to(3 SECONDS * REM * delta_time, 5 SECONDS)
+	affected_mob.adjust_dizzy_up_to(6 SECONDS * REM * delta_time, 12 SECONDS)
 	if(DT_PROB(10, delta_time))
 		to_chat(affected_mob, "You feel confused and disorientated.")
 
@@ -2241,7 +2294,11 @@ Basically, we fill the time between now and 2s from now with hands based off the
 	var/turf/open/my_turf = exposed_obj.loc // No dumping ants on an object in a storage slot
 	if(!istype(my_turf)) //Are we actually in an open turf?
 		return
-	var/static/list/accepted_types = typecacheof(list(/obj/machinery/atmospherics, /obj/structure/cable, /obj/structure/disposalpipe))
+	var/static/list/accepted_types = typecacheof(list(
+		/obj/machinery/atmospherics,
+		/obj/structure/cable,
+		/obj/structure/disposalpipe,
+	))
 	if(!accepted_types[exposed_obj.type]) // Bypasses pipes, vents, and cables to let people create ant mounds on top easily.
 		return
 	expose_turf(my_turf, reac_volume)

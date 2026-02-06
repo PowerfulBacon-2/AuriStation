@@ -130,7 +130,7 @@
 			data["patient"]["statstate"] = "bad"
 	data["patient"]["health"] = patient.consciousness.value
 
-	data["patient"]["blood_type"] = patient.dna.blood_type
+	data["patient"]["blood_type"] = patient.dna.blood_type.name
 
 	data["patient"]["maxHealth"] = patient.maxHealth
 	data["patient"]["minHealth"] = HEALTH_THRESHOLD_DEAD

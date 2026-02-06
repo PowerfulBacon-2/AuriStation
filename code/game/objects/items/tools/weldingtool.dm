@@ -5,7 +5,7 @@
 	desc = "A standard edition welder provided by Nanotrasen."
 	icon = 'icons/obj/tools.dmi'
 	icon_state = "welder"
-	item_state = "welder"
+	inhand_icon_state = "welder"
 	worn_icon_state = "welder"
 	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
@@ -27,6 +27,7 @@
 	throw_range = 5
 	w_class = WEIGHT_CLASS_SMALL
 	resistance_flags = FIRE_PROOF
+	custom_price = 15
 
 	custom_materials = list(/datum/material/iron=70, /datum/material/glass=30)
 	///Whether the welding tool is on or off.
@@ -46,19 +47,17 @@
 
 /obj/item/weldingtool/Initialize(mapload)
 	. = ..()
+	AddElement(/datum/element/update_icon_updates_onmob)
+	AddElement(/datum/element/falling_hazard, damage = force, hardhat_safety = TRUE, crushes = FALSE, impact_sound = hitsound)
 	create_reagents(max_fuel)
 	reagents.add_reagent(/datum/reagent/fuel, max_fuel)
 	update_icon()
 
-/obj/item/weldingtool/ComponentInitialize()
-	. = ..()
-	AddElement(/datum/element/update_icon_updates_onmob)
-
 /obj/item/weldingtool/update_icon_state()
 	if(welding)
-		item_state = "[initial(item_state)]1"
+		inhand_icon_state = "[initial(inhand_icon_state)]1"
 	else
-		item_state = "[initial(item_state)]"
+		inhand_icon_state = "[initial(inhand_icon_state)]"
 	return ..()
 
 /obj/item/weldingtool/update_overlays()
@@ -129,7 +128,7 @@
 		if (!QDELETED(attacked_atom) && isliving(attacked_atom)) // can't ignite something that doesn't exist
 			handle_fuel_and_temps(1, user)
 			var/mob/living/attacked_mob = attacked_atom
-			if(attacked_mob.IgniteMob())
+			if(attacked_mob.ignite_mob())
 				message_admins("[ADMIN_LOOKUPFLW(user)] set [key_name_admin(attacked_mob)] on fire with [src] at [AREACOORD(user)]")
 				log_game("[key_name(user)] set [key_name(attacked_mob)] on fire with [src] at [AREACOORD(user)]")
 
@@ -148,7 +147,7 @@
 
 		if(!QDELETED(attacked_atom) && isliving(attacked_atom)) // can't ignite something that doesn't exist
 			var/mob/living/attacked_mob = attacked_atom
-			if(attacked_mob.IgniteMob())
+			if(attacked_mob.ignite_mob())
 				message_admins("[ADMIN_LOOKUPFLW(user)] set [key_name_admin(attacked_mob)] on fire with [src] at [AREACOORD(user)].")
 				log_game("set [key_name(attacked_mob)] on fire with [src]")
 
@@ -323,6 +322,7 @@
 	icon_state = "indwelder"
 	max_fuel = 40
 	custom_materials = list(/datum/material/glass=60)
+	custom_price = 25
 
 /obj/item/weldingtool/largetank/flamethrower_screwdriver()
 	return
@@ -383,6 +383,7 @@
 	light_range = 0
 	light_intensity = 0
 	change_icons = 0
+	custom_price = 100
 
 /obj/item/weldingtool/abductor/process()
 	if(get_fuel() <= max_fuel)
@@ -393,15 +394,16 @@
 	name = "upgraded industrial welding tool"
 	desc = "An upgraded welder based of the industrial welder."
 	icon_state = "upindwelder"
-	item_state = "upindwelder"
+	inhand_icon_state = "upindwelder"
 	max_fuel = 80
+	custom_price = 50
 	custom_materials = list(/datum/material/iron=70, /datum/material/glass=120)
 
 /obj/item/weldingtool/experimental
 	name = "experimental welding tool"
 	desc = "An experimental welder capable of self-fuel generation and less harmful to the eyes."
 	icon_state = "exwelder"
-	item_state = "exwelder"
+	inhand_icon_state = "exwelder"
 	max_fuel = 40
 	custom_materials = list(/datum/material/iron=70, /datum/material/glass=120)
 	var/last_gen = 0
@@ -409,6 +411,7 @@
 	can_off_process = 1
 	light_intensity = 1
 	toolspeed = 0.5
+	custom_price = 100
 	var/nextrefueltick = 0
 
 /obj/item/weldingtool/experimental/brass
@@ -416,7 +419,7 @@
 	desc = "A brass welder that seems to constantly refuel itself. It is faintly warm to the touch."
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	icon_state = "brasswelder"
-	item_state = "brasswelder"
+	inhand_icon_state = "brasswelder"
 	light_intensity = 1
 
 /obj/item/weldingtool/experimental/process(delta_time)

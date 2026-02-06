@@ -8,7 +8,7 @@
 	icon_aggro = "Goliath_alert"
 	icon_dead = "Goliath_dead"
 	icon_gib = "syndicate_gib"
-	mob_biotypes = list(MOB_ORGANIC, MOB_BEAST)
+	mob_biotypes = MOB_ORGANIC | MOB_BEAST
 	mouse_opacity = MOUSE_OPACITY_ICON
 	move_to_delay = 2 SECONDS
 	ranged = 1
@@ -30,6 +30,7 @@
 	move_force = MOVE_FORCE_VERY_STRONG
 	move_resist = MOVE_FORCE_VERY_STRONG
 	pull_force = MOVE_FORCE_VERY_STRONG
+	gender = MALE//lavaland elite goliath says that i'''' 't s female and i ''t s stronger because of sexual dimorphism, so normal goliaths should be male
 	var/pre_attack = 0
 	var/pre_attack_icon = "Goliath_preattack"
 	loot = list(/obj/item/stack/sheet/animalhide/goliath_hide)
@@ -101,6 +102,35 @@
 	guaranteed_butcher_results = list(/obj/item/stack/sheet/animalhide/goliath_hide = 1)
 	loot = list()
 	robust_searching = 1
+
+	var/can_saddle = FALSE
+	var/saddled = FALSE
+
+/mob/living/simple_animal/hostile/asteroid/goliath/beast/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/tameable, food_types = list(/obj/item/food/grown/ash_flora), tame_chance = 10, bonus_tame_chance = 5, after_tame = CALLBACK(src, PROC_REF(tamed)))
+
+/mob/living/simple_animal/hostile/asteroid/goliath/beast/attackby(obj/item/O, mob/user, params)
+	if(!istype(O, /obj/item/goliath_saddle))
+		return ..()
+	if (saddled)
+		balloon_alert(user, "already saddled!")
+		return ..()
+
+	if(can_saddle && do_after(user,55,target=src))
+		user.visible_message("<span class='notice'>You manage to put [O] on [src], you can now ride [p_them()].</span>")
+		qdel(O)
+		saddled = TRUE
+		can_buckle = TRUE
+		buckle_lying = 0
+		add_overlay("goliath_saddled")
+		AddElement(/datum/element/ridable, /datum/component/riding/creature/goliath)
+	else
+		user.visible_message(span_warning("[src] is rocking around! You can't put the saddle on!"))
+	..()
+
+/mob/living/simple_animal/hostile/asteroid/goliath/beast/proc/tamed(mob/living/tamer)
+	can_saddle = TRUE
 
 /mob/living/simple_animal/hostile/asteroid/goliath/beast/random/Initialize(mapload)
 	. = ..()
@@ -208,3 +238,9 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/effect/temp_visual/goliath_tentacle/original)
 	icon_state = "Goliath_tentacle_retract"
 	deltimer(timerid)
 	timerid = QDEL_IN_STOPPABLE(src, 7)
+
+/obj/item/goliath_saddle
+	name = "goliath saddle"
+	desc = "This rough saddle will give you a serviceable seat upon a goliath! Provided you can get one to stand still."
+	icon = 'icons/obj/mining.dmi'
+	icon_state = "goliath_saddle"

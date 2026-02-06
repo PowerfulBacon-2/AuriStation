@@ -27,14 +27,12 @@
 		else
 			icon_state = "[soft_color]soft"
 			to_chat(user, span_notice("You flip the hat back in normal position."))
-		user.update_inv_head()	//so our mob-overlays update
+		user.update_worn_head()	//so our mob-overlays update
 
 /obj/item/clothing/head/soft/equipped(mob/user, slot)
 	. = ..()
-	if(slot == ITEM_SLOT_HEAD)
-		if(HAS_TRAIT(user, TRAIT_PROSKATER))
-			if(!flipped)
-				flip(user)
+	if(slot == ITEM_SLOT_HEAD && HAS_TRAIT(user, TRAIT_PROSKATER) && !flipped)
+		flip(user)
 
 /obj/item/clothing/head/soft/examine(mob/user)
 	. = ..()
@@ -101,6 +99,7 @@
 	soft_color = "sec"
 	armor_type = /datum/armor/security_padded
 	strip_delay = 60
+	custom_price = 30
 
 /obj/item/clothing/head/soft/sec/brig_physician
 	name = "security medic cap"

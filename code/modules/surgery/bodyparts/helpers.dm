@@ -141,20 +141,29 @@
 	var/obj/item/bodypart/new_bodypart
 	switch(zone)
 		if(BODY_ZONE_L_ARM)
-			new_bodypart = new /obj/item/bodypart/l_arm/alien()
+			new_bodypart = new /obj/item/bodypart/arm/left/alien()
 		if(BODY_ZONE_R_ARM)
-			new_bodypart = new /obj/item/bodypart/r_arm/alien()
+			new_bodypart = new /obj/item/bodypart/arm/right/alien()
 		if(BODY_ZONE_HEAD)
 			new_bodypart = new /obj/item/bodypart/head/alien()
 		if(BODY_ZONE_L_LEG)
-			new_bodypart = new /obj/item/bodypart/l_leg/alien()
+			new_bodypart = new /obj/item/bodypart/leg/left/alien()
 		if(BODY_ZONE_R_LEG)
-			new_bodypart = new /obj/item/bodypart/r_leg/alien()
+			new_bodypart = new /obj/item/bodypart/leg/right/alien()
 		if(BODY_ZONE_CHEST)
 			new_bodypart = new /obj/item/bodypart/chest/alien()
 	if(new_bodypart)
 		new_bodypart.update_limb(src)
 
+/// Makes sure that the owner's bodytype flags match the flags of all of it's parts and organs
+/mob/living/carbon/proc/synchronize_bodytypes()
+	var/all_limb_flags = NONE
+	for(var/obj/item/bodypart/limb as anything in bodyparts)
+		//for(var/obj/item/organ/external/ext_organ as anything in limb.external_organs)
+		//	all_limb_flags |= ext_organ.external_bodytypes
+		all_limb_flags |= limb.bodytype
+
+	bodytype = all_limb_flags
 
 /proc/skintone2hex(skin_tone, include_tag = TRUE)
 	. = 0

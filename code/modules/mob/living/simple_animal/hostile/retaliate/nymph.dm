@@ -10,11 +10,10 @@
 	faction = list(FACTION_DIONA)
 	gender = NEUTER
 	gold_core_spawnable = FRIENDLY_SPAWN
-	ventcrawler = VENTCRAWLER_ALWAYS
 	pass_flags = PASSTABLE | PASSMOB
 	density = FALSE
 	mob_size = MOB_SIZE_SMALL
-	mob_biotypes = list(MOB_ORGANIC, MOB_BEAST)
+	mob_biotypes = MOB_ORGANIC | MOB_BEAST
 	can_be_held = TRUE
 	worn_slot_flags = ITEM_SLOT_HEAD
 	head_icon = 'icons/mob/pets_held.dmi'
@@ -60,6 +59,7 @@
 	real_name = name
 	regenerate_icons()
 	ADD_TRAIT(src, TRAIT_MUTE, "nymph")
+	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
@@ -196,13 +196,7 @@
 		balloon_alert(arrived_diona, "[arrived_diona] assimilates [src]")
 		QDEL_NULL(src)
 
-/mob/living/simple_animal/hostile/retaliate/nymph/handle_mutations_and_radiation()
-	if(radiation > 50)
-		heal_overall_injuries(BRUTE, 1, 0, BODYTYPE_ORGANIC)
-		heal_overall_injuries(BURN, 1, 0, BODYTYPE_ORGANIC)
-	. = ..()
-
-/mob/living/simple_animal/hostile/retaliate/nymph/proc/evolve(var/mob/living/simple_animal/hostile/retaliate/nymph/nymphs)
+/mob/living/simple_animal/hostile/retaliate/nymph/proc/evolve(mob/living/simple_animal/hostile/retaliate/nymph/nymphs)
 	if(istype(loc, /obj/item/clothing/head/mob_holder))
 		var/obj/item/clothing/head/mob_holder/L = loc
 		src.loc = L.loc
@@ -236,7 +230,7 @@
 		adult.real_name = old_name
 		adult.dna.features = features
 	else
-		adult.fully_replace_character_name(name, adult.dna.species.random_name(gender))
+		adult.fully_replace_character_name(name, generate_random_name_species_based(gender = gender, species_type = /datum/species/diona))
 		adult.dna.features["mcolor"] = sanitize_hexcolor(RANDOM_COLOUR)
 	if(mind)
 		mind.transfer_to(adult)
@@ -251,7 +245,7 @@
 	QDEL_NULL(helpers)
 	qdel(src)
 
-/mob/living/simple_animal/hostile/retaliate/nymph/say(message, bubble_type, var/list/spans = list(), sanitize = TRUE, datum/language/language, ignore_spam = FALSE, forced)
+/mob/living/simple_animal/hostile/retaliate/nymph/say(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language, ignore_spam = FALSE, forced)
 	if(!..())
 		emote("chitter")
 
@@ -259,7 +253,7 @@
 	name = "Evolve"
 	desc = "Evolve into your adult form with the help of another nymph."
 	background_icon_state = "bg_default"
-	icon_icon = 'icons/hud/actions/actions_spells.dmi'
+	button_icon = 'icons/hud/actions/actions_spells.dmi'
 	button_icon_state = "grow"
 	check_flags = AB_CHECK_CONSCIOUS | AB_CHECK_INCAPACITATED
 
@@ -284,7 +278,7 @@
 	name = "Return"
 	desc = "Return back into your adult form."
 	background_icon_state = "bg_default"
-	icon_icon = 'icons/hud/actions/actions_spells.dmi'
+	button_icon = 'icons/hud/actions/actions_spells.dmi'
 	button_icon_state = "return"
 
 /datum/action/nymph/SwitchFrom/pre_activate(mob/user, atom/target)

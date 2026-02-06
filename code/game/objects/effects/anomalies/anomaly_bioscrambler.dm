@@ -2,10 +2,10 @@
 #define ANOMALY_BIOSCRAMBLER_ZONES list(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 #define ANOMALY_BIOSCRAMBLER_ZONE_CHEST typesof(/obj/item/bodypart/chest)
 #define ANOMALY_BIOSCRAMBLER_ZONE_HEAD typesof(/obj/item/bodypart/head)
-#define ANOMALY_BIOSCRAMBLER_ZONE_L_LEG typesof(/obj/item/bodypart/l_leg)
-#define ANOMALY_BIOSCRAMBLER_ZONE_R_LEG typesof(/obj/item/bodypart/r_leg)
-#define ANOMALY_BIOSCRAMBLER_ZONE_L_ARM typesof(/obj/item/bodypart/l_arm)
-#define ANOMALY_BIOSCRAMBLER_ZONE_R_ARM typesof(/obj/item/bodypart/r_arm)
+#define ANOMALY_BIOSCRAMBLER_ZONE_L_LEG typesof(/obj/item/bodypart/leg/left)
+#define ANOMALY_BIOSCRAMBLER_ZONE_R_LEG typesof(/obj/item/bodypart/leg/right)
+#define ANOMALY_BIOSCRAMBLER_ZONE_L_ARM typesof(/obj/item/bodypart/arm/left)
+#define ANOMALY_BIOSCRAMBLER_ZONE_R_ARM typesof(/obj/item/bodypart/arm/right)
 
 /obj/effect/anomaly/bioscrambler
 	name = "bioscrambler anomaly"
@@ -16,6 +16,10 @@
 	var/pulse_interval = 15 SECONDS
 
 	var/range = 5
+
+/obj/effect/anomaly/bioscrambler/Initialize(mapload, new_lifespan, spawned_fake_harvested)
+	. = ..()
+	COOLDOWN_START(src, pulse_cooldown, pulse_interval) // give them time to react
 
 /obj/effect/anomaly/bioscrambler/anomalyEffect(delta_time)
 	. = ..()
@@ -32,6 +36,7 @@
 		if(!ignore_owner && target == owner)
 			continue
 		if(target.is_biologically_sealed())
+			to_chat(target, span_notice("Your armor protects you from [owner]!"))
 			continue //We are protected
 
 		// Add target

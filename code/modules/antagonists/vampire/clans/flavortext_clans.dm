@@ -7,14 +7,14 @@
 		The Favorite Vassal turns into a Werewolf whenever their Master does."
 	joinable_clan = FALSE
 
-/datum/vampire_clan/gangrel/handle_clan_life(datum/antagonist/vampire/source)
+/datum/vampire_clan/gangrel/handle_clan_life()
 	. = ..()
 	var/area/current_area = get_area(vampiredatum.owner.current)
 	if(istype(current_area, /area/chapel))
 		to_chat(vampiredatum.owner.current, span_warning("You don't belong in holy areas! The Faith burns you!"))
 		vampiredatum.owner.current.adjustFireLoss(20)
 		vampiredatum.owner.current.adjust_fire_stacks(2)
-		vampiredatum.owner.current.IgniteMob()
+		vampiredatum.owner.current.ignite_mob()
 
 /datum/vampire_clan/toreador
 	name = CLAN_TOREADOR

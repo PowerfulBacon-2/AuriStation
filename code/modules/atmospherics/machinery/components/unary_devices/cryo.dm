@@ -39,7 +39,6 @@
 	var/message_cooldown
 	var/breakout_time = 300
 	fair_market_price = 10
-	dept_req_for_free = ACCOUNT_MED_BITFLAG
 
 	/// Reference to the datum connector we're using to interface with the pipe network
 	var/datum/gas_machine_connector/internal_connector
@@ -213,7 +212,7 @@
 
 	var/mob/living/mob_occupant = occupant
 	if(mob_occupant.on_fire) //Extinguish occupant, happens after the occupant is healed and ejected.
-		mob_occupant.ExtinguishMob()
+		mob_occupant.extinguish_mob()
 	if(!check_nap_violations())
 		return
 	if(mob_occupant.stat == DEAD) // We don't bother with dead people.

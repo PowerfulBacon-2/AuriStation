@@ -23,6 +23,7 @@
 	anchored = FALSE
 	density = TRUE
 	max_integrity = 500
+	custom_price = 350
 
 	var/obj/machinery/particle_accelerator/control_box/master = null
 	var/construction_state = PA_CONSTRUCTION_UNSECURED

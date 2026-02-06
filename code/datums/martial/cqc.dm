@@ -203,7 +203,7 @@
 			playsound(get_turf(D), 'sound/weapons/cqchit1.ogg', 50, 1, -1)
 			if(I && D.temporarilyRemoveItemFromInventory(I))
 				A.put_in_hands(I)
-			D.Jitter(2)
+			D.set_jitter_if_lower(4 SECONDS)
 			D.deal_damage(5, 0, A.get_attack_type(), zone = BODY_ZONE_CHEST)
 	else
 		D.visible_message("<span class='danger'>[A] fails to disarm [D]!</span>", \

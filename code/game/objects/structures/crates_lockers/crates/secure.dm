@@ -8,14 +8,13 @@
 	armor_type = /datum/armor/security_metal
 	var/tamperproof = 0
 	icon_door = "crate"
-	damage_deflection = 25
+	damage_deflection = 20
 
-/obj/structure/closet/crate/secure/take_direct_damage(amount, type = BRUTE, flag = DAMAGE_STANDARD, zone = null)
-	if(prob(tamperproof) && amount >= DAMAGE_PRECISION)
+/obj/structure/closet/crate/secure/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
+	if(prob(tamperproof) && damage_amount >= DAMAGE_PRECISION)
 		boom()
 	else
 		return ..()
-
 
 /obj/structure/closet/crate/secure/proc/boom(mob/user)
 	if(user)
@@ -115,7 +114,7 @@
 
 /obj/structure/closet/crate/secure/freezer/pizza/PopulateContents()
 	. = ..()
-	new /obj/effect/spawner/lootdrop/pizzaparty(src)
+	new /obj/effect/spawner/random/food_or_drink/pizzaparty(src)
 
 /obj/structure/closet/crate/secure/engineering
 	desc = "A crate with a lock on it, painted in the scheme of the station's engineers."

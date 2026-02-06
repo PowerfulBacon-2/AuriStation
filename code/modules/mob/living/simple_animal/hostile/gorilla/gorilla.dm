@@ -9,7 +9,7 @@
 	icon_state = "crawling"
 	icon_living = "crawling"
 	icon_dead = "dead"
-	mob_biotypes = list(MOB_ORGANIC, MOB_HUMANOID)
+	mob_biotypes = MOB_ORGANIC | MOB_HUMANOID
 	speak_chance = 80
 	maxHealth = 220
 	loot = list(/obj/effect/gibspawner/generic/animal)
@@ -52,7 +52,7 @@
 			for(var/X in C.bodyparts)
 				var/obj/item/bodypart/BP = X
 				if(BP.body_part != HEAD && BP.body_part != CHEST)
-					if(BP.dismemberable)
+					if(!(BP.bodypart_flags & BODYPART_UNREMOVABLE))
 						parts += BP
 			return parts
 
@@ -117,7 +117,7 @@
 	icon_state = "crawling"
 	icon_living = "crawling"
 	icon_dead = "dead"
-	mob_biotypes = list(MOB_ORGANIC, MOB_HUMANOID)
+	mob_biotypes = MOB_ORGANIC | MOB_HUMANOID
 	speak_chance = 80
 	maxHealth = 220
 	loot = list(/obj/effect/gibspawner/generic/animal)
@@ -140,7 +140,7 @@
 		return TRUE
 	return FALSE
 
-/mob/living/simple_animal/hostile/gorilla/update_inv_hands()
+/mob/living/simple_animal/hostile/gorilla/update_held_items()
 	cut_overlays("standing_overlay")
 	remove_overlay(GORILLA_HANDS_LAYER)
 
@@ -180,7 +180,7 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/gorilla/regenerate_icons()
-	update_inv_hands()
+	update_held_items()
 
 
 

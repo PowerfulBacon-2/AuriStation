@@ -5,7 +5,7 @@
 	icon_state = "knife"
 	lefthand_file = 'icons/mob/inhands/equipment/kitchen_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/kitchen_righthand.dmi'
-	item_state = "knife"
+	inhand_icon_state = "knife"
 	worn_icon_state = "knife"
 	desc = "The original knife, it is said that all other knives are only copies of this one."
 	flags_1 = CONDUCT_1
@@ -20,10 +20,15 @@
 	attack_verb_simple = list("slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	sharpness = SHARP_III
 	armor_type = /datum/armor/civilian_metal
+	custom_price = 50 // Adding this here because some knives were not covered by the export datum
 	var/bayonet = FALSE //Can this be attached to a gun?
 	//wound_bonus = 5
 	//bare_wound_bonus = 15
 	tool_behaviour = TOOL_KNIFE
+
+	canblock = TRUE
+	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
+	block_power = 0
 
 /obj/item/knife/Initialize(mapload)
 	. = ..()
@@ -31,12 +36,12 @@
 	set_butchering()
 
 /obj/item/knife/attack(mob/living/carbon/M, mob/living/carbon/user)
-	if(user.is_zone_selected(BODY_ZONE_PRECISE_EYES))
+	if(user.is_zone_selected(BODY_ZONE_PRECISE_EYES, precise_only = TRUE) || user.is_zone_selected(BODY_GROUP_CHEST_HEAD))
 		if(HAS_TRAIT(user, TRAIT_CLUMSY) && prob(50))
 			M = user
-		return eyestab(M,user)
-	else
-		return ..()
+		if (eyestab(M, user, src, silent = user.is_zone_selected(BODY_GROUP_CHEST_HEAD)))
+			return TRUE
+	return ..()
 
 ///Adds the butchering component, used to override stats for special cases
 /obj/item/knife/proc/set_butchering()
@@ -60,7 +65,7 @@
 /obj/item/knife/butcher
 	name = "butcher's cleaver"
 	icon_state = "butch"
-	item_state = "butch"
+	inhand_icon_state = "butch"
 	desc = "A huge thing used for chopping and chopping up meat. This includes clowns and clown by-products."
 	flags_1 = CONDUCT_1
 	force = 15
@@ -75,7 +80,7 @@
 /obj/item/knife/hunting
 	name = "hunting knife"
 	desc = "Despite its name, it's mainly used for cutting meat from dead prey rather than actual hunting."
-	item_state = "huntingknife"
+	inhand_icon_state = "huntingknife"
 	icon_state = "huntingknife"
 	icon = 'icons/obj/knives.dmi'
 	force = 12
@@ -158,6 +163,7 @@
 	attack_verb_continuous = list("slashes", "stabs", "slices", "tears", "lacerates", "rips", "cuts")
 	attack_verb_simple = list("slash", "stab", "slice", "tear", "lacerate", "rip", "cut")
 	bayonet = TRUE
+	custom_price = 100
 
 /obj/item/knife/combat/survival
 	name = "survival knife"
@@ -171,7 +177,7 @@
 
 /obj/item/knife/combat/bone
 	name = "bone dagger"
-	item_state = "bone_dagger"
+	inhand_icon_state = "bone_dagger"
 	icon_state = "bone_dagger"
 	icon = 'icons/obj/knives.dmi'
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
@@ -193,7 +199,7 @@
 	desc = "A crude knife fashioned by wrapping some cable around a glass shard. It looks like it could be thrown with some force.. and stick. Good to throw at someone chasing you"
 	icon = 'icons/obj/knives.dmi'
 	icon_state = "shank"
-	item_state = "shank"
+	inhand_icon_state = "shank"
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
 	force = 8 // 3 more than base glass shard
@@ -212,7 +218,7 @@
 /obj/item/knife/shiv/carrot
 	name = "carrot shiv"
 	icon_state = "carrotshiv"
-	item_state = "carrotshiv"
+	inhand_icon_state = "carrotshiv"
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
 	desc = "Unlike other carrots, you should probably keep this far away from your eyes."

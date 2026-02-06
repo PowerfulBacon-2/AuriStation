@@ -34,6 +34,7 @@
 #include "dynamic_ruleset_sanity.dm"
 #include "emissive_worn_overlays.dm"
 #include "emoting.dm"
+#include "ensure_subtree_operational_datum.dm"
 #include "enumerables.dm"
 
 #ifdef REFERENCE_TRACKING_DEBUG //Don't try and parse this file if ref tracking isn't turned on. IE: don't parse ref tracking please mr linter
@@ -59,12 +60,13 @@
 #include "mindbound_actions.dm"
 #include "missing_icons.dm"
 #include "modsuit.dm"
+#include "mutant_hands_consistency.dm"
 #include "mutant_organs.dm"
-#include "ntnetwork_tests.dm"
 #include "organ_tests.dm"
 #include "organs.dm"
 #include "orphaned_genturf.dm"
 #include "outfit_sanity.dm"
+#include "pda_power.dm"
 #include "preference_species.dm"
 #include "preferences.dm"
 #include "projectiles.dm"
@@ -81,6 +83,7 @@
 #include "shuttle_width_height_correctness.dm"
 #include "siunit.dm"
 #include "spawn_humans.dm"
+#include "species_change_clothing.dm"
 #include "species_change_organs.dm"
 #include "species_unique_id.dm"
 #include "species_whitelists.dm"
@@ -89,6 +92,8 @@
 #include "spell_names.dm"
 #include "spell_shapeshift.dm"
 #include "stat_mc.dm"
+#include "status_effect_validity.dm"
+#include "strippable.dm"
 #include "subsystem_init.dm"
 #include "subsystem_metric_sanity.dm"
 #include "surgeries.dm"
@@ -113,6 +118,7 @@
 #include "mapping\check_disposals.dm"
 #include "mapping\check_light_attachment.dm"
 #include "mapping\check_multiple_objects.dm"
+#include "mapping\check_wire_crossing.dm"
 #include "mapping\map_test.dm"
 
 // END_INCLUDE

@@ -5,11 +5,12 @@
 	icon = 'icons/obj/clothing/head/bio.dmi'
 	worn_icon = 'icons/mob/clothing/head/bio.dmi'
 	icon_state = "bio"
-	item_state = "bio_hood"
+	inhand_icon_state = "bio_hood"
 	clothing_flags = BLOCK_GAS_SMOKE_EFFECT | SNUG_FIT
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR|HIDEFACE|HIDESNOUT
 	resistance_flags = ACID_PROOF
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	custom_price = 50
 
 /obj/item/clothing/suit/bio_suit
 	name = "bio suit"
@@ -17,7 +18,7 @@
 	icon = 'icons/obj/clothing/suits/bio.dmi'
 	icon_state = "bio"
 	worn_icon = 'icons/mob/clothing/suits/bio.dmi'
-	item_state = "bio_suit"
+	inhand_icon_state = "bio_suit"
 	w_class = WEIGHT_CLASS_BULKY
 	gas_transfer_coefficient = 0.01
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
@@ -27,8 +28,9 @@
 	strip_delay = 70
 	equip_delay_other = 70
 	resistance_flags = ACID_PROOF
+	custom_price = 100
 
-/obj/item/clothing/suit/bio_suit/ComponentInitialize()
+/obj/item/clothing/suit/bio_suit/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/anti_artifact, INFINITY, FALSE, 75)
 
@@ -86,6 +88,6 @@
 	name = "plague doctor suit"
 	desc = "It protected doctors from the Black Death, back then. You bet your arse it's gonna help you against viruses."
 	icon_state = "plaguedoctor"
-	item_state = "bio_suit"
+	inhand_icon_state = "bio_suit"
 	strip_delay = 40
 	equip_delay_other = 20

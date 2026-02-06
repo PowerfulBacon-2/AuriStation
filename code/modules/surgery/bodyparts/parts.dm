@@ -48,7 +48,7 @@
 	if(cavity_item)
 		cavity_item.forceMove(drop_location())
 		cavity_item = null
-	..()
+	return ..()
 
 /obj/item/bodypart/chest/update_effectiveness()
 	var/modifier = effectiveness / 50
@@ -90,30 +90,32 @@
 	limb_id = "teratoma"
 
 /obj/item/bodypart/chest/alien
-	icon = 'icons/mob/species/alien/bodyparts.dmi'
-	icon_static = 'icons/mob/species/alien/bodyparts.dmi'
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
 	icon_state = "alien_chest"
 	limb_id = BODYPART_ID_ALIEN
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC
 	is_dimorphic = FALSE //All of them are girls
 	should_draw_greyscale = FALSE
+	bodypart_flags = BODYPART_UNREMOVABLE
 	dismemberable = 0
 	max_damage = 200
 	acceptable_bodytype = BODYTYPE_HUMANOID
 
 /obj/item/bodypart/chest/larva
-	icon = 'icons/mob/species/alien/bodyparts.dmi'
-	icon_static = 'icons/mob/species/alien/bodyparts.dmi'
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
 	icon_state = "larva_chest"
 	limb_id = BODYPART_ID_LARVA
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
+	bodypart_flags = BODYPART_UNREMOVABLE
 	dismemberable = 0
 	max_damage = 30
 	bodytype = BODYTYPE_LARVA_PLACEHOLDER | BODYTYPE_ORGANIC
 	acceptable_bodytype = BODYTYPE_LARVA_PLACEHOLDER
 
-/obj/item/bodypart/l_arm
+/obj/item/bodypart/arm/left
 	name = "left arm"
 	desc = "Did you know that the word 'sinister' stems originally from the \
 		Latin 'sinestra' (left hand), because the left hand was supposed to \
@@ -136,19 +138,19 @@
 		ORGAN_SLOT_LEFT_ARM_AUG
 	)
 
-/obj/item/bodypart/l_arm/update_effectiveness()
+/obj/item/bodypart/arm/left/update_effectiveness()
 	// If greater than 50, becomes negative
 	// If less than 50, becomes positive
 	var/modifier = (50 - effectiveness) / 50
 	owner.add_or_update_variable_actionspeed_modifier(/datum/actionspeed_modifier/l_arm, TRUE, modifier)
 
-/obj/item/bodypart/l_arm/clear_effectiveness_modifiers()
+/obj/item/bodypart/arm/left/clear_effectiveness_modifiers()
 	owner.remove_actionspeed_modifier(/datum/actionspeed_modifier/l_arm)
 
 /datum/actionspeed_modifier/l_arm
 	variable = TRUE
 
-/obj/item/bodypart/l_arm/set_owner(new_owner)
+/obj/item/bodypart/arm/left/set_owner(new_owner)
 	. = ..()
 	if(. == FALSE)
 		return
@@ -170,7 +172,7 @@
 
 
 ///Proc to react to the owner gaining the TRAIT_PARALYSIS_L_ARM trait.
-/obj/item/bodypart/l_arm/proc/on_owner_paralysis_gain(mob/living/carbon/source)
+/obj/item/bodypart/arm/left/proc/on_owner_paralysis_gain(mob/living/carbon/source)
 	SIGNAL_HANDLER
 	ADD_TRAIT(src, TRAIT_PARALYSIS, TRAIT_PARALYSIS_L_ARM)
 	UnregisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS_L_ARM))
@@ -178,14 +180,14 @@
 
 
 ///Proc to react to the owner losing the TRAIT_PARALYSIS_L_ARM trait.
-/obj/item/bodypart/l_arm/proc/on_owner_paralysis_loss(mob/living/carbon/source)
+/obj/item/bodypart/arm/left/proc/on_owner_paralysis_loss(mob/living/carbon/source)
 	SIGNAL_HANDLER
 	REMOVE_TRAIT(src, TRAIT_PARALYSIS, TRAIT_PARALYSIS_L_ARM)
 	UnregisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_PARALYSIS_L_ARM))
 	RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS_L_ARM), PROC_REF(on_owner_paralysis_gain))
 
 
-/obj/item/bodypart/l_arm/set_disabled(new_disabled)
+/obj/item/bodypart/arm/left/set_disabled(new_disabled)
 	. = ..()
 	if(isnull(.) || !owner)
 		return
@@ -204,7 +206,7 @@
 		var/atom/movable/screen/inventory/hand/hand_screen_object = owner.hud_used.hand_slots["[held_index]"]
 		hand_screen_object?.update_icon()
 
-/obj/item/bodypart/l_arm/monkey
+/obj/item/bodypart/arm/left/monkey
 	icon = 'icons/mob/animal_parts.dmi'
 	icon_state = "default_monkey_l_arm"
 	icon_static = 'icons/mob/animal_parts.dmi'
@@ -215,23 +217,23 @@
 	px_y = -3
 	dmg_overlay_type = SPECIES_MONKEY
 
-/obj/item/bodypart/l_arm/monkey/teratoma
+/obj/item/bodypart/arm/left/monkey/teratoma
 	icon_state = "teratoma_l_arm"
 
-/obj/item/bodypart/l_arm/alien
-	icon = 'icons/mob/species/alien/bodyparts.dmi'
-	icon_static = 'icons/mob/species/alien/bodyparts.dmi'
+/obj/item/bodypart/arm/left/alien
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
 	icon_state = "alien_l_arm"
 	limb_id = BODYPART_ID_ALIEN
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC
 	px_x = 0
 	px_y = 0
-	dismemberable = FALSE
+	bodypart_flags = BODYPART_UNREMOVABLE
 	can_be_disabled = FALSE
 	max_damage = 80
 	should_draw_greyscale = FALSE
 
-/obj/item/bodypart/r_arm
+/obj/item/bodypart/arm/right
 	name = "right arm"
 	desc = "Over 87% of humans are right handed. That figure is much lower \
 		among humans missing their right arm."
@@ -252,19 +254,19 @@
 		ORGAN_SLOT_RIGHT_ARM_AUG
 	)
 
-/obj/item/bodypart/r_arm/update_effectiveness()
+/obj/item/bodypart/arm/right/update_effectiveness()
 	// If greater than 50, becomes negative
 	// If less than 50, becomes positive
 	var/modifier = (50 - effectiveness) / 50
 	owner.add_or_update_variable_actionspeed_modifier(/datum/actionspeed_modifier/r_arm, TRUE, modifier)
 
-/obj/item/bodypart/r_arm/clear_effectiveness_modifiers()
+/obj/item/bodypart/arm/right/clear_effectiveness_modifiers()
 	owner.remove_actionspeed_modifier(/datum/actionspeed_modifier/r_arm)
 
 /datum/actionspeed_modifier/r_arm
 	variable = TRUE
 
-/obj/item/bodypart/r_arm/set_owner(new_owner)
+/obj/item/bodypart/arm/right/set_owner(new_owner)
 	. = ..()
 	if(. == FALSE)
 		return
@@ -286,7 +288,7 @@
 
 
 ///Proc to react to the owner gaining the TRAIT_PARALYSIS_R_ARM trait.
-/obj/item/bodypart/r_arm/proc/on_owner_paralysis_gain(mob/living/carbon/source)
+/obj/item/bodypart/arm/right/proc/on_owner_paralysis_gain(mob/living/carbon/source)
 	SIGNAL_HANDLER
 	ADD_TRAIT(src, TRAIT_PARALYSIS, TRAIT_PARALYSIS_R_ARM)
 	UnregisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS_R_ARM))
@@ -294,14 +296,14 @@
 
 
 ///Proc to react to the owner losing the TRAIT_PARALYSIS_R_ARM trait.
-/obj/item/bodypart/r_arm/proc/on_owner_paralysis_loss(mob/living/carbon/source)
+/obj/item/bodypart/arm/right/proc/on_owner_paralysis_loss(mob/living/carbon/source)
 	SIGNAL_HANDLER
 	REMOVE_TRAIT(src, TRAIT_PARALYSIS, TRAIT_PARALYSIS_R_ARM)
 	UnregisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_PARALYSIS_R_ARM))
 	RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS_R_ARM), PROC_REF(on_owner_paralysis_gain))
 
 
-/obj/item/bodypart/r_arm/set_disabled(new_disabled)
+/obj/item/bodypart/arm/right/set_disabled(new_disabled)
 	. = ..()
 	if(isnull(.) || !owner)
 		return
@@ -320,7 +322,7 @@
 		var/atom/movable/screen/inventory/hand/hand_screen_object = owner.hud_used.hand_slots["[held_index]"]
 		hand_screen_object?.update_icon()
 
-/obj/item/bodypart/r_arm/monkey
+/obj/item/bodypart/arm/right/monkey
 	icon = 'icons/mob/animal_parts.dmi'
 	icon_state = "default_monkey_r_arm"
 	icon_static = 'icons/mob/animal_parts.dmi'
@@ -331,24 +333,24 @@
 	px_y = -3
 	dmg_overlay_type = SPECIES_MONKEY
 
-/obj/item/bodypart/r_arm/monkey/teratoma
+/obj/item/bodypart/arm/right/monkey/teratoma
 	icon_state = "teratoma_r_arm"
 	limb_id = "teratoma"
 
-/obj/item/bodypart/r_arm/alien
-	icon = 'icons/mob/species/alien/bodyparts.dmi'
-	icon_static = 'icons/mob/species/alien/bodyparts.dmi'
+/obj/item/bodypart/arm/right/alien
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
 	icon_state = "alien_r_arm"
 	limb_id = BODYPART_ID_ALIEN
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC
 	px_x = 0
 	px_y = 0
-	dismemberable = FALSE
+	bodypart_flags = BODYPART_UNREMOVABLE
 	can_be_disabled = FALSE
 	max_damage = 80
 	should_draw_greyscale = FALSE
 
-/obj/item/bodypart/l_leg
+/obj/item/bodypart/leg/left
 	name = "left leg"
 	desc = "Some athletes prefer to tie their left shoelaces first for good \
 		luck. In this instance, it probably would not have helped."
@@ -363,7 +365,7 @@
 	px_y = 12
 	can_be_disabled = TRUE
 
-/obj/item/bodypart/l_leg/set_owner(new_owner)
+/obj/item/bodypart/leg/left/set_owner(new_owner)
 	. = ..()
 	if(. == FALSE)
 		return
@@ -384,20 +386,20 @@
 			UnregisterSignal(old_owner, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS_L_LEG))
 
 ///Proc to react to the owner gaining the TRAIT_PARALYSIS_L_LEG trait.
-/obj/item/bodypart/l_leg/proc/on_owner_paralysis_gain(mob/living/carbon/source)
+/obj/item/bodypart/leg/left/proc/on_owner_paralysis_gain(mob/living/carbon/source)
 	SIGNAL_HANDLER
 	ADD_TRAIT(src, TRAIT_PARALYSIS, TRAIT_PARALYSIS_L_LEG)
 	UnregisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS_L_LEG))
 	RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_PARALYSIS_L_LEG), PROC_REF(on_owner_paralysis_loss))
 
 ///Proc to react to the owner losing the TRAIT_PARALYSIS_L_LEG trait.
-/obj/item/bodypart/l_leg/proc/on_owner_paralysis_loss(mob/living/carbon/source)
+/obj/item/bodypart/leg/left/proc/on_owner_paralysis_loss(mob/living/carbon/source)
 	SIGNAL_HANDLER
 	REMOVE_TRAIT(src, TRAIT_PARALYSIS, TRAIT_PARALYSIS_L_LEG)
 	UnregisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_PARALYSIS_L_LEG))
 	RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS_L_LEG), PROC_REF(on_owner_paralysis_gain))
 
-/obj/item/bodypart/l_leg/set_disabled(new_disabled)
+/obj/item/bodypart/leg/left/set_disabled(new_disabled)
 	. = ..()
 	if(isnull(.) || !owner)
 		return
@@ -410,13 +412,13 @@
 	else if(!bodypart_disabled)
 		owner.set_usable_legs(owner.usable_legs + 1)
 
-/obj/item/bodypart/l_leg/update_effectiveness()
+/obj/item/bodypart/leg/left/update_effectiveness()
 	// If greater than 50, becomes negative
 	// If less than 50, becomes positive
 	var/modifier = (50 - effectiveness) / 50
 	owner.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/l_leg, TRUE, modifier)
 
-/obj/item/bodypart/l_leg/clear_effectiveness_modifiers()
+/obj/item/bodypart/leg/left/clear_effectiveness_modifiers()
 	owner.remove_movespeed_modifier(/datum/movespeed_modifier/l_leg)
 
 /datum/movespeed_modifier/l_leg
@@ -425,7 +427,7 @@
 	blacklisted_movetypes = FLOATING|FLYING
 	flags = IGNORE_NOSLOW
 
-/obj/item/bodypart/l_leg/monkey
+/obj/item/bodypart/leg/left/monkey
 	icon = 'icons/mob/animal_parts.dmi'
 	icon_static = 'icons/mob/animal_parts.dmi'
 	icon_state = "default_monkey_l_leg"
@@ -435,24 +437,24 @@
 	px_y = 4
 	dmg_overlay_type = SPECIES_MONKEY
 
-/obj/item/bodypart/l_leg/monkey/teratoma
+/obj/item/bodypart/leg/left/monkey/teratoma
 	icon_state = "teratoma_l_leg"
 	limb_id = "teratoma"
 
-/obj/item/bodypart/l_leg/alien
-	icon = 'icons/mob/species/alien/bodyparts.dmi'
-	icon_static = 'icons/mob/species/alien/bodyparts.dmi'
+/obj/item/bodypart/leg/left/alien
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
 	icon_state = "alien_l_leg"
 	limb_id = BODYPART_ID_ALIEN
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC
 	px_x = 0
 	px_y = 0
-	dismemberable = FALSE
+	bodypart_flags = BODYPART_UNREMOVABLE
 	can_be_disabled = FALSE
 	max_damage = 80
 	should_draw_greyscale = FALSE
 
-/obj/item/bodypart/r_leg
+/obj/item/bodypart/leg/right
 	name = "right leg"
 	desc = "You put your right leg in, your right leg out. In, out, in, out, \
 		shake it all about. And apparently then it detaches.\n\
@@ -469,7 +471,7 @@
 	px_y = 12
 	can_be_disabled = TRUE
 
-/obj/item/bodypart/r_leg/set_owner(new_owner)
+/obj/item/bodypart/leg/right/set_owner(new_owner)
 	. = ..()
 	if(. == FALSE)
 		return
@@ -490,20 +492,20 @@
 			UnregisterSignal(old_owner, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS_R_LEG))
 
 ///Proc to react to the owner gaining the TRAIT_PARALYSIS_R_LEG trait.
-/obj/item/bodypart/r_leg/proc/on_owner_paralysis_gain(mob/living/carbon/source)
+/obj/item/bodypart/leg/right/proc/on_owner_paralysis_gain(mob/living/carbon/source)
 	SIGNAL_HANDLER
 	ADD_TRAIT(src, TRAIT_PARALYSIS, TRAIT_PARALYSIS_R_LEG)
 	UnregisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS_R_LEG))
 	RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_PARALYSIS_R_LEG), PROC_REF(on_owner_paralysis_loss))
 
 ///Proc to react to the owner losing the TRAIT_PARALYSIS_R_LEG trait.
-/obj/item/bodypart/r_leg/proc/on_owner_paralysis_loss(mob/living/carbon/source)
+/obj/item/bodypart/leg/right/proc/on_owner_paralysis_loss(mob/living/carbon/source)
 	SIGNAL_HANDLER
 	REMOVE_TRAIT(src, TRAIT_PARALYSIS, TRAIT_PARALYSIS_R_LEG)
 	UnregisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_PARALYSIS_R_LEG))
 	RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_PARALYSIS_R_LEG), PROC_REF(on_owner_paralysis_gain))
 
-/obj/item/bodypart/r_leg/set_disabled(new_disabled)
+/obj/item/bodypart/leg/right/set_disabled(new_disabled)
 	. = ..()
 	if(isnull(.) || !owner)
 		return
@@ -516,13 +518,13 @@
 	else if(!bodypart_disabled)
 		owner.set_usable_legs(owner.usable_legs + 1)
 
-/obj/item/bodypart/r_leg/update_effectiveness()
+/obj/item/bodypart/leg/right/update_effectiveness()
 	// If greater than 50, becomes negative
 	// If less than 50, becomes positive
 	var/modifier = (50 - effectiveness) / 50
 	owner.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/r_leg, TRUE, modifier)
 
-/obj/item/bodypart/r_leg/clear_effectiveness_modifiers()
+/obj/item/bodypart/leg/right/clear_effectiveness_modifiers()
 	owner.remove_movespeed_modifier(/datum/movespeed_modifier/r_leg)
 
 /datum/movespeed_modifier/r_leg
@@ -531,7 +533,7 @@
 	blacklisted_movetypes = FLOATING|FLYING
 	flags = IGNORE_NOSLOW
 
-/obj/item/bodypart/r_leg/monkey
+/obj/item/bodypart/leg/right/monkey
 	icon = 'icons/mob/animal_parts.dmi'
 	icon_static = 'icons/mob/animal_parts.dmi'
 	icon_state = "default_monkey_r_leg"
@@ -541,19 +543,19 @@
 	px_y = 4
 	dmg_overlay_type = SPECIES_MONKEY
 
-/obj/item/bodypart/r_leg/monkey/teratoma
+/obj/item/bodypart/leg/right/monkey/teratoma
 	icon_state = "teratoma_r_leg"
 	limb_id = "teratoma"
 
-/obj/item/bodypart/r_leg/alien
-	icon = 'icons/mob/species/alien/bodyparts.dmi'
-	icon_static = 'icons/mob/species/alien/bodyparts.dmi'
+/obj/item/bodypart/leg/right/alien
+	icon = 'icons/mob/human/species/alien/bodyparts.dmi'
+	icon_static = 'icons/mob/human/species/alien/bodyparts.dmi'
 	icon_state = "alien_r_leg"
 	limb_id = BODYPART_ID_ALIEN
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC
 	px_x = 0
 	px_y = 0
-	dismemberable = FALSE
+	bodypart_flags = BODYPART_UNREMOVABLE
 	can_be_disabled = FALSE
 	max_damage = 80
 	should_draw_greyscale = FALSE

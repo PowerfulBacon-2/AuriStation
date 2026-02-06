@@ -3,7 +3,7 @@
 	real_name = "Construct"
 	desc = ""
 	gender = NEUTER
-	mob_biotypes = list(MOB_INORGANIC)
+	mob_biotypes = MOB_INORGANIC
 	speak_emote = list("hisses")
 	response_help_continuous = "thinks better of touching"
 	response_help_simple = "think better of touching"
@@ -14,7 +14,6 @@
 	speak_chance = 1
 	icon = 'icons/mob/cult.dmi'
 	speed = 0
-	spacewalk = TRUE
 	combat_mode = TRUE
 	stop_automated_movement = 1
 	status_flags = CANPUSH
@@ -54,7 +53,6 @@
 
 /mob/living/simple_animal/hostile/construct/Initialize(mapload)
 	. = ..()
-	ADD_TRAIT(src, TRAIT_HEALS_FROM_CULT_PYLONS, INNATE_TRAIT)
 	for(var/spell in construct_spells)
 		var/datum/action/new_spell = new spell(src)
 		new_spell.Grant(src)
@@ -81,7 +79,7 @@
 	to_chat(src, playstyle_string)
 
 /mob/living/simple_animal/hostile/construct/examine(mob/user)
-	var/t_He = p_they(TRUE)
+	var/t_He = p_They()
 	var/t_s = p_s()
 	var/text_span
 	switch(theme)
@@ -330,7 +328,7 @@
 	if(Found(the_target) || ..()) //If we Found it or Can_Attack it normally, we Can_Attack it as long as it wasn't invisible
 		return 1 //as a note this shouldn't be added to base hostile mobs because it'll mess up retaliate hostile mobs
 
-/mob/living/simple_animal/hostile/construct/artificer/MoveToTarget(var/list/possible_targets)
+/mob/living/simple_animal/hostile/construct/artificer/MoveToTarget(list/possible_targets)
 	..()
 	if(isliving(target))
 		var/mob/living/L = target
@@ -434,7 +432,7 @@
 		for(var/X in C.bodyparts)
 			var/obj/item/bodypart/BP = X
 			if(BP.body_part != HEAD && BP.body_part != CHEST)
-				if(BP.dismemberable)
+				if(BP.bodypart_flags & BODYPART_UNREMOVABLE)
 					parts += BP
 				else
 					undismembermerable_limbs++
@@ -485,12 +483,12 @@
 	background_icon_state = "bg_demon"
 	buttontooltipstyle = "cult"
 	button_icon_state = "cult_mark"
-	icon_icon = 'icons/hud/actions/actions_cult.dmi'
+	button_icon = 'icons/hud/actions/actions_cult.dmi'
 	var/tracking = FALSE
 	var/mob/living/simple_animal/hostile/construct/the_construct
 
 
-/datum/action/innate/seek_master/Grant(var/mob/living/C)
+/datum/action/innate/seek_master/Grant(mob/living/C)
 	the_construct = C
 	..()
 
@@ -521,7 +519,7 @@
 /datum/action/innate/seek_prey
 	name = "Seek the Harvest"
 	desc = "None can hide from Nar'Sie, activate to track a survivor attempting to flee the red harvest!"
-	icon_icon = 'icons/hud/actions/actions_cult.dmi'
+	button_icon = 'icons/hud/actions/actions_cult.dmi'
 	background_icon_state = "bg_demon"
 	buttontooltipstyle = "cult"
 	button_icon_state = "cult_mark"

@@ -207,8 +207,8 @@
 
 /datum/reagent/consumable/nothing/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	if(ishuman(affected_mob) && affected_mob.job == JOB_NAME_MIME)
-		affected_mob.silent = max(affected_mob.silent, MIMEDRINK_SILENCE_DURATION)
+	if(ishuman(affected_mob) && HAS_TRAIT(affected_mob, TRAIT_MIMING))
+		affected_mob.set_silence_if_lower(MIMEDRINK_SILENCE_DURATION)
 		affected_mob.heal_overall_injuries(BRUTE, 1 * REM * delta_time)
 		affected_mob.heal_overall_injuries(BURN, 1 * REM * delta_time)
 		return UPDATE_MOB_HEALTH
@@ -401,11 +401,11 @@
 
 /datum/reagent/consumable/coffee/overdose_process(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.Jitter(5 * REM * delta_time)
+	affected_mob.set_jitter_if_lower(10 SECONDS * REM * delta_time)
 
 /datum/reagent/consumable/coffee/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.dizziness = max(affected_mob.dizziness - (5 * REM * delta_time), 0)
+	affected_mob.adjust_dizzy(-10 SECONDS * REM * delta_time)
 	affected_mob.drowsyness = max(affected_mob.drowsyness - (3 * REM * delta_time), 0)
 	affected_mob.AdjustSleeping(-40 * REM * delta_time)
 
@@ -430,9 +430,9 @@
 
 /datum/reagent/consumable/tea/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.dizziness = max(affected_mob.dizziness - (2 * REM * delta_time), 0)
+	affected_mob.adjust_dizzy(-4 SECONDS * REM * delta_time)
 	affected_mob.drowsyness = max(affected_mob.drowsyness - (1 * REM * delta_time), 0)
-	affected_mob.jitteriness = max(affected_mob.jitteriness - (3 * REM * delta_time), 0)
+	affected_mob.adjust_jitter(-6 SECONDS * REM * delta_time)
 	affected_mob.AdjustSleeping(-20 * REM * delta_time)
 	affected_mob.adjust_bodytemperature(20 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * delta_time, 0, affected_mob.get_body_temp_normal())
 
@@ -493,11 +493,11 @@
 
 /datum/reagent/consumable/icecoffee/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.dizziness = max(affected_mob.dizziness - (5 * REM * delta_time), 0)
+	affected_mob.adjust_dizzy(-10 SECONDS * REM * delta_time)
 	affected_mob.drowsyness = max(affected_mob.drowsyness - (3 * REM * delta_time), 0)
 	affected_mob.AdjustSleeping(-40 * REM * delta_time)
 	affected_mob.adjust_bodytemperature(-5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * delta_time, affected_mob.get_body_temp_normal())
-	affected_mob.Jitter(5 * REM * delta_time)
+	affected_mob.set_jitter_if_lower(10 SECONDS * REM * delta_time)
 
 /datum/reagent/consumable/icetea
 	name = "Iced Tea"
@@ -516,7 +516,7 @@
 
 /datum/reagent/consumable/icetea/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.dizziness = max(affected_mob.dizziness - (2 * REM * delta_time), 0)
+	affected_mob.adjust_dizzy(-4 SECONDS * REM * delta_time)
 	affected_mob.drowsyness = max(affected_mob.drowsyness - (1 * REM * delta_time), 0)
 	affected_mob.AdjustSleeping(-40 * REM * delta_time)
 	affected_mob.adjust_bodytemperature(-5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * delta_time, affected_mob.get_body_temp_normal())
@@ -568,13 +568,18 @@
 
 /datum/reagent/consumable/nuka_cola/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.Jitter(20 * REM * delta_time)
+	affected_mob.set_jitter_if_lower(40 SECONDS * REM * delta_time)
 	affected_mob.set_drugginess(30 * REM * delta_time)
-	affected_mob.dizziness += 1.5 * REM * delta_time
+	affected_mob.adjust_dizzy(3 SECONDS * REM * delta_time)
 	affected_mob.drowsyness = 0
 	affected_mob.AdjustSleeping(-40 * REM * delta_time)
 	affected_mob.adjust_bodytemperature(-5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * delta_time, affected_mob.get_body_temp_normal())
-	affected_mob.radiation += 4 * REM * delta_time
+
+	if(SSradiation.can_irradiate_basic(affected_mob))
+		var/datum/component/irradiated/irradiated_component = affected_mob.GetComponent(/datum/component/irradiated)
+		if(!irradiated_component)
+			irradiated_component = affected_mob.AddComponent(/datum/component/irradiated)
+		irradiated_component.adjust_intensity(3 * REM * delta_time)
 
 /datum/reagent/consumable/grey_bull
 	name = "Grey Bull"
@@ -593,8 +598,8 @@
 
 /datum/reagent/consumable/grey_bull/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.Jitter(20 * REM * delta_time)
-	affected_mob.dizziness += 1 * REM * delta_time
+	affected_mob.set_jitter_if_lower(40 SECONDS * REM * delta_time)
+	affected_mob.adjust_dizzy(2 SECONDS * REM * delta_time)
 	affected_mob.drowsyness = 0
 	affected_mob.AdjustSleeping(-40 * REM * delta_time)
 	affected_mob.adjust_bodytemperature(-5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * delta_time, affected_mob.get_body_temp_normal())
@@ -617,7 +622,7 @@
 	affected_mob.drowsyness = max(affected_mob.drowsyness - (7 * REM * delta_time), 0)
 	affected_mob.AdjustSleeping(-20 * REM * delta_time)
 	affected_mob.adjust_bodytemperature(-5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * delta_time, affected_mob.get_body_temp_normal())
-	affected_mob.Jitter(5 * REM * delta_time)
+	affected_mob.set_jitter_if_lower(10 SECONDS * REM * delta_time)
 
 /datum/reagent/consumable/dr_gibb
 	name = "Dr. Gibb"
@@ -720,7 +725,7 @@
 
 /datum/reagent/consumable/sodawater/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.dizziness = max(affected_mob.dizziness - (5 * REM * delta_time), 0)
+	affected_mob.adjust_dizzy(-10 SECONDS * REM * delta_time)
 	affected_mob.drowsyness = max(affected_mob.drowsyness - (3 * REM * delta_time), 0)
 	affected_mob.adjust_bodytemperature(-5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * delta_time, affected_mob.get_body_temp_normal())
 
@@ -739,7 +744,7 @@
 
 /datum/reagent/consumable/tonic/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.dizziness = max(affected_mob.dizziness - (5 * REM * delta_time), 0)
+	affected_mob.adjust_dizzy(-10 SECONDS * REM * delta_time)
 	affected_mob.drowsyness = max(affected_mob.drowsyness - (3 * REM * delta_time), 0)
 	affected_mob.AdjustSleeping(-40 * REM * delta_time)
 	affected_mob.adjust_bodytemperature(-5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * delta_time, affected_mob.get_body_temp_normal())
@@ -759,8 +764,8 @@
 
 /datum/reagent/consumable/monkey_energy/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.Jitter(40 * REM * delta_time)
-	affected_mob.dizziness += 1 * REM * delta_time
+	affected_mob.set_jitter_if_lower(80 SECONDS * REM * delta_time)
+	affected_mob.adjust_dizzy(2 SECONDS * REM * delta_time)
 	affected_mob.drowsyness = 0
 	affected_mob.AdjustSleeping(-40 * REM * delta_time)
 	affected_mob.adjust_bodytemperature(-5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * delta_time, affected_mob.get_body_temp_normal())
@@ -810,11 +815,10 @@
 
 /datum/reagent/consumable/soy_latte/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.dizziness = max(affected_mob.dizziness - (5 * REM * delta_time), 0)
+	affected_mob.adjust_dizzy(-10 SECONDS * REM * delta_time)
 	affected_mob.drowsyness = max(affected_mob.drowsyness - (3 *REM * delta_time), 0)
 	affected_mob.SetSleeping(0)
 	affected_mob.adjust_bodytemperature(5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * delta_time, 0, affected_mob.get_body_temp_normal())
-	affected_mob.Jitter(5 * REM * delta_time)
 
 	if(affected_mob.getBruteLoss() && DT_PROB(10, delta_time))
 		affected_mob.heal_overall_injuries(BRUTE, 1 * REM * delta_time)
@@ -837,11 +841,10 @@
 
 /datum/reagent/consumable/cafe_latte/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
-	affected_mob.dizziness = max(affected_mob.dizziness - (5 * REM * delta_time), 0)
+	affected_mob.adjust_dizzy(-10 SECONDS * REM * delta_time)
 	affected_mob.drowsyness = max(affected_mob.drowsyness - (6 * REM * delta_time), 0)
 	affected_mob.SetSleeping(0)
 	affected_mob.adjust_bodytemperature(5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * delta_time, 0, affected_mob.get_body_temp_normal())
-	affected_mob.Jitter(5 * REM * delta_time)
 	if(affected_mob.getBruteLoss() && DT_PROB(10, delta_time))
 		affected_mob.heal_overall_injuries(BRUTE, 1 * REM * delta_time)
 		return UPDATE_MOB_HEALTH
@@ -1304,7 +1307,7 @@
 
 /datum/reagent/consumable/beefbroth/on_mob_metabolize(mob/living/carbon/affected_mob)
 	var/obj/item/organ/tongue/tongue = affected_mob.get_organ_slot(ORGAN_SLOT_TONGUE)
-	if(tongue.liked_food & MEAT)
+	if(tongue.liked_foodtypes & MEAT)
 		to_chat(affected_mob, span_notice("That drink was PERFECTLY beefy! It's great!."))
 		SEND_SIGNAL(affected_mob, COMSIG_ADD_MOOD_EVENT, "quality_drink", /datum/mood_event/quality_verygood)
 	else
@@ -1343,7 +1346,7 @@
 /datum/reagent/consumable/beeffizz/on_mob_metabolize(mob/living/carbon/affected_mob)
 	. = ..()
 	var/obj/item/organ/tongue/tongue = affected_mob.get_organ_slot(ORGAN_SLOT_TONGUE)
-	if(tongue.liked_food & MEAT)
+	if(tongue.liked_foodtypes & MEAT)
 		to_chat(affected_mob, span_notice("That drink was like a liquid steak! It's amazing!."))
 		SEND_SIGNAL(affected_mob, COMSIG_ADD_MOOD_EVENT, "quality_drink", /datum/mood_event/quality_fantastic)
 	else

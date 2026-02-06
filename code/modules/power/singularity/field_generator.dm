@@ -32,6 +32,7 @@ field_generator power level display
 	density = TRUE
 	use_power = NO_POWER_USE
 	max_integrity = 500
+	custom_price = 550
 	var/power_level = 0
 	var/active = FG_OFFLINE
 	var/power = 20  // Current amount of power
@@ -42,14 +43,13 @@ field_generator power level display
 	var/clean_up = 0
 	COOLDOWN_STATIC_DECLARE(loose_message_cooldown)
 
+#error Take direct take to ignore energy projectiles
+
 /obj/machinery/field/generator/Initialize(mapload)
 	. = ..()
 	fields = list()
 	connected_gens = list()
 	RegisterSignal(src, COMSIG_ATOM_SINGULARITY_TRY_MOVE, PROC_REF(block_singularity_if_active))
-
-/obj/machinery/field/generator/ComponentInitialize()
-	. = ..()
 	AddElement(/datum/element/empprotection, EMP_PROTECT_SELF | EMP_PROTECT_WIRES)
 
 /obj/machinery/field/generator/update_icon()

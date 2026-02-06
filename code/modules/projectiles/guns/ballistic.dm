@@ -73,8 +73,7 @@
 		return
 	if (!magazine)
 		magazine = new mag_type(src)
-	if (!caliber)
-		caliber = magazine.caliber
+	caliber = magazine.caliber
 	chamber_round()
 	update_icon()
 
@@ -268,6 +267,7 @@
 		if (bolt_type == BOLT_TYPE_OPEN && !bolt_locked)
 			chamber_round()
 		update_icon()
+		alarmed = FALSE
 		return TRUE
 	else
 		to_chat(user, span_warning("You cannot seem to get \the [src] out of your hands!"))
@@ -293,9 +293,9 @@
 			magazine = null
 	else
 		magazine = null
-	user.put_in_hands(old_mag)
+	user?.put_in_hands(old_mag)
 	old_mag.update_icon()
-	if (display_message)
+	if (user && display_message)
 		to_chat(user, span_notice("You pull the [magazine_wording] out of \the [src]."))
 	update_icon()
 
@@ -334,7 +334,7 @@
 		if(!chambered && istype(A, /obj/item/ammo_casing) && bolt_locked && bolt_type != BOLT_TYPE_OPEN)
 			var/obj/item/ammo_casing/AC = A
 			//If the gun isn't chambered in the same caliber as the cartridge, don't load it.
-			if(src.caliber != AC.caliber)
+			if (!(AC.caliber in src.caliber))
 				to_chat(user, span_warning("\The [src] isn't chambered in this caliber!"))
 				return
 			chambered = AC
@@ -505,7 +505,8 @@
 		rounds.Add(chambered)
 		if(drop_all)
 			chambered = null
-	rounds.Add(magazine.ammo_list(drop_all))
+	if (magazine)
+		rounds.Add(magazine.ammo_list(drop_all))
 	return rounds
 
 #define BRAINS_BLOWN_THROW_RANGE 3
@@ -575,10 +576,10 @@
 		inhand_x_dimension = 32
 		inhand_y_dimension = 32
 		w_class = WEIGHT_CLASS_LARGE
-		if (sawn_item_state)
-			item_state = sawn_item_state
+		if (sawn_inhand_icon_state)
+			inhand_icon_state = sawn_inhand_icon_state
 		else
-			item_state = "gun"
+			inhand_icon_state = "gun"
 		worn_icon_state = "gun"
 		slot_flags &= ~ITEM_SLOT_BACK	//you can't sling it on your back
 		slot_flags |= ITEM_SLOT_BELT	//but you can wear it on your belt (poorly concealed under a trenchcoat, ideally)

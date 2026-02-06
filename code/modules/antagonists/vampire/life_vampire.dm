@@ -24,7 +24,10 @@
 			COOLDOWN_START(src, vampire_spam_healing, VAMPIRE_SPAM_HEALING)
 
 	// Standard Updates
-	SEND_SIGNAL(src, COMSIG_VAMPIRE_ON_LIFETICK)
+
+	// Clan specific stuff
+	if(my_clan)
+		INVOKE_ASYNC(my_clan, TYPE_PROC_REF(/datum/vampire_clan, handle_clan_life))
 
 	// Handle blood
 	INVOKE_ASYNC(src, PROC_REF(handle_blood), delta_time)
@@ -107,7 +110,7 @@
 			bloodcost_multiplier = 0.5 // Decrease cost if we're sleeping in a coffin.
 
 			// Extinguish and remove embedded objects
-			carbon_owner.ExtinguishMob()
+			carbon_owner.extinguish_mob()
 			carbon_owner.remove_all_embedded_objects()
 
 			if(try_regenerate_limbs(bloodcost_multiplier))
@@ -234,7 +237,7 @@
 
 	// Blood is low, lets show some effects
 	if(vampire_blood_volume < BLOOD_VOLUME_BAD && DT_PROB(5, delta_time) && !HAS_TRAIT(owner.current, TRAIT_MASQUERADE))
-		owner.current.jitteriness = 3 SECONDS
+		owner.current.set_jitter_if_lower(6 SECONDS)
 
 	// Enter frenzy if our blood is low enough
 	if(vampire_blood_volume < FRENZY_THRESHOLD_ENTER && !frenzied)
