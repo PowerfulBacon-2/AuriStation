@@ -186,6 +186,8 @@
 #define FROM_BRAVE_BULL "brave_bull"
 #define FROM_GENETIC_DAMAGE "genetic_damage"
 #define FROM_EPINEPHRINE "epinephrine"
+/// From a priority directive
+#define FROM_DIRECTIVE "directive"
 
 /**
 * Trait granted by [/mob/living/carbon/Initialize] and

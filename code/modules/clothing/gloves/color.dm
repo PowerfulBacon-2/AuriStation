@@ -186,7 +186,7 @@
 	inhand_icon_state = "latex"
 	worn_icon_state = "latex"
 	siemens_coefficient = 0.3
-	clothing_traits = list(TRAIT_QUICK_CARRY, TRAIT_FINGERPRINT_PASSTHROUGH)
+	clothing_traits = list(TRAIT_QUICK_CARRY)
 	resistance_flags = NONE
 
 /obj/item/clothing/gloves/color/latex/nitrile
