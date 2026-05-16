@@ -305,7 +305,7 @@
 		return FALSE
 	deal_damage(I.force, I.sharpness, I.damtype)
 	if(istype(I, /obj/item/melee/baton) && I.damtype == STAMINA)
-		batong_act(I, user, null, armour_block)
+		batong_act(I, user, null)
 	if(I.damtype == BRUTE && prob(33))
 		I.add_mob_blood(src)
 		var/turf/location = get_turf(src)

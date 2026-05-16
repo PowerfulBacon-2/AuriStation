@@ -1803,7 +1803,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 	//This must be placed after blocking checks
 	if(istype(I, /obj/item/melee/baton) && I.damtype == STAMINA)
-		H.batong_act(I, user, affecting, armor_block)
+		H.batong_act(I, user, def_zone)
 
 	if (I.sharpness)
 		if(IS_ORGANIC_LIMB(affecting))

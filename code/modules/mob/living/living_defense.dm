@@ -447,10 +447,10 @@
 		O.emp_act(severity)
 
 ///Called whenever a mob is hit with any electric baton to handle jittering and stuttering
-/mob/living/proc/batong_act(obj/item/melee/baton/batong, mob/living/user, obj/item/bodypart/affecting, armour_block = 0)
+/mob/living/proc/batong_act(obj/item/melee/baton/batong, mob/living/user, bodyzone)
 	if(!user.combat_mode)
 		return
-	apply_damage(initial(batong.force), initial(batong.damtype), affecting, armour_block)
+	deal_damage(initial(batong.force), 0, initial(batong.damtype), zone = bodyzone)
 	playsound(src, initial(batong.hitsound), batong.get_clamped_volume(), TRUE)
 
 /*

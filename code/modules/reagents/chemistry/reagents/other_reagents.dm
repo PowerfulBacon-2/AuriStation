@@ -50,7 +50,7 @@
 			if(data && data["blood_type"])
 				var/datum/blood_type/blood_type = data["blood_type"]
 				if(blood_type.type in exposed_carbon.dna.blood_type.compatible_types)
-					exposed_carbon.blood.volume = min(exposed_carbon.blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
+					exposed_carbon.blood.volume = min(exposed_carbon.blood.volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
 				else
 					exposed_carbon.reagents.add_reagent(/datum/reagent/toxin, reac_volume * 0.5)
 

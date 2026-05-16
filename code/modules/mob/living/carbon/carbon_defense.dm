@@ -547,7 +547,7 @@
 		if(prob(20))
 			to_chat(src, span_notice("Something bright flashes in the corner of your vision!"))
 
-/mob/living/carbon/batong_act(obj/item/melee/baton/batong, mob/living/user, obj/item/bodypart/affecting, armour_block = 0)
+/mob/living/carbon/batong_act(obj/item/melee/baton/batong, mob/living/user, bodyzone)
 	. = ..()
 	adjust_stutter(batong.active_force / 2) //0.5 seconds of stuttering speech for every 10 stamina damage
 	do_stun_animation()
