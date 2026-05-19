@@ -777,7 +777,6 @@
 		TRAIT_NOT_TRANSMORPHIC,
 		TRAIT_PIERCEIMMUNE,
 		TRAIT_NODISMEMBER,
-		TRAIT_NOBLOOD,
 	)
 	armor = 15 //Balance reasons make this armor weak
 	no_equip_flags = NONE
@@ -975,7 +974,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/structure/cloth_pile)
 		TRAIT_NOT_TRANSMORPHIC,
 		TRAIT_PIERCEIMMUNE,
 		TRAIT_NODISMEMBER,
-		TRAIT_NOBLOOD,
 		TRAIT_VENTCRAWLER_NUDE
 	)
 	prefix = "Plastic"

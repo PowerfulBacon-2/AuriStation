@@ -105,7 +105,7 @@
 		if(BP.dmg_overlay_type && !BP.is_husked)
 			if(BP.brutestate)
 				var/image/brute_overlay = image('icons/mob/dam_mob.dmi', "[BP.dmg_overlay_type]_[BP.body_zone]_[BP.brutestate]0")
-				if(BP.use_damage_color && !HAS_TRAIT(src, TRAIT_NOBLOOD))
+				if(BP.use_damage_color && blood.get_blood_id() != null)
 					//Set damage_color to species blood color
 					BP.damage_color = src.dna.blood_type.blood_color
 					brute_overlay.color = BP.damage_color

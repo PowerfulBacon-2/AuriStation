@@ -91,12 +91,12 @@
 	if(alarm_type) // Fucking subtypes fucking mappers fucking hhhhhhhh
 		start_activation_process(alarm_type)
 
-/obj/machinery/door/firedoor/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armour_penetration)
+/obj/machinery/door/firedoor/take_direct_damage(amount, type, flag, zone)
 	. = ..()
 	if (QDELETED(src))
 		return
 
-	damage_until_open -= damage_amount
+	damage_until_open -= amount
 	if (damage_until_open <= 0)
 		playsound(src, 'sound/machines/terminal_error.ogg', 50, 1)
 		do_sparks(5, TRUE, src)

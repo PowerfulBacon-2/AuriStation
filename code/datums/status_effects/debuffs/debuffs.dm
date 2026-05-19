@@ -143,7 +143,7 @@
 			need_mob_update += owner.adjustBruteLoss(healing, updating_health = FALSE)
 			need_mob_update += owner.adjustFireLoss(healing, updating_health = FALSE)
 			need_mob_update += owner.adjustToxLoss(healing * 0.5, updating_health = FALSE, forced = TRUE)
-			need_mob_update += owner.adjustStaminaLoss(healing, updating_health = FALSE)
+			need_mob_update += owner.adjustExhaustion(healing, updating_health = FALSE)
 			if(need_mob_update)
 				owner.updatehealth()
 
@@ -154,7 +154,7 @@
 		var/mob/living/carbon/carbon_owner = owner
 		carbon_owner.handle_dreams()
 
-	if(prob(8) && owner.health > owner.crit_threshold)
+	if(prob(8) && owner.consciousness.value > 0)
 		owner.emote("snore")
 
 /atom/movable/screen/alert/status_effect/asleep

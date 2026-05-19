@@ -37,7 +37,7 @@
 	if(!poor_target)
 		return
 
-	var/target_head_armor = poor_target.run_armor_check(BODY_ZONE_HEAD, MELEE, silent = TRUE)
+	var/target_head_armor = poor_target.run_armor_check(BODY_ZONE_HEAD, ARMOUR_BLUNT, silent = TRUE)
 
 	if(obeys_hardhats && target_head_armor >= 15) // 15 melee armor is enough that most head items dont have this, but anything above a hardhat should protect you
 		poor_target.visible_message(
@@ -56,9 +56,9 @@
 
 	// This does more damage the more levels the falling object has fallen
 	if(!crushes_people && target_head)
-		poor_target.apply_damage(fall_damage * levels, def_zone = BODY_ZONE_HEAD, forced = TRUE)
+		poor_target.deal_damage(fall_damage * levels, 0, BRUTE, DAMAGE_STANDARD, zone = BODY_ZONE_HEAD)
 	else
-		poor_target.apply_damage(fall_damage * levels, forced = TRUE, spread_damage = TRUE)
+		poor_target.deal_damage(fall_damage * levels, 0, BRUTE, DAMAGE_STANDARD)
 
 	poor_target.visible_message(
 		span_userdanger("[source] falls on [poor_target], [crushes_people ? "crushing [poor_target.p_them()]" : "hitting [poor_target.p_them()]"] [target_head ? "on the head!" : "!"]"),

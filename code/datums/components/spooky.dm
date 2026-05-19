@@ -13,7 +13,7 @@
 			U.adjustExhaustion(35) //Extra Damage
 			U.set_jitter_if_lower(70 SECONDS)
 			U.set_stutter(40 SECONDS)
-			if(U.getStaminaLoss() > 95)
+			if(U.getExhaustion() > 95)
 				to_chat(U, "<font color ='red', size ='4'><B>Your ears weren't meant for this spectral sound.</B></font>")
 				INVOKE_ASYNC(src, PROC_REF(spectral_change), U)
 			return
