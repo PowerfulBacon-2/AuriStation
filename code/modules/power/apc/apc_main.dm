@@ -132,11 +132,6 @@
 	/// Used for apc helper called full_charge to make apc's charge at 100% meter.
 	var/full_charge = FALSE
 
-	//Clockcult - Has the reward for converting an APC been given?
-	var/clock_cog_rewarded = FALSE
-	//Clockcult - The integration cog inserted inside of us
-	var/integration_cog = null
-
 	/// The time that our last hacked flicker was performed at
 	COOLDOWN_DECLARE(last_hacked_flicker)
 
@@ -338,8 +333,6 @@
 		var/mob/living/silicon/ai/AI = user
 		if(AI.apc_override == src)
 			return GLOB.conscious_state
-	if(iseminence(user) && integration_cog)
-		return GLOB.conscious_state
 	return GLOB.default_state
 
 /obj/machinery/power/apc/ui_interact(mob/user, datum/tgui/ui)
@@ -596,12 +589,6 @@
 		if(cell.charge >= cell.maxcharge)
 			cell.charge = cell.maxcharge
 			charging = APC_FULLY_CHARGED
-
-		//=====Clock Cult=====
-		if(integration_cog && cell.charge >= cell.maxcharge/2)
-			var/power_delta = clamp(cell.charge - 20, 0, 20)
-			GLOB.clockcult_power += power_delta
-			cell.charge -= power_delta
 
 	else // wanted to redo this but cell-less APC needs a big refactor everywhere else so this stays for now
 		charging = APC_NOT_CHARGING

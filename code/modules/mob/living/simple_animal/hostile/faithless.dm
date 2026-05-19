@@ -18,7 +18,6 @@
 	taunt_chance = 25
 	speed = 0
 	maxHealth = 80
-	health = 80
 	robust_searching = 1
 
 	obj_damage = 50

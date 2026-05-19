@@ -501,37 +501,6 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 	final.Turn(difference)
 	animate(src, transform = final, time = 5, loop = 0)
 
-//CLOCKCULT
-/atom/movable/screen/alert/clockwork/clocksense
-	name = "The Ark of the Clockwork Justicar"
-	desc = "Shows infomation about the Ark of the Clockwork Justicar"
-	icon_state = "clockinfo"
-	alerttooltipstyle = "clockcult"
-
-/atom/movable/screen/alert/clockwork/clocksense/Initialize(mapload)
-	. = ..()
-	START_PROCESSING(SSprocessing, src)
-
-/atom/movable/screen/alert/clockwork/clocksense/Destroy()
-	STOP_PROCESSING(SSprocessing, src)
-	return ..()
-
-/atom/movable/screen/alert/clockwork/clocksense/process()
-	var/datum/antagonist/servant_of_ratvar/servant_antagonist = IS_SERVANT_OF_RATVAR(owner)
-	if(!(servant_antagonist?.team))
-		return
-	desc = "Stored Power - <b>[display_power(GLOB.clockcult_power)]</b>.<br>"
-	desc += "Stored Vitality - <b>[GLOB.clockcult_vitality]</b>.<br>"
-	if(GLOB.ratvar_arrival_tick)
-		if(GLOB.ratvar_arrival_tick - world.time > 6000)
-			desc += "The Ark is preparing to open, it will activate in <b>[round((GLOB.ratvar_arrival_tick - world.time - 6000) / 10)]</b> seconds.<br>"
-		else
-			desc += "Ratvar will rise in <b>[round((GLOB.ratvar_arrival_tick - world.time) / 10)]</b> seconds, protect the Ark with your life!<br>"
-	if(GLOB.human_servants_of_ratvar)
-		desc += "There [GLOB.human_servants_of_ratvar.len == 1?"is" : "are"] currently [GLOB.human_servants_of_ratvar.len] loyal servant\s.<br>"
-	if(GLOB.critical_servant_count)
-		desc += "Upon reaching [GLOB.critical_servant_count] servants, the Ark will open, or it can be opened immediately by invoking Gateway Activation with 6 servants."
-
 //GUARDIANS
 
 /atom/movable/screen/alert/holoparasite

@@ -129,12 +129,6 @@
 	return FALSE
 
 /**
- * Ratvar is the summoner's problem to deal with. Not the holoparasite's.
- */
-/mob/living/simple_animal/hostile/holoparasite/ratvar_act()
-	return FALSE
-
-/**
  * Holoparasites are NOT physically soft like flesh.
  */
 /mob/living/simple_animal/hostile/holoparasite/can_inject(mob/user, target_zone, injection_flags)

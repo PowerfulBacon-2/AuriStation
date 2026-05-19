@@ -21,7 +21,6 @@
 	taunt_chance = 30
 	speed = 0
 	maxHealth = 25
-	health = 25
 
 	obj_damage = 50
 	melee_damage = 20

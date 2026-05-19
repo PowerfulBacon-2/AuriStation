@@ -253,15 +253,6 @@
 	mineralType = "wax"
 	merge_type = /obj/item/stack/tile/mineral/wax
 
-/obj/item/stack/tile/mineral/brass
-	name = "brass tiles"
-	desc = "An ornante tile made out of brass."
-	icon_state = "tile_brass"
-	inhand_icon_state = "tile_brass"
-	turf_type = /turf/open/floor/clockwork
-	mineralType = "brass"
-	merge_type = /obj/item/stack/tile/mineral/brass
-
 /obj/item/stack/tile/mineral/bronze
 	name = "bronze tiles"
 	desc = "An ornate tile made out of... wait this is bronze!"

@@ -19,9 +19,6 @@
 	layer = CATWALK_LATTICE
 	plane = GAME_PLANE
 
-/obj/structure/lattice/catwalk/ratvar_act()
-	new /obj/structure/lattice/catwalk/clockwork(loc)
-
 /obj/structure/lattice/catwalk/Move()
 	var/turf/T = loc
 	for(var/obj/structure/cable/C in T)

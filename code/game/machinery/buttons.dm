@@ -9,7 +9,7 @@
 	idle_power_usage = 2
 	resistance_flags = LAVA_PROOF | FIRE_PROOF
 	mouse_over_pointer = MOUSE_HAND_POINTER
-	
+
 	var/obj/item/assembly/device
 	var/obj/item/electronics/airlock/board
 	var/device_type = null
@@ -114,12 +114,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/machinery/button)
 	req_one_access = list()
 	playsound(src, "sparks", 100, 1)
 
-/obj/machinery/button/eminence_act(mob/living/simple_animal/eminence/eminence)
-	. = ..()
-	to_chat(usr, span_brass("You begin manipulating [src]!"))
-	if(do_after(eminence, 20, target=get_turf(eminence)))
-		attack_hand(eminence)
-
 /obj/machinery/button/attack_silicon(mob/user)
 	if(!panel_open)
 		return attack_hand(user)
@@ -165,7 +159,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/machinery/button)
 	if(device && device.next_activate > world.time)
 		return
 
-	if(!allowed(user) && !istype(user, /mob/living/simple_animal/eminence))
+	if(!allowed(user))
 		to_chat(user, span_danger("Access Denied."))
 		flick("[base_icon_state]-denied", src)
 		return

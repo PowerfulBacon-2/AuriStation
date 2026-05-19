@@ -400,12 +400,3 @@
 			continue
 		if(ismob(A) || .)
 			A.narsie_act()
-
-/turf/ratvar_act(force, ignore_mobs, probability = 40)
-	. = (prob(probability) || force)
-	for(var/I in src)
-		var/atom/A = I
-		if(ignore_mobs && ismob(A))
-			continue
-		if(ismob(A) || .)
-			A.ratvar_act()

@@ -150,24 +150,6 @@
 	H.eye_color = BLOODCULT_EYE
 	H.update_body()
 
-/datum/role_preference/roundstart/clock_cultist
-	name = "Clock Cultist"
-	description = "Hailing from the clockwork city of Reebe, serve your god, Ratvar. \
-		Gather power to summon an avatar of Ratvar through the clockwork rift! \n\
-		Drop down among the station to install cogs into APCs to gain power. Be careful, as when the rift opens, \
-		the crew will rush into Reebe! Build defenses to slow down their entry."
-	antag_datum = /datum/antagonist/servant_of_ratvar
-	preview_outfit = /datum/outfit/clockcult_preview
-
-/datum/outfit/clockcult_preview
-	name = "Servant of Ratvar (Preview only)"
-	uniform = /obj/item/clothing/under/rank/engineering/engineer
-	belt = /obj/item/storage/belt/utility
-	suit = /obj/item/clothing/suit/clockwork/anyone
-	l_hand = /obj/item/clockwork/weapon/brass_spear
-	head = /obj/item/clothing/head/helmet/clockcult
-	gloves = /obj/item/clothing/gloves/clockcult
-
 /datum/role_preference/roundstart/revolutionary
 	name = "Head Revolutionary"
 	description = "Armed with a flash, convert as many people to the revolution as you can. \n\

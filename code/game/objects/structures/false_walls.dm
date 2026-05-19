@@ -45,10 +45,6 @@
 	real_wall = null
 	return ..()
 
-/obj/structure/falsewall/ratvar_act()
-	new /obj/structure/falsewall/brass(loc)
-	qdel(src)
-
 /obj/structure/falsewall/attack_hand(mob/user, list/modifiers)
 	if(opening)
 		return
@@ -279,15 +275,3 @@
 /obj/structure/falsewall/plastitanium
 	mineral = /obj/item/stack/sheet/mineral/plastitanium
 	walltype = /turf/closed/wall/mineral/plastitanium
-
-/obj/structure/falsewall/brass
-	mineral_amount = 1
-	girder_type = /obj/structure/girder/bronze
-	walltype = /turf/closed/wall/clockwork
-	mineral = /obj/item/stack/sheet/brass
-
-/obj/structure/falsewall/brass/New(loc)
-	..()
-	var/turf/T = get_turf(src)
-	new /obj/effect/temp_visual/ratvar/wall/false(T)
-	new /obj/effect/temp_visual/ratvar/beam/falsewall(T)

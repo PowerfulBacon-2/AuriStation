@@ -33,7 +33,6 @@
 		RegisterSignals(parent, list(COMSIG_MOVABLE_BUMP, COMSIG_MOVABLE_IMPACT), PROC_REF(play_squeak))
 
 		AddComponent(/datum/component/connect_loc_behalf, parent, item_connections)
-		RegisterSignal(parent, COMSIG_ATOM_EMINENCE_ACT, PROC_REF(play_squeak_crossed))
 		RegisterSignal(parent, COMSIG_MOVABLE_DISPOSING, PROC_REF(disposing_react))
 		if(isitem(parent))
 			RegisterSignals(parent, list(COMSIG_ITEM_ATTACK, COMSIG_ITEM_ATTACK_OBJ, COMSIG_ITEM_HIT_REACT), PROC_REF(play_squeak))

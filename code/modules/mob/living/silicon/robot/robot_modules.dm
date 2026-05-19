@@ -90,12 +90,6 @@
 	if(robot.emagged)
 		for(var/obj/item/emag_module in emag_modules)
 			add_module(emag_module, FALSE, FALSE)
-	// Ratvar
-	if(IS_SERVANT_OF_RATVAR(robot) && !robot.ratvar)	//It just works :^)
-		robot.SetRatvar(TRUE, FALSE)
-	if(robot.ratvar)
-		for(var/obj/item/ratvar_module in ratvar_modules)
-			add_module(ratvar_module, FALSE, FALSE)
 	// tbh I have no idea what added_modules are but they are here
 	for(var/obj/item/added_module in added_modules)
 		add_module(added_module, FALSE, FALSE)
@@ -239,7 +233,6 @@
 		/obj/item/borg/ratvar/kindle,
 		/obj/item/borg/ratvar/abstraction_crystal,
 		/obj/item/clockwork/replica_fabricator,
-		/obj/item/stack/sheet/brass/cyborg,
 		/obj/item/clockwork/weapon/brass_spear)
 	model_select_icon = "standard"
 	hat_offset = -3
@@ -314,8 +307,7 @@
 		/obj/item/borg/ratvar/tinkerers_cache,
 		/obj/item/borg/ratvar/stargazer,
 		/obj/item/borg/ratvar/abstraction_crystal,
-		/obj/item/clockwork/replica_fabricator,
-		/obj/item/stack/sheet/brass/cyborg)
+		/obj/item/clockwork/replica_fabricator)
 	cyborg_base_icon = "engineer"
 	model_select_icon = "engineer"
 	module_traits = list(TRAIT_NEGATES_GRAVITY)

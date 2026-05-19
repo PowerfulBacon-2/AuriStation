@@ -659,10 +659,6 @@
 	if(prob(max(0, exposed_temperature - 673)))   //0% at <400C, 100% at >500C
 		break_light_tube()
 
-/obj/machinery/light/eminence_act(mob/living/simple_animal/eminence/eminence)
-	. = ..()
-	break_light_tube()
-
 /obj/machinery/light/floor
 	name = "floor light"
 	icon = 'icons/obj/lighting.dmi'

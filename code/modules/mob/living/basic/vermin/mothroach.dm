@@ -12,7 +12,6 @@
 	mob_biotypes = MOB_ORGANIC | MOB_BUG
 	mob_size = MOB_SIZE_SMALL
 	mobility_flags = MOBILITY_FLAGS_REST_CAPABLE_DEFAULT
-	health = 25
 	maxHealth = 25
 	speed = 1.25
 	gold_core_spawnable = FRIENDLY_SPAWN

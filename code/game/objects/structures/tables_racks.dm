@@ -80,11 +80,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/structure/table)
 	qdel(src)
 	new /obj/structure/table/wood(A)
 
-/obj/structure/table/ratvar_act()
-	var/atom/A = loc
-	qdel(src)
-	new /obj/structure/table/brass(A)
-
 /obj/structure/table/attack_paw(mob/user)
 	return attack_hand(user)
 
@@ -509,36 +504,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/structure/table)
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	else
 		. = ..()
-
-/obj/structure/table/brass
-	name = "brass table"
-	desc = "A solid, slightly beveled brass table."
-	icon = 'icons/obj/smooth_structures/tables/brass_table.dmi'
-	icon_state = "brass_table-0"
-	base_icon_state = "brass_table"
-	resistance_flags = FIRE_PROOF | ACID_PROOF
-	smoothing_groups = list(SMOOTH_GROUP_BRONZE_TABLES) //Don't smooth with SMOOTH_GROUP_TABLES
-	canSmoothWith = list(SMOOTH_GROUP_BRONZE_TABLES)
-	frame = /obj/structure/table_frame/brass
-	framestack = /obj/item/stack/sheet/brass
-	buildstack = /obj/item/stack/sheet/brass
-	framestackamount = 1
-	buildstackamount = 1
-
-/obj/structure/table/brass/ratvar_act()
-	return
-
-/obj/structure/table/brass/tablepush(mob/living/user, mob/living/pushed_mob)
-	. = ..()
-	playsound(src, 'sound/magic/clockwork/fellowship_armory.ogg', 50, TRUE)
-
-/obj/structure/table/brass/narsie_act()
-	take_direct_damage(rand(15, 45), BRUTE)
-	if(src) //do we still exist?
-		var/previouscolor = color
-		color = "#960000"
-		animate(src, color = previouscolor, time = 8)
-		addtimer(CALLBACK(src, /atom/proc/update_atom_colour), 8)
 
 /obj/structure/table/bronze
 	name = "bronze table"

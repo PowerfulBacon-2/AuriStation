@@ -81,10 +81,6 @@ GLOBAL_LIST_INIT(runed_metal_recipes, list( \
 	has_unique_girder = TRUE
 	use_radial = TRUE
 
-/obj/item/stack/sheet/runed_metal/ratvar_act()
-	new /obj/item/stack/sheet/brass(loc, amount)
-	qdel(src)
-
 /obj/item/stack/sheet/runed_metal/attack_self(mob/user)
 	if(!IS_CULTIST(user))
 		to_chat(user, span_warning("Only one with forbidden knowledge could hope to work this metal..."))

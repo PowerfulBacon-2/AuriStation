@@ -105,12 +105,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/light_switch, 26)
 	if(!(machine_stat & (BROKEN|NOPOWER)))
 		power_change()
 
-/obj/machinery/light_switch/eminence_act(mob/living/simple_animal/eminence/eminence)
-	. = ..()
-	to_chat(usr, span_brass("You begin manipulating [src]!"))
-	if(do_after(eminence, 20, target=get_turf(eminence)))
-		interact(eminence)
-
 /obj/machinery/light_switch/tcomms
 	name = "Server Room light switch"
 	area = /area/tcommsat/server

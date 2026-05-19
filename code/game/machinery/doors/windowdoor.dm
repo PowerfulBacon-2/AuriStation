@@ -237,11 +237,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/machinery/door/window)
 /obj/machinery/door/window/narsie_act()
 	add_atom_colour("#7D1919", FIXED_COLOUR_PRIORITY)
 
-/obj/machinery/door/window/ratvar_act()
-	var/obj/machinery/door/window/clockwork/C = new(loc, dir)
-	C.name = name
-	qdel(src)
-
 /obj/machinery/door/window/should_atmos_process(datum/gas_mixture/air, exposed_temperature)
 	return (exposed_temperature > T0C + (reinf ? 1600 : 800))
 
@@ -394,79 +389,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/machinery/door/window)
 /obj/machinery/door/window/brigdoor/security/holding
 	name = "holding cell door"
 	req_one_access = list(ACCESS_SEC_DOORS, ACCESS_LAWYER, ACCESS_BRIGPHYS) //love for the lawyer and Brig Phys
-
-/obj/machinery/door/window/clockwork
-	name = "brass windoor"
-	desc = "A thin door with translucent brass paneling."
-	icon_state = "clockwork"
-	base_state = "clockwork"
-	shards = 0
-	rods = 0
-	max_integrity = 50
-	resistance_flags = FIRE_PROOF | ACID_PROOF
-	operationdelay = 10
-	var/made_glow = FALSE
-
-/obj/machinery/door/window/clockwork/deconstruct(disassembled)
-	if(!(flags_1 & NODECONSTRUCT_1) && !disassembled)
-		drop_amount(/obj/item/clockwork/alloy_shards/medium/gear_bit/large, 2)
-	return ..()
-
-/obj/machinery/door/window/clockwork/setDir(direct)
-	if(!made_glow)
-		var/obj/effect/E = new /obj/effect/temp_visual/ratvar/door/window(get_turf(src))
-		E.setDir(direct)
-		made_glow = TRUE
-	..()
-
-/obj/machinery/door/window/clockwork/Destroy()
-	return ..()
-
-/obj/machinery/door/window/clockwork/emp_act(severity)
-	if(prob(80/severity))
-		open()
-
-/obj/machinery/door/window/clockwork/hasPower()
-	return TRUE //yup that's power all right
-
-/obj/machinery/door/window/clockwork/allowed(mob/M)
-	if(IS_SERVANT_OF_RATVAR(M))
-		return TRUE
-	return FALSE
-
-/obj/machinery/door/window/clockwork/narsie_act()
-	deal_damage(rand(30, 60), 0, BRUTE, DAMAGE_ACID)
-	if(src)
-		var/previouscolor = color
-		color = "#960000"
-		animate(src, color = previouscolor, time = 8)
-		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 8)
-
-/obj/machinery/door/window/clockwork/ratvar_act()
-	return FALSE
-
-/obj/machinery/door/window/clockwork/attackby(obj/item/I, mob/living/user, params)
-
-	if(operating)
-		return
-
-	add_fingerprint(user)
-	if(!(flags_1&NODECONSTRUCT_1))
-		if(I.tool_behaviour == TOOL_SCREWDRIVER)
-			I.play_tool_sound(src)
-			panel_open = !panel_open
-			to_chat(user, span_notice("You [panel_open ? "open":"close"] the maintenance panel of the [name]."))
-			return
-
-		if(I.tool_behaviour == TOOL_CROWBAR)
-			if(panel_open && !density && !operating)
-				user.visible_message("[user] begins to deconstruct [name].", \
-									span_notice("You start to deconstruct from the [name]..."))
-				if(I.use_tool(src, user, 40, volume=50))
-					if(panel_open && !density && !operating && loc)
-						qdel(src)
-				return
-	return ..()
 
 /obj/machinery/door/window/northleft
 	dir = NORTH

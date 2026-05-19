@@ -97,13 +97,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/machinery/flasher)
 	if (anchored)
 		return flash()
 
-/obj/machinery/flasher/eminence_act(mob/living/simple_animal/eminence/eminence)
-	. = ..()
-	to_chat(usr, span_brass("You begin manipulating [src]!"))
-	if(do_after(eminence, 20, target=get_turf(eminence)))
-		if(anchored)
-			flash()
-
 /obj/machinery/flasher/proc/flash()
 	if (!powered() || !bulb)
 		return

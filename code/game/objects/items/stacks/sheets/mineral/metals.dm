@@ -37,10 +37,6 @@ Metals Sheets
 	. = ..()
 	. += "<span class='notice'>You can build a wall girder (unanchored) by right clicking on an empty floor.</span>"
 
-/obj/item/stack/sheet/iron/ratvar_act()
-	new /obj/item/stack/sheet/brass(loc, amount)
-	qdel(src)
-
 /obj/item/stack/sheet/iron/narsie_act()
 	new /obj/item/stack/sheet/runed_metal(loc, amount)
 	qdel(src)
@@ -102,43 +98,6 @@ Metals Sheets
 /obj/item/stack/sheet/plasteel/get_recipes()
 	return GLOB.plasteel_recipes
 
-/* Brass - the cult one */
-
-/obj/item/stack/sheet/brass
-	name = "brass"
-	desc = "Sheets made out of brass."
-	singular_name = "brass sheet"
-	icon_state = "sheet-brass"
-	inhand_icon_state = "sheet-brass"
-	resistance_flags = FIRE_PROOF | ACID_PROOF
-	throwforce = 10
-	max_amount = 50
-	throw_speed = 1
-	throw_range = 3
-	grind_results = list(/datum/reagent/iron = 5, /datum/reagent/teslium = 15)
-	merge_type = /obj/item/stack/sheet/brass
-	custom_materials = list(/datum/material/copper=MINERAL_MATERIAL_AMOUNT*0.5, /datum/material/iron=MINERAL_MATERIAL_AMOUNT*0.5)
-
-/obj/item/stack/sheet/brass/narsie_act()
-	new /obj/item/stack/sheet/runed_metal(loc, amount)
-	qdel(src)
-
-/obj/item/stack/sheet/brass/attack_self(mob/living/user)
-	if(!IS_SERVANT_OF_RATVAR(user))
-		to_chat(user, span_danger("[src] seems far too brittle to build with.")) //haha that's because it's actually replicant alloy you DUMMY << WOAH TOOO FAR! << :^)
-	else
-		return ..()
-
-/obj/item/stack/sheet/brass/get_recipes()
-	return GLOB.brass_recipes
-
-CREATION_TEST_IGNORE_SUBTYPES(/obj/item/stack/sheet/brass)
-
-/obj/item/stack/sheet/brass/Initialize(mapload, new_amount, merge = TRUE)
-	. = ..()
-	pixel_x = 0
-	pixel_y = 0
-
 /* Bronze - the non cult one */
 
 /obj/item/stack/sheet/bronze
@@ -158,12 +117,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/stack/sheet/brass)
 	tableVariant = /obj/structure/table/bronze
 	walltype = /turf/closed/wall/mineral/bronze
 	has_unique_girder = TRUE
-
-/obj/item/stack/sheet/bronze/attack_self(mob/living/user)
-	if(IS_SERVANT_OF_RATVAR(user))
-		to_chat(user, span_danger("Wha... what is this cheap imitation crap? This isn't brass at all!"))
-	else
-		return ..()
 
 /obj/item/stack/sheet/bronze/get_recipes()
 	return GLOB.bronze_recipes

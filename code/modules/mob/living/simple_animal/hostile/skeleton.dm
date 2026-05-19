@@ -44,7 +44,6 @@
 	icon_living = "eskimo"
 	icon_dead = "eskimo_dead"
 	maxHealth = 55
-	health = 55
 	weather_immunities = list(TRAIT_SNOWSTORM_IMMUNE)
 	gold_core_spawnable = NO_SPAWN
 	melee_damage = 20
@@ -62,7 +61,6 @@
 	icon_living = "templar"
 	icon_dead = "templar_dead"
 	maxHealth = 150
-	health = 150
 	weather_immunities = list(TRAIT_SNOWSTORM_IMMUNE)
 	speed = 2
 	gold_core_spawnable = NO_SPAWN
@@ -82,7 +80,6 @@
 	desc = "A reanimated skeleton protected by a thick sheet of natural ice armor. Looks slow, though."
 	speed = 5
 	maxHealth = 75
-	health = 75
 	weather_immunities = list(TRAIT_SNOWSTORM_IMMUNE)
 	color = rgb(114,228,250)
 	loot = list(/obj/effect/decal/remains/human{color = rgb(114,228,250)})

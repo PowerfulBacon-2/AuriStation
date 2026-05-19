@@ -199,7 +199,7 @@
 	return list(ACCESS_AWAY_GENERAL, ACCESS_AWAY_MAINT, ACCESS_AWAY_MED, ACCESS_AWAY_SEC, ACCESS_AWAY_ENGINE, ACCESS_AWAY_GENERIC1, ACCESS_AWAY_GENERIC2, ACCESS_AWAY_GENERIC3, ACCESS_AWAY_GENERIC4)
 
 /proc/get_every_access()
-	return get_all_accesses() + get_all_centcom_access() + get_all_syndicate_access() + get_all_away_access() + ACCESS_BLOODCULT + ACCESS_CLOCKCULT
+	return get_all_accesses() + get_all_centcom_access() + get_all_syndicate_access() + get_all_away_access() + ACCESS_BLOODCULT
 
 /proc/get_region_accesses(code)
 	switch(code)
@@ -323,8 +323,7 @@ GLOBAL_LIST_INIT(access_desc_list, list( \
 	"[ACCESS_SYNDICATE]" = "Syndicate",
 	"[ACCESS_SYNDICATE_LEADER]" = "Syndicate Leader",
 	"[ACCESS_AWAY_GENERIC1]" = "Away generic 1",
-	"[ACCESS_BLOODCULT]" = "Bloodcult",
-	"[ACCESS_CLOCKCULT]" = "Clockcult"))
+	"[ACCESS_BLOODCULT]" = "Bloodcult"))
 
 /proc/get_access_desc(access_code)
 	return GLOB.access_desc_list["[access_code]"] || "Unknown [access_code]"

@@ -287,12 +287,6 @@ CREATION_TEST_IGNORE_SELF(/turf)
 /turf/proc/on_change_area(area/old_area, area/new_area)
 	transfer_area_lighting(old_area, new_area)
 
-/turf/eminence_act(mob/living/simple_animal/eminence/eminence)
-	if(get_turf(eminence) == src)
-		show_zmove_radial(eminence)
-		return
-	return ..()
-
 /**
  * Check whether the specified turf is blocked by something dense inside it with respect to a specific atom.
  *

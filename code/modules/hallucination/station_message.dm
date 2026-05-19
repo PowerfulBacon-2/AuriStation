@@ -97,21 +97,5 @@
 	to_chat(hallucinator, span_boldannounce("You feel reality distort for a moment..."))
 	return ..()
 
-/datum/hallucination/station_message/clock_cult_ark
-	random_hallucination_weight = 1
-
-/datum/hallucination/station_message/clock_cult_ark/start()
-	hallucinator.playsound_local(hallucinator, 'sound/machines/clockcult/ark_deathrattle.ogg', 50, FALSE, pressure_affected = FALSE)
-	hallucinator.playsound_local(hallucinator, 'sound/effects/clockcult_gateway_disrupted.ogg', 50, FALSE, pressure_affected = FALSE)
-	addtimer(CALLBACK(src, PROC_REF(play_distant_explosion_sound)), 2.7 SECONDS)
-	return TRUE // does not call parent to finish up the sound in a few seconds
-
-/datum/hallucination/station_message/clock_cult_ark/proc/play_distant_explosion_sound()
-	if(QDELETED(src))
-		return
-
-	hallucinator.playsound_local(get_turf(hallucinator), 'sound/effects/explosion_distant.ogg', 50, FALSE, pressure_affected = FALSE)
-	qdel(src)
-
 #undef ALERT_TITLE
 #undef ALERT_BODY

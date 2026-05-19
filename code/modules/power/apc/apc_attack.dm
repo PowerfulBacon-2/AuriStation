@@ -204,10 +204,6 @@
 	if(.)
 		set_broken()
 
-/obj/machinery/power/apc/eminence_act(mob/living/simple_animal/eminence/eminence)
-	. = ..()
-	ui_interact(eminence)
-
 /obj/machinery/power/apc/blob_act(obj/structure/blob/B)
 	set_broken()
 

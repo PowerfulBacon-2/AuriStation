@@ -59,7 +59,6 @@
 	initial_language_holder = /datum/language_holder/swarmer
 	bubble_icon = "swarmer"
 	mob_biotypes = MOB_ROBOTIC
-	health = 65
 	maxHealth = 65
 	status_flags = CANPUSH
 	icon_state = "swarmer"
@@ -207,9 +206,6 @@
 
 /obj/item/clockwork/alloy_shards/IntegrateAmount()
 	return 10
-
-/obj/item/stack/sheet/brass/IntegrateAmount()
-	return 5
 
 /obj/item/clockwork/alloy_shards/medium/gear_bit/large/IntegrateAmount()
 	return 4

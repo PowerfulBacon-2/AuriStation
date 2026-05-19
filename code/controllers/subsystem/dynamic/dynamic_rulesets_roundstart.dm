@@ -199,9 +199,6 @@
 	points_cost = 20
 	minimum_players_required = 24
 	ruleset_flags = SHOULD_USE_ANTAG_REP | HIGH_IMPACT_RULESET | NO_OTHER_RULESETS
-	blocking_rulesets = list(
-		/datum/dynamic_ruleset/roundstart/clockcult,
-	)
 
 	var/datum/team/cult/team
 
@@ -229,65 +226,6 @@
 	else
 		SSticker.mode_result = "loss - staff stopped the cult"
 		SSticker.news_report = CULT_FAILURE
-
-//////////////////////////////////////////////
-//                                          //
-//                CLOCK CULT                //
-//                                          //
-//////////////////////////////////////////////
-
-/datum/dynamic_ruleset/roundstart/clockcult
-	name = "Clockwork Cult"
-	role_preference = /datum/role_preference/roundstart/clock_cultist
-	antag_datum = /datum/antagonist/servant_of_ratvar
-	restricted_roles = list(JOB_NAME_AI, JOB_NAME_CYBORG, JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE,JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN, JOB_NAME_CHAPLAIN, JOB_NAME_HEADOFPERSONNEL)
-	drafted_players_amount = 4
-	weight = 5
-	points_cost = 35
-	minimum_players_required = 35
-	ruleset_flags = SHOULD_USE_ANTAG_REP | HIGH_IMPACT_RULESET | NO_OTHER_RULESETS
-	blocking_rulesets = list(
-		/datum/dynamic_ruleset/roundstart/bloodcult,
-	)
-
-	var/datum/team/clock_cult/main_cult
-
-/datum/dynamic_ruleset/roundstart/clockcult/set_drafted_players_amount()
-	drafted_players_amount = max(FLOOR(length(SSdynamic.roundstart_candidates) / 7, 1), 2)
-
-/datum/dynamic_ruleset/roundstart/clockcult/choose_candidates()
-	. = ..()
-	LoadReebe()
-	generate_clockcult_scriptures()
-
-	for(var/datum/mind/chosen_mind in chosen_candidates)
-		chosen_mind.assigned_role = initial(antag_datum.banning_key)
-
-/datum/dynamic_ruleset/roundstart/clockcult/execute()
-	main_cult = new()
-
-	for(var/datum/mind/chosen_mind in chosen_candidates)
-		chosen_mind.current.forceMove(pick_n_take(GLOB.servant_spawns))
-
-		var/datum/antagonist/servant_of_ratvar/servant_datum = add_servant_of_ratvar(chosen_mind.current, team = main_cult)
-		servant_datum.equip_carbon(chosen_mind.current)
-		servant_datum.equip_servant()
-		servant_datum.prefix = CLOCKCULT_PREFIX_MASTER
-
-		GLOB.pre_setup_antags -= chosen_mind
-
-	main_cult.setup_objectives()
-
-	calculate_clockcult_values()
-	return DYNAMIC_EXECUTE_SUCCESS
-
-/datum/dynamic_ruleset/roundstart/clockcult/round_result()
-	if(GLOB.ratvar_risen)
-		SSticker.news_report = CLOCK_SUMMON
-		SSticker.mode_result = "win - servants completed their objective (summon ratvar)"
-	else
-		SSticker.news_report = CULT_FAILURE
-		SSticker.mode_result = "loss - servants failed their objective (summon ratvar)"
 
 //////////////////////////////////////////////
 //                                          //

@@ -330,10 +330,6 @@
 	new /obj/structure/girder/cult(loc)
 	qdel(src)
 
-/obj/structure/girder/ratvar_act()
-	new /obj/structure/girder/bronze(loc)
-	qdel(src)
-
 // Displaced girder
 /obj/structure/girder/displaced
 	name = "displaced girder"
@@ -467,53 +463,3 @@
 	smoothing_groups = null
 	canSmoothWith = null
 	can_displace = FALSE
-
-/*
-/obj/structure/girder/bronze/attackby(obj/item/W, mob/living/user, params)
-	add_fingerprint(user)
-
-	if(W.tool_behaviour == TOOL_WELDER)
-		if(!W.tool_start_check(user, amount = 0))
-			return
-		balloon_alert(user, "slicing apart...")
-		if(W.use_tool(src, user, 40, volume=50))
-			var/drop_loc = drop_location()
-			var/obj/item/stack/sheet/bronze/B = new(drop_loc, 2)
-			if(QDELETED(B))
-				B = locate(/obj/item/stack/sheet/bronze) in drop_loc
-			if(B)
-				transfer_fingerprints_to(B)
-			qdel(src)
-
-	else if(istype(W, /obj/item/pickaxe/drill/jackhammer))
-		to_chat(user, span_notice("Your jackhammer smashes through [src]!"))
-		var/drop_loc = drop_location()
-		var/obj/item/stack/sheet/bronze/B = new(drop_loc, 2)
-		if(QDELETED(B))
-			B = locate(/obj/item/stack/sheet/bronze) in drop_loc
-		if(B)
-			transfer_fingerprints_to(B)
-		W.play_tool_sound(src)
-		qdel(src)
-
-	else if(istype(W, /obj/item/stack/sheet/bronze))
-		var/obj/item/stack/sheet/bronze/B = W
-		if(B.get_amount() < 2)
-			to_chat(user, span_warning("You need at least two bronze sheets to build a bronze wall!"))
-			return FALSE
-		user.visible_message(span_notice("[user] begins plating [src] with bronze..."), span_notice("You begin constructing a bronze wall..."))
-		if(do_after(user, 50, target = src))
-			if(B.get_amount() < 2)
-				return
-			user.visible_message(span_notice("[user] plates [src] with bronze!"), span_notice("You construct a bronze wall."))
-			B.use(2)
-			var/turf/T = get_turf(src)
-			T.PlaceOnTop(/turf/closed/wall/mineral/bronze)
-			qdel(src)
-
-	else
-		return ..()
-*/
-
-/obj/structure/girder/ratvar_act()
-	return

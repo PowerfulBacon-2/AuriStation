@@ -1891,11 +1891,6 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 			return
 		admin_give_delusion(usr)
 
-/mob/living/eminence_act(mob/living/simple_animal/eminence/eminence)
-	if(IS_SERVANT_OF_RATVAR(src) && !iseminence(src))
-		eminence.selected_mob = src
-		to_chat(eminence, span_brass("You select [src]."))
-
 /mob/living/proc/set_gender(ngender = NEUTER, silent = FALSE, update_icon = TRUE, forced = FALSE)
 	if(forced)
 		gender = ngender

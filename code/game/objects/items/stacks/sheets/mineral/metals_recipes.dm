@@ -140,39 +140,6 @@ GLOBAL_LIST_INIT(plasteel_recipes, list ( \
 
 STACKSIZE_MACRO(/obj/item/stack/sheet/plasteel)
 
-/* Brass */
-
-GLOBAL_LIST_INIT(brass_recipes, list (
-	new/datum/stack_recipe("wall gear", /obj/structure/destructible/clockwork/wall_gear, 2, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ONE_PER_TURF | CRAFT_ON_SOLID_GROUND, time = 2 SECONDS),
-	new/datum/stack_recipe("brass grille", /obj/structure/grille/ratvar, 2, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ONE_PER_TURF | CRAFT_ON_SOLID_GROUND, time = 2 SECONDS),
-	new/datum/stack_recipe("brass floor tile", /obj/item/stack/tile/mineral/brass, 1, 4, 20, crafting_flags = NONE, category = CAT_TILES),
-	null,
-	new/datum/stack_recipe("brass fulltile window", /obj/structure/window/reinforced/clockwork/fulltile/unanchored, 4, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ON_SOLID_GROUND | CRAFT_IS_FULLTILE, time = 1 SECONDS),
-	new/datum/stack_recipe("brass directional window", /obj/structure/window/reinforced/clockwork/unanchored, 2, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ON_SOLID_GROUND | CRAFT_CHECK_DIRECTION, time = 1 SECONDS),
-	new/datum/stack_recipe("brass directional window corner", /obj/structure/window/reinforced/clockwork/corner/unanchored, 2, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ON_SOLID_GROUND | CRAFT_CHECK_DIRECTION, time = 1 SECONDS),
-	new/datum/stack_recipe("brass windoor", /obj/machinery/door/window/clockwork, 5, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ON_SOLID_GROUND | CRAFT_CHECK_DIRECTION, time = 4 SECONDS),
-	null,
-	new/datum/stack_recipe("pinion airlock", /obj/machinery/door/airlock/clockwork, 5, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ONE_PER_TURF | CRAFT_ON_SOLID_GROUND, time = 4 SECONDS),
-	new/datum/stack_recipe("pinion windowed airlock", /obj/machinery/door/airlock/clockwork/glass, 5, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ONE_PER_TURF | CRAFT_ON_SOLID_GROUND, time = 4 SECONDS),
-	null,
-	new/datum/stack_recipe("brass chair", /obj/structure/chair/fancy/brass, 1, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ONE_PER_TURF | CRAFT_ON_SOLID_GROUND, time = 4 SECONDS),
-	new/datum/stack_recipe("brass table frame", /obj/structure/table_frame/brass, 1, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ONE_PER_TURF | CRAFT_ON_SOLID_GROUND, time = 4 SECONDS),
-	null,
-	new/datum/stack_recipe("lever", /obj/item/wallframe/clocktrap/lever, 1, crafting_flags = CRAFT_CHECK_DENSITY, time = 4 SECONDS),
-	new/datum/stack_recipe("timer", /obj/item/wallframe/clocktrap/delay, 1, crafting_flags = CRAFT_CHECK_DENSITY, time = 4 SECONDS),
-	new/datum/stack_recipe("pressure sensor", /obj/structure/destructible/clockwork/trap/pressure_sensor, 4, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ONE_PER_TURF | CRAFT_ON_SOLID_GROUND, time = 4 SECONDS),
-	null,
-	new/datum/stack_recipe("brass skewer", /obj/structure/destructible/clockwork/trap/skewer, 12, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ONE_PER_TURF | CRAFT_ON_SOLID_GROUND, time = 4 SECONDS),
-	new/datum/stack_recipe("brass flipper", /obj/structure/destructible/clockwork/trap/flipper, 10, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ONE_PER_TURF | CRAFT_ON_SOLID_GROUND, time = 4 SECONDS),
-))
-
-STACKSIZE_MACRO(/obj/item/stack/sheet/brass)
-
-/obj/item/stack/sheet/brass/cyborg
-	custom_materials = null
-	is_cyborg = 1
-	cost = 500
-
 /* Bronze */
 
 GLOBAL_LIST_INIT(bronze_recipes, list ( \

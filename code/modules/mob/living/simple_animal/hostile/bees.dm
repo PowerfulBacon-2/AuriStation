@@ -32,7 +32,6 @@
 	response_harm_continuous = "squashes"
 	response_harm_simple = "squash"
 	maxHealth = 6
-	health = 6
 	faction = list(FACTION_HOSTILE)
 	move_to_delay = 0
 	obj_damage = 0

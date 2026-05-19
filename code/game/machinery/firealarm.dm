@@ -218,12 +218,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/machinery/firealarm)
 	set_status()
 	return TRUE
 
-/obj/machinery/firealarm/eminence_act(mob/living/simple_animal/eminence/eminence)
-	. = ..()
-	to_chat(usr, span_brass("You begin manipulating [src]!"))
-	if(do_after(eminence, 20, target=get_turf(eminence)))
-		attack_hand(eminence)
-
 /**
  * Signal handler for checking if we should update fire alarm appearance accordingly to a newly set security level
  *

@@ -48,7 +48,6 @@ GLOBAL_LIST_INIT(battle_royale_basic_loot, list(
 		/obj/item/clothing/head/costume/crown,
 		/obj/item/clothing/head/hats/hos/syndicate,
 		/obj/item/clothing/head/helmet,
-		/obj/item/clothing/head/helmet/clockcult,
 		/obj/item/clothing/head/helmet/space,
 		/obj/item/clothing/head/helmet/sec,
 		/obj/item/clothing/under/syndicate,

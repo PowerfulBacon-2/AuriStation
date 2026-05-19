@@ -232,14 +232,6 @@
 	desc = "A cardboard cutout of a cultist."
 	icon_state = "cutout_cultist"
 
-/obj/item/cardboard_cutout/adaptive/clockcultist
-	desc = "A cardboard cutout of a servant of Ratvar."
-	icon_state = "cutout_servant"
-
-/obj/item/cardboard_cutout/adaptive/clockcultist/Initialize(mapload)
-	. = ..()
-	name = "[pick(GLOB.first_names_male)] [pick(GLOB.last_names)]"
-
 /obj/item/cardboard_cutout/adaptive/rev
 	name = "Unknown"
 	desc = "A cardboard cutout of a revolutionary."

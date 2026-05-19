@@ -424,9 +424,6 @@
 	return ..()
 
 /datum/objective/sacrifice/check_completion()
-	//Target's a clockie
-	if(target?.has_antag_datum(/datum/antagonist/servant_of_ratvar))
-		return TRUE
 	return sacced || !target || ..()
 
 /datum/objective/sacrifice/update_explanation_text()

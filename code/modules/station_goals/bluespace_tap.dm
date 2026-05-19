@@ -187,7 +187,6 @@
 		/obj/item/stack/sheet/mineral/abductor/ten = 3, // Really rare, you only get a few
 		/obj/item/stack/sheet/mineral/adamantine/ten = 3, // If you're lucky you can get these
 		/obj/item/stack/sheet/runed_metal/five = 3, // Blood cult material, really rare
-		/obj/item/stack/sheet/brass = 3, // Clock cult material, technically one, really rare
 		/obj/item/stack/sheet/bronze/ten = 10 // Not a whole lot useful, can be made by chemistry
 	)
 

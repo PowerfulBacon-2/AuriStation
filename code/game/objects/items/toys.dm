@@ -1388,11 +1388,6 @@
 	icon_state = "integration_cog"
 	w_class = WEIGHT_CLASS_SMALL
 
-/obj/item/toy/cog/examine(mob/user)
-	. = ..()
-	if(IS_SERVANT_OF_RATVAR(user))
-		. += span_warning("It's clearly a fake, how could anybody fall for this!")
-
 /*
  * Replica fabricator
  */
@@ -1404,11 +1399,6 @@
 	icon = 'icons/obj/clockwork_objects.dmi'
 	icon_state = "replica_fabricator"
 	w_class = WEIGHT_CLASS_SMALL
-
-/obj/item/toy/replica_fabricator/examine(mob/user)
-	. = ..()
-	if(IS_SERVANT_OF_RATVAR(user))
-		. += span_warning("It's clearly a fake, how could anybody fall for this!")
 
 /*
  * Xenomorph action figure

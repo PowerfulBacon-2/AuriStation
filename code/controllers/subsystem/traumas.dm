@@ -242,8 +242,6 @@ SUBSYSTEM_DEF(traumas)
 			/obj/eldritch/narsie,
 			/obj/item/soulstone,
 			/obj/item/clockwork,
-			/obj/item/stack/sheet/brass,
-			/obj/machinery/door/airlock/clockwork,
 			/obj/item/clothing/suit/wizrobe,
 			/obj/item/clothing/head/wizard,
 			/obj/item/spellbook,
@@ -330,8 +328,6 @@ SUBSYSTEM_DEF(traumas)
 			/turf/open/floor/fakespace
 		)),
 		"the supernatural" = typecacheof(list(
-			/turf/open/floor/clockwork,
-			/turf/closed/wall/clockwork,
 			/turf/open/floor/cult,
 			/turf/closed/wall/mineral/cult,
 		)),

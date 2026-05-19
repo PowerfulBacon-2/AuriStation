@@ -56,11 +56,6 @@
 	W.setDir(dir)
 	qdel(src)
 
-/obj/structure/chair/ratvar_act()
-	var/obj/structure/chair/fancy/brass/B = new(get_turf(src))
-	B.setDir(dir)
-	qdel(src)
-
 /obj/structure/chair/AltClick(mob/user)
 	return ..() // This hotkey is BLACKLISTED since it's used by /datum/component/simple_rotation
 
@@ -270,52 +265,6 @@
 		if(do_after(M, 6 SECONDS, progress = FALSE))
 			M.visible_message(span_notice("The plastic chair snaps under [M]'s weight!"))
 			qdel(src)
-
-/obj/structure/chair/fancy/brass
-	name = "brass chair"
-	desc = "A spinny chair made of brass. It looks uncomfortable."
-	icon_state = "brass_chair"
-	max_integrity = 150
-	buildstacktype = /obj/item/stack/sheet/brass
-	buildstackamount = 1
-	item_chair = null
-	var/turns = 0
-
-/obj/structure/chair/fancy/brass/Destroy()
-	STOP_PROCESSING(SSfastprocess, src)
-	. = ..()
-
-/obj/structure/chair/fancy/brass/process()
-	setDir(turn(dir,-90))
-	playsound(src, 'sound/effects/servostep.ogg', 50, FALSE)
-	turns++
-	if(turns >= 8)
-		STOP_PROCESSING(SSfastprocess, src)
-
-/obj/structure/chair/fancy/brass/relaymove(mob/user, direction)
-	if(!direction)
-		return FALSE
-	if(direction == dir)
-		return
-	setDir(direction)
-	playsound(src, 'sound/effects/servostep.ogg', 50, FALSE)
-	return FALSE
-
-/obj/structure/chair/fancy/brass/ratvar_act()
-	return
-
-/obj/structure/chair/fancy/brass/AltClick(mob/living/user)
-	turns = 0
-	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
-		return
-	if(!(datum_flags & DF_ISPROCESSING))
-		user.visible_message(span_notice("[user] spins [src] around, and Ratvarian technology keeps it spinning FOREVER."), \
-		span_notice("Automated spinny chairs. The pinnacle of Ratvarian technology."))
-		START_PROCESSING(SSfastprocess, src)
-	else
-		user.visible_message(span_notice("[user] stops [src]'s uncontrollable spinning."), \
-		span_notice("You grab [src] and stop its wild spinning."))
-		STOP_PROCESSING(SSfastprocess, src)
 
 /obj/structure/chair/fancy/brass/bronze
 	name = "bronze chair"

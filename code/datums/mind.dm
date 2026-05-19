@@ -349,8 +349,6 @@
 		return
 	if(creator.has_antag_datum(/datum/antagonist/cult))
 		add_antag_datum(/datum/antagonist/cult)
-	else if(creator.has_antag_datum(/datum/antagonist/servant_of_ratvar))
-		INVOKE_ASYNC(src, PROC_REF(add_servant_of_ratvar), current, TRUE)
 	if(creator.has_antag_datum(/datum/antagonist/rev))
 		var/datum/antagonist/rev/converter = creator.has_antag_datum(/datum/antagonist/rev, TRUE)
 		converter.add_revolutionary(src, FALSE)

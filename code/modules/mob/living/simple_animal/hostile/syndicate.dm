@@ -267,7 +267,6 @@
 	pass_flags = PASSTABLE | PASSMOB
 	combat_mode = TRUE
 	mob_biotypes = MOB_ROBOTIC
-	health = 25
 	maxHealth = 25
 	melee_damage = 15
 	obj_damage = 0

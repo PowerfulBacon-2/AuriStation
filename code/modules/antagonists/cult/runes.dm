@@ -26,8 +26,6 @@ GLOBAL_LIST_EMPTY(wall_runes)
 			return FALSE
 		if(specific_cult && specific_cult.is_sacrifice_target(M.mind))
 			return FALSE
-		if(IS_SERVANT_OF_RATVAR(M))
-			return FALSE
 		if(M.mind.enslaved_to && !M.mind.enslaved_to.has_antag_datum(/datum/antagonist/cult))
 			return FALSE
 		if(M.mind.unconvertable)

@@ -684,12 +684,6 @@ update_label("John Doe", "Clowny")
 	name = "lead agent card"
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER)
 
-/obj/item/card/id/syndicate/ratvar
-	name = "servant ID card"
-	icon_state = "ratvar"
-	access = list(ACCESS_CLOCKCULT, ACCESS_MAINT_TUNNELS)
-	hud_state = JOB_HUD_UNKNOWN
-
 /obj/item/card/id/syndicate_command
 	name = "syndicate ID card"
 	desc = "An ID straight from the Syndicate."

@@ -81,7 +81,6 @@
 		/datum/antagonist/vampire,
 		/datum/antagonist/changeling,
 		/datum/antagonist/cult,
-		/datum/antagonist/servant_of_ratvar,
 	)
 
 	/// List of traits applied inherently
