@@ -74,7 +74,7 @@ GLOBAL_LIST_INIT(battle_royale_basic_loot, list(
 
 GLOBAL_LIST_INIT(battle_royale_good_loot, list(
 		/obj/item/hand_tele,
-		/obj/item/gun/ballistic/bow/clockbolt,
+		/obj/item/gun/ballistic/bow,
 		/obj/item/gun/ballistic/rifle/boltaction,
 		/obj/item/gun/ballistic/shotgun/doublebarrel,
 		/obj/item/gun/energy/laser/captain,

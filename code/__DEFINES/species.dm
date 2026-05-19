@@ -46,7 +46,6 @@
 #define SPECIES_GOLEM_CAPITALIST "capitalist_golem"
 #define SPECIES_GOLEM_CARDBOARD "cardboard_golem"
 #define SPECIES_GOLEM_CLOCKWORK "clockwork_golem"
-#define SPECIES_GOLEM_CLOCKWORK_SERVANT "clockwork golem servant"
 #define SPECIES_GOLEM_CLOTH "cloth_golem"
 #define SPECIES_GOLEM_COPPER "copper_golem"
 #define SPECIES_GOLEM_DIAMOND "diamond_golem"

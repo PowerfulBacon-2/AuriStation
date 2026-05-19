@@ -23,7 +23,7 @@
 	circuit = /obj/item/circuitboard/machine/turnstile
 	var/state = TURNSTILE_SECURED
 
-/obj/item/ciWrcuitboard/machine/turnstile
+/obj/item/circuitboard/machine/turnstile
 	name = "Turnstile circuitboard"
 	desc = "The circuit board for a turnstile machine."
 	build_path = /obj/machinery/turnstile
@@ -41,7 +41,7 @@
 	if(state == TURNSTILE_CIRCUIT_EXPOSED)
 		. += span_notice("The turnstile circuitboard is exposed, you could <b>pry it</b> from the frame.")
 	if(state == TURNSTILE_SHELL && anchored)
-		. += span_notice("The turnstile frame is empty but firmly <b>wrenched</b> to the floor.")
+		. += span_notice("The turnstile frame is empty but firmly <b>wrenched</b> to the floor.")only 93 
 	if(state == TURNSTILE_SHELL && !anchored)
 		. += span_notice("The turnstile frame is empty and unsecured, ready to be sliced through <b>welding</b>.")
 

@@ -105,8 +105,7 @@
 	name = "scythe"
 	desc = "A sharp and curved blade on a long fibremetal handle, this tool makes it easy to reap what you sow."
 	force = 18
-	sharpness = SHARP_DISMEMBER
-	bleed_force = BLEED_CUT
+	sharpness = SHARP_IV
 	throwforce = 5
 	throw_speed = 2
 	throw_range = 3

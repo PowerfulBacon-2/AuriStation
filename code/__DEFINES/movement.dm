@@ -84,8 +84,6 @@ GLOBAL_VAR_INIT(glide_size_multiplier, 1.0)
 #define TELEPORT_ALLOW_ALL 0
 /// Everyone is restricted
 #define TELEPORT_ALLOW_NONE 1
-/// Everyone but clockwork is restricted
-#define TELEPORT_ALLOW_CLOCKWORK 2
 /// Everyone but abductors is restricted
 #define TELEPORT_ALLOW_ABDUCTORS 3
 /// Everyone but wizards is restricted

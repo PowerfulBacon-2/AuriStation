@@ -138,8 +138,7 @@
 	icon_state = "sabre_fiber"
 	inhand_icon_state = "sabre_fiber"
 	force = 15
-	armour_penetration = 25
-	sharpness = SHARP //No dismembering for security sabre without direct intent
+	sharpness = SHARP_II
 
 /obj/item/melee/sabre/mime
 	name = "Bread Blade"

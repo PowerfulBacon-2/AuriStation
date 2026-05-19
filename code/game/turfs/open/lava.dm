@@ -195,8 +195,8 @@
 			burn_obj.resistance_flags |= FLAMMABLE //Even fireproof things burn up in lava
 		if(burn_obj.resistance_flags & FIRE_PROOF)
 			burn_obj.resistance_flags &= ~FIRE_PROOF
-		if(burn_obj.get_armor_rating(FIRE) > 50) //obj with 100% fire armor still get slowly burned away.
-			burn_obj.set_armor_rating(FIRE, 50)
+		if(burn_obj.get_armor_rating(ARMOUR_HEAT) > 50) //obj with 100% fire armor still get slowly burned away.
+			burn_obj.set_armor_rating(ARMOUR_HEAT, 50)
 		burn_obj.fire_act(temperature_damage, 1000 * seconds_per_tick)
 		if(istype(burn_obj, /obj/structure/closet))
 			for(var/burn_content in burn_target)

@@ -195,22 +195,3 @@
 
 /area/ctf/flag_room2
 	name = "Flag Room B"
-
-// REEBE
-
-/area/reebe
-	name = "Reebe"
-	icon_state = "yellow"
-	requires_power = FALSE
-	dynamic_lighting = DYNAMIC_LIGHTING_DISABLED
-	default_gravity = STANDARD_GRAVITY
-	teleport_restriction = TELEPORT_ALLOW_CLOCKWORK
-	area_flags = VALID_TERRITORY | UNIQUE_AREA | HIDDEN_AREA
-	ambience_index = AMBIENCE_REEBE
-	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_ELITE
-
-/area/reebe/city_of_cogs
-	name = "Reebe - City of Cogs"
-	icon_state = "purple"
-	area_flags = VALID_TERRITORY | UNIQUE_AREA | HIDDEN_AREA
-	var/playing_ambience = FALSE

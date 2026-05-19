@@ -237,7 +237,7 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 		// If we are maxed out on hypoxia, then we start to take regular decay
 		var/decay_damage = damage_dealt - hypoxia
 		if (decay_damage > 0)
-			applyOrganDamage(decay_damage)
+			apply_organ_damage(decay_damage)
 		// Prevent healing while dying of hypoxia
 		if (damage_dealt > 0)
 			return

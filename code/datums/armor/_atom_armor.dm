@@ -6,9 +6,9 @@
 	return (armor ||= get_armor_by_type(armor_type))
 
 /// Helper to get a specific rating for the atom's armor
-/atom/proc/get_armor_rating(damage_type)
+/atom/proc/get_armor_rating(armor_type)
 	var/datum/armor/armor = get_armor()
-	return armor.get_rating(damage_type)
+	return armor.get_rating(armor_type)
 
 /// Sets the armor of this atom to the specified armor
 /atom/proc/set_armor(datum/armor/armor)
@@ -21,6 +21,6 @@
 	src.armor = ispath(armor) ? get_armor_by_type(armor) : armor
 
 /// Helper to update the atom's armor to a new armor with the specified rating
-/atom/proc/set_armor_rating(damage_type, rating)
+/atom/proc/set_armor_rating(armor_type, rating)
 	var/datum/armor/armor = get_armor()
-	set_armor(armor.generate_new_with_specific(list("[damage_type]" = rating)))
+	set_armor(armor.generate_new_with_specific(list("[armor_type]" = rating)))

@@ -54,7 +54,6 @@
 /area/tear_in_reality
 	name = "tear in the fabric of reality"
 	area_flags = UNIQUE_AREA | HIDDEN_AREA
-	clockwork_warp_allowed = FALSE
 	requires_power = FALSE
 	mood_bonus = -999
 	default_gravity = STANDARD_GRAVITY

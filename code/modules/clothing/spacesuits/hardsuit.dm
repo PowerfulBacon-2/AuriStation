@@ -267,7 +267,10 @@
 	armor_type = /datum/armor/civilian_metal
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/engine
 	resistance_flags = FIRE_PROOF
-	rad_flags = RAD_PROTECT_CONTENTS
+
+/obj/item/clothing/suit/space/hardsuit/engine/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/radiation_protected_clothing)
 
 	//Atmospherics
 /obj/item/clothing/head/helmet/space/hardsuit/engine/atmos
@@ -410,7 +413,6 @@
 	)
 	visor_flags_inv = HIDEMASK|HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDEEARS|HIDESNOUT
 	visor_flags = STOPSPRESSUREDAMAGE | HEADINTERNALS
-	rad_flags = RAD_PROTECT_CONTENTS
 	clothing_flags = NOTCONSUMABLE | STOPSPRESSUREDAMAGE | SNUG_FIT | HEADINTERNALS | THICKMATERIAL
 
 /obj/item/clothing/head/helmet/space/hardsuit/syndi/update_icon()
@@ -418,6 +420,7 @@
 
 /obj/item/clothing/head/helmet/space/hardsuit/syndi/Initialize(mapload)
 	. = ..()
+	AddElement(/datum/element/radiation_protected_clothing)
 	//Link
 	if(istype(loc, /obj/item/clothing/suit/space/hardsuit/syndi))
 		linkedsuit = loc
@@ -507,11 +510,11 @@
 		/datum/action/item_action/toggle_beacon,
 		/datum/action/item_action/toggle_beacon_frequency
 	)
-	rad_flags = RAD_PROTECT_CONTENTS
 	clothing_flags = NOTCONSUMABLE | STOPSPRESSUREDAMAGE | SNUG_FIT | HEADINTERNALS | THICKMATERIAL
 
 /obj/item/clothing/suit/space/hardsuit/syndi/Initialize(mapload)
 	. = ..()
+	AddElement(/datum/element/radiation_protected_clothing)
 	AddComponent(/datum/component/anti_artifact, INFINITY, FALSE, 100)
 
 /obj/item/clothing/suit/space/hardsuit/syndi/RemoveHelmet()

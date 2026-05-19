@@ -708,7 +708,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	icon_state = "bostaff0"
 	lefthand_file = 'icons/mob/inhands/weapons/staves_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/staves_righthand.dmi'
-	armour_penetration = 0
+	sharpness = SHARP_NONE
 
 	canblock = TRUE
 	block_power = 75

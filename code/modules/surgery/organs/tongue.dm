@@ -79,7 +79,6 @@
 		/datum/language/monkey,
 		/datum/language/narsie,
 		/datum/language/piratespeak,
-		/datum/language/ratvar,
 		/datum/language/shadowtongue,
 		/datum/language/slime,
 		/datum/language/sylvan,
@@ -288,7 +287,6 @@
 		/datum/language/common,
 		/datum/language/uncommon,
 		/datum/language/draconic,
-		/datum/language/ratvar,
 		/datum/language/monkey,
 	)
 

@@ -554,7 +554,7 @@
 			eye_lights.color = lamp_doom ? COLOR_RED : lamp_color
 			eye_lights.plane = ABOVE_LIGHTING_PLANE //glowy eyes
 		else
-			eye_lights.icon_state = "[model.special_light_key ? "[model.special_light_key]":"[model.cyborg_base_icon]"]_e[ratvar ? "_r" : ""]"
+			eye_lights.icon_state = "[model.special_light_key ? "[model.special_light_key]":"[model.cyborg_base_icon]"]_e"
 			eye_lights.color = COLOR_WHITE
 			eye_lights.plane = ABOVE_LIGHTING_PLANE //still glowy, but don't emit actual light
 		eye_lights.icon = icon
@@ -649,18 +649,6 @@
 	else
 		clear_alert("hacked")
 	set_modularInterface_theme()
-
-/mob/living/silicon/robot/proc/SetRatvar(new_state, rebuild=TRUE)
-	ratvar = new_state
-	if(rebuild)
-		model.rebuild_modules()
-	update_icons()
-	if(ratvar)
-		internal_clock_slab = new(src)
-		throw_alert("ratvar", /atom/movable/screen/alert/ratvar)
-	else
-		qdel(internal_clock_slab)
-		clear_alert("ratvar")
 
 /**
   * Handles headlamp smashing

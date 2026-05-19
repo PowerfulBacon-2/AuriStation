@@ -113,15 +113,13 @@
 				var/cell_charge
 				if(!A.cell)
 					cell_charge = 0
-				else if(A.integration_cog)
-					cell_charge = 100
 				else
 					cell_charge = A.cell.percent()
 				data["areas"] += list(list(
 					"name" = A.area.name,
 					"charge" = cell_charge,
 					"load" = display_power_persec(A.lastused_total),
-					"charging" = A.integration_cog ? 2 : A.charging,
+					"charging" = A.charging,
 					"eqp" = A.equipment,
 					"lgt" = A.lighting,
 					"env" = A.environ

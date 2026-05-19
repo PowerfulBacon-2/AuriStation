@@ -854,8 +854,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	ambience_index = AMBIENCE_HOLY
 	area_flags = HIDDEN_STASH_LOCATION | VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 	flags_1 = NONE
-	clockwork_warp_allowed = FALSE
-	clockwork_warp_fail = "The consecration here prevents you from warping in."
 	sound_environment = SOUND_AREA_LARGE_ENCLOSED
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_SIMPLE
 	camera_networks = list(CAMERA_NETWORK_STATION)
@@ -961,8 +959,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/engine/gravity_generator
 	name = "Gravity Generator Room"
 	icon_state = "grav_gen"
-	clockwork_warp_allowed = FALSE
-	clockwork_warp_fail = "The gravitons generated here could throw off your warp's destination and possibly throw you into deep space."
 	airlock_hack_difficulty = AIRLOCK_WIRE_SECURITY_ELITE
 	camera_networks = list(CAMERA_NETWORK_ENGINEERING)
 
@@ -1696,7 +1692,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/storage/eva
 	name = "EVA Storage"
 	icon_state = "eva"
-	clockwork_warp_allowed = FALSE
 	color_correction = /datum/client_colour/area_color/cold_ish
 
 /area/storage/emergency/starboard
@@ -1865,8 +1860,6 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 // Telecommunications Satellite
 
 /area/tcommsat
-	clockwork_warp_allowed = FALSE
-	clockwork_warp_fail = "For safety reasons, warping here is disallowed; the radio and bluespace noise could cause catastrophic results."
 	ambientsounds = list(
 		'sound/ambience/ambisin2.ogg',
 		'sound/ambience/signal.ogg',

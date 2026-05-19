@@ -3,13 +3,7 @@
 /obj/machinery/power/apc/crowbar_act(mob/user, obj/item/W)
 	. = TRUE
 	if (opened)
-		if(integration_cog)
-			to_chat(user, span_notice("You begin prying something out of the APC."))
-			W.play_tool_sound(src)
-			if(W.use_tool(src, user, 50))
-				to_chat(user, span_warning("You screw up breaking whatever was inside!"))
-				QDEL_NULL(integration_cog)
-		else if (has_electronics == APC_ELECTRONICS_INSTALLED)
+		if (has_electronics == APC_ELECTRONICS_INSTALLED)
 			if (terminal)
 				to_chat(user, span_warning("Disconnect the wires first!"))
 				return

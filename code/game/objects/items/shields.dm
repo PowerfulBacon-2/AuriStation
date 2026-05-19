@@ -21,17 +21,18 @@
 		return FALSE
 	return ..()
 
-/obj/item/shield/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armour_penetration)
-	if(damage_amount >= atom_integrity)
-		shatter()
-		return
-	..()
+/obj/item/shield/atom_destruction(damage_flag)
+	SEND_SIGNAL(src, COMSIG_ATOM_DESTRUCTION, damage_flag)
+	shatter()
+	// Appease the linter
+	if (!QDELETED(src))
+		..()
 
 /obj/item/shield/on_block(mob/living/carbon/human/owner, atom/movable/hitby, attack_text, damage, attack_type)
 	. = ..()
 	if(QDELETED(src))
 		return FALSE
-	if(owner.getStaminaLoss() >= 45 && !is_energy_shield)
+	if(owner.getExhaustion() >= 45 && !is_energy_shield)
 		//If we are too tired to keep blocking, but can't drop the shield, shatter it because something cheesy is going on
 		if(HAS_TRAIT(src, TRAIT_NODROP))
 			shatter(owner)

@@ -741,7 +741,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	//This is done here so we don't have to pass attackforce up somehow
 	if(istype(src, /obj/item/shield))
-		take_damage(attackforce)
+		take_direct_damage(attackforce, BRUTE, DAMAGE_ABSORPTION)
 	return TRUE
 
 /obj/item/proc/talk_into(mob/M, input, channel, spans, datum/language/language, list/message_mods)
@@ -926,7 +926,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	if(is_human_victim)
 		var/mob/living/carbon/human/U = M
-		var/blocked = U.run_armor_check(BODY_ZONE_HEAD, MELEE, armour_penetration = weapon.armour_penetration)
+		var/blocked = U.run_armor_check(BODY_ZONE_HEAD, DAMAGE_STANDARD, armour_penetration = weapon.sharpness)
 		U.deal_damage(7, sharpness, BRUTE, sound = FALSE, zone = BODY_ZONE_HEAD)
 		if (prob(blocked))
 			if(M != user)

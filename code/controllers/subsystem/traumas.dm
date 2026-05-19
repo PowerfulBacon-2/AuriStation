@@ -241,7 +241,6 @@ SUBSYSTEM_DEF(traumas)
 			/obj/machinery/door/airlock/cult,
 			/obj/eldritch/narsie,
 			/obj/item/soulstone,
-			/obj/item/clockwork,
 			/obj/item/clothing/suit/wizrobe,
 			/obj/item/clothing/head/wizard,
 			/obj/item/spellbook,

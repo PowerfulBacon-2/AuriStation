@@ -144,9 +144,6 @@
 	/// the last health before updating - to check net change in health
 	var/previous_health
 
-	var/obj/item/clockwork/clockwork_slab/internal_clock_slab = null
-	var/ratvar = FALSE
-
 ///This is the subtype that gets created by robot suits. It's needed so that those kind of borgs don't have a useless cell in them
 /mob/living/silicon/robot/nocell
 	cell = null

@@ -88,8 +88,6 @@
 #define FACTION_HERETIC "heretics"
 /// Mainly used by pirate simplemobs. However I placed them here instead, as its also used by players
 #define FACTION_PIRATE "pirate"
-/// Clockwork cultists and their scarabs/marauders.
-#define FACTION_RATVAR "ratvar"
 /// Swarmers & the swarmer beacon.
 #define FACTION_SWARMER "swarmer"
 

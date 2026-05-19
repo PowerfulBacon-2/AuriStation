@@ -219,10 +219,6 @@
 
 	COOLDOWN_DECLARE(shock_cooldown)
 
-/obj/structure/holosign/barrier/cyborg/hacked/bullet_act(obj/projectile/projectile)
-	deal_damage(P.damage, P.sharpness, BRUTE)	//Yeah no this doesn't get projectile resistance.
-	return BULLET_ACT_HIT
-
 /obj/structure/holosign/barrier/cyborg/hacked/attack_hand(mob/living/user)
 	. = ..()
 	if(.)

@@ -214,7 +214,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/stack/medical)
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	icon_state = "suture"
-	item_state = "brutepack"
+	inhand_icon_state = "brutepack"
 	merge_type = /obj/item/stack/medical/suture
 	amount = 5
 	max_amount = 5

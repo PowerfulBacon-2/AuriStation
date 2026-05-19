@@ -308,8 +308,6 @@
 	name = "red holy staff"
 	desc = "It has a mysterious, protective aura when you channel the staff"
 	w_class = WEIGHT_CLASS_HUGE
-	force = 5
-	armour_penetration = 100 //Just like wizard staves, but it only does 5 damage. It's magical.
 	slot_flags = ITEM_SLOT_BACK
 
 	//Keep in mind it can only block once once per cooldown. This staff's whole purpose is defense so it's good at it when it does

@@ -59,7 +59,6 @@ GLOBAL_DATUM(narsie, /obj/eldritch/narsie)
 			souls_needed[player] = TRUE
 	soul_goal = round(1 + LAZYLEN(souls_needed) * 0.75)
 	INVOKE_ASYNC(src, PROC_REF(begin_the_end))
-	check_gods_battle()
 
 /obj/eldritch/narsie/proc/greeting_message()
 	send_to_playing_players(span_narsie("NAR'SIE HAS RISEN"))
@@ -119,9 +118,6 @@ GLOBAL_DATUM(narsie, /obj/eldritch/narsie)
 					SEND_SOUND(world, 'sound/effects/explosionfar.ogg')
 					to_chat(world, span_narsie("You really thought you could best me twice?"))
 					QDEL_NULL(clashing)
-					for(var/datum/mind/M as anything in GLOB.servants_of_ratvar)
-						to_chat(M, span_userdanger("You feel a stabbing pain in your chest... This can't be happening!"))
-						M.current?.dust()
 
 /obj/eldritch/narsie/Bump(atom/target)
 	var/turf/target_turf = get_turf(target)

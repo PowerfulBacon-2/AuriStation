@@ -10,8 +10,8 @@
 	icon_door = "crate"
 	damage_deflection = 20
 
-/obj/structure/closet/crate/secure/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
-	if(prob(tamperproof) && damage_amount >= DAMAGE_PRECISION)
+/obj/structure/closet/crate/secure/take_direct_damage(amount, type, flag, zone)
+	if(prob(tamperproof) && amount >= DAMAGE_PRECISION)
 		boom()
 	else
 		return ..()

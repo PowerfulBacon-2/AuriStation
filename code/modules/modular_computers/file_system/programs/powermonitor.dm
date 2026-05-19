@@ -95,9 +95,9 @@
 			if(istype(A))
 				data["areas"] += list(list(
 					"name" = A.area.name,
-					"charge" = A.integration_cog ? 100 : A.cell ? A.cell.percent() : 0,
+					"charge" = A.cell.percent(),
 					"load" = display_power_persec(A.lastused_total),
-					"charging" = A.integration_cog ? 2 : A.charging,
+					"charging" = A.charging,
 					"eqp" = A.equipment,
 					"lgt" = A.lighting,
 					"env" = A.environ

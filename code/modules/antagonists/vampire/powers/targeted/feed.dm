@@ -153,7 +153,6 @@
 		)
 
 		// Time to start bleeding
-		feed_target.bleed(15)
 		playsound(feed_target, 'sound/effects/splat.ogg', 40, TRUE)
 		if(ishuman(feed_target))
 			var/mob/living/carbon/human/human_victim = feed_target

@@ -290,14 +290,6 @@
 		else
 			. += "It's [ !terminal ? "not" : "" ] wired up.\n"+\
 			"The electronics are[!has_electronics?"n't":""] installed."
-
-		var/is_hallucinating = FALSE
-		if(isliving(user))
-			var/mob/living/living_user = user
-			is_hallucinating = !!living_user.has_status_effect(/datum/status_effect/hallucination)
-		if(integration_cog || (is_hallucinating && prob(20)))
-			. += "A small cogwheel is inside of it."
-
 	else
 		if (machine_stat & MAINT)
 			. += "The cover is closed. Something is wrong with it. It doesn't work."
@@ -581,10 +573,6 @@
 		update_appearance()
 
 	if(cell && !shorted) //need to check to make sure the cell is still there since rigged cells can randomly explode after give().
-
-		if(integration_cog)
-			alarm_manager.clear_alarm(ALARM_POWER)
-
 		// show cell as fully charged if so
 		if(cell.charge >= cell.maxcharge)
 			cell.charge = cell.maxcharge

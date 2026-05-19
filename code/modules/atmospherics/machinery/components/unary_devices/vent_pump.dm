@@ -250,7 +250,7 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/atmospherics/components/unary/vent_pump)
 		return
 
 	if(fan_overclocked)
-		take_damage(fan_damage_rate, sound_effect = FALSE)
+		take_direct_damage(fan_damage_rate, BRUTE, DAMAGE_EXISTENTIAL)
 		if(get_integrity() == 0)
 			investigate_log("was destroyed as a result of overclocking", INVESTIGATE_ATMOS)
 			return

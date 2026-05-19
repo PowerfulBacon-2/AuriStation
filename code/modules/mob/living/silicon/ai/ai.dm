@@ -1034,7 +1034,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/mob/living/silicon/ai)
 
 	for(var/borgie in GLOB.available_ai_shells)
 		var/mob/living/silicon/robot/R = borgie
-		if(R.shell && !R.deployed && (R.stat != DEAD) && (!R.connected_ai ||(R.connected_ai == src)) || (R.ratvar && !IS_SERVANT_OF_RATVAR(src)))
+		if(R.shell && !R.deployed && (R.stat != DEAD) && (!R.connected_ai ||(R.connected_ai == src)))
 			possible += R
 
 	if(!LAZYLEN(possible))
@@ -1043,7 +1043,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/mob/living/silicon/ai)
 	if(!target || !(target in possible)) //If the AI is looking for a new shell, or its pre-selected shell is no longer valid
 		target = input(src, "Which body to control?") as null|anything in sort_names(possible)
 
-	if (!target || target.stat || target.deployed || !(!target.connected_ai ||(target.connected_ai == src)) || (target.ratvar && !IS_SERVANT_OF_RATVAR(src)))
+	if (!target || target.stat || target.deployed || !(!target.connected_ai ||(target.connected_ai == src)))
 		return
 
 	if(target.is_jammed(JAMMER_PROTECTION_AI_SHELL))
@@ -1055,8 +1055,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/mob/living/silicon/ai)
 		deployed_shell = target
 		transfer_observers_to(deployed_shell) // ai core to borg shell
 		eyeobj.transfer_observers_to(deployed_shell) // eyemob to borg
-		if(IS_SERVANT_OF_RATVAR(src) && !deployed_shell.ratvar)
-			deployed_shell.SetRatvar(TRUE)
 		target.deploy_init(src)
 		mind.transfer_to(target)
 	diag_hud_set_deployed()

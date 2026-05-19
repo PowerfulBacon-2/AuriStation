@@ -109,8 +109,8 @@
 	//Dionae heal and eat radiation for a living.
 	source.adjust_nutrition(intensity * 0.1 * delta_time)
 	if(intensity > 50)
-		H.heal_overall_injuries(BRUTE, 1, BODYTYPE_ORGANIC)
-		H.heal_overall_injuries(BURN, 1, BODYTYPE_ORGANIC)
+		source.heal_overall_injuries(BRUTE, 1, BODYTYPE_ORGANIC)
+		source.heal_overall_injuries(BURN, 1, BODYTYPE_ORGANIC)
 		source.adjustToxLoss(-2 * delta_time)
 		source.adjustOxyLoss(-1 * delta_time)
 
@@ -220,13 +220,13 @@
 
 		// Exclude the head nymph from the alive_nymphs list, since that list is used for secondary consciousness transfer.
 		if(istype(limb, /obj/item/bodypart/head))
-			for (var/datum/injury/injury in BP.injuries)
+			for (var/datum/injury/injury in limb.injuries)
 				nymph.adjust_injury(injury, injury.progression - injury::progression)
 			nymph.updatehealth()
 			continue
 
 		var/mob/living/simple_animal/hostile/retaliate/nymph/limb_nymph = new(H.loc)
-		for (var/datum/injury/injury in BP.injuries)
+		for (var/datum/injury/injury in limb.injuries)
 			limb_nymph.adjust_injury(injury, injury.progression - injury::progression)
 		limb_nymph.updatehealth()
 		if(limb_nymph.stat != DEAD)

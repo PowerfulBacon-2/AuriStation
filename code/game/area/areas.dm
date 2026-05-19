@@ -16,8 +16,6 @@
 
 	var/area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA
 
-	var/clockwork_warp_allowed = TRUE // Can servants warp into this area from Reebe?
-	var/clockwork_warp_fail = "The structure there is too dense for warping to pierce. (This is normal in high-security areas.)"
 	/// List of all turfs currently inside this area. Acts as a filtered bersion of area.contents
 	/// For faster lookup (area.contents is actually a filtered loop over world)
 	/// Semi fragile, but it prevents stupid so I think it's worth it
