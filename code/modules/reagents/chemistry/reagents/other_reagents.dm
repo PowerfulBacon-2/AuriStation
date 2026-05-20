@@ -2109,7 +2109,7 @@
 		affected_mob.adjustFireLoss(2 * REM * delta_time, updating_health = FALSE)
 		affected_mob.adjustOxyLoss(2 * REM * delta_time, updating_health = FALSE)
 		affected_mob.adjustBruteLoss(2 * REM * delta_time, updating_health = FALSE)
-	return UPDATE_MOB_HEALTHmob, "scripture_tier_up", 50, 1)
+	return UPDATE_MOB_HEALTH
 
 /datum/reagent/helgrasp
 	name = "Helgrasp"

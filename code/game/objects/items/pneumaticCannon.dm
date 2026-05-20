@@ -329,7 +329,6 @@
 		/obj/item/katana/cursed,
 		/obj/item/toy/katana,
 		/obj/item/spear/explosive,
-		/obj/item/clockwork/weapon/brass_spear,
 	))
 
 /obj/item/pneumatic_cannon/speargun/Initialize(mapload)

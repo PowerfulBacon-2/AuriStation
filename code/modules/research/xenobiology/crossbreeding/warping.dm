@@ -670,44 +670,6 @@ GLOBAL_DATUM(blue_storage, /obj/item/storage/backpack/holding/bluespace)
 		activated_on_step = TRUE
 	. = ..()
 
-/obj/item/slimecross/warping/black
-	colour = SLIME_TYPE_BLACK
-	runepath = /obj/effect/warped_rune/blackspace
-	effect_desc = "Draw a rune that can transmute weapons with a starborne enchantment."
-
-/obj/effect/warped_rune/blackspace
-	icon_state = "rune_black"
-	desc = "Every material comes with weakness. Improvement is a matter of finding the least weak."
-
-/obj/effect/warped_rune/blackspace/attack_hand(mob/living/user)
-	to_chat(user, span_brass("[src] demands a weapon to enhance."))
-	return
-
-/obj/effect/warped_rune/blackspace/attackby(obj/item/I, mob/living/user, params)
-	if(HAS_TRAIT(I, TRAIT_STARGAZED))
-		to_chat(user, span_brass("[I] has already been enhanced!"))
-		return
-	to_chat(user, span_brass("You begin placing [I] onto [src]."))
-	if(do_after(user, 60, target=I))
-		if(HAS_TRAIT(I, TRAIT_STARGAZED))
-			to_chat(user, span_brass("[I] has already been enhanced!"))
-			return
-		if(istype(I, /obj/item) && !istype(I, /obj/item/clothing) && I.force)
-			upgrade_weapon(I, user)
-			do_effect(user)
-			return
-		to_chat(user, span_brass("You cannot upgrade [I]."))
-
-/obj/effect/warped_rune/blackspace/proc/upgrade_weapon(obj/item/I, mob/living/user)
-	//Prevent re-enchanting
-	ADD_TRAIT(I, TRAIT_STARGAZED, STARGAZER_TRAIT)
-	//Add a glowy colour
-	I.add_atom_colour(rgb(243, 227, 183), ADMIN_COLOUR_PRIORITY)
-	//Pick a random effect
-	var/static/list/possible_components = subtypesof(/datum/component/enchantment)
-	I.AddComponent(pick(possible_components))
-	to_chat(user, span_notice("[I] glows with a brilliant light!"))
-
 /obj/item/slimecross/warping/lightpink
 	colour = SLIME_TYPE_LIGHT_PINK
 	runepath = /obj/effect/warped_rune/lightpinkspace

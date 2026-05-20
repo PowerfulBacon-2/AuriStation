@@ -510,7 +510,7 @@
 		span_warning("You get tangled in [electrode_name]!"),
 	)
 	if (disruptor.Knockdown(5 SECONDS))
-		disruptor.apply_damage(90, STAMINA)
+		disruptor.deal_damage(90, 0, STAMINA, DAMAGE_SHOCK)
 	owner.adjust_jitter_up_to(10 SECONDS, 60 SECONDS)
 	if(istype(taser, /obj/item/gun/ballistic/taser))
 		var/obj/item/gun/ballistic/taser/taser_object = taser

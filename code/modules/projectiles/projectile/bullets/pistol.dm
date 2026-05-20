@@ -55,7 +55,6 @@
 /obj/projectile/bullet/x200law
 	name = "x200 LAW bullet"
 	damage = 22
-	armour_penetration = 0
 	sharpness = SHARP_X
 
 #warn Handle new-sec (they use bullets now which fundamentally disagrees with the design of injuries)

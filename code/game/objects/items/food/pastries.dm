@@ -364,7 +364,6 @@
 	food_reagents = list(
 		/datum/reagent/consumable/nutriment = 7,
 		/datum/reagent/consumable/nutriment/vitamin = 3,
-		/datum/reagent/consumable/ratlight = 8
 	)
 	tastes = list("pastry" = 1, "sweetness" = 1)
 	foodtypes = GRAIN | FRUIT

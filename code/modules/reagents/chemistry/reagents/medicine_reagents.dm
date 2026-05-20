@@ -1351,7 +1351,7 @@
 
 /datum/reagent/medicine/terranol/on_mob_life(mob/living/carbon/M)
 	M.adjustOrganLoss(ORGAN_SLOT_LIVER, 2 * REM)
-	M.jitteriness = min(max(0, M.jitteriness + 3), 30)
+	M.adjust_jitter_up_to(0.3 SECONDS, 3 SECONDS)
 	..()
 	return TRUE
 

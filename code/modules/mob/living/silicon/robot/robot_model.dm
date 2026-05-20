@@ -34,7 +34,6 @@
 	// A list of paths, converted to a list of instances on New()
 	var/list/basic_modules = list()
 	var/list/emag_modules = list()
-	var/list/ratvar_modules = list()
 
 	/// Modules not inherent to the robot configuration
 	var/list/added_modules = list() //kept when the configuration changes

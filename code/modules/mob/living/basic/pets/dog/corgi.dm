@@ -74,11 +74,11 @@
  * which usually means any direct attack like melee or gunshot. Anything abstract like a bomb or acid or something
  * will instead give half the armor value.
  */
-/mob/living/basic/pet/dog/corgi/getarmor(def_zone, type, penetration)
-	var/armorval = 0
+/mob/living/basic/pet/dog/corgi/get_bodyzone_armor_flag(bodyzone, armour_flag)
+	var/armorval = ..()
 
-	if(def_zone)
-		if(def_zone == BODY_ZONE_HEAD)
+	if(bodyzone)
+		if(bodyzone == BODY_ZONE_HEAD)
 			if(inventory_head)
 				armorval = inventory_head.get_armor_rating(type)
 		else

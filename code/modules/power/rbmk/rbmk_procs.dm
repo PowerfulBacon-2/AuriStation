@@ -570,7 +570,6 @@ Arguments:
 		/obj/structure/window/reinforced/plasma/fulltile,
 		/obj/structure/window/reinforced/plasma/plastitanium,
 		/obj/structure/window/reinforced/fulltile,
-		/obj/structure/window/reinforced/clockwork/fulltile,
 		/obj/structure/window/reinforced/tinted/fulltile,
 		/obj/structure/window,
 		/obj/structure/window/shuttle,

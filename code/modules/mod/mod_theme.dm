@@ -1290,7 +1290,6 @@
 		/obj/item/wizard_armour_charge,
 		/obj/item/spellbook,
 		/obj/item/scrying,
-		/obj/item/camera/rewind,
 		/obj/item/soulstone,
 		/obj/item/holoparasite_creator/wizard,
 		/obj/item/antag_spawner/contract,
