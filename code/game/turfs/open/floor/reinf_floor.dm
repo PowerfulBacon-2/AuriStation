@@ -122,14 +122,33 @@
 /turf/open/floor/engine/air/light
 	icon_state = "engine_light"
 
+/obj/effect/overlay/floor/bloodcult
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	var/atom/linked
 
+/obj/effect/overlay/floor/bloodcult/examine(mob/user)
+	if(linked)
+		return linked.examine(user)
+	else
+		return ..()
+
+/obj/effect/overlay/floor/bloodcult/Destroy()
+	if(linked)
+		linked = null
+	. = ..()
+
+/obj/effect/overlay/floor/bloodcult
+	icon = 'icons/turf/floors.dmi'
+	icon_state = "cult"
+	layer = TURF_LAYER
+	plane = FLOOR_PLANE
 
 /turf/open/floor/engine/cult
 	name = "engraved floor"
 	desc = "The air smells strangely over this sinister flooring."
 	icon_state = "plating"
 	floor_tile = null
-	var/obj/effect/clockwork/overlay/floor/bloodcult/realappearance
+	var/obj/effect/overlay/floor/bloodcult/realappearance
 	can_atmos_pass = ATMOS_PASS_NO
 
 
@@ -137,7 +156,7 @@
 	. = ..()
 	if(!mapload)
 		new /obj/effect/temp_visual/cult/turf/floor(src)
-	realappearance = new /obj/effect/clockwork/overlay/floor/bloodcult(src)
+	realappearance = new /obj/effect/overlay/floor/bloodcult(src)
 	realappearance.linked = src
 
 /turf/open/floor/engine/cult/Destroy()

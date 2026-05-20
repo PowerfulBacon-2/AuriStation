@@ -183,7 +183,7 @@
 	if(human_parent.is_blind())
 		to_chat(human_parent, span_boldwarning("Your [affected_limb.plaintext_zone] feels like it's bubbling, then burns like hell!"))
 
-	human_parent.apply_damage(RADIATION_BURN_SPLOTCH_DAMAGE, BURN, affected_limb)
+	human_parent.take_direct_damage(RADIATION_BURN_SPLOTCH_DAMAGE, BURN, DAMAGE_ACID, affected_limb.body_zone)
 	playsound(human_parent, 'sound/effects/wounds/sizzle1.ogg', 50, vary = TRUE)
 
 /datum/component/irradiated/proc/create_glow()

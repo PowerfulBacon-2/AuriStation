@@ -280,14 +280,14 @@
 
 		else
 			carbon_target.regenerate_organs() //slap this on top of the "generic" healing done if no limbs are missing and they aren't dead
-			carbon_target.restore_blood()
+			carbon_target.blood.restore_blood()
 
 	target.adjustOxyLoss(-amount_healed)
 	target.adjustBruteLoss(-amount_healed)
 	target.adjustFireLoss(-amount_healed)
 	target.adjustToxLoss(-amount_healed)
 	target.adjustCloneLoss(-amount_healed)
-	target.adjustStaminaLoss(-amount_healed*2)
+	target.adjustExhaustion(-amount_healed*2)
 	target.visible_message(span_notice("[target]'s wounds close before your eyes!"))
 
 /obj/projectile/magic/potential

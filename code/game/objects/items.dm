@@ -736,7 +736,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			attackforce = attackforce * 5 //You can probably only block them once or twice at most because of stamina and/or shield damage
 
 	//We are ready to deal stamina damage to our owner
-	owner.take_direct_damage(min(attackforce, 35) * (100 - block_power) * 0.01, STAMINA, attackflag, blockhand)
+	owner.take_direct_damage(min(attackforce, 35) * (100 - block_power) * 0.01, STAMINA, DAMAGE_STANDARD, owner.active_hand_index % 1 == 0 ? BODY_ZONE_R_ARM : BODY_ZONE_L_ARM)
 	owner.changeNext_move(CLICK_CD_MELEE)
 
 	//This is done here so we don't have to pass attackforce up somehow

@@ -41,7 +41,7 @@
 	if(state == TURNSTILE_CIRCUIT_EXPOSED)
 		. += span_notice("The turnstile circuitboard is exposed, you could <b>pry it</b> from the frame.")
 	if(state == TURNSTILE_SHELL && anchored)
-		. += span_notice("The turnstile frame is empty but firmly <b>wrenched</b> to the floor.")only 93 
+		. += span_notice("The turnstile frame is empty but firmly <b>wrenched</b> to the floor.")
 	if(state == TURNSTILE_SHELL && !anchored)
 		. += span_notice("The turnstile frame is empty and unsecured, ready to be sliced through <b>welding</b>.")
 

@@ -301,7 +301,7 @@
 	var/mob/living/carbon/human/human = owner
 	if (istype(human) && human.undergoing_cardiac_arrest())
 		human.set_heartattack(FALSE)
-	else if(owner.stat <= SOFT_CRIT && owner.health <= HEALTH_THRESHOLD_CRIT)
+	else if(owner.stat <= SOFT_CRIT && owner.consciousness.value <= HEALTH_THRESHOLD_CRIT)
 		owner.do_jitter_animation(INFINITY)
 		if (istype(human))
 			human.set_heartattack(TRUE)
@@ -312,20 +312,21 @@
 
 	// clumsy people might hit their head while being tased
 	if(HAS_TRAIT(owner, TRAIT_CLUMSY) && owner.body_position == LYING_DOWN && DT_PROB(20, seconds_between_ticks))
-		owner.apply_damage(10, BRUTE, BODY_ZONE_HEAD)
+		owner.deal_damage(10, 0, BRUTE, DAMAGE_STANDARD, zone = BODY_ZONE_HEAD)
 		playsound(owner, 'sound/effects/tableheadsmash.ogg', 75, TRUE)
 
 	// the actual stunning is here
-	var/obj/item/bodypart/affecting = owner.get_bodypart(ran_zone(def_zone))
-	if(!affecting) //Not if we can't fucking do it buddy. Then we just do normal damage
-		owner.apply_damage((stamina_per_second * seconds_between_ticks) / 3, BURN)
+	var/target_zone = ran_zone(def_zone)
+	var/obj/item/bodypart/affecting = owner.get_bodypart(target_zone)
+	// Not if we can't fucking do it buddy. Then we just do normal damage
+	if(!affecting)
+		owner.take_direct_damage((stamina_per_second * seconds_between_ticks) / 3, BURN, DAMAGE_SHOCK)
 		return
 
 	// Switch to chest after we finish our damage
-	if (affecting.stamina_dam > affecting.max_stamina_damage)
-		affecting = owner.get_bodypart(BODY_ZONE_CHEST)
-	var/armor_block = owner.run_armor_check(affecting, STAMINA)
-	owner.apply_damage(stamina_per_second * seconds_between_ticks, STAMINA, affecting, armor_block)
+	if (affecting.effectiveness <= 0)
+		target_zone = BODY_ZONE_CHEST
+	owner.deal_damage(stamina_per_second * seconds_between_ticks, 0, STAMINA, DAMAGE_SHOCK, zone = target_zone)
 	SEND_SIGNAL(owner, COMSIG_LIVING_MINOR_SHOCK)
 
 /// Sets the passed atom as the "taser"

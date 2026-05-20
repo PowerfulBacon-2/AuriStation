@@ -828,7 +828,7 @@
 				continue
 			if (!prob(organ.organ_size))
 				continue
-			organ.applyOrganDamage(penetration_left * ORGAN_DAMAGE_MULTIPLIER)
+			organ.apply_organ_damage(penetration_left * ORGAN_DAMAGE_MULTIPLIER)
 			// Reduce damage as we penetrate through different organs
 			// Completely fluff calculation, but means we take damage easier
 			// if we are injured (or have highly injurable bodyparts)

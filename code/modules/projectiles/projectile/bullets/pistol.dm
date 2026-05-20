@@ -58,4 +58,4 @@
 	armour_penetration = 0
 	sharpness = SHARP_X
 
-#error Handle new-sec (they use bullets now which fundamentally disagrees with the design of injuries)
+#warn Handle new-sec (they use bullets now which fundamentally disagrees with the design of injuries)
