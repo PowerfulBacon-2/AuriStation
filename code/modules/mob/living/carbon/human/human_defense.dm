@@ -643,8 +643,8 @@
 	combined_msg += span_notice("<b>You check yourself for injuries.</b>")
 
 	var/list/harm_descriptors = dna?.species.get_harm_descriptors()
-	harm_descriptors ||= list("bleed" = "bleeding")
-	var/bleed_msg = harm_descriptors["bleed"]
+	harm_descriptors ||= list(DESCRIPTOR_BLEED = "bleeding")
+	var/bleed_msg = harm_descriptors[DESCRIPTOR_BLEED]
 
 	var/list/missing = list(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 	var/list/whole_body_issues = list()

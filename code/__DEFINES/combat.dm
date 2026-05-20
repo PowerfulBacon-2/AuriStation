@@ -24,6 +24,12 @@
 /// Brain damage. Should probably be decomissioned and replaced with proper organ damage.
 #define BRAIN "brain"
 
+// Damage Descriptors for Examination //
+
+#define DESCRIPTOR_BRUTE "brute"
+#define DESCRIPTOR_BURN "burn"
+#define DESCRIPTOR_BLEED "bleed"
+
 //Damage flag defines //
 
 #define ARMOUR_PENETRATION "penetration"

@@ -68,11 +68,11 @@
 
 	for(var/obj/item/bodypart/body_part as anything in disabled)
 		var/damage_text
-		if(!(BP.get_damage(include_stamina = FALSE) >= BP.max_damage)) //Stamina is disabling the limb
+		if(!(body_part.get_damage(include_stamina = FALSE) >= body_part.max_damage)) //Stamina is disabling the limb
 			damage_text = "is limp and lifeless"
 		else
-			damage_text = BP.format_injury_description(TRUE)
-		msg += span_boldwarning("[capitalize(t_his)] [BP.name] [damage_text]!\n")
+			damage_text = body_part.format_injury_description(TRUE)
+		. += span_boldwarning("[capitalize(t_his)] [body_part.name] [damage_text]!\n")
 
 	//stores missing limbs
 	var/l_limbs_missing = 0
@@ -104,20 +104,20 @@
 			temp = getBruteLoss()
 		if(temp)
 			if(temp < 25)
-				. += span_danger("[t_He] [t_has] minor [damage_desc[BRUTE]].")
+				. += span_danger("[t_He] [t_has] minor [damage_desc[DESCRIPTOR_BRUTE]].")
 			else if(temp < 50)
-				. += span_danger("[t_He] [t_has] <b>moderate</b> [damage_desc[BRUTE]]!")
+				. += span_danger("[t_He] [t_has] <b>moderate</b> [damage_desc[DESCRIPTOR_BRUTE]]!")
 			else
-				. += span_bolddanger("[t_He] [t_has] severe [damage_desc[BRUTE]]!")
+				. += span_bolddanger("[t_He] [t_has] severe [damage_desc[DESCRIPTOR_BRUTE]]!")
 
 		temp = getFireLoss()
 		if(temp)
 			if(temp < 25)
-				. += span_danger("[t_He] [t_has] minor [damage_desc[BURN]].")
+				. += span_danger("[t_He] [t_has] minor [damage_desc[DESCRIPTOR_BURN]].")
 			else if (temp < 50)
-				. += span_danger("[t_He] [t_has] <b>moderate</b> [damage_desc[BURN]]!")
+				. += span_danger("[t_He] [t_has] <b>moderate</b> [damage_desc[DESCRIPTOR_BURN]]!")
 			else
-				. += span_bolddanger("[t_He] [t_has] severe [damage_desc[BURN]]!")
+				. += span_bolddanger("[t_He] [t_has] severe [damage_desc[DESCRIPTOR_BURN]]!")
 
 	if(pulledby?.grab_state)
 		. += span_warning("[t_He] [t_is] restrained by [pulledby]'s grip.")
@@ -137,7 +137,7 @@
 		if(DISGUST_LEVEL_DISGUSTED to INFINITY)
 			. += "[t_He] look[p_s()] extremely disgusted."
 
-	var/apparent_blood_volume = blood_volume
+	var/apparent_blood_volume = blood.volume
 	if(ishuman(src))
 		var/mob/living/carbon/human/human_us = src // gross istypesrc but easier than refactoring even further for now
 		if(human_us.dna.species.use_skintones && human_us.skin_tone == "albino")
@@ -153,13 +153,13 @@
 	if (is_bleeding())
 		switch (get_bleed_rate())
 			if (BLEED_DEEP_WOUND to INFINITY)
-				. += span_warning("[src] is [damage_desc[BLEED]] extremely quickly.")
+				. += span_warning("[src] is [damage_desc[DESCRIPTOR_BLEED]] extremely quickly.")
 			if (BLEED_RATE_MINOR to BLEED_DEEP_WOUND)
-				. += span_warning("[src] is [damage_desc[BLEED]] at a significant rate.")
+				. += span_warning("[src] is [damage_desc[DESCRIPTOR_BLEED]] at a significant rate.")
 			else
-				. += span_warning("[src] has some minor [damage_desc[BLEED]] which looks like it will stop soon.")
+				. += span_warning("[src] has some minor [damage_desc[DESCRIPTOR_BLEED]] which looks like it will stop soon.")
 	else if (is_bandaged())
-		. += span_warning("[src] is [damage_desc[BLEED]], but it is covered.")
+		. += span_warning("[src] is [damage_desc[DESCRIPTOR_BLEED]], but it is covered.")
 
 	if(reagents.has_reagent(/datum/reagent/teslium, needs_metabolizing = TRUE))
 		. += span_smallnoticeital("[t_He] [t_is] emitting a gentle blue glow!") // this should be signalized
@@ -265,7 +265,7 @@
 
 /// Returns a list of "damtype" => damage description based off of which bodypart description is most common
 /mob/living/carbon/proc/get_harm_descriptors()
-	return dna?.species.get_harm_descriptors() || list(BLEED = "bleeding", BRUTE = "bruising", BURN = "burns")
+	return dna?.species.get_harm_descriptors() || list(DESCRIPTOR_BLEED = "bleeding", DESCRIPTOR_BRUTE = "bruising", DESCRIPTOR_BURN = "burns")
 
 /// Collects examine information about the mob's clothing and equipment
 /mob/living/carbon/proc/get_clothing_examine_info(mob/living/user)

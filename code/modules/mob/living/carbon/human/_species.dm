@@ -2313,9 +2313,9 @@ GLOBAL_LIST_EMPTY(features_by_species)
 /datum/species/proc/get_harm_descriptors()
 	SHOULD_CALL_PARENT(FALSE)
 	return list(
-		BLEED = "bleeding",
-		BRUTE = "bruising",
-		BURN = "burns"
+		DESCRIPTOR_BLEED = "bleeding",
+		DESCRIPTOR_BRUTE = "bruising",
+		DESCRIPTOR_BURN = "burns"
 	)
 
 /datum/species/proc/z_impact_damage(mob/living/carbon/human/H, turf/T, levels)

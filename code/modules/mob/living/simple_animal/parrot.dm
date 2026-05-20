@@ -1006,25 +1006,6 @@ GLOBAL_LIST_INIT(strippable_parrot_items, create_strippable_list(list(
 	parrot_interest = null
 	H.visible_message(span_danger("[src] dive bombs into [H]'s chest and vanishes!"), span_userdanger("[src] dive bombs into your chest, vanishing! This can't be good!"))
 
-
-/mob/living/simple_animal/parrot/clock_hawk
-	name = "clock hawk"
-	desc = "Cbyl jnaan penpxre! Fdhnnnjx!"
-	icon_state = "clock_hawk_fly"
-	icon_living = "clock_hawk_fly"
-	icon_sit = "clock_hawk_sit"
-	speak = list("Penpxre!", "Ratvar vf n qhzo anzr naljnl!")
-	// speak_language variable can be set to Ratvarian, but this speak was made too long ago.
-	// If you have any idea what these exactly mean, change it to original speeches, and set 'speak_language = /datum/language/ratvar'
-	speak_language = /datum/language/metalanguage
-	speak_emote = list("squawks rustily", "says crassly", "yells brassly")
-	emote_hear = list("squawks rustily.", "bawks metallically!")
-	emote_see = list("flutters its metal wings.")
-	faction = list(FACTION_RATVAR)
-	gold_core_spawnable = NO_SPAWN
-	del_on_death = TRUE
-	deathsound = 'sound/magic/clockwork/anima_fragment_death.ogg'
-
 #undef PARROT_PERCH
 #undef PARROT_SWOOP
 #undef PARROT_WANDER

@@ -165,8 +165,8 @@ This file represents bleeding only as bleeding has special mechanics for being h
 	apply_status_effect(blood?.bleed_effect_type || /datum/status_effect/bleeding, bleed_level)
 	if (bleed_level >= BLEED_DEEP_WOUND)
 		blur_eyes(1)
-		var/datum/reagent/blood = get_blood_id() //Not every race has "BLOOD" rushing from the wound
-		to_chat(src, "[span_userdanger("[blood.name] starts rushing out of the open wound!")]")
+		var/datum/reagent/blood = blood.get_blood_id() //Not every race has "BLOOD" rushing from the wound
+		to_chat(src, "[span_userdanger("[blood?.name || "Nothing"] starts rushing out of the open wound!")]")
 
 /mob/living/carbon/human/add_bleeding(bleed_level, sound_effect = TRUE)
 	if(HAS_TRAIT(src, TRAIT_NO_BLOOD))

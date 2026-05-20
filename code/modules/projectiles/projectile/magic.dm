@@ -81,7 +81,7 @@
 
 /obj/structure/prison_orb/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, take_damage), max_integrity, BRUTE, "", FALSE), 10 SECONDS)
+	QDEL_IN(src, 10 SECONDS)
 
 /obj/structure/prison_orb/update_icon(updates)
 	cut_overlays()

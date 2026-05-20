@@ -105,7 +105,7 @@
 	. = ..()
 	RegisterSignal(arm_owner, COMSIG_CARBON_POST_ATTACH_LIMB, PROC_REF(on_limb_attached))
 	RegisterSignal(arm_owner, COMSIG_KB_MOB_DROPITEM_DOWN, PROC_REF(dropkey)) //We're nodrop, but we'll watch for the drop hotkey anyway and then stow if possible.
-	on_limb_attached(arm_owner, arm_owner.hand_bodyparts[zone == BODY_ZONE_R_ARM ? RIGHT_HANDS : LEFT_HANDS])
+	on_limb_attached(arm_owner, arm_owner.hand_bodyparts[slot == ORGAN_SLOT_RIGHT_ARM_AUG ? RIGHT_HANDS : LEFT_HANDS])
 
 /obj/item/organ/cyberimp/arm/on_remove(mob/living/carbon/arm_owner)
 	. = ..()
@@ -115,7 +115,7 @@
 
 /obj/item/organ/cyberimp/arm/proc/on_limb_attached(mob/living/carbon/source, obj/item/bodypart/limb)
 	SIGNAL_HANDLER
-	if(!limb || QDELETED(limb) || limb.body_zone != zone)
+	if(!limb || QDELETED(limb))
 		return
 	if(hand)
 		on_limb_detached(hand)
@@ -166,8 +166,8 @@
 		return FALSE
 	if(owner)
 		owner.visible_message(
-			span_notice("[owner] retracts [active_item] back into [owner.p_their()] [zone == BODY_ZONE_R_ARM ? "right" : "left"] arm."),
-			span_notice("[active_item] snaps back into your [zone == BODY_ZONE_R_ARM ? "right" : "left"] arm."),
+			span_notice("[owner] retracts [active_item] back into [owner.p_their()] [slot == ORGAN_SLOT_RIGHT_ARM_AUG ? "right" : "left"] arm."),
+			span_notice("[active_item] snaps back into your [slot == ORGAN_SLOT_RIGHT_ARM_AUG ? "right" : "left"] arm."),
 			span_hear("You hear a short mechanical noise."),
 		)
 

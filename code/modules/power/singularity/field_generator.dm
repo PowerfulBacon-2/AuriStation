@@ -43,7 +43,7 @@ field_generator power level display
 	var/clean_up = 0
 	COOLDOWN_STATIC_DECLARE(loose_message_cooldown)
 
-#error Take direct take to ignore energy projectiles
+#warn TEST: Make sure that energy projectiles don't damage this thing
 
 /obj/machinery/field/generator/Initialize(mapload)
 	. = ..()

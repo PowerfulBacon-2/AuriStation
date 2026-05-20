@@ -67,7 +67,6 @@
 	)
 
 	exotic_blood = /datum/reagent/oil
-	blood_color = "#000000"
 	exotic_bloodtype = "Coolant"
 	bleed_effect = /datum/status_effect/bleeding/robotic
 
@@ -281,9 +280,9 @@
 
 /datum/species/ipc/get_harm_descriptors()
 	return list(
-		BLEED = "leaking",
-		BRUTE = "denting",
-		BURN = "burns"
+		DESCRIPTOR_BLEED = "leaking",
+		DESCRIPTOR_BRUTE = "denting",
+		DESCRIPTOR_BURN = "burns"
 	)
 
 /datum/species/ipc/replace_body(mob/living/carbon/C, datum/species/new_species)

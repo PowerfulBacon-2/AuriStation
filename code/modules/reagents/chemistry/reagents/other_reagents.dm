@@ -1569,7 +1569,7 @@
 	name = "Oil"
 	description = "Burns in a small smoky fire, mostly used to get Ash."
 	reagent_state = LIQUID
-	color = "#C8A5DC"
+	color = "#0e0d0f"
 	chemical_flags = CHEMICAL_BASIC_ELEMENT
 	taste_description = "oil"
 	process_flags = ORGANIC | SYNTHETIC
