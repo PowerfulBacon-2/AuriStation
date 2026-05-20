@@ -2109,36 +2109,7 @@
 		affected_mob.adjustFireLoss(2 * REM * delta_time, updating_health = FALSE)
 		affected_mob.adjustOxyLoss(2 * REM * delta_time, updating_health = FALSE)
 		affected_mob.adjustBruteLoss(2 * REM * delta_time, updating_health = FALSE)
-	return UPDATE_MOB_HEALTH
-
-/datum/reagent/consumable/ratlight
-	name = "Ratvarian Light"
-	description = "A special concoction said to have been blessed by an ancient god. Makes the consumer glow with literal enlightenment."
-	color = "#B5A642"
-	chemical_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
-	taste_description = "enlightenment"
-	metabolization_rate = 0.8 * REAGENTS_METABOLISM
-	var/datum/language_holder/prev_language
-
-/datum/reagent/consumable/ratlight/expose_mob(mob/living/exposed_mob)
-	. = ..()
-	exposed_mob.set_light(2)
-
-/datum/reagent/consumable/ratlight/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
-	. = ..()
-	if(DT_PROB(5, delta_time))
-		playsound(affected_mob, "scripture_tier_up", 50, 1)
-
-/datum/reagent/consumable/ratlight/on_mob_metabolize(mob/living/carbon/affected_mob)
-	. = ..()
-	affected_mob.add_blocked_language(subtypesof(/datum/language/) - /datum/language/ratvar, LANGUAGE_REAGENT)
-	affected_mob.grant_language(/datum/language/ratvar, source = LANGUAGE_REAGENT)
-
-/datum/reagent/consumable/ratlight/on_mob_end_metabolize(mob/living/carbon/affected_mob)
-	. = ..()
-	affected_mob.remove_blocked_language(subtypesof(/datum/language/), LANGUAGE_REAGENT)
-	affected_mob.remove_language(/datum/language/ratvar, source = LANGUAGE_REAGENT)
-	affected_mob.set_light(-1)
+	return UPDATE_MOB_HEALTHmob, "scripture_tier_up", 50, 1)
 
 /datum/reagent/helgrasp
 	name = "Helgrasp"

@@ -270,15 +270,6 @@ GLOBAL_LIST_INIT(prototype_language_holders, init_language_holder_prototypes())
 		/datum/language/apidite = list(LANGUAGE_ATOM)
 	)
 
-/datum/language_holder/clockmob
-	understood_languages = list(
-		/datum/language/common = list(LANGUAGE_ATOM),
-		/datum/language/ratvar = list(LANGUAGE_ATOM)
-	)
-	spoken_languages = list(
-		/datum/language/ratvar = list(LANGUAGE_ATOM)
-	)
-
 /datum/language_holder/construct
 	understood_languages = list(
 		/datum/language/common = list(LANGUAGE_ATOM),
