@@ -250,7 +250,7 @@
 	if (owner)
 		SEND_SIGNAL(owner, COMSIG_MOB_BRAIN_CONSCIOUSNESS_UPDATE, consciousness_rating)
 
-/obj/item/organ/brain/applyOrganDamage(d, maximum)
+/obj/item/organ/brain/apply_organ_damage(damage_amount, maximum)
 	. = ..()
 	consciousness_rating = (initial(consciousness_rating) - HEALTH_THRESHOLD_DEAD) * (1 - (max(hypoxia, damage) / maxHealth)) + HEALTH_THRESHOLD_DEAD
 	if (owner)

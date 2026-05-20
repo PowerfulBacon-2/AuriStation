@@ -279,7 +279,7 @@
 	for(var/obj/item/organ/limb_organ in contents)
 		limb_organ.Insert(new_limb_owner)
 
-	synchronize_bodytypes(new_limb_owner)
+	new_limb_owner.synchronize_bodytypes()
 
 	update_bodypart_damage_state()
 	if(can_be_disabled)

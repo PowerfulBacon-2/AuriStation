@@ -1849,7 +1849,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	return TRUE
 
 /datum/species/proc/after_damage_taken(mob/living/carbon/human/owner, amount, type = BRUTE, flag = DAMAGE_STANDARD, zone = null)
-	SEND_SIGNAL(owner, COMSIG_MOB_APPLY_DAMGE, amount, type, zone)
+	return
 
 /datum/species/proc/on_hit(obj/projectile/P, mob/living/carbon/human/H)
 	// called when hit by a projectile

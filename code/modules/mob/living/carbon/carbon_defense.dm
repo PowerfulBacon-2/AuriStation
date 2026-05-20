@@ -199,7 +199,7 @@
 			playsound(src, 'sound/surgery/cautery2.ogg', 70)
 
 		if(istype(I, /obj/item/melee/baton) && I.damtype == STAMINA)
-			batong_act(I, user, affecting, armour_block)
+			batong_act(I, user, affecting)
 
 		return TRUE //successful attack
 

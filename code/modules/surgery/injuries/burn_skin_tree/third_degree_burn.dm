@@ -27,7 +27,7 @@
 			continue
 		if (!prob(organ.organ_size))
 			continue
-		organ.applyOrganDamage(delta_time * ORGAN_DAMAGE_MULTIPLIER)
+		organ.apply_organ_damage(delta_time * ORGAN_DAMAGE_MULTIPLIER)
 
 /datum/injury/third_degree_burn/on_damage_taken(total_damage, delta_damage, damage_type = BRUTE, damage_flag = DAMAGE_STANDARD, is_sharp = FALSE)
 	if (damage_type != BURN)

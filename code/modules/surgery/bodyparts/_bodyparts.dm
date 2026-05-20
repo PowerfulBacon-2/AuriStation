@@ -95,7 +95,7 @@
 	/// Should we even use a color?
 	var/use_damage_color = FALSE
 
-	#error Can we delete these?
+	#warn Can we delete these?
 
 	var/px_x = 0
 	var/px_y = 0

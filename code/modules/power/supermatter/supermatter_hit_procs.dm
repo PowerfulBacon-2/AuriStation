@@ -5,7 +5,7 @@
 
 	if(!istype(projectile.firer, /obj/machinery/power/emitter))
 		investigate_log("has been hit by [projectile] fired by [key_name(projectile.firer)]", INVESTIGATE_ENGINES)
-	if(projectile.armor_flag != BULLET)
+	if(projectile.damage_flag != DAMAGE_STANDARD)
 		external_power_immediate += projectile.damage * bullet_energy
 		log_activation(who = projectile.firer, how = projectile.fired_from)
 	else

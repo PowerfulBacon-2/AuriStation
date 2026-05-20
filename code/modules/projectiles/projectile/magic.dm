@@ -198,13 +198,17 @@
 
 	if(HAS_TRAIT(owner, TRAIT_INCAPACITATED) || owner.stat)
 		//If the victim is incapacitated, drain their health
-		owner.take_overall_damage(1, 1, 5, updating_health = TRUE)
+		owner.take_direct_overall_damage(BRUTE, 1)
+		owner.take_direct_overall_damage(BURN, 1)
+		owner.take_direct_overall_damage(STAMINA, 5)
 	else
 		//If they aren't incapacitated yet, drain only their stamina
-		owner.take_overall_damage(0, 0, 7, updating_health = TRUE)
+		owner.take_direct_overall_damage(STAMINA, 7)
 
 	//Wizard heals at a steady rate over the duration of the spell regardless of the victim's state
-	wizard.heal_overall_damage(1, 1, 5, updating_health = TRUE)
+	wizard.heal_overall_injuries(BRUTE, 1)
+	wizard.heal_overall_injuries(BURN, 1)
+	wizard.heal_overall_injuries(STAMINA, 5)
 
 	//Weird beam visuals if it isn't redrawn due to the beam sending players into crit
 	drain_beam.redrawing()

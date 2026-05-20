@@ -2,7 +2,7 @@
 	name = "nuclear particle"
 	icon_state = "nuclear_particle"
 	pass_flags = PASSTABLE | PASSTRANSPARENT | PASSGRILLE | PASSMACHINE
-	armor_flag = ENERGY
+	damage_flag = DAMAGE_ENERGY
 	damage_type = TOX
 	damage = 10
 	speed = 1

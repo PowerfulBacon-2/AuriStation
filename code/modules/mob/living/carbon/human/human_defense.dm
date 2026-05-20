@@ -902,8 +902,8 @@
 	)
 	var/protected = 0
 	for (var/part in zones)
-		for (var/obj/item/clothing/covering_clothes in clothingonpart(get_bodypart(part)))
-			if (covering_clothes.rad_flags & RAD_PROTECT_CONTENTS)
+		for (var/obj/item/clothing/covering_clothes in get_clothing_on_part(get_bodypart(part)))
+			if (HAS_TRAIT(covering_clothes, TRAIT_RADIATION_PROTECTED_CLOTHING))
 				protected ++
 				break
 	return protected / length(zones)

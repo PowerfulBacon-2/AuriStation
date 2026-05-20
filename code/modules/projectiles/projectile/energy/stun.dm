@@ -8,7 +8,7 @@
 	tracer_type = /obj/effect/projectile/tracer/stun
 	muzzle_type = /obj/effect/projectile/muzzle/stun
 	impact_type = /obj/effect/projectile/impact/stun
-	armor_flag = STAMINA
+	damage_flag = DAMAGE_STANDARD
 	speed = 0.4
 	// Feels really inconsistent with random targeting, as limb shots do not
 	// fully stun the target.
