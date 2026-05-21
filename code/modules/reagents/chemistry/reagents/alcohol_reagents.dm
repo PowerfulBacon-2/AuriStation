@@ -738,12 +738,14 @@
 
 	//Brave Bull makes you sturdier, and thus capable of withstanding a tiny bit more punishment.
 	affected_mob.pain.set_pain_modifier(0.9, FROM_BRAVE_BULL)
+	affected_mob.pain.set_heal_rate_multiplier(2, FROM_BRAVE_BULL)
 
 /datum/reagent/consumable/ethanol/brave_bull/on_mob_end_metabolize(mob/living/carbon/affected_mob)
 	. = ..()
 	to_chat(affected_mob, span_notice("You no longer feel [tough_text]."))
 
 	affected_mob.pain.set_pain_modifier(1, FROM_BRAVE_BULL)
+	affected_mob.pain.set_heal_rate_multiplier(1, FROM_BRAVE_BULL)
 
 /datum/reagent/consumable/ethanol/tequila_sunrise
 	name = "Tequila Sunrise"

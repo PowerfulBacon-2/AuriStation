@@ -554,7 +554,7 @@
  */
 /mob/living/proc/undergoing_cardiac_arrest()
 	var/obj/item/organ/heart/heart = get_organ_slot(ORGAN_SLOT_HEART)
-	if(istype(heart) && heart.beating)
+	if(istype(heart) && heart.is_beating())
 		return FALSE
 	else if(!needs_heart())
 		return FALSE
@@ -568,4 +568,7 @@
 	if(!istype(heart))
 		return
 
-	heart.beating = !status
+	if (!status && !heart.is_beating())
+		heart.Restart()
+	else if (status && heart.is_beating())
+		heart.Stop()

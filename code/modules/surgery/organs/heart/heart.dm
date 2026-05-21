@@ -15,7 +15,7 @@
 	high_threshold_cleared = span_info("The pain in your chest has died down, and your breathing becomes more relaxed.")
 
 	// Heart attack code is in code/modules/mob/living/carbon/human/life.dm
-	var/beating = TRUE
+	VAR_PROTECTED/beating = TRUE
 	attack_verb_continuous = list("beats", "thumps")
 	attack_verb_simple = list("beat", "thump")
 	//is this mob having a heatbeat sound played? if so, which?
@@ -66,6 +66,9 @@
 	update_appearance()
 	owner?.blood.set_circulation_rating(circulation_effectiveness, FROM_HEART)
 	return TRUE
+
+/obj/item/organ/heart/proc/is_beating()
+	return beating
 
 /obj/item/organ/heart/on_eat_from(eater, feeder)
 	. = ..()

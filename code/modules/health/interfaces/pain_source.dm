@@ -1,5 +1,9 @@
 // Pain level
 #define TRAIT_PAIN_LEVEL "pain_level"
+/// A multiplier for how quickly we heal pain, which is normally the PAIN_RECOVERY_RATE
+/// rate. Certain chemicals like morphine increase this number which mean we can recover
+/// from the pain of healed injuries much faster.
+#define TRAIT_PAIN_HEAL_MULTIPLIER "pain_heal_multiplier"
 
 /datum/pain_source
 	/// The owner of the consciousness datum
@@ -15,6 +19,8 @@
 /datum/pain_source/New(mob/living/owner)
 	. = ..()
 	src.owner = owner
+	// A multiplier always starts at 1!
+	ADD_CUMULATIVE_TRAIT(src, TRAIT_PAIN_HEAL_MULTIPLIER, 1, INNATE_TRAIT)
 
 /datum/pain_source/proc/Initialize(mob/living/owner)
 	register_signals()
@@ -29,7 +35,11 @@
 /datum/pain_source/proc/on_life()
 	var/target_pain = min(pain, PAIN_MAX_ACCLIMATION)
 	if (adjusted_pain > target_pain)
-		var/healed_amount = clamp(adjusted_pain - target_pain, 0, PAIN_RECOVERY_RATE)
+		var/max_pain_value = max(pain, PAIN_MAX_ACCLIMATION) + OVERPAIN_MAX_AMOUNT
+		var/healed_amount = clamp(adjusted_pain - target_pain, 0, PAIN_RECOVERY_RATE * GET_TRAIT_VALUE(src, TRAIT_PAIN_HEAL_MULTIPLIER))
+		// If we have too much pain, immediately snap back
+		if (adjusted_pain > max_pain_value)
+			healed_amount = max(adjusted_pain - max_pain_value, healed_amount)
 		// Heal pain
 		if (healed_amount > 0)
 			adjusted_pain -= healed_amount
@@ -122,6 +132,15 @@
 	else
 		ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_PAIN_LEVEL, source, amount)
 	set_pain(GET_TRAIT_VALUE(src, TRAIT_PAIN_LEVEL))
+
+/// Set a modifier to how quickly we recover from pain
+/// Source: The source of the modifier
+/// Amount: The multiplier for the modifier, set to 1 to remove
+/datum/pain_source/proc/set_heal_rate_multiplier(multiplier, source)
+	if (amount == 1)
+		REMOVE_TRAIT(src, TRAIT_PAIN_HEAL_MULTIPLIER, source)
+	else
+		ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_PAIN_HEAL_MULTIPLIER, source, amount)
 
 /// Add a pain message caused by a specific source
 /datum/pain_source/proc/add_pain_message(message, source)

@@ -407,11 +407,13 @@
 
 /datum/reagent/medicine/mine_salve/on_mob_metabolize(mob/living/carbon/affected_mob)
 	. = ..()
-	affected_mob.pain.set_pain_modifier(0.5, FROM_MORPHINE)
+	affected_mob.pain.set_pain_modifier(0.5, FROM_MINERS_SALVE)
+	affected_mob.pain.set_heal_rate_multiplier(10, FROM_MINERS_SALVE)
 
 /datum/reagent/medicine/mine_salve/on_mob_end_metabolize(mob/living/carbon/affected_mob)
 	. = ..()
-	affected_mob.pain.set_pain_modifier(1, FROM_MORPHINE)
+	affected_mob.pain.set_pain_modifier(1, FROM_MINERS_SALVE)
+	affected_mob.pain.set_heal_rate_multiplier(1, FROM_MINERS_SALVE)
 
 /datum/reagent/medicine/mine_salve/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()
@@ -771,11 +773,13 @@
 	. = ..()
 	affected_mob.add_movespeed_mod_immunities(type, /datum/movespeed_modifier/damage_slowdown)
 	affected_mob.pain.set_pain_modifier(0.5, FROM_MORPHINE)
+	affected_mob.pain.set_heal_rate_multiplier(10, FROM_MORPHINE)
 
 /datum/reagent/medicine/morphine/on_mob_end_metabolize(mob/living/carbon/affected_mob)
 	. = ..()
 	affected_mob.remove_movespeed_mod_immunities(type, /datum/movespeed_modifier/damage_slowdown)
 	affected_mob.pain.set_pain_modifier(1, FROM_MORPHINE)
+	affected_mob.pain.set_heal_rate_multiplier(1, FROM_MORPHINE)
 
 /datum/reagent/medicine/morphine/on_mob_life(mob/living/carbon/affected_mob, delta_time, times_fired)
 	. = ..()

@@ -430,7 +430,10 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define INJURY_GRAPH (1 << 2)
 
 /// How quickly do we recover from pain in points per second?
-#define PAIN_RECOVERY_RATE 0.2
+#define PAIN_RECOVERY_RATE 0.35
+/// The maximum amount of temporary pain we can have higher than
+/// the current pain level.
+#define OVERPAIN_MAX_AMOUNT 15
 /// The most that we can acclimate to pain, if we have more pain
 /// than this value, then we will adjust to this value over time.
 #define PAIN_MAX_ACCLIMATION 90

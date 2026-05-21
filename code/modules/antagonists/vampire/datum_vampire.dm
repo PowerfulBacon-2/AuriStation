@@ -456,7 +456,10 @@
 
 	// Heart
 	var/obj/item/organ/heart/newheart = user.get_organ_slot(ORGAN_SLOT_HEART)
-	newheart?.beating = initial(newheart.beating)
+	if (newheart::beating)
+		newheart.Restart()
+	else
+		newheart.Stop()
 
 	// Eyes
 	var/obj/item/organ/eyes/user_eyes = user.get_organ_slot(ORGAN_SLOT_EYES)

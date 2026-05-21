@@ -23,6 +23,10 @@
 	. = ..()
 	set_drunk_value(drunk_value)
 
+/datum/status_effect/inebriated/on_remove()
+	owner.pain.set_pain_modifier(1, FROM_ALCOHOL)
+	owner.pain.set_heal_rate_multiplier(1, FROM_ALCOHOL)
+
 /datum/status_effect/inebriated/get_examine_text()
 	// Dead people don't look drunk
 	if(owner.stat == DEAD || HAS_TRAIT(owner, TRAIT_FAKEDEATH))
@@ -59,6 +63,10 @@
 		CRASH("[type] - invalid value passed to set_drunk_value. (Got: [set_to])")
 
 	drunk_value = set_to
+
+	owner.pain.set_pain_modifier(1 - CLAMP01(drunk_value / 100) * 0.3, FROM_ALCOHOL)
+	owner.pain.set_heal_rate_multiplier(1 + CLAMP01(drunk_value / 100) * 3, FROM_ALCOHOL)
+
 	if(drunk_value <= 0)
 		qdel(src)
 

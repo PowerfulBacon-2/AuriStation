@@ -73,7 +73,7 @@
 	// See the top of this file for desmos lines
 	var/decrease_multiplier = BLEED_RATE_MULTIPLIER
 	var/obj/item/organ/heart/heart = owner.get_organ_slot(ORGAN_SLOT_HEART)
-	if (!heart || !heart.beating)
+	if (!heart || !heart.is_beating())
 		decrease_multiplier = BLEED_RATE_MULTIPLIER_NO_HEART
 	var/blood_loss_amount = volume - volume * NUM_E ** (-(amount * decrease_multiplier)/BLOOD_VOLUME_NORMAL)
 	volume = max(volume - blood_loss_amount, 0)

@@ -383,10 +383,10 @@
 				render_list += "<span class='alert ml-1'>Blood level: <b>CRITICAL [blood_percent] %</b>, [carbontarget.blood.volume] cl,</span> [span_info("type: [blood_info]")]\n"
 			else
 				render_list += "<span class='info ml-1'>Blood level: [blood_percent] %, [carbontarget.blood.volume] cl, type: [blood_type]</span>\n"
-		render_list += "<span class='info ml-1'>Lung Oxygenation: [carbontarget.blood.get_oxygenation_rating() * 100]%</span>\n"
-		render_list += "<span class='info ml-1'>Blood Circulation: [carbontarget.blood.get_circulation_rating() * 100]%</span>\n"
 		render_list += "<span class='info ml-1'>Final Cell Saturation: [carbontarget.blood.get_effectiveness() * 100]%</span>\n"
-		render_list += "<span class='info ml-1'>Pain Stimulation: [carbontarget.pain.adjusted_pain]%</span>\n"
+		render_list += "<span class='info ml-2'>Lung Oxygenation: [carbontarget.blood.get_oxygenation_rating() * 100]%</span>\n"
+		render_list += "<span class='info ml-2'>Blood Circulation: [carbontarget.blood.get_circulation_rating() * 100]%</span>\n"
+		render_list += "<span class='info ml-1'>Perceived Pain: [carbontarget.pain.adjusted_pain]% (Approaching: [carbontarget.pain.pain]%)</span>\n"
 
 	// Cybernetics
 	if(iscarbon(target))

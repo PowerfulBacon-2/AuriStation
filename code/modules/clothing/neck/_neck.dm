@@ -113,7 +113,7 @@
 			if(!(M.stat == DEAD || (HAS_TRAIT(M, TRAIT_FAKEDEATH))))
 				if(heart && istype(heart))
 					heart_strength = span_danger("an unstable")
-					if(heart.beating)
+					if(heart.is_beating())
 						heart_strength = "a healthy"
 				if(lungs && istype(lungs))
 					lung_strength = span_danger("strained")
