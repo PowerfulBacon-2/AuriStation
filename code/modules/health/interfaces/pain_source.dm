@@ -137,10 +137,10 @@
 /// Source: The source of the modifier
 /// Amount: The multiplier for the modifier, set to 1 to remove
 /datum/pain_source/proc/set_heal_rate_multiplier(multiplier, source)
-	if (amount == 1)
+	if (multiplier == 1)
 		REMOVE_TRAIT(src, TRAIT_PAIN_HEAL_MULTIPLIER, source)
 	else
-		ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_PAIN_HEAL_MULTIPLIER, source, amount)
+		ADD_MULTIPLICATIVE_TRAIT(src, TRAIT_PAIN_HEAL_MULTIPLIER, source, multiplier)
 
 /// Add a pain message caused by a specific source
 /datum/pain_source/proc/add_pain_message(message, source)
