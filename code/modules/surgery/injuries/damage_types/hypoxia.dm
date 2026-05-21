@@ -10,7 +10,7 @@
 	pain_multiplier = 0.3
 
 /datum/injury/acute/hypoxia/update_progressive_effects()
-	if (progression > 50)
+	if (progression > mob.maxHealth * 0.5)
 		ADD_TRAIT(mob, TRAIT_KNOCKEDOUT, OXYLOSS_TRAIT)
 	else
 		REMOVE_TRAIT(mob, TRAIT_KNOCKEDOUT, OXYLOSS_TRAIT)
