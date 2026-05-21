@@ -8,3 +8,12 @@
 	injury_flags = INJURY_LIMB
 	damage_multiplier = 1
 	pain_multiplier = 0.3
+
+/datum/injury/acute/hypoxia/update_progressive_effects()
+	if (progression > 50)
+		ADD_TRAIT(mob, TRAIT_KNOCKEDOUT, OXYLOSS_TRAIT)
+	else
+		REMOVE_TRAIT(mob, TRAIT_KNOCKEDOUT, OXYLOSS_TRAIT)
+
+/datum/injury/acute/hypoxia/remove_progressive_effects()
+	REMOVE_TRAIT(mob, TRAIT_KNOCKEDOUT, OXYLOSS_TRAIT)

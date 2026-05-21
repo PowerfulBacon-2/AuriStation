@@ -608,27 +608,6 @@
 	if(ears && !HAS_TRAIT(src, TRAIT_DEAF))
 		. = TRUE
 
-/mob/living/carbon/adjustOxyLoss(amount, updating_health = TRUE, forced = FALSE)
-	. = ..()
-	if(isnull(.))
-		return
-	if(. <= 50)
-		if(getOxyLoss() > 50)
-			ADD_TRAIT(src, TRAIT_KNOCKEDOUT, OXYLOSS_TRAIT)
-	else if(getOxyLoss() <= 50)
-		REMOVE_TRAIT(src, TRAIT_KNOCKEDOUT, OXYLOSS_TRAIT)
-
-
-/mob/living/carbon/setOxyLoss(amount, updating_health = TRUE, forced = FALSE)
-	. = ..()
-	if(isnull(.))
-		return
-	if(. <= 50)
-		if(getOxyLoss() > 50)
-			ADD_TRAIT(src, TRAIT_KNOCKEDOUT, OXYLOSS_TRAIT)
-	else if(getOxyLoss() <= 50)
-		REMOVE_TRAIT(src, TRAIT_KNOCKEDOUT, OXYLOSS_TRAIT)
-
 /mob/living/carbon/bullet_act(obj/projectile/P, def_zone, piercing_hit)
 	var/obj/item/bodypart/affecting = get_bodypart(check_zone(def_zone))
 	if(!affecting) //missing limb? we select the first bodypart (you can never have zero, because of chest)
