@@ -21,6 +21,7 @@
 	throw_speed = 3
 	throw_range = 7
 	w_class = WEIGHT_CLASS_LARGE
+	slot_flags = ITEM_SLOT_BELT
 	var/skin_type = MEDBOT_SKIN_DEFAULT
 
 /obj/item/storage/firstaid/regular
@@ -36,7 +37,8 @@
 		/obj/item/stack/medical/gauze = 1,
 		/obj/item/stack/medical/bruise_pack = 2,
 		/obj/item/stack/medical/ointment = 2,
-		/obj/item/reagent_containers/hypospray/medipen = 2)
+		/obj/item/reagent_containers/hypospray/medipen = 1,
+		/obj/item/healthanalyzer = 1)
 	generate_items_inside(items_inside,src)
 
 //Compact First Aid kit
@@ -63,7 +65,6 @@
 	desc = "A fancy high capacity aid kit for doctors, full of medical supplies and basic surgical equipment"
 	skin_type = null
 	w_class = WEIGHT_CLASS_BULKY
-	slot_flags = ITEM_SLOT_BELT
 
 /obj/item/storage/firstaid/medical/Initialize(mapload)
 	. = ..()
@@ -143,7 +144,6 @@
 	desc = "A not-so fancy high capacity aid kit for paramedics, filled with 'top of the line' medical supplies."
 	skin_type = null
 	w_class = WEIGHT_CLASS_BULKY
-	slot_flags = ITEM_SLOT_BELT
 
 /obj/item/storage/firstaid/medical/paramedic/Initialize(mapload)
 	. = ..()
