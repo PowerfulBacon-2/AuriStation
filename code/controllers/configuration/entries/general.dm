@@ -260,7 +260,7 @@
 	config_entry_value = "https://beestation13.com/rules"
 
 /datum/config_entry/string/githuburl
-	config_entry_value = "https://github.com/BeeStation/BeeStation-Hornet"
+	config_entry_value = "https://github.com/PowerfulBacon-2/AuriStation"
 
 /datum/config_entry/string/issue_label
 
