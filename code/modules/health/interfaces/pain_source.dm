@@ -20,7 +20,7 @@
 	. = ..()
 	src.owner = owner
 	// A multiplier always starts at 1!
-	ADD_CUMULATIVE_TRAIT(src, TRAIT_PAIN_HEAL_MULTIPLIER, 1, INNATE_TRAIT)
+	ADD_CUMULATIVE_TRAIT(src, TRAIT_PAIN_HEAL_MULTIPLIER, INNATE_TRAIT, 1)
 
 /datum/pain_source/proc/Initialize(mob/living/owner)
 	register_signals()

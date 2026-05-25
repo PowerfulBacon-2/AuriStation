@@ -204,21 +204,6 @@
 /obj/item/gun/swarmer_act()//Stops you from eating the entire armory
 	return FALSE
 
-/obj/item/clockwork/alloy_shards/IntegrateAmount()
-	return 10
-
-/obj/item/clockwork/alloy_shards/medium/gear_bit/large/IntegrateAmount()
-	return 4
-
-/obj/item/clockwork/alloy_shards/large/IntegrateAmount()
-	return 3
-
-/obj/item/clockwork/alloy_shards/medium/IntegrateAmount()
-	return 2
-
-/obj/item/clockwork/alloy_shards/small/IntegrateAmount()
-	return 1
-
 /turf/open/swarmer_act()//ex_act() on turf calls it on its contents, this is to prevent attacking mobs by DisIntegrate()'ing the floor
 	return FALSE
 
