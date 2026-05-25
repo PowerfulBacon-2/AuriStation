@@ -382,11 +382,11 @@
 			else if(carbontarget.blood.volume <= BLOOD_VOLUME_OKAY)
 				render_list += "<span class='alert ml-1'>Blood level: <b>CRITICAL [blood_percent] %</b>, [carbontarget.blood.volume] cl,</span> [span_info("type: [blood_info]")]\n"
 			else
-				render_list += "<span class='info ml-1'>Blood level: [blood_percent] %, [carbontarget.blood.volume] cl, type: [blood_type]</span>\n"
-		render_list += "<span class='info ml-1'>Final Cell Saturation: [carbontarget.blood.get_effectiveness() * 100]%</span>\n"
-		render_list += "<span class='info ml-2'>Lung Oxygenation: [carbontarget.blood.get_oxygenation_rating() * 100]%</span>\n"
-		render_list += "<span class='info ml-2'>Blood Circulation: [carbontarget.blood.get_circulation_rating() * 100]%</span>\n"
-		render_list += "<span class='info ml-1'>Perceived Pain: [carbontarget.pain.adjusted_pain]% (Approaching: [carbontarget.pain.pain]%)</span>\n"
+				render_list += "<span class='info ml-1'>Blood level: [blood_percent] %, [round(carbontarget.blood.volume)] cl, type: [blood_type]</span>\n"
+		render_list += "<span class='info ml-1'>Final Cell Saturation: [round(carbontarget.blood.get_effectiveness() * 100)]%</span>\n"
+		render_list += "<span class='info ml-2'>Lung Oxygenation: [round(carbontarget.blood.get_oxygenation_rating() * 100)]%</span>\n"
+		render_list += "<span class='info ml-2'>Blood Circulation: [round(carbontarget.blood.get_circulation_rating() * 100)]%</span>\n"
+		render_list += "<span class='info ml-1'>Perceived Pain: [round(carbontarget.pain.adjusted_pain)]% (Approaching: [round(carbontarget.pain.pain)]%)</span>\n"
 
 	// Cybernetics
 	if(iscarbon(target))

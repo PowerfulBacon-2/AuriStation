@@ -166,7 +166,7 @@
 /obj/item/bodypart/proc/setup_injury_trees()
 	apply_injury_tree(/datum/injury/healthy_skin_burn)
 	apply_injury_tree(/datum/injury/cut_healthy)
-	apply_injury_tree(/datum/injury/trauma_healthy)
+	apply_injury_tree(/datum/injury/trauma_healthy,)
 
 /obj/item/bodypart/Destroy()
 	if(owner)
@@ -879,13 +879,10 @@
 /// Do not use this to set an injury, as the previous injury tree
 /// node has to be removed first, simply adding a new injury due
 /// to damage will result in multiple trees of that damage type.
-/obj/item/bodypart/proc/apply_injury_tree(datum/injury/injury_path)
+/obj/item/bodypart/proc/apply_injury_tree(datum/injury/injury_path, force_graph = FALSE)
 	for (var/datum/injury/injury in injuries)
 		if (injury.base_type == injury_path::base_type)
 			return injury
-	// You can't instantiate new instances of a graph-based injury
-	if (injury_path::injury_flags & INJURY_GRAPH)
-		return
 	if (!(injury_path::injury_flags & INJURY_LIMB))
 		CRASH("Attempting to apply a non-limb injury to a bodypart, [injury_path] cannot be applied to [src].")
 	var/datum/injury/injury = new injury_path()
