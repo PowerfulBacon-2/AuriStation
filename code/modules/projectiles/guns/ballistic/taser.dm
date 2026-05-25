@@ -1,6 +1,6 @@
 /obj/item/gun/ballistic/taser
 	name = "APS-Arc Ballistic Taser"
-	desc = "Standard taser for on-station APS enforcement. While principially less-lethal, overuse is highly discouraged due to the chance for heart-attacks."
+	desc = "A standard taser, it fires two small electrical prongs at a target before discharging a high-voltage into them."
 	icon_state = "taser"
 	inhand_icon_state = "ballistic_taser"
 	worn_icon_state = "officer_pistol"
@@ -8,7 +8,7 @@
 	cartridge_wording = "taser cartridge"
 	fire_sound = 'sound/weapons/taser/shot.ogg'
 	mag_type = /obj/item/ammo_box/magazine/internal/taser
-	w_class = WEIGHT_CLASS_LARGE
+	w_class = WEIGHT_CLASS_BULKY
 	can_suppress = FALSE
 	fire_rate = 1
 	throwforce = 0
@@ -39,9 +39,3 @@
 	. = ..()
 	. += "While traditionally challenging to aim, tests have shown that officer's accuracy greatly improves when this weapon is used in combination with the SecHUD, specially when targets are painted as 'wanted'."
 	. += span_notice("<i>You could examine it more thoroughly...</i>")
-
-/obj/item/gun/ballistic/taser/examine_more(mob/user)
-	. = ..()
-	. += "<i>The APS-Arc is a compact stunner made from impact-resistant polymer, developed by Nanotrasen for use by APS officers in the field. \
-		Each reloadable cartridge snaps in a pre-spooled wire spindle and barbed contact needles, primed for a precise and long-lasting electrical jolt. And officers can swap or reload spares in seconds too! \
-		This Lightweight and virtually silent design uilizes a manually cocked hammer to puncture the internal propellant load, it's the go-anywhere, reliable, less-lethal option security teams rely on.</i>"

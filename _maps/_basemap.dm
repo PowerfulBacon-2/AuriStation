@@ -1,5 +1,13 @@
-#define LOWMEMORYMODE //uncomment this to load centcom and runtime station and thats it.
-#define QUICKSTART // uncomment this to start the round immidiately when ready and automatically spawn players with debug outfit
+//#define LOWMEMORYMODE //uncomment this to load centcom and runtime station and thats it.
+//#define QUICKSTART // uncomment this to start the round immidiately when ready and automatically spawn players with debug outfit
+
+#ifdef QUICKSTART
+#warn WARNING: Compiling with QUICKSTART.
+#endif
+
+#ifdef LOWMEMORYMODE
+#warn WARNING: Compiling with LOWMEMORYMODE.
+#endif
 
 // uncomment this for a map you need to use
 // #define FORCE_MAP "boxstation"

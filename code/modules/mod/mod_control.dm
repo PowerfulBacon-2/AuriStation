@@ -60,8 +60,6 @@
 	var/slowdown_deployed = 0.50 //same as syndicate hardsuits
 	/// How long this MOD takes each part to seal.
 	var/activation_step_time = MOD_ACTIVATION_STEP_TIME
-	/// Extended description of the theme.
-	var/extended_desc
 	/// MOD core.
 	var/obj/item/mod/core/core
 	/// List of MODsuit part datums.
@@ -159,10 +157,6 @@
 		else if(isAI(ai_assistant))
 			. += span_notice("You could remove [ai_assistant] with an <b>intellicard</b>.")
 	. += span_notice("<i>You could examine it more thoroughly...</i>")
-
-/obj/item/mod/control/examine_more(mob/user)
-	. = ..()
-	. += "<i>[extended_desc]</i>"
 
 /obj/item/mod/control/process(delta_time)
 	if(seconds_electrified > MACHINE_NOT_ELECTRIFIED)

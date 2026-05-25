@@ -139,14 +139,6 @@
 		return
 	return ..()
 
-/obj/item/reagent_containers/cup/soda_cans/examine_more(mob/user)
-	. = ..()
-	if(!in_range(user, src))
-		return
-	if(fizziness > 30 && prob(fizziness * 2))
-		. += span_notice("<i>You examine [src] closer, and note the following...</i>")
-		. += "\t[span_warning("You get a menacing aura of fizziness from it...")]"
-
 #undef SODA_FIZZINESS_THROWN
 #undef SODA_FIZZINESS_SHAKE
 

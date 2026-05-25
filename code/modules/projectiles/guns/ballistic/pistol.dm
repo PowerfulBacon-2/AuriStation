@@ -191,11 +191,3 @@
 /obj/item/gun/ballistic/automatic/pistol/security/examine(mob/user)
 	. = ..()
 	. += span_notice("<i>You could examine it more thoroughly...</i>")
-
-/obj/item/gun/ballistic/automatic/pistol/security/examine_more(mob/user)
-	. = ..()
-	. += "<i>The corporate-issue NPS-10 is a slim, nondescript sidearm built for reliability on a budget. \
-			Its brushed-gray slide and ergonomic polymer grip keep it unflashy, while the semi-auto action with \
-			optional two-round burst and 12-round magazine ensure effective self defense when called upon. \
-			Designed to blend into any uniform yet hold its own in close quarters, it’s the pragmatic choice for \
-			private security operators.</i>"

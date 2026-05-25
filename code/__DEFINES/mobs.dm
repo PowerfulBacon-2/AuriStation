@@ -457,8 +457,6 @@ GLOBAL_LIST_INIT(available_random_trauma_list, list(
 // recent examine defines
 /// How long it takes for an examined atom to be removed from recent_examines. Should be the max of the below time windows
 #define RECENT_EXAMINE_MAX_WINDOW (2 SECONDS)
-/// If you examine the same atom twice in this timeframe, we call examine_more() instead of examine()
-#define EXAMINE_MORE_WINDOW (1 SECONDS)
 
 #define SILENCE_RANGED_MESSAGE (1<<0)
 

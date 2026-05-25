@@ -328,7 +328,6 @@
 		/obj/item/holosign_creator/security,
 		/obj/item/club,
 		/obj/item/shield/riot/tele,
-		/obj/item/gun/ballistic/taser,
 		/obj/item/ammo_casing/taser
 		))
 
@@ -338,7 +337,6 @@
 	new /obj/item/grenade/flashbang(src)
 	new /obj/item/assembly/flash/handheld(src)
 	new /obj/item/melee/baton/loaded(src)
-	new /obj/item/gun/ballistic/taser(src)
 	update_appearance()
 
 /obj/item/storage/belt/security/ert/full/PopulateContents()

@@ -596,17 +596,9 @@
 	if(client)
 		LAZYINITLIST(client.recent_examines)
 		var/ref_to_atom = REF(examinify)
-		var/examine_time = client.recent_examines[ref_to_atom]
-		if(examine_time && (world.time - examine_time < EXAMINE_MORE_WINDOW))
-			var/list/result = examinify.examine_more(src)
-			if(!length(result))
-				result += span_notice("<i>You examine [examinify] closer, but find nothing of interest...</i>")
-			result_combined = jointext(result, "<br>")
-
-		else
-			client.recent_examines[ref_to_atom] = world.time // set to when we last normal examine'd them
-			addtimer(CALLBACK(src, PROC_REF(clear_from_recent_examines), ref_to_atom), RECENT_EXAMINE_MAX_WINDOW)
-			handle_eye_contact(examinify)
+		client.recent_examines[ref_to_atom] = world.time // set to when we last normal examine'd them
+		addtimer(CALLBACK(src, PROC_REF(clear_from_recent_examines), ref_to_atom), RECENT_EXAMINE_MAX_WINDOW)
+		handle_eye_contact(examinify)
 
 	if(!result_combined)
 		var/list/result = examinify.examine(src)

@@ -465,8 +465,22 @@
 			<a href='byond://?src=[REF(src)];hud=s;add_crime=1;examine_time=[world.time]'>\[Add crime\]</a>\
 			<a href='byond://?src=[REF(src)];hud=s;add_note=1;examine_time=[world.time]'>\[Add note\]</a>"
 
-/mob/living/carbon/human/examine_more(mob/user)
-	. = ..()
+/// Reports all body parts which are mismatched with the user's species
+/mob/living/carbon/human/proc/get_mismatched_limb_text()
+	. = list()
+	for(var/obj/item/bodypart/part as anything in bodyparts)
+		if(part.limb_id == (dna.species.examine_limb_id || dna.species.id))
+			continue
+		. += span_notice("[p_They()] [p_have()] \a [part].")
+
+/mob/living/carbon/human/examine(mob/user)
+	. = list()
+
+	var/agetext = get_age_text()
+	if(agetext)
+		. += agetext
+
+	. += ..()
 
 	if(istype(w_uniform, /obj/item/clothing/under) && !(check_obscured_slots() & ITEM_SLOT_ICLOTHING) && !HAS_TRAIT(w_uniform, TRAIT_EXAMINE_SKIP))
 		var/obj/item/clothing/under/undershirt = w_uniform
@@ -476,18 +490,6 @@
 	var/limbs_text = get_mismatched_limb_text()
 	if(LAZYLEN(limbs_text))
 		. += limbs_text
-
-	var/agetext = get_age_text()
-	if(agetext)
-		. += agetext
-
-/// Reports all body parts which are mismatched with the user's species
-/mob/living/carbon/human/proc/get_mismatched_limb_text()
-	. = list()
-	for(var/obj/item/bodypart/part as anything in bodyparts)
-		if(part.limb_id == (dna.species.examine_limb_id || dna.species.id))
-			continue
-		. += span_notice("[p_They()] [p_have()] \a [part].")
 
 /// Reports how old the mob appears to be
 /mob/living/carbon/human/proc/get_age_text()

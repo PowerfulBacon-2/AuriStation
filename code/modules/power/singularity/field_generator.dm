@@ -43,8 +43,6 @@ field_generator power level display
 	var/clean_up = 0
 	COOLDOWN_STATIC_DECLARE(loose_message_cooldown)
 
-#warn TEST: Make sure that energy projectiles don't damage this thing
-
 /obj/machinery/field/generator/Initialize(mapload)
 	. = ..()
 	fields = list()
@@ -159,8 +157,8 @@ field_generator power level display
 	if(Proj.damage_flag != DAMAGE_STANDARD)
 		power = min(power + Proj.damage, field_generator_max_power)
 		check_power_level()
-	return BULLET_ACT_BLOCK
-
+		return BULLET_ACT_BLOCK
+	return BULLET_ACT_HIT
 
 /obj/machinery/field/generator/Destroy()
 	cleanup()

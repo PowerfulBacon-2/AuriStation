@@ -25,12 +25,6 @@
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
-/*
-/obj/machinery/teambuilder/examine_more(mob/user)
-	. = ..()
-	. += span_notice("You see a hastily written note on the side, it says '1215-1217, PICK A SIDE'.")
-*/
-
 /obj/machinery/teambuilder/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
 	if(!ishuman(AM) && humans_only)

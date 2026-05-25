@@ -93,9 +93,5 @@
 	. = ..()
 	. += span_notice("<i>You could examine it more thoroughly...</i>")
 
-/obj/item/ammo_box/magazine/x200law/examine_more(mob/user)
-	. = ..()
-	. += "<i>Loaded with 8 shots of NT custom x200 LAW; steel-jacketed, low-velocity ammo. The lubricant they had to use because of the steel cartridges stains your hands terribly. Of course it's proprietary...</i>"
-
 /obj/item/ammo_box/magazine/x200law/empty
 	start_empty = TRUE

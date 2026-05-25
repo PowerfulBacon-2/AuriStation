@@ -164,6 +164,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	l_pocket = /obj/item/modular_computer/tablet/pda/preset/security
 	r_pocket = /obj/item/clothing/accessory/badge
 	accessory = /obj/item/clothing/accessory/security_pager
+	suit_store = /obj/item/gun/ballistic/taser
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
@@ -171,7 +172,6 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	box = /obj/item/storage/box/survival/security
 
 	backpack_contents = list(
-		/obj/item/mining_voucher/security = 1,
 		/obj/item/ammo_casing/taser = 1,
 		)
 

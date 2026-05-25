@@ -18,10 +18,6 @@
 #define COMSIG_PARENT_REAGENT_EXAMINE "atom_reagent_examine"
 	/// Stop the generic reagent examine text
 	#define STOP_GENERIC_REAGENT_EXAMINE (1<<0)
-///from base of atom/examine_more(): (/mob, examine_list)
-#define COMSIG_ATOM_EXAMINE_MORE "atom_examine_more"
-/// from atom/examine_more(): (/atom/examining, examine_list)
-#define COMSIG_MOB_EXAMINING_MORE "mob_examining_more"
 //End positions
 #define COMPONENT_EXNAME_CHANGED (1<<0)
 

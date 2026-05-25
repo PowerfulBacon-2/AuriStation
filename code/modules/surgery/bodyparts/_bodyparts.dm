@@ -88,8 +88,6 @@
 	/// Effectiveness of the limb
 	/// Pairs of limbs together make up 100%
 	var/effectiveness = 50
-	///An "override" color that can be applied to ANY limb, greyscale or not.
-	var/variable_color = ""
 	/// The colour of damage done to this bodypart
 	var/damage_color = ""
 	/// Should we even use a color?
