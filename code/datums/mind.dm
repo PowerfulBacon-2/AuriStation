@@ -151,9 +151,6 @@
 	mind_copy.restricted_roles = restricted_roles
 	if (martial_art)
 		mind_copy.martial_art = new martial_art.type()
-	mind_copy.miming = miming
-	mind_copy.hellbound = hellbound
-	mind_copy.soulOwner = soulOwner == src ? mind_copy : soulOwner
 
 	// Takeover as the prime
 	if (!children)
@@ -162,7 +159,6 @@
 	mind_copy.prime = src
 	mind_copy.become_prime()
 
-	mind_copy.hasSoul = hasSoul
 	mind_copy.holy_role = holy_role
 	mind_copy.isAntagTarget = isAntagTarget
 	mind_copy.enslaved_to = enslaved_to

@@ -604,12 +604,11 @@
 	var/id
 	var/datum/weakref/weakref_dna
 	var/uni_identity
-	var/SE
+	var/mutation_index
 	var/datum/weakref/weakref_mind
 	var/factions
 	var/traumas
 	var/implant
-	var/UE
 	var/bank_account
 
 
@@ -625,12 +624,11 @@
 		species = "Unknown",
 		weakref_dna,
 		uni_identity,
-		SE,
+		mutation_index,
 		weakref_mind,
 		factions,
 		traumas,
 		implant,
-		UE,
 		bank_account
 	)
 	src.id = id
@@ -644,12 +642,11 @@
 	src.species = species
 	src.weakref_dna = weakref_dna
 	src.uni_identity = uni_identity
-	src.SE = SE
+	src.mutation_index = mutation_index
 	src.weakref_mind = weakref_mind
 	src.factions = factions
 	src.traumas = traumas
 	src.implant = implant
-	src.UE = UE
 	src.bank_account = bank_account
 
 // Copy the record's data to the target.
@@ -665,12 +662,10 @@
 	species = target.species
 	weakref_dna = target.weakref_dna
 	uni_identity = target.uni_identity
-	SE = target.SE
 	weakref_mind = target.weakref_mind
 	factions = target.factions
 	traumas = target.traumas
 	implant = target.implant
-	UE = target.UE
 	return
 
 /datum/record/cloning/proc/resolve_dna()

@@ -62,7 +62,7 @@
 				. = pod
 
 /proc/grow_clone_from_record(obj/machinery/clonepod/pod, datum/record/cloning/cloning_record)
-	return pod.growclone(cloning_record.name, cloning_record.uni_identity, cloning_record.SE, cloning_record.resolve_mind(), cloning_record.species, cloning_record.resolve_dna_features(), cloning_record.factions, cloning_record.resolve_mind_account_id(), cloning_record.traumas)
+	return pod.growclone(cloning_record.name, cloning_record.uni_identity, cloning_record.mutation_index, cloning_record.resolve_mind(), cloning_record.species, cloning_record.resolve_dna_features(), cloning_record.factions, cloning_record.resolve_mind_account_id(), cloning_record.traumas)
 
 /obj/machinery/computer/cloning/process()
 	if(!(scanner && LAZYLEN(pods) && autoprocess))
@@ -284,7 +284,7 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/computer/cloning)
 			temp = "Warning: Cloning cycle already in progress."
 			playsound(src, 'sound/machines/terminal_prompt_deny.ogg', 50, 0)
 		else
-			var/cloning_attempt_result = pod.growclone(clone_record.name, clone_record.uni_identity, clone_record.SE, clone_record.resolve_mind(), clone_record.species, clone_record.resolve_dna_features(), clone_record.factions, clone_record.resolve_mind_account_id(), clone_record.traumas)
+			var/cloning_attempt_result = pod.growclone(clone_record.name, clone_record.uni_identity, clone_record.mutation_index, clone_record.resolve_mind(), clone_record.species, clone_record.resolve_dna_features(), clone_record.factions, clone_record.resolve_mind_account_id(), clone_record.traumas)
 			switch(cloning_attempt_result)
 				if(CLONING_SUCCESS)
 					temp = "Notice: [clone_record.name] => Cloning cycle in progress..."
@@ -545,7 +545,7 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/computer/cloning)
 		scantemp = "Subject's DNA is damaged beyond any hope of recovery."
 		playsound(src, 'sound/machines/terminal_alert.ogg', 50, 0)
 		return FALSE
-	if(mob_occupant.suiciding || mob_occupant.ishellbound())
+	if(mob_occupant.suiciding)
 		scantemp = "Subject's brain is not responding to scanning stimuli."
 		playsound(src, 'sound/machines/terminal_prompt_deny.ogg', 50, 0)
 		return FALSE
@@ -563,7 +563,7 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/computer/cloning)
 /obj/machinery/computer/cloning/proc/scan_occupant(occupant, mob/user)
 	var/mob/living/mob_occupant = get_mob_or_brainmob(occupant)
 	var/datum/dna/dna
-	var/datum/bank_account/has_bank_account
+	var/datum/bank_account/bank_account
 
 	// Do not use unless you know what they are.
 	var/mob/living/carbon/human/human_mob = mob_occupant
@@ -573,11 +573,11 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/computer/cloning)
 		dna = human_mob.has_dna()
 		var/obj/item/card/id/human_id_card = human_mob.get_idcard(TRUE)
 		if(human_id_card)
-			has_bank_account = human_id_card.registered_account
+			bank_account = human_id_card.registered_account
 	if(isbrain(mob_occupant))
 		dna = human_brain.stored_dna
 
-	if(!can_scan(dna, mob_occupant, has_bank_account))
+	if(!can_scan(dna, mob_occupant, bank_account))
 		return
 
 	var/datum/mind/mind = mob_occupant.mind.get_prime_for_cloning_scan()
@@ -589,7 +589,42 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/computer/cloning)
 	// scanned.
 	mind.become_prime()
 
-	var/datum/record/cloning/cloning_record = new(null, 18, dna.blood_type.name, dna.unique_enzymes, md5(dna.uni_identity), mob_occupant.gender, mob_occupant.mind?.assigned_role, mob_occupant.real_name, null, WEAKREF(dna), dna.uni_identity, dna.mutation_index, WEAKREF(mob_occupant.mind), FALSE, mob_occupant.faction, list(), body_only, null, dna.unique_enzymes, has_bank_account)
+	var/datum/record/cloning/cloning_record = new(
+		// ID
+		null,
+		// Age
+		human_mob?.age || 18,
+		// Blood Type
+		dna.blood_type.name,
+		// DNA String
+		dna.unique_enzymes,
+		// Fingerprint
+		md5(dna.unique_identity),
+		// Gender
+		mob_occupant.gender,
+		// Initial Rank
+		mob_occupant.mind?.assigned_role,
+		// Name
+		mob_occupant.real_name,
+		// Species
+		null,
+		// Weakref DNA
+		WEAKREF(dna),
+		// UNI Identity
+		dna.unique_identity,
+		// mutation_index
+		dna.mutation_index,
+		// Weakref Mind
+		WEAKREF(mob_occupant.mind),
+		// Factions
+		mob_occupant.faction,
+		// Traumas
+		list(),
+		// Implant
+		null,
+		// bank Account
+		bank_account
+	)
 
 	if(dna.species)
 		// We store the instance rather than the path, because some
@@ -610,7 +645,7 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/computer/cloning)
 		cloning_record.traumas = human_mob.get_traumas()
 	//Traumas will be overriden if the brain transplant is made because '/obj/item/organ/brain/Insert' does that thing. This should be done since we want a monkey yelling to people with 'God voice syndrome'
 
-	cloning_record.bank_account = has_bank_account
+	cloning_record.bank_account = bank_account
 	cloning_record.weakref_mind = WEAKREF(mob_occupant.mind)
 
 	var/found_old_record = null

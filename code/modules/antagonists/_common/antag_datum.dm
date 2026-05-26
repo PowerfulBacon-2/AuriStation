@@ -475,7 +475,6 @@ GLOBAL_LIST(admin_antag_list)
 	copy.ui_name = ui_name
 	copy.can_elimination_hijack = can_elimination_hijack
 	copy.hijack_speed = hijack_speed
-	copy.count_against_dynamic_roll_chance = FALSE
 	copy.show_in_antagpanel = show_in_antagpanel
 	copy.antagpanel_category = "Duplicates"
 	copy.show_name_in_check_antagonists = show_name_in_check_antagonists

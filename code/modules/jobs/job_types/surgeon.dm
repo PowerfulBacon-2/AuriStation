@@ -52,7 +52,7 @@
 	suit =  /obj/item/clothing/suit/apron/surgical
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	mask = /obj/item/clothing/mask/surgical
-	head = /obj/item/clothing/head/beret/med
+	head = /obj/item/clothing/head/beret/medical
 
 	backpack = /obj/item/storage/backpack/medic
 	satchel = /obj/item/storage/backpack/satchel/med

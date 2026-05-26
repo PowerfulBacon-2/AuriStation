@@ -297,7 +297,6 @@ SCREENTIP_ATTACK_HAND(/obj/machinery/clonepod, "Examine")
 	return result
 
 /obj/machinery/clonepod/proc/offer_to_ghost(mob/living/carbon/H)
-	set waitfor = FALSE
 	var/datum/poll_config/config = new()
 	config.check_jobban = ROLE_EXPERIMENTAL_CLONE
 	config.poll_time = 20 SECONDS
