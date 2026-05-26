@@ -4,52 +4,19 @@
 # In the event that multiple org members are to be informed of changes
 # to the same file or dir, add them to the end under Multiple Owners
 
-# Mapping
+# powerfulbacon
 
-/_maps @BeeStation/beestation-mapping
+.dockerignore @powerfulbacon
+.github @powerfulbacon
+/code/_compile_options.dm @powerfulbacon
+/code/modules/tgs @powerfulbacon
+dependencies.sh @powerfulbacon
+Dockerfile @powerfulbacon
+/SQL @powerfulbacon
+/tools @powerfulbacon
+/config @powerfulbacon
 
-# crossedfall
-
-.dockerignore @crossedfall
-.github @crossedfall
-/code/_compile_options.dm @crossedfall
-/code/modules/tgs @crossedfall
-dependencies.sh @crossedfall
-Dockerfile @crossedfall
-/SQL @crossedfall
-/tools @crossedfall
-/config @crossedfall
-
-# crossedfall (explicitly disowned)
+# powerfulbacon (explicitly disowned)
 
 /tools/UpdatePaths/Scripts/
 /tools/maplint/lints/
-
-# powerfulbacon
-
-/code/game/machinery/shuttle @powerfulbacon
-/code/modules/shuttle/super_cruise @powerfulbacon
-/code/modules/shuttle/shuttle_creation @powerfulbacon
-
-# itsmeow
-
-/tools/MapTileAggregator.py @itsmeow
-/code/modules/admin/player_panel.dm @itsmeow
-/code/modules/tgui/ @itsmeow
-/code/modules/tgui_input/ @itsmeow
-/code/modules/tgui_panel/ @itsmeow
-/tgui/ @itsmeow
-/tgui/packages/tgui/interfaces/PlayerPanel.js @itsmeow
-/code/modules/multiz @itsmeow
-/code/modules/client/login @itsmeow
-
-# itsmeow (explicitly disowned)
-
-/tgui/packages/tgui/interfaces/
-/tgui/packages/tgui/styles/interfaces/
-/tgui/packages/tgui-panel/styles/tgchat/chat-dark.scss
-/tgui/packages/tgui-panel/styles/tgchat/chat-light.scss
-
-# mrmanlikesbt
-
-/code/controllers/subsystem/dynamic @mrmanlikesbt

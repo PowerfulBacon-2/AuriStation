@@ -25,7 +25,7 @@ if [ -d ".git" ]; then
   cp -r .git/logs/* $1/.git/logs/
 fi
 
-cp beestation.dmb beestation.rsc $1/
+cp auristation.dmb auristation.rsc $1/
 cp -r _maps/* $1/_maps/
 cp -r code/datums/greyscale/json_configs/* $1/code/datums/greyscale/json_configs/
 cp -r icons/* $1/icons/

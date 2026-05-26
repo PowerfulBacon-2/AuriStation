@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        > _Feature requests are handled in the repository, but you could also discuss your ideas on BeeStation discord or forums here: https://forums.beestation13.com/_
+        > _Feature requests are handled in the repository.
   - type: textarea
     id: description
     attributes:

@@ -34,7 +34,7 @@ Juke.setup({ file: import.meta.url }).then((code) => {
   }
 });
 
-const DME_NAME = 'beestation';
+const DME_NAME = 'auristation';
 
 export const DefineParameter = new Juke.Parameter({
   type: 'string[]',
