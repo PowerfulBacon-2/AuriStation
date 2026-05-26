@@ -161,7 +161,7 @@
 /mob/living/proc/setCloneLoss(amount, updating_health = TRUE, forced = FALSE)
 	if(!forced && (HAS_TRAIT(src, TRAIT_GODMODE) || HAS_TRAIT(src, TRAIT_NOCLONELOSS)))
 		return FALSE
-	return get_injury_amount(CLONE)
+	return set_injury(CLONE, amount)
 
 /mob/living/proc/adjustOrganLoss(slot, amount, maximum, required_status)
 	return
