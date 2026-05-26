@@ -7,14 +7,22 @@
 /// Returns the amount of progression applied to the injury, which may differ in cases where
 /// the progression was healed before it could be all applied.
 /mob/living/proc/adjust_injury(injury_type, amount, zone = null)
+	if (!amount)
+		return 0
 	var/datum/injury/injury_path = injury_type
 	// If a mob does not have limbs, then it must apply to the entire
 	// body.
 	if (has_limbs)
 		// If we have no zone but the injury must be applied to a limb,
 		// then randomly select a zone.
-		if (!zone && !(injury_path::injury_flags & INJURY_BODY))
-			zone = ran_zone()
+		if (!zone && !(injury_path::injury_flags & INJURY_BODY) && (injury_path::injury_flags & INJURY_LIMB))
+			var/list/bodyparts = get_bodyparts()
+			if (length(bodyparts))
+				var/damage_per_part = amount / length(bodyparts)
+				var/total = 0
+				for (var/obj/item/bodypart/part in bodyparts)
+					total += part.increase_injury(injury_type, damage_per_part)
+				return total
 		// If the injury can be applied to a limb and a zone was selected
 		// apply to that area
 		if (zone && (injury_path::injury_flags & INJURY_LIMB))
@@ -22,9 +30,9 @@
 			if (!part)
 				return 0
 			return part.increase_injury(injury_type, amount)
-		// The injury cannot be applied to the body or a limb
+		// Apply to the body
 		if (!(injury_path::injury_flags & INJURY_BODY))
-			return 0
+			CRASH("Injury [injury_type] could not be assigned to limb or body.")
 	// Either get the existing injury, or apply the new injury
 	if (amount > 0)
 		var/datum/injury/injury = apply_injury(injury_type)
@@ -43,14 +51,22 @@
 /// zone: Optional zone, applies the injury to a specific bodypart instead of the whole body
 /// for mobs that support zone damage.
 /mob/living/proc/set_injury(injury_type, amount, zone = null)
+	if (!amount)
+		return 0
 	var/datum/injury/injury_path = injury_type
 	// If a mob does not have limbs, then it must apply to the entire
 	// body.
 	if (has_limbs)
 		// If we have no zone but the injury must be applied to a limb,
-		// then randomly select a zone.
-		if (!zone && !(injury_path::injury_flags & INJURY_BODY))
-			return 0
+		// then apply evenly across all limbs
+		if (!zone && !(injury_path::injury_flags & INJURY_BODY) && (injury_path::injury_flags & INJURY_LIMB))
+			var/list/bodyparts = get_bodyparts()
+			if (length(bodyparts))
+				var/damage_per_part = amount / length(bodyparts)
+				var/total = 0
+				for (var/obj/item/bodypart/part in bodyparts)
+					total += part.set_injury(injury_type, damage_per_part)
+				return total
 		// If the injury can be applied to a limb and a zone was selected
 		// apply to that area
 		if (zone && (injury_path::injury_flags & INJURY_LIMB))
@@ -58,9 +74,9 @@
 			if (!part)
 				return 0
 			return part.set_injury(injury_type, amount)
-		// The injury cannot be applied to the body or a limb
+		// Apply to the body
 		if (!(injury_path::injury_flags & INJURY_BODY))
-			return 0
+			CRASH("Injury [injury_type] could not be assigned to limb or body.")
 	if (amount > 0)
 		var/datum/injury/injury = apply_injury(injury_type)
 		return injury.set_progression(amount)

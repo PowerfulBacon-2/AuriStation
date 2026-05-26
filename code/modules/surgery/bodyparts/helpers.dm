@@ -9,6 +9,16 @@
 		if(L.body_zone == zone)
 			return L
 
+/// Return a list of all bodyparts on the mob
+/mob/living/proc/get_bodyparts()
+	RETURN_TYPE(/list/obj/item/bodypart)
+	return list()
+
+/// Return a list of all bodyparts on the mob
+/mob/living/carbon/get_bodyparts()
+	RETURN_TYPE(/list/obj/item/bodypart)
+	return bodyparts
+
 ///Replaces a single limb and deletes the old one if there was one
 /mob/living/carbon/proc/del_and_replace_bodypart(obj/item/bodypart/new_limb, special)
 	var/obj/item/bodypart/old_limb = get_bodypart(new_limb.body_zone)
