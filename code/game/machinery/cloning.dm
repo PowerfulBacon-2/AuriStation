@@ -175,10 +175,13 @@ SCREENTIP_ATTACK_HAND(/obj/machinery/clonepod, "Examine")
 	return GM
 
 /obj/machinery/clonepod/proc/get_completion()
-	. = FALSE
 	var/mob/living/mob_occupant = occupant
 	if(mob_occupant)
-		. = (100 * ((mob_occupant.consciousness.value + 100) / (heal_level + 100)))
+		var/damage_target = (100 - heal_level)
+		var/initial_damage = CLONE_INITIAL_DAMAGE
+		var/current_damage = mob_occupant.getCloneLoss()
+		return (current_damage - initial_damage) / (damage_target - initial_damage) * 100
+	return 0
 
 //Start growing a human clone in the pod!
 /obj/machinery/clonepod/proc/growclone(clonename, ui, mutation_index, datum/mind/given_mind, datum/species/mrace, list/features, factions, datum/bank_account/insurance, list/traumas)
@@ -249,7 +252,6 @@ SCREENTIP_ATTACK_HAND(/obj/machinery/clonepod, "Examine")
 	ADD_TRAIT(H, TRAIT_NOBREATH, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_NOCRITDAMAGE, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_NODEATH, CLONING_POD_TRAIT)
-	H.pain.set_pain_modifier(0, CLONING_POD_TRAIT)
 	maim_clone(H)
 	H.Unconscious(80)
 
@@ -517,7 +519,6 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/clonepod)
 	REMOVE_TRAIT(mob_occupant, TRAIT_NOCRITDAMAGE, CLONING_POD_TRAIT)
 	REMOVE_TRAIT(mob_occupant, TRAIT_NOBREATH, CLONING_POD_TRAIT)
 	REMOVE_TRAIT(mob_occupant, TRAIT_NODEATH, CLONING_POD_TRAIT)
-	mob_occupant.pain.set_pain_modifier(1, CLONING_POD_TRAIT)
 
 	if(grab_ghost_when == CLONER_MATURE_CLONE)
 		mob_occupant.grab_ghost()
