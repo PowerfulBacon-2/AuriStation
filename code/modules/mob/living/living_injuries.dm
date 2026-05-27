@@ -18,7 +18,7 @@
 		if (!zone && !(injury_path::injury_flags & INJURY_BODY) && (injury_path::injury_flags & INJURY_LIMB))
 			var/list/bodyparts = list()
 			for (var/obj/item/bodypart/part in get_bodyparts())
-				if (part.get_injury(injury_type))
+				if (amount > 0 || part.get_injury(injury_type))
 					bodyparts += part
 			if (length(bodyparts))
 				var/damage_per_part = amount / length(bodyparts)
@@ -35,6 +35,9 @@
 			return part.increase_injury(injury_type, amount)
 		// Apply to the body
 		if (!(injury_path::injury_flags & INJURY_BODY))
+			// We would have run the checks, but had no bodyparts, so we can safely return
+			if (!zone && (injury_path::injury_flags & INJURY_LIMB))
+				return
 			CRASH("Injury [injury_type] could not be assigned to limb or body.")
 	// Either get the existing injury, or apply the new injury
 	if (amount > 0)
