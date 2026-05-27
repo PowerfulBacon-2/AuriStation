@@ -242,13 +242,15 @@ SCREENTIP_ATTACK_HAND(/obj/machinery/clonepod, "Examine")
 
 	icon_state = "pod_1"
 	//Get the clone body ready
-	maim_clone(H)
 	ADD_TRAIT(H, TRAIT_STABLEHEART, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_STABLELIVER, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_EMOTEMUTE, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_MUTE, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_NOBREATH, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_NOCRITDAMAGE, CLONING_POD_TRAIT)
+	ADD_TRAIT(H, TRAIT_NODEATH, CLONING_POD_TRAIT)
+	H.pain.set_pain_modifier(0, CLONING_POD_TRAIT)
+	maim_clone(H)
 	H.Unconscious(80)
 
 	if(new_clone)
@@ -303,6 +305,7 @@ SCREENTIP_ATTACK_HAND(/obj/machinery/clonepod, "Examine")
 	config.jump_target = H
 	config.role_name_text = "[H.real_name]'s accidental clone?"
 	config.alert_pic = H
+	config.amount_to_pick = 1
 	var/mob/dead/observer/candidate = SSpolling.poll_ghosts_for_target(config, H)
 	if(candidate)
 		H.key = candidate.key
@@ -513,6 +516,8 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/clonepod)
 	REMOVE_TRAIT(mob_occupant, TRAIT_MUTE, CLONING_POD_TRAIT)
 	REMOVE_TRAIT(mob_occupant, TRAIT_NOCRITDAMAGE, CLONING_POD_TRAIT)
 	REMOVE_TRAIT(mob_occupant, TRAIT_NOBREATH, CLONING_POD_TRAIT)
+	REMOVE_TRAIT(mob_occupant, TRAIT_NODEATH, CLONING_POD_TRAIT)
+	mob_occupant.pain.set_pain_modifier(1, CLONING_POD_TRAIT)
 
 	if(grab_ghost_when == CLONER_MATURE_CLONE)
 		mob_occupant.grab_ghost()
@@ -612,7 +617,6 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/clonepod)
 			qdel(fl)
 		unattached_flesh.Cut()
 
-	H.setCloneLoss(CLONE_INITIAL_DAMAGE, TRUE, TRUE)     //Yeah, clones start with very low health, not with random, because why would they start with random health
 	// In addition to being cellularly damaged, they also have no limbs or internal organs.
 	// Applying brainloss is done when the clone leaves the pod, so application of traumas can happen
 	// based on the level of damage sustained.
@@ -625,6 +629,9 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/clonepod)
 				BP.drop_limb()
 				BP.forceMove(src)
 				unattached_flesh += BP
+
+	//Yeah, clones start with very low health, not with random, because why would they start with random health
+	H.setCloneLoss(CLONE_INITIAL_DAMAGE, TRUE, TRUE)
 
 	for(var/o in H.internal_organs)
 		var/obj/item/organ/organ = o

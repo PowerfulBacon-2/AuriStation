@@ -17,6 +17,9 @@
 		// then randomly select a zone.
 		if (!zone && !(injury_path::injury_flags & INJURY_BODY) && (injury_path::injury_flags & INJURY_LIMB))
 			var/list/bodyparts = get_bodyparts()
+			for (var/obj/item/bodypart/part in bodyparts)
+				if (!part.get_injury(injury_type))
+					bodyparts -= part
 			if (length(bodyparts))
 				var/damage_per_part = amount / length(bodyparts)
 				var/total = 0
@@ -147,9 +150,13 @@
 		if (!part)
 			return 0
 		injury = part.get_injury(injury_path::base_type)
-	if (!injury)
-		return 0
-	return injury.progression
+		return injury?.progression
+	// Add the body-wide injury
+	. += injury?.progression
+	// Add the injury amounts on each limb
+	if (has_limbs)
+		for (var/obj/item/bodypart/part in get_bodyparts())
+			. += part.get_injury_amount(injury_type)
 
 /// Apply a specific injury to a mob, without having any progression
 /// injury_type: The type, or base-type (for injury trees), of the injury to progress.
