@@ -16,10 +16,10 @@
 		// If we have no zone but the injury must be applied to a limb,
 		// then randomly select a zone.
 		if (!zone && !(injury_path::injury_flags & INJURY_BODY) && (injury_path::injury_flags & INJURY_LIMB))
-			var/list/bodyparts = get_bodyparts()
-			for (var/obj/item/bodypart/part in bodyparts)
-				if (!part.get_injury(injury_type))
-					bodyparts -= part
+			var/list/bodyparts = list()
+			for (var/obj/item/bodypart/part in get_bodyparts())
+				if (part.get_injury(injury_type))
+					bodyparts += part
 			if (length(bodyparts))
 				var/damage_per_part = amount / length(bodyparts)
 				var/total = 0
