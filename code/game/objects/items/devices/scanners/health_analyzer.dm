@@ -398,7 +398,7 @@
 		if(cyberimp_detect)
 			render_list += "<span class='notice ml-1'>Detected cybernetic modifications:</span>\n"
 			render_list += "<span class='notice ml-2'>[cyberimp_detect]</span>\n"
-	// we handled the last <br> so we don't need handholding
+	// We handled the last <br> so we don't need handholding
 
 	SEND_SIGNAL(target, COMSIG_NANITE_SCAN, user, FALSE)
 	if(tochat)
