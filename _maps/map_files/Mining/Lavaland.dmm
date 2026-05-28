@@ -3247,7 +3247,6 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /mob/living/simple_animal/hostile/poison/giant_spider{
 	melee_damage = 8;
-	health = 40;
 	web_speed = 500;
 	maxHealth = 40;
 	webbing = 500;
@@ -6318,7 +6317,6 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /mob/living/simple_animal/hostile/poison/giant_spider{
 	melee_damage = 8;
-	health = 40;
 	web_speed = 500;
 	maxHealth = 40;
 	webbing = 500;
@@ -7674,7 +7672,6 @@
 "Td" = (
 /mob/living/simple_animal/hostile/poison/giant_spider{
 	melee_damage = 8;
-	health = 40;
 	web_speed = 500;
 	maxHealth = 40;
 	webbing = 500;
@@ -7885,7 +7882,6 @@
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible/layer2,
 /mob/living/simple_animal/hostile/poison/giant_spider{
 	melee_damage = 8;
-	health = 40;
 	web_speed = 500;
 	maxHealth = 40;
 	webbing = 500;

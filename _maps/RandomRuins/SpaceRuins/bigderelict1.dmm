@@ -894,7 +894,6 @@
 	},
 /mob/living/simple_animal/hostile/netherworld{
 	desc = "Awh its so sm-OH GOD WHAT THE FUCK.";
-	health = 25;
 	maxHealth = 25;
 	name = "hatchling";
 	resize = 0.85
@@ -914,7 +913,6 @@
 	},
 /mob/living/simple_animal/hostile/netherworld{
 	desc = "Awh its so sm-OH GOD WHAT THE FUCK.";
-	health = 25;
 	maxHealth = 25;
 	name = "hatchling";
 	resize = 0.85
@@ -1784,7 +1782,6 @@
 	},
 /mob/living/simple_animal/hostile/netherworld{
 	desc = "Awh its so sm-OH GOD WHAT THE FUCK.";
-	health = 25;
 	maxHealth = 25;
 	name = "hatchling";
 	resize = 0.85
