@@ -120,7 +120,7 @@
 	if(!ninja_antag)
 		return
 
-	var/datum/objective/download/objective = locate() in ninja_antag.objectives
+	var/datum/objective/download/objective = locate() in ninja_antag.get_objectives()
 	if(objective)
 		to_chat(ninja, span_notice("Research objective progress updated."))
 

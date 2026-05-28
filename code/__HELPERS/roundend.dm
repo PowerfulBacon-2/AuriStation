@@ -134,14 +134,13 @@ GLOBAL_VAR(survivor_report) //! Contains shared survivor report for roundend rep
 
 		var/greentexted = TRUE
 
-		if(A.objectives.len)
-			for(var/datum/objective/O as() in A.objectives)
-				var/result = O.check_completion() ? "SUCCESS" : "FAIL"
+		for(var/datum/objective/O as() in A.get_objectives())
+			var/result = O.check_completion() ? "SUCCESS" : "FAIL"
 
-				if (result == "FAIL")
-					greentexted = FALSE
+			if (result == "FAIL")
+				greentexted = FALSE
 
-				antag_info["objectives"] += list(list("objective_type"=O.type,"text"=O.explanation_text,"result"=result))
+			antag_info["objectives"] += list(list("objective_type"=O.type,"text"=O.explanation_text,"result"=result))
 		SSblackbox.record_feedback("associative", "antagonists", 1, antag_info)
 
 		if (greentexted)

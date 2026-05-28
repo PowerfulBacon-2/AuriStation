@@ -46,11 +46,11 @@
 	clan_objective = new clan_objective()
 	clan_objective.name = "Clan Objective"
 	clan_objective.owner = vampiredatum.owner
-	vampiredatum.objectives += clan_objective
+	vampiredatum.add_objective(clan_objective)
 	vampiredatum.owner.announce_objectives()
 
 /datum/vampire_clan/proc/remove_clan_objective()
-	vampiredatum.objectives -= clan_objective
+	vampiredatum.remove_objective(clan_objective)
 	QDEL_NULL(clan_objective)
 	vampiredatum.owner.announce_objectives()
 

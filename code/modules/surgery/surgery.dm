@@ -20,6 +20,8 @@
 	var/requires_tech = FALSE										//handles techweb-oriented surgeries, previously restricted to the /advanced subtype (You still need to add designs)
 	var/replaced_by													//type; doesn't show up if this type exists. Set to /datum/surgery if you want to hide a "base" surgery (useful for typing parents IE healing.dm just make sure to null it out again)
 	var/failed_step = FALSE											//used for bypassing the 'poke on help intent' on failing a surgery step and forcing the doctor to damage the patient
+	/// If true, it must be performed by a surgeon
+	var/required_trait = null
 	//Blacklisted surgeries aren't innately known by Abductor Scientists
 	//However, they can still be used by them if they meet the normal requirements to access the surgery
 	var/abductor_surgery_blacklist = FALSE
@@ -63,11 +65,6 @@
 		if (!valid)
 			return FALSE
 
-	if(HAS_MIND_TRAIT(user, TRAIT_SURGEON))
-		if(replaced_by)
-			return FALSE
-		else
-			return TRUE
 	//Grants the user innate access to all surgeries
 
 	if(HAS_MIND_TRAIT(user, TRAIT_ABDUCTOR_SURGEON))
@@ -76,6 +73,9 @@
 		else if(!abductor_surgery_blacklist)
 			return TRUE
 	//Grants the user innate access to all surgeries except for certain blacklisted ones. Used by Abductors
+
+	if (required_trait && !HAS_TRAIT(user, required_trait) && (!user.mind || !HAS_TRAIT(user.mind, required_trait)))
+		return FALSE
 
 	if(!requires_tech && !replaced_by)
 		return TRUE
@@ -160,6 +160,7 @@
 /datum/surgery/advanced
 	name = "advanced surgery"
 	requires_tech = TRUE
+	required_trait = TRAIT_SURGEON
 
 /obj/item/disk/surgery
 	name = "Surgery Procedure Disk"

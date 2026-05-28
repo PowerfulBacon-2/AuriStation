@@ -175,14 +175,18 @@ SCREENTIP_ATTACK_HAND(/obj/machinery/clonepod, "Examine")
 	return GM
 
 /obj/machinery/clonepod/proc/get_completion()
-	. = FALSE
 	var/mob/living/mob_occupant = occupant
 	if(mob_occupant)
-		. = (100 * ((mob_occupant.consciousness.value + 100) / (heal_level + 100)))
+		var/damage_target = (100 - heal_level)
+		var/initial_damage = CLONE_INITIAL_DAMAGE
+		var/current_damage = mob_occupant.getCloneLoss()
+		return (current_damage - initial_damage) / (damage_target - initial_damage) * 100
+	return 0
 
 //Start growing a human clone in the pod!
-/obj/machinery/clonepod/proc/growclone(clonename, ui, mutation_index, given_mind, last_death, datum/species/mrace, list/features, factions, datum/bank_account/insurance, list/traumas, body_only, experimental)
+/obj/machinery/clonepod/proc/growclone(clonename, ui, mutation_index, datum/mind/given_mind, datum/species/mrace, list/features, factions, datum/bank_account/insurance, list/traumas)
 	var/result = CLONING_SUCCESS
+
 	if(!reagents.has_reagent(/datum/reagent/medicine/synthflesh, fleshamnt))
 		connected_message("Cannot start cloning: Not enough synthflesh.")
 		return ERROR_NO_SYNTHFLESH
@@ -190,40 +194,38 @@ SCREENTIP_ATTACK_HAND(/obj/machinery/clonepod, "Examine")
 		return ERROR_PANEL_OPENED
 	if(mess || attempting)
 		return ERROR_MESS_OR_ATTEMPTING
-	if(experimental && !experimental_pod)
-		return ERROR_MISSING_EXPERIMENTAL_POD
 
-	if(!body_only && !(experimental && experimental_pod))
-		clonemind = given_mind
-		if(!istype(clonemind))	//not a mind
-			return ERROR_NOT_MIND
-		if(last_death<0) //presaved clone is not clonable
-			return ERROR_PRESAVED_CLONE
-		if(abs(clonemind.last_death - last_death) > 5) //You can't clone old ones. 5 seconds grace because a sync-failure can happen.
-			return ERROR_OUTDATED_CLONE
-		if(!QDELETED(clonemind.current))
-			if(clonemind.current.stat != DEAD)	//mind is associated with a non-dead body
-				return ERROR_ALREADY_ALIVE
-			if(clonemind.current.suiciding) // Mind is associated with a body that is suiciding.
-				return ERROR_COMMITED_SUICIDE
-		if(!clonemind.active)
-			// get_ghost() will fail if they're unable to reenter their body
-			var/mob/dead/observer/G = clonemind.get_ghost()
-			if(!G)
-				return ERROR_SOUL_DEPARTED
-			if(G.suiciding) // The ghost came from a body that is suiciding.
-				return ERROR_SUICIDED_BODY
-		if(clonemind.no_cloning_at_all) // nope.
-			return ERROR_UNCLONABLE
-		current_insurance = insurance
-	attempting = TRUE //One at a time!!
+	// Get the person we are actually going to revive
+	clonemind = given_mind?.locate_prime_for_revival()
+
+	// Should we produce a new prime clone?
+	var/new_clone = clonemind.current.stat != DEAD
+
+	if(!istype(clonemind))
+		//not a mind
+		return ERROR_NOT_MIND
+	if(!QDELETED(clonemind.current))
+		// Mind is associated with a body that is suiciding.
+		if(clonemind.current.suiciding)
+			new_clone = TRUE
+	if(!clonemind.active)
+		// get_ghost() will fail if they're unable to reenter their body
+		var/mob/dead/observer/G = clonemind.get_ghost()
+		if(!G)
+			new_clone = TRUE
+		else if(G.suiciding) // The ghost came from a body that is suiciding.
+			new_clone = TRUE
+
+	current_insurance = insurance
+	attempting = TRUE
 	countdown.start()
 
 	var/mob/living/carbon/human/H = new /mob/living/carbon/human(src)
 
 	H.hardset_dna(ui, mutation_index, H.real_name, null, mrace, features)
 
-	if(!HAS_TRAIT(H, TRAIT_RADIMMUNE))//dont apply mutations if the species is Mutation proof.
+	//dont apply mutations if the species is Mutation proof.
+	if(!HAS_TRAIT(H, TRAIT_RADIMMUNE))
 		if(efficiency > 2)
 			var/list/unclean_mutations = (GLOB.not_good_mutations|GLOB.bad_mutations)
 			H.dna.remove_mutation_group(unclean_mutations)
@@ -243,21 +245,35 @@ SCREENTIP_ATTACK_HAND(/obj/machinery/clonepod, "Examine")
 
 	icon_state = "pod_1"
 	//Get the clone body ready
-	maim_clone(H)
 	ADD_TRAIT(H, TRAIT_STABLEHEART, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_STABLELIVER, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_EMOTEMUTE, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_MUTE, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_NOBREATH, CLONING_POD_TRAIT)
 	ADD_TRAIT(H, TRAIT_NOCRITDAMAGE, CLONING_POD_TRAIT)
+	ADD_TRAIT(H, TRAIT_NODEATH, CLONING_POD_TRAIT)
+	maim_clone(H)
 	H.Unconscious(80)
 
-	if(!experimental && !experimental_pod && !body_only) //everything should be perfect to none
-		clonemind.transfer_to(H)
-	else if(!(!experimental && body_only))
-		current_insurance = insurance
+	if(new_clone)
+		//mind is associated with a non-dead body, grab a ghost
 		offer_to_ghost(H)
-		result = CLONING_SUCCESS_EXPERIMENTAL
+		if (!H.key)
+			connected_message("Clone Ejected: Automated neurological checks for the cloned body failed, integrity of the clone could not be assured.")
+			if(internal_radio)
+				SPEAK("The cloning of [H.real_name] has been aborted due to automated neuroactivity assertions failing.")
+			set_occupant(null)
+			qdel(H)
+			countdown.stop()
+			attempting = FALSE
+			return
+		// Create a copy of the mind
+		// They share the same everything, including objectives but importantly they are not
+		// a team antagonist.
+		clonemind = clonemind.create_copy(H, H.key)
+	else
+		//everything should be perfect to none
+		clonemind.transfer_to(H)
 
 	if(H.mind)
 		if(grab_ghost_when == CLONER_FRESH_CLONE)
@@ -285,19 +301,19 @@ SCREENTIP_ATTACK_HAND(/obj/machinery/clonepod, "Examine")
 	return result
 
 /obj/machinery/clonepod/proc/offer_to_ghost(mob/living/carbon/H)
-	set waitfor = FALSE
 	var/datum/poll_config/config = new()
 	config.check_jobban = ROLE_EXPERIMENTAL_CLONE
-	config.poll_time = 30 SECONDS
+	config.poll_time = 20 SECONDS
 	config.jump_target = H
-	config.role_name_text = "[H.real_name]'s experimental clone?"
+	config.role_name_text = "[H.real_name]'s accidental clone?"
 	config.alert_pic = H
+	config.amount_to_pick = 1
 	var/mob/dead/observer/candidate = SSpolling.poll_ghosts_for_target(config, H)
 	if(candidate)
 		H.key = candidate.key
 
-		log_game("[key_name(candidate)] became [H.real_name]'s experimental clone.")
-		message_admins("[key_name_admin(candidate)] became [H.real_name]'s experimental clone.")
+		log_game("[key_name(candidate)] became [H.real_name]'s accidental clone.")
+		message_admins("[key_name_admin(candidate)] became [H.real_name]'s accidental clone.")
 		to_chat(H, span_warning("You will instantly die if you do 'ghost'. Please stand by until the cloning is done."))
 
 //Grow clones to maturity then kick them out.  FREELOADERS
@@ -502,6 +518,7 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/clonepod)
 	REMOVE_TRAIT(mob_occupant, TRAIT_MUTE, CLONING_POD_TRAIT)
 	REMOVE_TRAIT(mob_occupant, TRAIT_NOCRITDAMAGE, CLONING_POD_TRAIT)
 	REMOVE_TRAIT(mob_occupant, TRAIT_NOBREATH, CLONING_POD_TRAIT)
+	REMOVE_TRAIT(mob_occupant, TRAIT_NODEATH, CLONING_POD_TRAIT)
 
 	if(grab_ghost_when == CLONER_MATURE_CLONE)
 		mob_occupant.grab_ghost()
@@ -601,7 +618,6 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/clonepod)
 			qdel(fl)
 		unattached_flesh.Cut()
 
-	H.setCloneLoss(CLONE_INITIAL_DAMAGE, TRUE, TRUE)     //Yeah, clones start with very low health, not with random, because why would they start with random health
 	// In addition to being cellularly damaged, they also have no limbs or internal organs.
 	// Applying brainloss is done when the clone leaves the pod, so application of traumas can happen
 	// based on the level of damage sustained.
@@ -614,6 +630,9 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/clonepod)
 				BP.drop_limb()
 				BP.forceMove(src)
 				unattached_flesh += BP
+
+	//Yeah, clones start with very low health, not with random, because why would they start with random health
+	H.setCloneLoss(CLONE_INITIAL_DAMAGE, TRUE, TRUE)
 
 	for(var/o in H.internal_organs)
 		var/obj/item/organ/organ = o

@@ -6,6 +6,7 @@
 	organ_flags = ORGAN_SYNTHETIC
 	status = ORGAN_ROBOTIC
 	circulation_effectiveness = 0.9
+	decay_factor = 0
 	var/dose_available = TRUE
 	var/rid = /datum/reagent/medicine/epinephrine
 	var/ramount = 10

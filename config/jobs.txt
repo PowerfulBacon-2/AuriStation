@@ -30,8 +30,8 @@ Atmospheric Technician=2
 
 Paramedic=2
 Chemist=2
-Geneticist=2
-Virologist=1
+Geneticist=1,1
+Surgeon=1,1
 
 Roboticist=2
 

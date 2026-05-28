@@ -17,6 +17,7 @@
 	requires_bodypart = FALSE //need a missing limb
 	requires_bodypart_type = 0
 	self_operable = TRUE
+	required_trait = TRAIT_ROBOTICIST_SURGEON
 
 /datum/surgery/prosthetic_replacement/can_start(mob/user, mob/living/carbon/target)
 	if(!iscarbon(target))

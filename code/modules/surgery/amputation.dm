@@ -14,7 +14,6 @@
 	requires_bodypart_type = 0
 	self_operable = TRUE
 
-
 /datum/surgery_step/sever_limb
 	name = "sever limb (circular saw)"
 	implements = list(

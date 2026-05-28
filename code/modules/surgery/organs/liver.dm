@@ -86,6 +86,7 @@
 	icon_state = "liver-c"
 	desc = "An electronic device designed to mimic the functions of a human liver. Handles toxins slightly better than an organic liver."
 	organ_flags = ORGAN_SYNTHETIC
+	decay_factor = 0
 	status = ORGAN_ROBOTIC
 	maxHealth = 1.1 * STANDARD_ORGAN_THRESHOLD
 	toxTolerance = 3.3
@@ -114,6 +115,7 @@
 	attack_verb_simple = list("process")
 	desc = "A machine component, installed in the chest. This grants the Machine the ability to process chemicals that enter its systems."
 	alcohol_tolerance = 0
+	decay_factor = STANDARD_ORGAN_DECAY * 4
 	toxTolerance = -1
 	toxLethality = 0
 	status = ORGAN_ROBOTIC

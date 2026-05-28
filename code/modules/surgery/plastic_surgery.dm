@@ -7,6 +7,7 @@
 		/datum/surgery_step/close
 	)
 	possible_locs = list(BODY_ZONE_HEAD)
+	required_trait = TRAIT_SURGEON
 
 //reshape_face
 /datum/surgery_step/reshape_face

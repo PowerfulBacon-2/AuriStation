@@ -12,6 +12,7 @@
 		/datum/surgery_step/clamp_bleeders,
 		/datum/surgery_step/close
 		)
+	required_trait = TRAIT_SURGEON
 
 /datum/surgery/gastrectomy/can_start(mob/user, mob/living/carbon/target)
 	var/obj/item/organ/stomach/L = target.get_organ_slot(ORGAN_SLOT_STOMACH)
