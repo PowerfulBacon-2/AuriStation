@@ -25,12 +25,13 @@
 	add_verb(/mob/living/proc/mob_sleep)
 	add_verb(/mob/living/proc/toggle_resting)
 
-	create_bodyparts() //initialize bodyparts
-	create_internal_organs()
-
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
 	return ..()
+
+/mob/living/carbon/monkey/init_bodyparts()
+	create_bodyparts()
+	create_internal_organs()
 
 /mob/living/carbon/alien/create_internal_organs()
 	// Will replace the consciousness variable upon insertion
