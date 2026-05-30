@@ -31,6 +31,17 @@
 
 /datum/pain_source/proc/register_signals()
 	RegisterSignal(owner, SIGNAL_UPDATETRAIT(TRAIT_NOCRITDAMAGE), PROC_REF(update_pain))
+	RegisterSignal(owner, SIGNAL_UPDATETRAIT(TRAIT_KNOCKEDOUT), PROC_REF(knocked_out_update))
+
+/// If we get knocked out, then we stop feeling pain
+/datum/pain_source/proc/knocked_out_update()
+	if (HAS_TRAIT(owner, TRAIT_KNOCKEDOUT))
+		// This also immediately resets our pain value, we do not
+		// feel overpain while knocked out. No trauma from surgeries
+		adjusted_pain = 0
+		set_pain_modifier(0, TRAIT_KNOCKEDOUT)
+	else
+		set_pain_modifier(1, TRAIT_KNOCKEDOUT)
 
 /datum/pain_source/proc/on_life()
 	var/target_pain = min(pain, PAIN_MAX_ACCLIMATION)
@@ -112,7 +123,7 @@
 /// Set an active pain source that automatically clears after some time
 /datum/pain_source/proc/set_pain_source_until(amount, source, time)
 	set_pain_source(amount, source, time)
-	addtimer(src, CALLBACK(src, PROC_REF(set_pain_source), 0, source), time)
+	addtimer(CALLBACK(src, PROC_REF(set_pain_source), 0, source), time)
 
 /// Provide a source of consciousness. Without one consciousness will be 0, which is dead.
 /// Source: The source of the modifier
