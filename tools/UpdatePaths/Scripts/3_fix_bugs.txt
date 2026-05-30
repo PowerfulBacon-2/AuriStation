@@ -1,0 +1,2 @@
+/mob/@SUBTYPES : /mob/@SUBTYPES{@OLD;health=@SKIP}
+/obj/effect/landmark/start/virologist : @DELETE

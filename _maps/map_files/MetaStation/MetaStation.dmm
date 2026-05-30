@@ -17788,7 +17788,6 @@
 /turf/open/floor/iron/dark,
 /area/maintenance/department/science/xenobiology)
 "dle" = (
-/obj/effect/landmark/start/virologist,
 /obj/structure/chair/office/light{
 	dir = 1
 	},
@@ -19835,7 +19834,6 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/effect/landmark/start/virologist,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
 	},
@@ -26580,7 +26578,6 @@
 "gsF" = (
 /mob/living/simple_animal/bot/secbot{
 	arrest_type = 1;
-	health = 45;
 	icon_state = "secbot1";
 	idcheck = 1;
 	name = "Sergeant-at-Armsky";
@@ -34759,7 +34756,6 @@
 /turf/open/floor/iron/techmaint,
 /area/science/shuttledock)
 "jqv" = (
-/obj/effect/landmark/start/virologist,
 /obj/structure/chair/office/light{
 	dir = 4
 	},
@@ -43457,7 +43453,6 @@
 	},
 /mob/living/simple_animal/bot/secbot/beepsky{
 	desc = "It's Officer Beepsky! Powered by a potato and a shot of whiskey, and with a sturdier reinforced chassis, too.";
-	health = 45;
 	maxHealth = 45;
 	name = "Officer Beepsky"
 	},

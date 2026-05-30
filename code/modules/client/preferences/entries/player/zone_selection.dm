@@ -11,11 +11,7 @@
 	)
 
 /datum/preference/choiced/zone_select/create_default_value()
-	// For the time being the default will be the standard intent system
-	// until we have had some time to play with the new simplified bodyzone
-	// system and determine if its good or not. If playing with it is acceptable
-	// and more intuative than bodyzones, switch the default to simplified.
-	return PREFERENCE_BODYZONE_INTENT
+	return PREFERENCE_BODYZONE_SIMPLIFIED
 
 /datum/preference/choiced/zone_select/apply_to_client(client/client, value)
 	var/atom/movable/screen/zone_sel/selector = client.mob?.hud_used?.zone_select

@@ -11,9 +11,6 @@ causes crit.
 
 /datum/consciousness/point/robot/register_signals(mob/living/owner)
 	..()
-	// Knockout affects stat
-	RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_KNOCKEDOUT), PROC_REF(update_stat))
-	RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_KNOCKEDOUT), PROC_REF(update_stat))
 	// Paralysis affects stat
 	RegisterSignal(owner, SIGNAL_ADD_STATUS_EFFECT(/datum/status_effect/incapacitating/paralyzed), PROC_REF(update_stat))
 	RegisterSignal(owner, SIGNAL_REMOVE_STATUS_EFFECT(/datum/status_effect/incapacitating/paralyzed), PROC_REF(update_stat))

@@ -16616,7 +16616,6 @@
 	dir = 4;
 	pixel_x = -5
 	},
-/obj/effect/landmark/start/virologist,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/iron/white,
@@ -24952,7 +24951,6 @@
 "fyw" = (
 /obj/structure/chair/office/light,
 /obj/effect/turf_decal/trimline/green/filled/warning,
-/obj/effect/landmark/start/virologist,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -26365,7 +26363,6 @@
 /obj/structure/chair/office/light{
 	dir = 1
 	},
-/obj/effect/landmark/start/virologist,
 /obj/effect/turf_decal/trimline/green/filled/corner,
 /turf/open/floor/iron/white/textured_large,
 /area/medical/virology)
@@ -57327,11 +57324,6 @@
 	dir = 8
 	},
 /area/hallway/primary/fore)
-"mAo" = (
-/obj/effect/turf_decal/tile/green/opposingcorners,
-/obj/effect/landmark/start/virologist,
-/turf/open/floor/iron/white,
-/area/medical/virology)
 "mAy" = (
 /obj/machinery/vending/wardrobe/bar_wardrobe,
 /obj/item/toy/figure/bartender{
@@ -61011,7 +61003,6 @@
 /obj/structure/chair{
 	dir = 4
 	},
-/obj/effect/landmark/start/virologist,
 /turf/open/floor/iron/white,
 /area/medical/virology)
 "nqB" = (
@@ -72207,7 +72198,6 @@
 	pixel_x = -5
 	},
 /obj/item/radio/intercom/directional/west,
-/obj/effect/landmark/start/virologist,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
 /turf/open/floor/iron/white,
 /area/medical/virology)
@@ -162259,7 +162249,7 @@ hyT
 vjR
 whl
 vUr
-mAo
+vUr
 iIT
 bNi
 kZU

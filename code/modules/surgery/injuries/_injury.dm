@@ -63,7 +63,7 @@
 	var/healed_type
 	/// Max amount of damage we can absorb as a fresh injury. This means that new injuries
 	/// have more health than old ones.
-	var/max_absorption = 30
+	var/max_absorption = 15
 	// =================================
 	// Instanced
 	// =================================

@@ -54,10 +54,6 @@ CREATION_TEST_IGNORE_SUBTYPES(/mob/living/carbon/monkey)
 		gender = pick(MALE, FEMALE)
 	real_name = name
 
-	//initialize limbs
-	create_bodyparts()
-	create_internal_organs()
-
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_NUDE, INNATE_TRAIT)
 
 	. = ..()
@@ -82,6 +78,10 @@ CREATION_TEST_IGNORE_SUBTYPES(/mob/living/carbon/monkey)
 	// Give random dormant diseases to roundstart monkeys.
 	if(mapload)
 		give_random_dormant_disease(30, min_symptoms = 1, max_symptoms = 3)
+
+/mob/living/carbon/monkey/init_bodyparts()
+	create_bodyparts()
+	create_internal_organs()
 
 /mob/living/carbon/monkey/proc/check_if_natural()
 	for(var/datum/mutation/race/monke in dna.mutations)

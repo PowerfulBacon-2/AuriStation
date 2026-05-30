@@ -39,7 +39,7 @@
 
 /obj/item/organ/heart/Remove(mob/living/carbon/M, special = 0, pref_load = FALSE)
 	..()
-	// No longer recieves circulation from heart
+	// No longer receives circulation from heart
 	M.blood.set_circulation_rating(0, FROM_HEART)
 	if(!special)
 		addtimer(CALLBACK(src, PROC_REF(stop_if_unowned)), 120)

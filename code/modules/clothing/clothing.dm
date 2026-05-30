@@ -405,15 +405,23 @@
 		readout += "</span>"
 		return readout.Join()
 
+	var/environment_readout = list()
+	if (!isnull(max_heat_protection_temperature))
+		environment_readout += "HEAT [max_heat_protection_temperature] K or less"
+	if (!isnull(min_cold_protection_temperature))
+		environment_readout += "COLD [min_cold_protection_temperature] K or greater"
+
+	if (length(environment_readout))
+		readout += "\n<b>ENVIRONMENT</b>\n"
+		readout += jointext(environment_readout, "\n")
+
 	if(flags_cover & HEADCOVERSMOUTH)
 		var/list/things_blocked = list()
 		if(flags_cover & HEADCOVERSMOUTH)
 			things_blocked += span_tooltip("Because this item is worn on the head and is covering the mouth, it will block facehugger proboscides, killing facehuggers.", "facehuggers")
 		if(length(things_blocked))
-			readout += "<br /><b>COVERAGE</b>"
+			readout += "\n<b>COVERAGE</b>"
 			readout += "\nIt will block [english_list(things_blocked)]."
-
-	readout += "\n"
 
 	if((clothing_flags & STOPSPRESSUREDAMAGE) || (visor_flags & STOPSPRESSUREDAMAGE))
 		var/list/parts_covered = list()
@@ -425,7 +433,7 @@
 		if(body_parts_covered & CHEST)
 			parts_covered += "torso"
 		if(length(parts_covered)) // Just in case someone makes spaceproof gloves or something
-			readout += "\n[output_string] will protect the wearer's [english_list(parts_covered)] from [span_tooltip("The extremely low pressure is the biggest danger posed by the vacuum of space.", "low pressure")]."
+			readout += "\n\n[output_string] will protect the wearer's [english_list(parts_covered)] from [span_tooltip("The extremely low pressure is the biggest danger posed by the vacuum of space.", "low pressure")]."
 
 	readout += "</span>"
 

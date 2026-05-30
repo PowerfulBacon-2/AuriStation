@@ -47,6 +47,7 @@
 		} else { \
 			_L[_trait] = list(source); \
 			SEND_SIGNAL(target, SIGNAL_ADDTRAIT(_trait), _trait); \
+			SEND_SIGNAL(target, SIGNAL_UPDATETRAIT(_trait), _trait); \
 		} \
 	} while (0)
 
