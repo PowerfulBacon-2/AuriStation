@@ -279,7 +279,7 @@ GLOBAL_LIST_INIT(color_list_rainbow, list(
 #define COLOR_GNOME_BLACK "#303030"
 
 /// Default area lighting colours
-#define LIGHT_COLOUR_VERY_WARM "#e67727"
+#define LIGHT_COLOUR_VERY_WARM "#f0a360"
 #define LIGHT_COLOUR_WARM "#edb560"
 #define LIGHT_COLOUR_NEUTRAL "#f1e3a9"
 #define LIGHT_COLOUR_COLD "#d1f0ef"

@@ -1305,10 +1305,11 @@
 /mob/proc/sync_lighting_plane_alpha()
 	if(hud_used)
 		var/atom/movable/screen/plane_master/lighting/L = hud_used.plane_masters["[LIGHTING_PLANE]"]
-		if (L)
-			L.alpha = lighting_alpha
 		if(client?.prefs)
 			L.color = color_matrix_saturation(client.prefs.read_preference(/datum/preference/numeric/lighting_saturation))
+		// Must be set afterwards as alpha does not behave as you would expect when color is a colour matrix
+		if (L)
+			L.alpha = lighting_alpha
 
 ///Update the mouse pointer of the attached client in this mob
 /mob/proc/update_mouse_pointer()
