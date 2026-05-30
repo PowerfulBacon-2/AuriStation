@@ -1,4 +1,5 @@
 /datum/status_effect/critical_condition
+	id = "critical_condition"
 	alert_type = null
 	/// The probability, per move, that we fall back down again
 	var/fall_probability = 15
