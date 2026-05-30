@@ -158,6 +158,7 @@
 #define ORGAN_SLOT_HIVE_NODE "hive_node"
 #define ORGAN_SLOT_RESIN_SPINNER "resin_spinner"
 #define ORGAN_SLOT_ACID_GLAND "acid_gland"
+#define ORGAN_SLOT_HIVE_CORE "hivecore"
 
 // Arms
 #define ORGAN_SLOT_RIGHT_ARM_AUG "r_arm_device"
