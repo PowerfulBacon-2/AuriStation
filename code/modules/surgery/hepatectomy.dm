@@ -11,6 +11,7 @@
 		/datum/surgery_step/hepatectomy,
 		/datum/surgery_step/close
 		)
+	required_trait = TRAIT_SURGEON
 
 /datum/surgery/hepatectomy/can_start(mob/user, mob/living/carbon/target)
 	var/obj/item/organ/liver/L = target.get_organ_slot(ORGAN_SLOT_LIVER)

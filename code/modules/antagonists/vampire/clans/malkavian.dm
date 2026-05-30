@@ -81,7 +81,7 @@ GLOBAL_LIST_EMPTY(masquerade_breakers)
 	masquerade_objective.target = masquerade_breaker.owner
 	masquerade_objective.name = "Clan Objective"
 	masquerade_objective.explanation_text = "Ensure [masquerade_breaker.owner.current], who has broken the Masquerade, succumbs to Final Death."
-	vampiredatum.objectives += masquerade_objective
+	vampiredatum.add_objective(masquerade_objective)
 	vampiredatum.owner.announce_objectives()
 
 #undef REVELATION_MAX_COOLDOWN

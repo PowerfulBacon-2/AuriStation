@@ -57904,6 +57904,7 @@
 /obj/effect/turf_decal/tile/blue/half/contrasted{
 	dir = 8
 	},
+/obj/effect/landmark/start/surgeon,
 /turf/open/floor/iron/white,
 /area/medical/surgery)
 "ocd" = (

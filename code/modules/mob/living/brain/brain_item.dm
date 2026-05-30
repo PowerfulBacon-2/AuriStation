@@ -11,10 +11,9 @@
 	attack_verb_continuous = list("attacks", "slaps", "whacks")
 	attack_verb_simple = list("attack", "slap", "whack")
 
-	healing_factor = 0
-
-	// 10 minutes of survival time before total brain death
-	decay_factor = STANDARD_ORGAN_DECAY
+	///The brain's organ variables are significantly more different than the other organs, with half the decay rate for balance reasons, and twice the maxHealth
+	/// Roughly 25 minutes for the brain, but if the body is damaged this will be much faster
+	decay_factor = STANDARD_ORGAN_DECAY	/ 2
 
 	maxHealth = BRAIN_DAMAGE_DEATH
 	low_threshold = 45
@@ -164,23 +163,6 @@
 
 	if(istype(O, /obj/item/organ_storage))
 		return //Borg organ bags shouldn't be killing brains
-
-	if((organ_flags & ORGAN_FAILING) && O.is_drainable() && O.reagents.has_reagent(/datum/reagent/medicine/mannitol)) //attempt to heal the brain
-		. = TRUE //don't do attack animation.
-
-		if(!O.reagents.has_reagent(/datum/reagent/medicine/mannitol, 10))
-			to_chat(user, span_warning("There's not enough mannitol in [O] to restore [src]!"))
-			return
-
-		user.visible_message("[user] starts to pour the contents of [O] onto [src].", span_notice("You start to slowly pour the contents of [O] onto [src]."))
-		if(!do_after(user, 60, src))
-			to_chat(user, span_warning("You failed to pour [O] onto [src]!"))
-			return
-
-		user.visible_message("[user] pours the contents of [O] onto [src], causing it to reform its original shape and turn a slightly brighter shade of pink.", span_notice("You pour the contents of [O] onto [src], causing it to reform its original shape and turn a slightly brighter shade of pink."))
-		set_organ_damage(damage - (0.05 * maxHealth))	//heals a small amount, and by using "set_organ_damage", we clear the failing variable if that was up
-		O.reagents.clear_reagents()
-		return
 
 	if(brainmob) //if we aren't trying to heal the brain, pass the attack onto the brainmob.
 		O.attack(brainmob, user) //Oh noooeeeee

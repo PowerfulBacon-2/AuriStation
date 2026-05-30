@@ -42,7 +42,7 @@
 /obj/item/grenade/plastic/ninja/proc/set_detonation_area(datum/antagonist/ninja/ninja_antag)
 	if (!ninja_antag)
 		return
-	var/datum/objective/plant_explosive/objective = locate() in ninja_antag.objectives
+	var/datum/objective/plant_explosive/objective = locate() in ninja_antag.get_objectives()
 	if (!objective)
 		return
 	detonation_area = objective.detonation_location

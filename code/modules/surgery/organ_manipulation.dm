@@ -12,6 +12,7 @@
 		/datum/surgery_step/manipulate_organs,
 		/datum/surgery_step/close
 		)
+	required_trait = TRAIT_SURGEON
 
 /datum/surgery/organ_manipulation/soft
 	possible_locs = list(BODY_ZONE_PRECISE_GROIN, BODY_ZONE_PRECISE_EYES, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
@@ -54,6 +55,7 @@
 		/datum/surgery_step/mechanic_wrench,
 		/datum/surgery_step/mechanic_close
 		)
+	required_trait = TRAIT_ROBOTICIST_SURGEON
 
 /datum/surgery/organ_manipulation/mechanic/soft
 	possible_locs = list(BODY_ZONE_PRECISE_GROIN, BODY_ZONE_PRECISE_EYES, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)

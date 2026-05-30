@@ -28434,9 +28434,7 @@
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 1
 	},
-/obj/effect/turf_decal/stripes/white/corner{
-	dir = 2
-	},
+/obj/effect/turf_decal/stripes/white/corner,
 /obj/effect/turf_decal/stripes/white/corner{
 	dir = 8
 	},
@@ -29251,6 +29249,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/effect/landmark/start/surgeon,
 /turf/open/floor/iron/white,
 /area/medical/surgery)
 "joV" = (

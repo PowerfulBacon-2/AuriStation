@@ -103,7 +103,7 @@ SUBSYSTEM_DEF(polling)
 	currently_polling_targets += checked_target
 	var/mob/chosen_one = poll_ghost_candidates(config)
 	currently_polling_targets -= checked_target
-	if(!checked_target || QDELETED(checked_target) || !checked_target.loc)
+	if(!checked_target || QDELETED(checked_target) || !checked_target.loc || !chosen_one)
 		return null
 	return chosen_one
 

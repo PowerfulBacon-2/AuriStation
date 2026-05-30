@@ -69,7 +69,7 @@
 	owner.mind.memory += "<BR><b>We've absorbed [target]'s memories into our own...</b><BR>[suckedbrain.memory]<BR>"
 	for(var/A in suckedbrain.antag_datums)
 		var/datum/antagonist/antag_types = A
-		var/list/all_objectives = antag_types.objectives.Copy()
+		var/list/all_objectives = antag_types.get_objectives()
 		if(antag_types.antag_memory)
 			owner.mind.memory += "[antag_types.antag_memory]<BR>"
 		if(LAZYLEN(all_objectives))
@@ -139,10 +139,12 @@
 		changeling.absorbed_count += target_ling.absorbed_count
 
 		// Lastly, make them not a ling anymore. (But leave their objectives for round-end purposes).
-		var/list/copied_objectives = target_ling.objectives.Copy()
+		var/list/copied_objectives = target_ling.get_objectives().Copy()
 		target.mind.remove_antag_datum(/datum/antagonist/changeling)
 		var/datum/antagonist/fallen_changeling/fallen = target.mind.add_antag_datum(/datum/antagonist/fallen_changeling)
-		fallen.objectives = copied_objectives
+		fallen.clear_objectives()
+		for (var/datum/objective/objective in copied_objectives)
+			fallen.add_objective(objective)
 
 /datum/action/changeling/absorbDNA/proc/attempt_absorb(mob/living/carbon/human/target)
 	for(var/absorbing_iteration in 1 to 3)

@@ -41,7 +41,7 @@
 	clan_objective = new clan_objective()
 	clan_objective.name = "Clan Objective"
 	clan_objective.owner = vampiredatum.owner
-	vampiredatum.objectives += clan_objective
+	vampiredatum.add_objective(clan_objective)
 
 	var/datum/objective/brujah/brujah_objective = clan_objective
 	brujah_objective.choose_target()
