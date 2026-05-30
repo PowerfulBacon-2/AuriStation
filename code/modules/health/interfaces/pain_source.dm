@@ -35,7 +35,7 @@
 /datum/pain_source/proc/on_life()
 	var/target_pain = min(pain, PAIN_MAX_ACCLIMATION)
 	if (adjusted_pain > target_pain)
-		var/max_pain_value = max(pain, PAIN_MAX_ACCLIMATION) + OVERPAIN_MAX_AMOUNT
+		var/max_pain_value = pain + OVERPAIN_MAX_AMOUNT
 		var/healed_amount = clamp(adjusted_pain - target_pain, 0, PAIN_RECOVERY_RATE * GET_TRAIT_VALUE(src, TRAIT_PAIN_HEAL_MULTIPLIER))
 		// If we have too much pain, immediately snap back
 		if (adjusted_pain > max_pain_value)
@@ -50,7 +50,8 @@
 	pain = pain_value
 	// Immediately apply the new pain
 	if (delta > 0)
-		adjusted_pain += delta
+		// Adjusetd pain can never increase higher than the overpain amount
+		adjusted_pain = min(adjusted_pain + delta, pain + OVERPAIN_MAX_AMOUNT)
 	update_pain()
 
 /datum/pain_source/proc/update_pain()
