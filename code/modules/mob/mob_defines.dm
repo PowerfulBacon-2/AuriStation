@@ -58,7 +58,7 @@ CREATION_TEST_IGNORE_SELF(/mob)
 
 	/// The zone this mob is currently targeting
 	/// Use select_bodyzone and get_combat_bodyzone to get this value
-	VAR_PRIVATE/zone_selected = BODY_ZONE_CHEST
+	VAR_PRIVATE/zone_selected = BODY_GROUP_CHEST_HEAD
 
 	var/computer_id = null
 	var/list/logging = list()

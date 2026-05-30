@@ -34284,7 +34284,6 @@
 /obj/effect/turf_decal/box,
 /mob/living/simple_animal/bot/secbot{
 	arrest_type = 1;
-	health = 45;
 	icon_state = "secbot1";
 	idcheck = 1;
 	name = "Sergeant-at-Armsky";
@@ -38533,7 +38532,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
 /mob/living/simple_animal/bot/secbot/beepsky{
 	desc = "It's Officer Beepsky! Powered by a potato and a shot of whiskey, and with a sturdier reinforced chassis, too.";
-	health = 45;
 	maxHealth = 45;
 	name = "Officer Beepsky"
 	},

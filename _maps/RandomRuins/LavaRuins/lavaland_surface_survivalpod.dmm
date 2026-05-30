@@ -72,9 +72,7 @@
 /area/lavaland/surface/outdoors)
 "o" = (
 /obj/effect/decal/cleanable/blood,
-/mob/living/simple_animal/hostile/asteroid/goliath/beast{
-	health = 0
-	},
+/mob/living/simple_animal/hostile/asteroid/goliath/beast,
 /turf/open/floor/plating/asteroid/basalt/lava_land_surface,
 /area/lavaland/surface/outdoors)
 "p" = (

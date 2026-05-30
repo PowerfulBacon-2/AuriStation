@@ -62,7 +62,7 @@
 	var/mob/living/carbon/human/patient = allocate(/mob/living/carbon/human/consistent)
 	var/mob/living/carbon/human/user = allocate(/mob/living/carbon/human/consistent)
 
-	var/datum/surgery/surgery = new /datum/surgery/healing/brute/basic
+	var/datum/surgery/surgery = new /datum/surgery/healing/brute/basic(patient, BODY_ZONE_CHEST)
 
 	if (!surgery.can_start(user, patient, BODY_ZONE_CHEST))
 		TEST_FAIL("Can't start basic tend wounds!")

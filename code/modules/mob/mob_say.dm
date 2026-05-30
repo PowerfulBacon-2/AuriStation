@@ -95,8 +95,8 @@
 	log_talk(message, LOG_SAY, tag="DEAD")
 	if(SEND_SIGNAL(src, COMSIG_MOB_DEADSAY, message) & MOB_DEADSAY_SIGNAL_INTERCEPT)
 		return
-	var/displayed_key = key
-	if(client.holder?.fakekey)
+	var/displayed_key = key || "Unknown"
+	if(client?.holder?.fakekey)
 		displayed_key = null
 	deadchat_broadcast(rendered, follow_target = src, speaker_key = displayed_key)
 

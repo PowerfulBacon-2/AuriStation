@@ -575,7 +575,9 @@ h2.alert {
   color: rgb(60, 40, 40);
   text-shadow: 0 0 4px rgba(255, 0, 0, 0.5);
   display: inline-block;
-  animation: subtle-shake 1s infinite, pulse-shadow 3s infinite ease-in-out;
+  animation:
+    subtle-shake 1s infinite,
+    pulse-shadow 3s infinite ease-in-out;
   will-change: transform;
 }
 

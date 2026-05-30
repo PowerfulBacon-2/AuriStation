@@ -3,7 +3,7 @@
 	severity_level = INJURY_PRIORITY_ACTIVE
 	health_doll_icon = "blood"
 	examine_description = "<b>a broken bone</b>"
-	effectiveness_modifier = 0.9
+	effectiveness_modifier = 0.3
 	bone_armour_modifier = 0.5
 	healed_type = /datum/injury/trauma_splinted_bone
 	surgeries_provided = list(
@@ -21,7 +21,7 @@
 /datum/injury/trauma_broken_bone/on_damage_taken(total_damage, delta_damage, damage_type, damage_flag, is_sharp)
 	if (is_sharp || damage_type != BRUTE)
 		return FALSE
-	if (total_damage >= 40)
+	if (total_damage >= 30)
 		transition_to(/datum/injury/limb_destroyed)
 	return TRUE
 

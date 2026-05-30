@@ -47,7 +47,7 @@
 	ears = /obj/item/radio/headset/headset_med
 	uniform = /obj/item/clothing/under/rank/medical/doctor/blue
 	belt = /obj/item/storage/belt/medical/surgeon
-	r_pocket = /obj/item/modular_computer/tablet/pda/surgeon
+	r_pocket = /obj/item/modular_computer/tablet/pda/preset/surgeon
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	suit =  /obj/item/clothing/suit/apron/surgical
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile

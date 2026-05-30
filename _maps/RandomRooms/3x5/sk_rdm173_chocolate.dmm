@@ -30,9 +30,7 @@
 /turf/open/floor/plating,
 /area/template_noop)
 "U" = (
-/mob/living/carbon/human/species/felinid{
-	health = 1
-	},
+/mob/living/carbon/human/species/felinid,
 /obj/item/food/chocolatebar,
 /obj/effect/decal/cleanable/vomit,
 /turf/open/floor/plating,

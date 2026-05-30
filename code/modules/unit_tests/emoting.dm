@@ -6,18 +6,21 @@
 	human.key = "EmoteTestKey"
 	RegisterSignal(human, COMSIG_MOB_EMOTE, PROC_REF(on_emote_used))
 
+	emotes_used = 0
 	human.say("*shrug")
 	TEST_ASSERT_EQUAL(emotes_used, 1, "Human did not shrug")
 
+	emotes_used = 0
 	human.say("*beep")
-	TEST_ASSERT_EQUAL(emotes_used, 1, "Human beeped, when that should be restricted to silicons")
+	TEST_ASSERT_EQUAL(emotes_used, 0, "Human beeped, when that should be restricted to silicons")
 
 	human.setOxyLoss(140)
 
 	TEST_ASSERT(human.stat != CONSCIOUS, "Human is somehow conscious after receiving suffocation damage")
 
+	emotes_used = 0
 	human.say("*shrug")
-	TEST_ASSERT_EQUAL(emotes_used, 1, "Human shrugged while unconscious")
+	TEST_ASSERT_EQUAL(emotes_used, 0, "Human shrugged while unconscious")
 
 	human.key = null
 
