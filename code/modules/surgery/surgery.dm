@@ -33,6 +33,7 @@
 	if(!surgery_target)
 		return
 	target = surgery_target
+	target.surgeries += src
 	if(surgery_location)
 		location = surgery_location
 	if (!surgery_bodypart)
