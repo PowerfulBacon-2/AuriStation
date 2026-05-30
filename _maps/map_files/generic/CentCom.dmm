@@ -21896,7 +21896,9 @@
 "lCF" = (
 /mob/living/simple_animal/bot/medbot/nukie{
 	name = "\improper Hijikata";
-	desc = "A little medical robot. You can make out the word \"sincerity\" on its chassis.";
+	desc = "A little medical robot. You can make out the word \";
+	sincerity\" on its chassis.";
+	 = None;
 	radio_key = null
 	},
 /turf/open/floor/wood,

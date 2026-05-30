@@ -4749,7 +4749,6 @@
 /obj/structure/chair/office/light{
 	dir = 4
 	},
-/obj/effect/landmark/start/virologist,
 /turf/open/floor/iron/grid,
 /area/medical/virology)
 "blc" = (
@@ -9395,7 +9394,6 @@
 	dir = 1;
 	pixel_y = 3
 	},
-/obj/effect/landmark/start/virologist,
 /turf/open/floor/iron/grid/steel,
 /area/medical/virology)
 "cGQ" = (
@@ -19386,7 +19384,6 @@
 /turf/open/floor/plating,
 /area/security/prison)
 "fpA" = (
-/obj/effect/landmark/start/virologist,
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
@@ -64914,7 +64911,6 @@
 /obj/structure/chair/office/light{
 	dir = 8
 	},
-/obj/effect/landmark/start/virologist,
 /turf/open/floor/iron/grid,
 /area/medical/virology)
 "rLa" = (
