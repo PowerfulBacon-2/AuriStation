@@ -177,20 +177,13 @@ Difficulty: Medium
 	max_demand = 5
 	var/storm_type = /datum/weather/ash_storm
 	var/storm_cooldown = 0
-	var/static/list/allowed_areas = list(/area/lavaland/surface/outdoors, /area/lavaland/surface/outdoors/explored)
 
 /obj/item/staff/storm/attack_self(mob/user)
 	if(storm_cooldown > world.time)
 		to_chat(user, span_warning("The staff is still recharging!"))
 		return
-	if(!is_mining_level(user.z))
-		to_chat(user, span_warning("The staff's power is too dim to function this far from the necropolis"))
-		return
 	var/area/user_area = get_area(user)
 	var/turf/user_turf = get_turf(user)
-	if(!user_area || !user_turf || !(user_area.type in allowed_areas))
-		to_chat(user, span_warning("You can only use this in an open area"))
-		return
 	var/datum/weather/A
 	for(var/V in SSweather.processing)
 		var/datum/weather/W = V

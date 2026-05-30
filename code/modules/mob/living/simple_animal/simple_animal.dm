@@ -214,6 +214,7 @@
 
 /mob/living/simple_animal/update_stat(forced = FALSE)
 	med_hud_set_status()
+	return ..()
 
 /mob/living/simple_animal/proc/handle_automated_action()
 	set waitfor = FALSE

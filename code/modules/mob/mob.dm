@@ -1539,6 +1539,7 @@ GLOBAL_LIST_INIT(mouse_cooldowns, list(
 	return update_stat()
 
 /mob/proc/update_stat(forced = FALSE)
+	SHOULD_CALL_PARENT(TRUE)
 	var/final_stat = GET_TRAIT_VALUE(src, TRAIT_VALUE_STAT) || CONSCIOUS
 	// God mode cannot be unconscious
 	if(HAS_TRAIT(src, TRAIT_GODMODE))
