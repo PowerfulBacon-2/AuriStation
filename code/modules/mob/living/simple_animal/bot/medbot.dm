@@ -89,6 +89,16 @@ GLOBAL_VAR(medibot_unique_id_gen)
 	reagent_glass = new /obj/item/reagent_containers/cup/beaker/large/nanites
 	faction = list(FACTION_SYNDICATE, FACTION_NEUTRAL, FACTION_SILICON)
 
+/mob/living/simple_animal/bot/medbot/nukie/hijikata
+	name = "\improper Hijikata"
+	desc = "A little medical robot. You can make out the word \"sincerity\" on its chassis."
+	radio_key = null
+	radio_channel = null
+
+/mob/living/simple_animal/bot/medbot/nukie/hattori
+	name = "\improper Hattori"
+	desc = "When engaged in combat, the vanquishing of thine enemy can be the warrior's only concern."
+
 /mob/living/simple_animal/bot/medbot/filled
 	skin = MEDBOT_SKIN_ADVANCED
 	heal_threshold = 30
