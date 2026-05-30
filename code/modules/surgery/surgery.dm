@@ -33,9 +33,10 @@
 	if(!surgery_target)
 		return
 	target = surgery_target
-	target.surgeries += src
 	if(surgery_location)
 		location = surgery_location
+	if (!surgery_bodypart)
+		surgery_bodypart = target.get_bodypart(surgery_location)
 	if(!surgery_bodypart)
 		return
 	operated_bodypart = surgery_bodypart
@@ -54,7 +55,7 @@
 		return FALSE
 
 	if (requires_injury)
-		var/obj/item/bodypart/part = target.get_bodypart(target_zone)
+		var/obj/item/bodypart/part = patient.get_bodypart(target_zone)
 		if (!part)
 			return FALSE
 		var/valid = FALSE
@@ -83,7 +84,7 @@
 	if(requires_tech)
 		. = FALSE
 
-	var/surgery_signal = SEND_SIGNAL(user, COMSIG_SURGERY_STARTING, src, target)
+	var/surgery_signal = SEND_SIGNAL(user, COMSIG_SURGERY_STARTING, src, patient)
 	if(surgery_signal & COMPONENT_FORCE_SURGERY)
 		return TRUE
 	if(surgery_signal & COMPONENT_CANCEL_SURGERY)

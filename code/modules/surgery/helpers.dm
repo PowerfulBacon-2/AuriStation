@@ -17,7 +17,6 @@
 	return 1
 
 /proc/initiate_surgery_at_zone(obj/item/I, mob/living/M, mob/user, target_zone)
-	var/list/all_surgeries = GLOB.surgeries_list.Copy()
 	var/list/available_surgeries = list()
 
 	var/mob/living/carbon/C
@@ -26,7 +25,7 @@
 
 	var/obj/item/bodypart/affecting = M.get_bodypart(check_zone(target_zone))
 
-	for(var/datum/surgery/S in all_surgeries)
+	for(var/datum/surgery/S in GLOB.surgeries_list)
 		if(!S.possible_locs.Find(target_zone))
 			continue
 		if(affecting)

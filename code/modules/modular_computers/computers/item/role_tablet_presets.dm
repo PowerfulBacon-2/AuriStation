@@ -79,7 +79,7 @@
 	default_disk = /obj/item/computer_hardware/hard_drive/role/medical
 	icon_state = "pda-paramedical"
 
-/obj/item/modular_computer/tablet/pda/surgeon
+/obj/item/modular_computer/tablet/pda/preset/surgeon
 	name = "surgeon PDA"
 	default_disk = /obj/item/computer_hardware/hard_drive/role/medical
 	icon_state = "pda-surgeon"
