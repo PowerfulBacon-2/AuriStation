@@ -149,3 +149,4 @@
 /datum/pain_source/proc/remove_pain_messages(source)
 
 #undef TRAIT_PAIN_LEVEL
+#undef TRAIT_PAIN_HEAL_MULTIPLIER

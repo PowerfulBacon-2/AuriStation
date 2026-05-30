@@ -57,8 +57,6 @@
 /// zone: Optional zone, applies the injury to a specific bodypart instead of the whole body
 /// for mobs that support zone damage.
 /mob/living/proc/set_injury(injury_type, amount, zone = null)
-	if (!amount)
-		return 0
 	var/datum/injury/injury_path = injury_type
 	// If a mob does not have limbs, then it must apply to the entire
 	// body.
