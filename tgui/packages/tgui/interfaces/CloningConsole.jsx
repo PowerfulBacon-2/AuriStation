@@ -46,7 +46,12 @@ export const CloningConsole = (props) => {
                 </Box>
               </Box>
               <br />
-              <Button content={'Full Scan'} icon={'search'} disabled={!hasOccupant} onClick={() => act('scan')} />
+              <Button
+                content={'Full Scan'}
+                icon={'search'}
+                disabled={!hasOccupant}
+                onClick={() => act('scan')}
+              />
               <Button
                 content={scannerLocked ? 'Unlock Scanner' : 'Lock Scanner'}
                 icon={scannerLocked ? 'lock' : 'lock-open'}
@@ -71,7 +76,11 @@ export const CloningConsole = (props) => {
                   <Collapsible title={recordsLength}>
                     <h2>Current Records: </h2>
                     {records.map((record) => (
-                      <Section backgroundColor="#191919" color="white" key={record}>
+                      <Section
+                        backgroundColor="#191919"
+                        color="white"
+                        key={record}
+                      >
                         <Collapsible title={record['name']} color="green">
                           <div
                             key={record['name']}
@@ -189,7 +198,14 @@ export const CloningConsole = (props) => {
                 {diskData.length !== 0 ? (
                   <Collapsible
                     title={diskData['name'] ? diskData['name'] : 'Empty Disk'}
-                    color={diskData['name'] ? (diskData['last_death'] < 0 ? 'green' : 'blue') : 'grey'}>
+                    color={
+                      diskData['name']
+                        ? diskData['last_death'] < 0
+                          ? 'green'
+                          : 'blue'
+                        : 'grey'
+                    }
+                  >
                     {diskData['id'] ? (
                       <Box
                         style={{
