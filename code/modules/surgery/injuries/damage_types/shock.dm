@@ -21,7 +21,7 @@
 
 /datum/injury/acute/shock/on_tick(mob/living/carbon/human/target, delta_time)
 	. = ..()
-	if (world.time > stam_regen_start_time)
+	if (world.time < stam_regen_start_time)
 		return
 	// No regeneration allowed
 	if (bodypart && HAS_TRAIT(bodypart, TRAIT_BODYPART_NO_STAMINA_REGENERATION))

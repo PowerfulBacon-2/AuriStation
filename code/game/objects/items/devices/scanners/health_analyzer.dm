@@ -190,7 +190,7 @@
 	// Body part damage report
 	if(iscarbon(target))
 		var/mob/living/carbon/carbontarget = target
-		var/list/damaged = carbontarget.get_injured_bodyparts()
+		var/list/damaged = carbontarget.get_injured_bodyparts(include_injuries = TRUE)
 		if(length(damaged)>0 || oxy_loss>0 || tox_loss>0 || fire_loss>0)
 			var/dmgreport = {"
 <span class='info ml-1'>General status:</span>

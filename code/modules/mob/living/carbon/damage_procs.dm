@@ -133,7 +133,8 @@
 /// required_injury: The typepath of the injury that we are scanning for, or the base typepath of an injury tree.
 /// Lists are also supported.
 /// status: The required status of the bodypart
-/mob/living/carbon/proc/get_injured_bodyparts(required_injury = null, status = null)
+/// include_injuries: If set to true, then bodyparts that have no damage but have non-default injuries are included
+/mob/living/carbon/proc/get_injured_bodyparts(required_injury = null, status = null, include_injuries = FALSE)
 	var/list/obj/item/bodypart/parts = list()
 	for(var/obj/item/bodypart/BP as() in bodyparts)
 		if(status && !(BP.bodytype & status))
@@ -147,7 +148,13 @@
 			if (BP.get_injury(required_injury))
 				parts += BP
 		else
-			if (BP.accumulated_damage > 0)
+			var/has_injuries = FALSE
+			if (include_injuries)
+				for (var/datum/injury/injury in BP.injuries)
+					if (injury.type != injury.base_type)
+						has_injuries = TRUE
+						break
+			if (BP.accumulated_damage > 0 || has_injuries)
 				parts += BP
 	return parts
 
@@ -197,7 +204,7 @@
 	if (amount <= 0)
 		return
 	// Heal bodyparts evenly
-	var/list/injured_parts = get_injured_bodyparts(injury_type, required_status)
+	var/list/injured_parts = get_injured_bodyparts(injury_type, required_status, )
 	for (var/obj/item/bodypart/part in injured_parts)
 		part.heal_injury(injury_type, amount / length(injured_parts), required_status, FALSE)
 	// Update health
