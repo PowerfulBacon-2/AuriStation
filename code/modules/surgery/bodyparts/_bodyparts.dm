@@ -910,6 +910,8 @@
 		effectiveness = 0
 		clear_effectiveness_modifiers()
 		update_effectiveness()
+		if (can_be_disabled && !bodypart_disabled)
+			update_disabled()
 		return
 	effectiveness = initial(effectiveness)
 	for (var/datum/injury/injury in injuries)
@@ -920,6 +922,8 @@
 		return
 	clear_effectiveness_modifiers()
 	update_effectiveness()
+	if (can_be_disabled && ((effectiveness > 0 && bodypart_disabled) || (effectiveness <= 0 && !bodypart_disabled)))
+		update_disabled()
 
 /obj/item/bodypart/proc/update_effectiveness()
 	return
