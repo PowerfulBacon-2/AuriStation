@@ -283,6 +283,7 @@
 	name = "Tourniquet"
 	desc = "You have a tourniquet applied, restricting your blood flow and preventing stamina regeneration."
 	icon_state = "tourniquet"
+	clickable_glow = TRUE
 
 /atom/movable/screen/alert/status_effect/tourniquet/Click(location, control, params)
 	. = ..()
@@ -302,12 +303,13 @@
 	alert_type = /atom/movable/screen/alert/status_effect/tourniquet
 	var/bodyzone_target
 	var/time_applied
+	var/obj/item/bodypart/last_bodypart = null
 	var/obj/item/bodypart/bodypart = null
 
 /datum/status_effect/tourniquet/on_creation(mob/living/new_owner, target_zone)
-	. = ..()
 	bodyzone_target = target_zone
 	time_applied = world.time
+	return ..()
 
 /datum/status_effect/tourniquet/on_apply()
 	. = ..()
@@ -315,13 +317,18 @@
 	if (!bodypart)
 		qdel(src)
 		return
+	// Has no effect on robotic limbs
+	if (!(bodypart.circulation_flags & CIRCULATION_BLOOD))
+		return
 	ADD_TRAIT(owner, TRAIT_NO_BLEEDING, "[type]")
 	ADD_TRAIT(bodypart, TRAIT_BODYPART_NO_STAMINA_REGENERATION, "[type]")
+	// Makes the limbs unusable
+	if (bodypart.body_zone == BODY_ZONE_CHEST || bodypart.body_zone == BODY_ZONE_HEAD)
+		return
 	ADD_TRAIT(bodypart, TRAIT_BODYPART_UNUSABLE, "[type]")
 
 /datum/status_effect/tourniquet/tick()
-	bodypart = owner.get_bodypart(bodyzone_target)
-	if (!bodypart)
+	if (bodypart != owner.get_bodypart(bodyzone_target))
 		qdel(src)
 		return
 	bodypart.increase_injury(STAMINA, 0.1)

@@ -8,7 +8,7 @@
 /obj/effect/loot_jobscale/medical/medkits
 	icon = 'icons/obj/storage/medkit.dmi'
 	icon_state = "firstaid-mystery"
-	loot = list(/obj/item/storage/firstaid/brute, /obj/item/storage/firstaid/fire, /obj/item/storage/firstaid/toxin, /obj/item/storage/firstaid/o2)
+	loot = list(/obj/item/storage/firstaid/brute, /obj/item/storage/firstaid/fire, /obj/item/storage/firstaid/toxin, /obj/item/storage/firstaid/o2, /obj/item/storage/firstaid/advanced)
 	fan_out_items = TRUE
 	linear_scaling_rate = 0.5
 	minimum = 1

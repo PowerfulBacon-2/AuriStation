@@ -22,7 +22,7 @@
 			new /datum/data/requisition_equipment("Survival Medipen", /obj/item/reagent_containers/hypospray/medipen/survival, 2000, "Consumables"),
 			new /datum/data/requisition_equipment("Brute Healing Kit", /obj/item/storage/firstaid/brute, 3000, "Consumables"),
 			new /datum/data/requisition_equipment("Burn Healing Kit", /obj/item/storage/firstaid/fire, 3000, "Consumables"),
-			new /datum/data/requisition_equipment("Advanced Healing Kit", /obj/item/storage/firstaid/advanced, 5000, "Consumables"),
+			new /datum/data/requisition_equipment("Serious Injury Kit", /obj/item/storage/firstaid/advanced, 5000, "Consumables"),
 		//Weapons & Tools
 			new /datum/data/requisition_equipment("Breaching Charge", /obj/item/grenade/exploration, 1000, "Weapons & Tools"),
 			new /datum/data/requisition_equipment(".38 Prospector Ammo box", /obj/item/ammo_box/c38/exploration, 1000, "Weapons & Tools"),

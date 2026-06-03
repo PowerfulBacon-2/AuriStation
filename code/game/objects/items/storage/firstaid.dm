@@ -364,11 +364,10 @@
 	. = ..()
 	icon_state = pick("firstaid-brute","firstaid-brutealt")
 
-
 //First Advanced kit
 /obj/item/storage/firstaid/advanced
-	name = "advanced first aid kit"
-	desc = "An advanced kit to help deal with advanced wounds."
+	name = "serious injury first aid kit"
+	desc = "A medical kit with the necessary tools to stabilise serious injuries before proper treatment."
 	icon_state = "firstaid-advanced"
 	inhand_icon_state = "firstaid-advanced"
 	custom_premium_price = 600
@@ -378,10 +377,12 @@
 	if(empty)
 		return
 	var/static/items_inside = list(
-		/obj/item/reagent_containers/pill/patch/synthflesh = 3,
-		/obj/item/reagent_containers/hypospray/medipen/atropine = 2,
+		/obj/item/reagent_containers/pill/patch/synthflesh = 2,
+		/obj/item/reagent_containers/hypospray/medipen/atropine = 1,
+		/obj/item/stack/medical/suture = 1,
 		/obj/item/stack/medical/gauze = 1,
-		/obj/item/storage/pill_bottle/penacid = 1)
+		/obj/item/storage/pill_bottle/penacid = 1,
+		/obj/item/stack/medical/tourniquet = 1)
 	generate_items_inside(items_inside,src)
 
 /obj/item/storage/firstaid/advanced/Initialize(mapload)
