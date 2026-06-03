@@ -188,11 +188,11 @@
 
 
 // Right of status indicators (alerts)
-#define ui_alert1 "EAST-2:25,CENTER:18"
-#define ui_alert2 "EAST-2:25,CENTER-1:15"
-#define ui_alert3 "EAST-2:25,CENTER-2:12"
-#define ui_alert4 "EAST-2:25,CENTER-3:9"
-#define ui_alert5 "EAST-2:25,CENTER-4:6"
+#define ui_alert1 "EAST-2:22,CENTER:18"
+#define ui_alert2 "EAST-2:22,CENTER-1:15"
+#define ui_alert3 "EAST-2:22,CENTER-2:12"
+#define ui_alert4 "EAST-2:22,CENTER-3:9"
+#define ui_alert5 "EAST-2:22,CENTER-4:6"
 
 
 //Middle right (status indicators)
