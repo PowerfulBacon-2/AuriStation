@@ -25,10 +25,10 @@
 
 /obj/projectile/bullet/shotgun_beanbag
 	name = "beanbag slug"
-	damage = 5
+	damage = 45
 	stamina = 40
 	jitter = 5
-	sharpness = SHARP_III
+	sharpness = SHARP_I
 
 /obj/projectile/bullet/incendiary/shotgun
 	name = "incendiary slug"
