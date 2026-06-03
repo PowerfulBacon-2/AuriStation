@@ -61,7 +61,11 @@
 		hud_used.reorganize_alerts()
 	if(!no_anim)
 		thealert.transform = matrix(32, 6, MATRIX_TRANSLATE)
-		animate(thealert, transform = matrix(), time = 2.5, easing = CUBIC_EASING)
+		thealert.alpha = 0
+		animate(thealert, transform = matrix(), alpha = 255, time = 2.5, easing = CUBIC_EASING)
+		animate(transform = matrix(15, MATRIX_ROTATE), time = 0.4, easing = CUBIC_EASING)
+		animate(transform = matrix(-15, MATRIX_ROTATE), time = 0.4, easing = CUBIC_EASING)
+		animate(transform = matrix(), time = 0.4, easing = CUBIC_EASING)
 	if(timeout_override)
 		thealert.timeout = timeout_override
 
