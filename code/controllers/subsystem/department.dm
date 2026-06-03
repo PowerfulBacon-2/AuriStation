@@ -123,6 +123,83 @@ SUBSYSTEM_DEF(department)
 
 	return jobs_to_return
 
+/datum/company
+	/// Name of the company
+	var/name = ""
+
+	/// Primary bank account of the company
+	var/datum/bank_account/account
+
+	/// List of departments associated with the company, for companies that
+	/// have multiple departments such as Nanotrasen.
+	var/list/datum/company_department/departments
+
+	/// List of budget allocations that we have with this company, these let
+	/// us automatically give money to other accounts.
+	var/list/datum/budget_allocation/budget_allocations
+
+	/// List of employees who are in the company but are not part of any department
+	/// This is not a list of everyone who is employed with the company, as it
+	/// excludes those who are employed under a department.
+	var/list/datum/registered_employee/employees
+
+/datum/company_department
+	/// Name of the department in the company
+	var/name = ""
+	/// Account of this department
+	var/datum/bank_account/account
+	/// List of employees in the department
+	var/list/datum/registered_employee/employees
+
+/datum/registered_employee
+	/// The employees bank account
+	var/datum/bank_account/account
+	/// Boolean value that records if this employee records has been removed
+	/// from the system. Removed employees become read-only.
+	var/removed = FALSE
+	/// How much this employee gets paid each pay-cycle.
+	var/paycheck = 0
+	/// History associated with edits to the employee
+	var/list/datum/registered_employee_history/history
+
+/datum/registered_employee_history
+	/// Which account is responsible for authoring this change
+	var/datum/bank_account/author
+	/// Records the account that we now pay into
+	var/datum/bank_account/new_account
+	/// Records the new deleted flag state
+	var/new_removed = FALSE
+	/// Records the new paycheck value
+	var/new_paycheck
+
+/datum/budget_allocation
+	/// Name of the allocation, used to identify what this payment actually
+	/// is.
+	var/allocation_name = ""
+
+	/// The author that created this budget allocation, or null if there is
+	/// no data associated with it.
+	var/datum/bank_account/author = null
+
+	/// The account that the budget is allocated to
+	var/datum/bank_account/target_account
+
+	/// The amount that is paid out into the target account
+	var/amount = 0
+
+	/// History of all edits that have happened to this budget
+	var/list/datum/budget_allocation_history/history
+
+/datum/budget_allocation_history
+	/// Which account is responsible for authoring this change
+	var/datum/bank_account/author
+	/// New name of the budget
+	var/new_name
+	/// New amount allocated to this budget
+	var/new_amount
+	/// The new account that we are paying into
+	var/datum/bank_account/new_account
+
 // --------------------------------------------
 // department group datums for this subsystem
 /datum/department_group
