@@ -14,7 +14,10 @@
 	. = ..()
 	if(.)
 		return
-	user.adminhelp()
+	if (check_rights_for(user, R_ADMIN))
+		user.game_panel()
+	else
+		user.adminhelp()
 	return TRUE
 
 
