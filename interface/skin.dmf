@@ -8,76 +8,10 @@ macro "default"
 
 macro "input_box_macro"
 
-
-menu "menu"
-	elem
-		name = "&File"
-		command = ""
-		saved-params = "is-checked"
-	elem
-		name = "&Quick screenshot\tF2"
-		command = ".screenshot auto"
-		category = "&File"
-		saved-params = "is-checked"
-	elem
-		name = "&Save screenshot as...\tShift+F2"
-		command = ".screenshot"
-		category = "&File"
-		saved-params = "is-checked"
-	elem
-		name = ""
-		command = ""
-		category = "&File"
-		saved-params = "is-checked"
-	elem "reconnectbuttons"
-		name = "&Reconnect"
-		command = ".reconnect"
-		category = "&File"
-		saved-params = "is-checked"
-	elem
-		name = "&Quit\tAlt-F4"
-		command = ".quit"
-		category = "&File"
-		saved-params = "is-checked"
-	elem
-		name = "&Help"
-		command = ""
-		saved-params = "is-checked"
-	elem
-		name = "&Admin Help\tF1"
-		command = "adminhelp"
-		category = "&Help"
-		saved-params = "is-checked"
-	elem
-		name = "&Mentor Help"
-		command = "mentorhelp"
-		category = "&Help"
-		saved-params = "is-checked"
-	elem
-		name = "&Hotkeys"
-		command = "hotkeys-help"
-		category = "&Help"
-		saved-params = "is-checked"
-	elem
-		name = "&Preferences"
-		command = ""
-		saved-params = "is-checked"
-	elem
-		name = "&Character Preferences"
-		command = "character-preferences"
-		category = "&Preferences"
-		saved-params = "is-checked"
-	elem
-		name = "&Game Preferences"
-		command = "game-preferences"
-		category = "&Preferences"
-		saved-params = "is-checked"
-
-
 window "mainwindow"
 	elem "mainwindow"
 		type = MAIN
-		pos = 291,0
+		pos = 0,0
 		size = 640x440
 		anchor1 = 0,0
 		anchor2 = 100,100
@@ -87,17 +21,16 @@ window "mainwindow"
 		statusbar = false
 		icon = 'icons\\ss13_64.png'
 		macro = "default"
-		menu = "menu"
-		outer-size = 656x499
-		outer-pos = 291,0
+		outer-size = 640x440
+		outer-pos = 0,0
 		inner-size = 640x440
-		inner-pos = 8,51
-		screen-size = 1920x1032
-		on-status = ".winset \"status_bar_wide.text = [[*]]\""
+		inner-pos = 0,0
+		screen-size = 1920x1080
+		on-status = ".winset \"[[*]]=\"\" ? status_bar.text=[[*]] status_bar.is-visible=true : status_bar.is-visible=false\""
 	elem "split"
 		type = CHILD
 		pos = 0,0
-		size = 640x424
+		size = 640x440
 		anchor1 = 0,0
 		anchor2 = 100,100
 		background-color = none
@@ -112,18 +45,6 @@ window "mainwindow"
 		anchor2 = 100,0
 		saved-params = ""
 		inner-background-color = transparent
-	elem "status_bar_wide"
-		type = LABEL
-		pos = 0,424
-		size = 640x16
-		anchor1 = 0,100
-		anchor2 = 100,100
-		text-color = #222222
-		background-color = #ffffff
-		border = sunken
-		saved-params = ""
-		text = ""
-		align = left
 	elem "asset_cache_browser"
 		type = BROWSER
 		pos = 0,0
@@ -189,7 +110,6 @@ window "mapwindow"
 		anchor2 = -1,-1
 		text-color = #ffffff
 		background-color = #222222
-		is-visible = false
 		border = line
 		saved-params = ""
 		text = ""
