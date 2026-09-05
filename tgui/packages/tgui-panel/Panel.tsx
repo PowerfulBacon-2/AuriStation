@@ -5,7 +5,7 @@
  */
 
 import { useDispatch, useLocalState } from 'tgui/backend';
-import { Button, Section, Stack } from 'tgui/components';
+import { Button, Flex, Section, Stack } from 'tgui/components';
 import { Box, Divider, DraggableControl } from 'tgui/components';
 import { Pane } from 'tgui/layouts';
 import { logger } from 'tgui/logging';
@@ -19,11 +19,13 @@ import { ReconnectButtons } from './reconnect';
 import { SettingsPanel, useSettings } from './settings';
 import { updateSettings } from './settings/actions';
 import { StatTabs } from './stat';
+import { useStatPanel } from './stat/hooks';
 
 export const Panel = (props) => {
   const audio = useAudio();
   const settings = useSettings();
   const game = useGame();
+  const stat = useStatPanel();
   const dispatch = useDispatch();
   if (process.env.NODE_ENV !== 'production') {
     const { useDebug, KitchenSink } = require('tgui/debug');
@@ -51,6 +53,95 @@ export const Panel = (props) => {
       }),
     );
   };
+
+  return (
+    <Pane theme={settings.theme}>
+      <Stack vertical height='100%'>
+        <Stack.Item>
+          <Section backgroundColor="transparent">
+            <Stack my={-1.25} align="center">
+              <Stack.Item grow overflowX="auto">
+                <ChatTabs />
+              </Stack.Item>
+              <Stack.Item>
+                <PingIndicator />
+              </Stack.Item>
+              <Stack.Item mx={0.5}>
+                <Button
+                  color="grey"
+                  selected={audio.visible}
+                  icon="hammer"
+                  tooltip="Verb Menu"
+                  tooltipPosition="bottom-start"
+                  onClick={() => stat.toggle()}
+                />
+              </Stack.Item>
+              <Stack.Item mx={0.5}>
+                <Button
+                  color="grey"
+                  selected={audio.visible}
+                  icon="music"
+                  tooltip="Music player"
+                  tooltipPosition="bottom-start"
+                  onClick={() => audio.toggle()}
+                />
+              </Stack.Item>
+              <Stack.Item>
+                <Button
+                  icon={settings.visible ? 'times' : 'cog'}
+                  selected={settings.visible}
+                  tooltip={
+                    settings.visible ? 'Close settings' : 'Open settings'
+                  }
+                  tooltipPosition="bottom-start"
+                  onClick={() => settings.toggle()}
+                />
+              </Stack.Item>
+            </Stack>
+          </Section>
+        </Stack.Item>
+        {audio.visible && (
+          <Stack.Item>
+            <Section>
+              <NowPlayingWidget />
+            </Section>
+          </Stack.Item>
+        )}
+        {settings.visible && (
+          <Stack.Item>
+            <SettingsPanel />
+          </Stack.Item>
+        )}
+        <Stack.Item mt={1} grow>
+          <Section fill fitted position="relative">
+            <Pane.Content scrollable>
+              { stat.active ? (
+                <Flex direction='column' height='100%'>
+                  <StatTabs direction="column" />
+                </Flex>
+              ) : (
+              <ChatPanel lineHeight={settings.lineHeight} />) }
+            </Pane.Content>
+            <Notifications>
+              {game.connectionLostAt && (
+                <Notifications.Item rightSlot={<ReconnectButtons />}>
+                  You are either AFK, experiencing lag or the connection has
+                  closed.
+                </Notifications.Item>
+              )}
+              {game.roundRestartedAt && (
+                <Notifications.Item>
+                  The connection has been closed because the server is
+                  restarting. Please wait while you automatically reconnect.
+                </Notifications.Item>
+              )}
+            </Notifications>
+          </Section>
+        </Stack.Item>
+      </Stack>
+    </Pane>
+  );
+
   return (
     <Pane theme={settings.theme}>
       <Stack height={98 - number + '%'} vertical>
