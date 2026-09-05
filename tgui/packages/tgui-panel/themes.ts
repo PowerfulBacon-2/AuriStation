@@ -4,7 +4,7 @@
  * @license MIT
  */
 
-export const THEMES = ['light', 'dark', 'blue'];
+export const THEMES = ['blue'];
 
 const COLOR_DARK_BG = '#202020';
 const COLOR_DARK_BG_DARKER = '#171717';
@@ -32,7 +32,6 @@ export const setClientTheme = (name) => {
       'infowindow.text-color': '#000000',
       'info.background-color': 'none',
       'info.text-color': '#000000',
-      'browseroutput.background-color': 'none',
       'browseroutput.text-color': '#000000',
       'outputwindow.background-color': 'none',
       'outputwindow.text-color': '#000000',
@@ -88,7 +87,6 @@ export const setClientTheme = (name) => {
     'infowindow.text-color': desired_text,
     'info.background-color': desired_background,
     'info.text-color': desired_text,
-    'browseroutput.background-color': desired_background,
     'browseroutput.text-color': desired_text,
     'outputwindow.background-color': desired_background,
     'outputwindow.text-color': desired_text,

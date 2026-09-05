@@ -1,4 +1,5 @@
 const initialState = {
+  active: false,
   selectedTab: 'Status',
   antagonist_popup: null,
   alert_popup: null,
@@ -12,6 +13,12 @@ const initialState = {
 
 export const statReducer = (state = initialState, action) => {
   const { type, payload } = action;
+  if (type === 'stat/toggle') {
+    return {
+      ...state,
+      active: !state.active,
+    };
+  }
   if (type === 'stat/setTab') {
     return {
       ...state,

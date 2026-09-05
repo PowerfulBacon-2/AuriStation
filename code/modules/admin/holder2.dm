@@ -133,10 +133,6 @@ GLOBAL_PROTECT(href_token)
 		owner.add_admin_verbs()	//TODO <--- todo what? the proc clearly exists and works since its the backbone to our entire admin system
 		owner.remove_verb(/client/proc/readmin)
 		owner.update_special_keybinds()
-		if(rank.rights & R_DEBUG)
-			winset(owner, "menudebug", "parent=\"menu\";name=\"&Debug\";command=\"\"")
-			winset(owner, "menuoptions", "parent=\"menu\";name=\"&Options and Messages\";command=\".options\";category=\"&Debug\"")
-			winset(owner, "menuprofiler", "parent=\"menu\";name=\"&Profiler\";command=\".profile\";category=\"&Debug\"")
 		GLOB.admins |= C
 
 /datum/admins/proc/disassociate()

@@ -7,13 +7,8 @@
 /datum/preference/toggle/fullscreen/apply_to_client(client/client, value)
 	if(value)
 		winset(client, "mainwindow", "menu=;is-fullscreen=true")
-		winset(client, "status_bar_wide", "is-visible=false")
-		winset(client, "mainwindow", "on-status=\".winset \\\"\[\[*]]=\\\"\\\" ? status_bar.text=\[\[*]] status_bar.is-visible=true : status_bar.is-visible=false\\\"\"")
 	else
 		winset(client, "mainwindow", "menu=\"menu\";is-fullscreen=false")
-		winset(client, "status_bar_wide", "is-visible=true")
-		winset(client, "mainwindow", "on-status=\".winset \\\"status_bar_wide.text = \[\[*]]\\\"\"")
-		winset(client, "status_bar", "is-visible=false")
 
 	client.attempt_auto_fit_viewport()
 
