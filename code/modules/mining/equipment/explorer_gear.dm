@@ -20,7 +20,8 @@
 		/obj/item/mining_scanner,
 		/obj/item/t_scanner/adv_mining_scanner,
 		/obj/item/gun/energy/recharge/kinetic_accelerator,
-		/obj/item/pickaxe
+		/obj/item/pickaxe,
+		/obj/item/kinetic_crusher
 	)
 	resistance_flags = FIRE_PROOF
 	high_pressure_multiplier = 0.4
