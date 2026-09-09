@@ -20,7 +20,6 @@
 		user.adminhelp()
 	return TRUE
 
-
 /datum/keybinding/client/screenshot
 	keys = list("F2")
 	name = "screenshot"
