@@ -4,10 +4,9 @@
 	heal_description = "The effects of this injury will naturally dissipate over time."
 	max_absorption = 0
 	external = TRUE
-	damage_multiplier = 0
 	injury_flags = INJURY_LIMB
 	damage_multiplier = 1
-	pain_multiplier = 0
+	pain_multiplier = 0.4
 
 /datum/injury/acute/hypoxia/update_progressive_effects()
 	if (!mob)

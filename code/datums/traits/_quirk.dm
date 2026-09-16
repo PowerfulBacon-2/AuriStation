@@ -121,18 +121,8 @@
 			return
 		return TRUE
 
-/**
- * get_quirk_string() is used to get a printable string of all the quirk traits someone has for certain criteria
- *
- * Arguments:
- * * Medical- If we want the long, fancy descriptions that show up in medical records, or if not, just the name
- * * Category- Which types of quirks we want to print out. Defaults to everything
- * * from_scan- If the source of this call is like a health analyzer or HUD, in which case QUIRK_HIDE_FROM_MEDICAL hides the quirk.
- */
-/mob/living/proc/get_quirk_string(medical = FALSE, category = CAT_QUIRK_ALL, from_scan = FALSE)
-	if(!mind)
-		return
-	var/list/dat = list()
+/mob/living/proc/get_visible_quirks(category = CAT_QUIRK_ALL)
+	. = list()
 	for(var/datum/quirk/candidate as anything in mind.quirks)
 		switch(category)
 			if(CAT_QUIRK_MAJOR_DISABILITY)
@@ -144,6 +134,20 @@
 			if(CAT_QUIRK_NOTES)
 				if(candidate.quirk_value < 0)
 					continue
+		. += candidate
+
+/**
+ * get_quirk_string() is used to get a printable string of all the quirk traits someone has for certain criteria
+ *
+ * Arguments:
+ * * Medical- If we want the long, fancy descriptions that show up in medical records, or if not, just the name
+ * * Category- Which types of quirks we want to print out. Defaults to everything
+ */
+/mob/living/proc/get_quirk_string(medical = FALSE, category = CAT_QUIRK_ALL)
+	if(!mind)
+		return
+	var/list/dat = list()
+	for(var/datum/quirk/candidate as anything in get_visible_quirks(category))
 		dat += medical ? candidate.medical_record_text : candidate.name
 
 	if(!dat.len)

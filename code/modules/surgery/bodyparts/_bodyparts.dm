@@ -127,7 +127,7 @@
 	/// Amount of blunt armour provided by the bones
 	var/bone_blunt_armour = 15
 	/// Injury status effects applied to this limb
-	var/list/injuries = list()
+	var/list/datum/injury/injuries = list()
 
 	/// If the bodypart is permanently destroyed
 	var/destroyed = FALSE
@@ -208,7 +208,7 @@
 	for (var/datum/injury/injury in injuries)
 		var/damage_provided = injury.added_damage + injury.damage_multiplier * injury.progression
 		accumulated_damage += damage_provided
-		pain += injury.pain + damage_provided
+		pain += injury.pain + injury.pain_multiplier * injury.progression
 	// Update pain
 	owner?.pain.set_pain_source(pain, body_zone)
 	// Move on to update the effectiveness of the part

@@ -1,7 +1,3 @@
-// Describes the three modes of scanning available for health analyzers
-#define SCANMODE_HEALTH 0
-//#define SCANMODE_WOUND 1
-#define SCANMODE_COUNT 1 // Update this to be the number of scan modes if you add more
 #define SCANNER_CONDENSED 0
 #define SCANNER_VERBOSE 1
 
@@ -23,58 +19,152 @@
 	throw_range = 7
 	custom_materials = list(/datum/material/iron=200)
 	custom_price = 100
-	var/mode = SCANNER_VERBOSE
-	var/scanmode = SCANMODE_HEALTH
 	var/advanced = FALSE
+	/// The object that we are currently scanning
+	var/datum/weakref/target = null
 
 /obj/item/healthanalyzer/suicide_act(mob/living/carbon/user)
 	user.visible_message(span_suicide("[user] begins to analyze [user.p_them()]self with [src]! The display shows that [user.p_theyre()] dead!"))
 	return BRUTELOSS
 
-/*
-/obj/item/healthanalyzer/attack_self(mob/user)
-	scanmode = (scanmode + 1) % SCANMODE_COUNT
-	switch(scanmode)
-		if(SCANMODE_HEALTH)
-			to_chat(user, "<span class='notice'>You switch the health analyzer to check physical health.</span>")
-		//if(SCANMODE_WOUND)
-		//	to_chat(user, "<span class='notice'>You switch the health analyzer to report extra info on wounds.</span>")
-*/
-
 /obj/item/healthanalyzer/attack(mob/living/M, mob/living/carbon/human/user)
-
 	flick("[icon_state]-scan", src)	//makes it so that it plays the scan animation upon scanning, including clumsy scanning
 
-	// Clumsiness/brain damage check
-	if ((HAS_TRAIT(user, TRAIT_CLUMSY) || HAS_TRAIT(user, TRAIT_DUMB)) && prob(50))
-		user.visible_message(span_warning("[user] analyzes the floor's vitals!"), \
-							span_notice("You stupidly try to analyze the floor's vitals!"))
-		to_chat(user, "[span_info("Analyzing results for The floor:\n\tOverall status: <b>Healthy</b>")]\
-				\n[span_info("Key: <font color='#00cccc'>Hypoxia</font>/<font color='#00cc66'>Toxin</font>/<font color='#ffcc33'>Burn</font>/<font color='#ff3333'>Brute</font>")]\
-				\n[span_info("\tDamage specifics: <font color='#66cccc'>0</font>-<font color='#00cc66'>0</font>-<font color='#ff9933'>0</font>-<font color='#ff3333'>0</font>")]\
-				\n[span_info("Body temperature: ???")]")
-		return
+	target = WEAKREF(M)
+	ui_interact(user)
 
 	user.visible_message(span_notice("[user] analyzes [M]'s vitals."))
-	balloon_alert(user, "analyzing vitals")
 	playsound(user.loc, 'sound/effects/fastbeep.ogg', 10)
-
-	switch (scanmode)
-		if (SCANMODE_HEALTH)
-			healthscan(user, M, mode, advanced)
-		//if (SCANMODE_WOUND)
-		//	woundscan(user, M, src)
-
 	add_fingerprint(user)
-
-/obj/item/healthanalyzer/attack_secondary(mob/living/victim, mob/living/user, params)
-	chemscan(user, victim)
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	add_fibers(M)
 
 /obj/item/healthanalyzer/add_context_interaction(datum/screentip_context/context, mob/user, atom/target)
 	if (isliving(target))
 		context.add_left_click_action("Scan Health")
-		context.add_right_click_action("Scan Chemicals")
+
+/obj/item/healthanalyzer/ui_state(mob/user)
+	return new /datum/ui_state/hands_state/health_analyzer(src)
+
+/obj/item/healthanalyzer/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "HealthAnalyzer")
+		ui.set_autoupdate(TRUE)
+		ui.open()
+	return TRUE
+
+/obj/item/healthanalyzer/ui_data(mob/user)
+	var/list/data = list()
+	var/mob/living/target = src.target?.resolve()
+
+	if (target == null)
+		data["target"] = null
+		return data
+
+	// Overall Stats
+	data["target"] = target.get_examine_name()
+	data["is_dead"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH)
+	data["consciousness"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH) \
+		? HEALTH_THRESHOLD_DEAD \
+		: target.consciousness.value / target.consciousness.max_value
+
+	// Body-wide Attribute
+	var/list/body_injuries = list()
+	for (var/datum/injury/injury in target.get_injuries(null))
+		body_injuries += list(injury_to_list(injury))
+
+	if (HAS_TRAIT(target, TRAIT_HUSK))
+		if (advanced)
+			if(HAS_TRAIT_FROM(target, TRAIT_HUSK, BURN))
+				body_injuries += list(fake_injury("Husked (Burns)", "Tend wounds or Synthflesh."))
+			else if (HAS_TRAIT_FROM(target, TRAIT_HUSK, CHANGELING_DRAIN))
+				body_injuries += list(fake_injury("Husked (Drained)", "Synthflesh."))
+			else
+				body_injuries += list(fake_injury("Husked (Unknown)", "Synthflesh."))
+		else
+			body_injuries += list(fake_injury("Husked", "Tend wounds or Synthflesh, depending on the cause of the husking."))
+
+	if(iscarbon(target))
+		append_trauma_and_quirks(body_injuries, target)
+
+	// Apply the attributes
+	data["injuries"] = list()
+	data["injuries"]["body"] = body_injuries
+
+	var/list/zones = list(
+		BODY_ZONE_CHEST,
+		BODY_ZONE_HEAD,
+		BODY_ZONE_L_ARM,
+		BODY_ZONE_L_LEG,
+		BODY_ZONE_R_ARM,
+		BODY_ZONE_R_LEG
+	)
+	for (var/zone in zones)
+		var/list/part_injuries = list()
+		for (var/datum/injury/injury in target.get_injuries(zone))
+			part_injuries += list(injury_to_list(injury))
+		data["injuries"][parse_zone(zone)] = part_injuries
+
+/obj/item/healthanalyzer/proc/append_trauma_and_quirks(list/body_injuries, mob/living/carbon/carbontarget)
+	if(LAZYLEN(carbontarget.get_traumas()))
+		for(var/datum/brain_trauma/trauma in carbontarget.get_traumas())
+			switch(trauma.resilience)
+				if (TRAUMA_RESILIENCE_BASIC)
+					body_injuries += list(fake_injury(trauma.scan_desc, "Basic medicine."))
+				if(TRAUMA_RESILIENCE_SURGERY)
+					body_injuries += list(fake_injury(trauma.scan_desc, "Brain recalibration surgery."))
+				if(TRAUMA_RESILIENCE_LOBOTOMY)
+					body_injuries += list(fake_injury(trauma.scan_desc, "Lobotomy surgery."))
+				if(TRAUMA_RESILIENCE_MAGIC, TRAUMA_RESILIENCE_ABSOLUTE)
+					body_injuries += list(fake_injury(trauma.scan_desc, "Unknown."))
+	for(var/datum/quirk/candidate in carbontarget.get_visible_quirks(CAT_QUIRK_MAJOR_DISABILITY))
+		body_injuries += list(fake_injury(candidate.name, "Unknown."))
+	if (advanced)
+		for(var/datum/quirk/candidate in carbontarget.get_visible_quirks(CAT_QUIRK_MINOR_DISABILITY))
+			body_injuries += list(fake_injury(candidate.name, "Unknown."))
+
+/obj/item/healthanalyzer/proc/injury_to_list(datum/injury/injury)
+	var/list/injury_object = list()
+	injury_object["name"] = injury.examine_description
+	injury_object["severity"] = injury.severity_level
+	injury_object["effectiveness_modifier"] = injury.effectiveness_modifier
+	injury_object["bone_armour_modifier"] = injury.bone_armour_modifier
+	injury_object["skin_armour_modifier"] = injury.skin_armour_modifier
+	injury_object["pain"] = injury.pain + injury.pain_multiplier * injury.progression
+	injury_object["damage"] = injury.added_damage + injury.damage_multiplier * injury.progression
+	injury_object["heal_text"] = injury.heal_description
+	return injury_object
+
+/obj/item/healthanalyzer/proc/fake_injury(name, heal_text)
+	var/list/injury_object = list()
+	injury_object["name"] = name
+	injury_object["heal_text"] = heal_text
+	return injury_object
+
+/**
+ * Health analyzer state requires the target to be nearby, and for there to be a target.
+ * Does not update if the target is >1 unit away, and closes if they are more than 3.
+ */
+/datum/ui_state/hands_state/health_analyzer
+	var/obj/item/healthanalyzer/source
+
+/datum/ui_state/hands_state/health_analyzer/New(obj/item/healthanalyzer/source)
+	. = ..()
+	src.source = source
+
+/datum/ui_state/hands_state/health_analyzer/can_use_topic(src_object, mob/user)
+	. = ..()
+	if (. <= UI_CLOSE)
+		return UI_CLOSE
+	var/mob/living/target = source.target?.resolve()
+	if (target == null)
+		return UI_CLOSE
+	// Stop updating when not adjacent
+	if (!user.Adjacent(target))
+		. = min(., UI_DISABLED)
+	// Close when too far away
+	if (get_dist(user, target) > 3)
+		return UI_CLOSE
 
 /**
  * healthscan
@@ -545,23 +635,11 @@
 
 	to_chat(user, examine_block(jointext(message, "\n")), avoid_highlighting = TRUE, trailing_newline = FALSE, type = MESSAGE_TYPE_INFO)
 
-/obj/item/healthanalyzer/AltClick(mob/user)
-	..()
-
-	if(!user.canUseTopic(src, be_close = TRUE) || !user.can_read(src))
-		return
-
-	mode = !mode
-	to_chat(user, mode == SCANNER_VERBOSE ? "The scanner now shows specific limb damage." : "The scanner no longer shows limb damage.")
-
 /obj/item/healthanalyzer/advanced
 	name = "advanced health analyzer"
 	icon_state = "health_adv"
 	desc = "A hand-held body scanner able to distinguish vital signs of the subject with high accuracy."
 	advanced = TRUE
 
-#undef SCANMODE_HEALTH
-//#undef SCANMODE_WOUND
-#undef SCANMODE_COUNT
 #undef SCANNER_CONDENSED
 #undef SCANNER_VERBOSE

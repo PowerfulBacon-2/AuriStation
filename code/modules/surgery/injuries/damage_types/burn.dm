@@ -7,4 +7,4 @@
 	status_icon_state = "burn"
 	injury_flags = INJURY_LIMB
 	damage_multiplier = 1
-	pain_multiplier = 0.8
+	pain_multiplier = 1

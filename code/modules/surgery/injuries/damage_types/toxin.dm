@@ -6,4 +6,4 @@
 	external = FALSE
 	injury_flags = INJURY_BODY
 	damage_multiplier = 1
-	pain_multiplier = 0.4
+	pain_multiplier = 0.7
