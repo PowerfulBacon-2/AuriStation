@@ -73,16 +73,7 @@
 	for (var/datum/injury/injury in target.get_injuries(null))
 		body_injuries += list(injury_to_list(injury))
 
-	if (HAS_TRAIT(target, TRAIT_HUSK))
-		if (advanced)
-			if(HAS_TRAIT_FROM(target, TRAIT_HUSK, BURN))
-				body_injuries += list(fake_injury("Husked (Burns)", "Tend wounds or Synthflesh."))
-			else if (HAS_TRAIT_FROM(target, TRAIT_HUSK, CHANGELING_DRAIN))
-				body_injuries += list(fake_injury("Husked (Drained)", "Synthflesh."))
-			else
-				body_injuries += list(fake_injury("Husked (Unknown)", "Synthflesh."))
-		else
-			body_injuries += list(fake_injury("Husked", "Tend wounds or Synthflesh, depending on the cause of the husking."))
+	append_husking(body_injuries, target)
 
 	if(iscarbon(target))
 		append_trauma_and_quirks(body_injuries, target)
@@ -104,8 +95,24 @@
 		for (var/datum/injury/injury in target.get_injuries(zone))
 			part_injuries += list(injury_to_list(injury))
 		data["injuries"][parse_zone(zone)] = part_injuries
+	return data
+
+/obj/item/healthanalyzer/proc/append_husking(list/body_injuries, mob/living/target)
+	PRIVATE_PROC(TRUE)
+	if (!HAS_TRAIT(target, TRAIT_HUSK))
+		return
+	if (advanced)
+		if(HAS_TRAIT_FROM(target, TRAIT_HUSK, BURN))
+			body_injuries += list(fake_injury("Husked (Burns)", "Tend wounds or Synthflesh."))
+		else if (HAS_TRAIT_FROM(target, TRAIT_HUSK, CHANGELING_DRAIN))
+			body_injuries += list(fake_injury("Husked (Drained)", "Synthflesh."))
+		else
+			body_injuries += list(fake_injury("Husked (Unknown)", "Synthflesh."))
+	else
+		body_injuries += list(fake_injury("Husked", "Tend wounds or Synthflesh, depending on the cause of the husking."))
 
 /obj/item/healthanalyzer/proc/append_trauma_and_quirks(list/body_injuries, mob/living/carbon/carbontarget)
+	PRIVATE_PROC(TRUE)
 	if(LAZYLEN(carbontarget.get_traumas()))
 		for(var/datum/brain_trauma/trauma in carbontarget.get_traumas())
 			switch(trauma.resilience)
@@ -184,19 +191,6 @@
 	// the final list of strings to render
 	var/render_list = list()
 
-	// Damage specifics
-	var/oxy_loss = target.getOxyLoss()
-	var/tox_loss = target.getToxLoss()
-	var/fire_loss = target.getFireLoss()
-	var/brute_loss = target.getBruteLoss()
-	var/mob_status = (target.stat == DEAD ? span_alert("<b>Deceased</b>") : "<b>[round(target.consciousness.value/target.consciousness.max_value,0.01)*100]% healthy</b>")
-
-	if(HAS_TRAIT(target, TRAIT_FAKEDEATH) && !advanced)
-		mob_status = span_alert("<b>Deceased</b>")
-		oxy_loss = max(rand(1, 40), oxy_loss, (300 - (tox_loss + fire_loss + brute_loss))) // Random oxygen loss
-
-	render_list += "[span_info("Analyzing results for [target]:")]\n<span class='info ml-1'>Overall status: [mob_status]</span>\n"
-
 	if(ishuman(target))
 		var/mob/living/carbon/human/humantarget = target
 		if(humantarget.undergoing_cardiac_arrest() && humantarget.stat != DEAD)
@@ -204,52 +198,8 @@
 
 	SEND_SIGNAL(target, COMSIG_LIVING_HEALTHSCAN, render_list, advanced, user, mode, tochat)
 
-	// Husk detection
-	if(HAS_TRAIT(target, TRAIT_HUSK))
-		if(advanced)
-			if(HAS_TRAIT_FROM(target, TRAIT_HUSK, BURN))
-				render_list += "<span class='alert ml-1'>Subject has been husked by severe burns.</span>\n"
-			else if (HAS_TRAIT_FROM(target, TRAIT_HUSK, CHANGELING_DRAIN))
-				render_list += "<span class='alert ml-1'>Subject has been husked by dessication.</span>\n"
-			else
-				render_list += "<span class='alert ml-1'>Subject has been husked by mysterious causes.</span>\n"
-
-		else
-			render_list += "<span class='alert ml-1'>Subject has been husked.</span>\n"
-
-	if(target.getExhaustion())
-		if(advanced)
-			render_list += "<span class='alert ml-1'>Fatigue level: [target.getExhaustion()]%.</span>\n"
-		else
-			render_list += "<span class='alert ml-1'>Subject appears to be suffering from fatigue.</span>\n"
-	if (target.getCloneLoss())
-		if(advanced)
-			render_list += "<span class='alert ml-1'>Cellular damage level: [target.getCloneLoss()].</span>\n"
-		else
-			render_list += "<span class='alert ml-1'>Subject appears to have [target.getCloneLoss() > 30 ? "severe" : "minor"] cellular damage.</span>\n"
 	if (!target.get_organ_slot(ORGAN_SLOT_BRAIN)) // kept exclusively for soul purposes
 		render_list += "<span class='alert ml-1'>Subject lacks a brain.</span>\n"
-
-	if(iscarbon(target))
-		var/mob/living/carbon/carbontarget = target
-		if(LAZYLEN(carbontarget.get_traumas()))
-			var/list/trauma_text = list()
-			for(var/datum/brain_trauma/trauma in carbontarget.get_traumas())
-				var/trauma_desc = ""
-				switch(trauma.resilience)
-					if(TRAUMA_RESILIENCE_SURGERY)
-						trauma_desc += "severe "
-					if(TRAUMA_RESILIENCE_LOBOTOMY)
-						trauma_desc += "deep-rooted "
-					if(TRAUMA_RESILIENCE_MAGIC, TRAUMA_RESILIENCE_ABSOLUTE)
-						trauma_desc += "permanent "
-				trauma_desc += trauma.scan_desc
-				trauma_text += trauma_desc
-			render_list += "<span class='alert ml-1'>Cerebral traumas detected: subject appears to be suffering from [english_list(trauma_text)].</span>\n"
-		if(carbontarget.last_mind?.quirks.len)
-			render_list += "<span class='info ml-1'>Subject Major Disabilities: [carbontarget.get_quirk_string(FALSE, CAT_QUIRK_MAJOR_DISABILITY, from_scan = TRUE)].</span>\n"
-			if(advanced)
-				render_list += "<span class='info ml-1'>Subject Minor Disabilities: [carbontarget.get_quirk_string(FALSE, CAT_QUIRK_MINOR_DISABILITY, TRUE)].</span>\n"
 	//Eyes and ears
 	if(advanced && iscarbon(target))
 		var/mob/living/carbon/carbontarget = target
