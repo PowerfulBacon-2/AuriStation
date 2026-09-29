@@ -437,16 +437,15 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 
 /// Called by medical scanners to get a simple summary of how healthy the organ is. Returns an empty string if things are fine.
 /obj/item/organ/proc/get_status_text()
-	var/status = ""
 	if(organ_flags & ORGAN_FAILING)
-		status = "<font color='#cc3333'>Non-Functional</font>"
+		return "failure"
 	else if(damage > high_threshold)
-		status = "<font color='#ff9933'>Severely Damaged</font>"
+		return "damage (severe)"
 	else if (damage > low_threshold)
-		status = "<font color='#ffcc33'>Mildly Damaged</font>"
+		return "damage (mild)"
 	else if (hypoxia > high_threshold)
-		status = "<font color='#489cc6'>Severe Hypoxia</font>"
+		return "hypoxia (severe)"
 	else if (hypoxia > low_threshold)
-		status = "<font color='#66c4f3'>Mild Hypoxia</font>"
+		return "hypoxia (mild)"
 
-	return status
+	return null

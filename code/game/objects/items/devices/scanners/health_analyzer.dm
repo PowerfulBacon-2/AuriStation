@@ -54,15 +54,23 @@
 	return TRUE
 
 /obj/item/healthanalyzer/ui_data(mob/user)
+	var/datum/health_analyzer/analyzer = new()
+	return analyzer.get_health_analyzer_ui_data(user, target?.resolve(), advanced)
+
+/datum/health_analyzer
+	var/advanced
+
+/datum/health_analyzer/proc/get_health_analyzer_ui_data(mob/user, mob/living/target, advanced)
 	var/list/data = list()
-	var/mob/living/target = src.target?.resolve()
+
+	src.advanced = advanced
 
 	if (target == null)
 		data["target"] = null
 		return data
 
 	// Overall Stats
-	data["target"] = target.get_examine_name()
+	data["target"] = target.get_examine_name(user)
 	data["is_dead"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH)
 	data["consciousness"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH) \
 		? HEALTH_THRESHOLD_DEAD \
@@ -77,6 +85,9 @@
 
 	if(iscarbon(target))
 		append_trauma_and_quirks(body_injuries, target)
+		append_brain(body_injuries, target)
+		append_ear(body_injuries, target)
+		append_eye(body_injuries, target)
 
 	// Apply the attributes
 	data["injuries"] = list()
@@ -90,14 +101,81 @@
 		BODY_ZONE_R_ARM,
 		BODY_ZONE_R_LEG
 	)
-	for (var/zone in zones)
-		var/list/part_injuries = list()
-		for (var/datum/injury/injury in target.get_injuries(zone))
-			part_injuries += list(injury_to_list(injury))
-		data["injuries"][parse_zone(zone)] = part_injuries
+	if (target.has_limbs)
+		for (var/zone in zones)
+			var/list/part_injuries = list()
+
+			// Injuries
+			for (var/datum/injury/injury in target.get_injuries(zone))
+				var/added_data = injury_to_list(injury)
+				if (added_data)
+					part_injuries += list(added_data)
+
+			// Embeds
+			var/obj/item/bodypart/limb = target.get_bodypart(zone)
+			for (var/obj/item/embed as anything in limb?.embedded_objects)
+				part_injuries += list(fake_injury("Embedded [embed.get_visible_name()]", "Hemostat/Tongs"))
+
+			// Organ damage
+			for (var/obj/item/internal_item in limb?.get_organs())
+				if (istype(internal_item, /obj/item/organ))
+					var/obj/item/organ/organ = internal_item
+					var/injury = organ_injury(organ)
+					if (injury)
+						part_injuries += list(injury)
+
+			// TODO: Missing organs
+
+			data["injuries"][parse_zone(zone)] = part_injuries
 	return data
 
-/obj/item/healthanalyzer/proc/append_husking(list/body_injuries, mob/living/target)
+/datum/health_analyzer/proc/append_heart(list/body_injuries, mob/living/carbon/human/target)
+	PRIVATE_PROC(TRUE)
+	if (target.undergoing_cardiac_arrest() && target != DEAD)
+		body_injuries += list(fake_injury("Cardiac Arrest", "Defibrillate"))
+
+/datum/health_analyzer/proc/append_eye(list/body_injuries, mob/living/carbon/target)
+	PRIVATE_PROC(TRUE)
+	if (!advanced)
+		return
+	// Eye status
+	var/obj/item/organ/eyes/eyes = target.get_organ_slot(ORGAN_SLOT_EYES)
+	if(istype(eyes))
+		if(target.is_blind())
+			body_injuries += list(fake_injury("Blind", "Unknown"))
+		else if(HAS_TRAIT(target, TRAIT_NEARSIGHT))
+			body_injuries += list(fake_injury("Nearsighted", "Unknown"))
+
+/datum/health_analyzer/proc/append_ear(list/body_injuries, mob/living/carbon/target)
+	PRIVATE_PROC(TRUE)
+	if (!advanced)
+		return
+	var/obj/item/organ/ears/ears = target.get_organ_slot(ORGAN_SLOT_EARS)
+	if(istype(ears))
+		if(HAS_TRAIT_FROM(target, TRAIT_DEAF, GENETIC_MUTATION))
+			body_injuries += list(fake_injury("Genetically deaf", "Genetics"))
+		else if(HAS_TRAIT_FROM(target, TRAIT_DEAF, EAR_DAMAGE))
+			body_injuries += list(fake_injury("Deaf", "Ear surgery or chemistry"))
+		else if(HAS_TRAIT(target, TRAIT_DEAF))
+			body_injuries += list(fake_injury("Deaf", "Unknown"))
+		else
+			if(ears.damage)
+				if (ears.damage > ears.maxHealth)
+					body_injuries += list(fake_injury("Permanent hearing damage", "Ear surgery or chemistry"))
+				else
+					body_injuries += list(fake_injury("Temporary hearing damage", "Chemistry"))
+			if(ears.deaf)
+				if (ears.damage > ears.maxHealth)
+					body_injuries += list(fake_injury("Permanent deafness", "Ear surgery or chemistry"))
+				else
+					body_injuries += list(fake_injury("Temporary deafness", "Chemistry"))
+
+/datum/health_analyzer/proc/append_brain(list/body_injuries, mob/living/carbon/target)
+	PRIVATE_PROC(TRUE)
+	if (!target.get_organ_slot(ORGAN_SLOT_BRAIN))
+		body_injuries += list(fake_injury("Brainless", "Unknown."))
+
+/datum/health_analyzer/proc/append_husking(list/body_injuries, mob/living/target)
 	PRIVATE_PROC(TRUE)
 	if (!HAS_TRAIT(target, TRAIT_HUSK))
 		return
@@ -111,7 +189,7 @@
 	else
 		body_injuries += list(fake_injury("Husked", "Tend wounds or Synthflesh, depending on the cause of the husking."))
 
-/obj/item/healthanalyzer/proc/append_trauma_and_quirks(list/body_injuries, mob/living/carbon/carbontarget)
+/datum/health_analyzer/proc/append_trauma_and_quirks(list/body_injuries, mob/living/carbon/carbontarget)
 	PRIVATE_PROC(TRUE)
 	if(LAZYLEN(carbontarget.get_traumas()))
 		for(var/datum/brain_trauma/trauma in carbontarget.get_traumas())
@@ -130,8 +208,10 @@
 		for(var/datum/quirk/candidate in carbontarget.get_visible_quirks(CAT_QUIRK_MINOR_DISABILITY))
 			body_injuries += list(fake_injury(candidate.name, "Unknown."))
 
-/obj/item/healthanalyzer/proc/injury_to_list(datum/injury/injury)
+/datum/health_analyzer/proc/injury_to_list(datum/injury/injury)
 	var/list/injury_object = list()
+	if (!injury.examine_description)
+		return null
 	injury_object["name"] = injury.examine_description
 	injury_object["severity"] = injury.severity_level
 	injury_object["effectiveness_modifier"] = injury.effectiveness_modifier
@@ -142,11 +222,42 @@
 	injury_object["heal_text"] = injury.heal_description
 	return injury_object
 
-/obj/item/healthanalyzer/proc/fake_injury(name, heal_text)
+/datum/health_analyzer/proc/fake_injury(name, heal_text)
 	var/list/injury_object = list()
 	injury_object["name"] = name
 	injury_object["heal_text"] = heal_text
 	return injury_object
+
+/datum/health_analyzer/proc/organ_injury(obj/item/organ/organ)
+	var/list/injury_object = list()
+	var/status = organ.get_status_text()
+	if (status == null)
+		return null
+	injury_object["name"] = "[organ.name] [organ.get_status_text()]"
+	injury_object["heal_text"] = "Surgery/Chemistry"
+	if (advanced)
+		injury_object["damage"] = "[CEILING(organ.damage, 1)]"
+	return injury_object
+
+/datum/health_analyzer/abstract
+	var/datum/weakref/target
+
+/datum/health_analyzer/abstract/ui_state(mob/user)
+	return GLOB.observer_state
+
+/datum/health_analyzer/abstract/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "HealthAnalyzer")
+		ui.set_autoupdate(TRUE)
+		ui.open()
+	return TRUE
+
+/datum/health_analyzer/abstract/ui_data(mob/user)
+	return get_health_analyzer_ui_data(user, target?.resolve(), advanced)
+
+/datum/health_analyzer/abstract/ui_close(mob/user, datum/tgui/tgui)
+	qdel(src)
 
 /**
  * Health analyzer state requires the target to be nearby, and for there to be a target.
@@ -184,6 +295,7 @@
  * advanced - Whether it will give more advanced details, such as husk source.
  * tochat - Whether to immediately post the result into the chat of the user, otherwise it will return the results.
  */
+/*
 /proc/healthscan(mob/user, mob/living/target, mode = SCANNER_VERBOSE, advanced = FALSE, tochat = TRUE)
 	if(user.incapacitated())
 		return
@@ -191,142 +303,10 @@
 	// the final list of strings to render
 	var/render_list = list()
 
-	if(ishuman(target))
-		var/mob/living/carbon/human/humantarget = target
-		if(humantarget.undergoing_cardiac_arrest() && humantarget.stat != DEAD)
-			render_list += "<span class='alert ml-1'><b>Subject suffering from heart attack: Apply defibrillation or other electric shock immediately!</b></span>\n"
-
 	SEND_SIGNAL(target, COMSIG_LIVING_HEALTHSCAN, render_list, advanced, user, mode, tochat)
 
-	if (!target.get_organ_slot(ORGAN_SLOT_BRAIN)) // kept exclusively for soul purposes
-		render_list += "<span class='alert ml-1'>Subject lacks a brain.</span>\n"
-	//Eyes and ears
-	if(advanced && iscarbon(target))
-		var/mob/living/carbon/carbontarget = target
-
-		// Ear status
-		var/obj/item/organ/ears/ears = carbontarget.get_organ_slot(ORGAN_SLOT_EARS)
-		if(istype(ears))
-			if(HAS_TRAIT_FROM(carbontarget, TRAIT_DEAF, GENETIC_MUTATION))
-				render_list += "<span class='alert ml-2'>Subject is genetically deaf.\n</span>"
-			else if(HAS_TRAIT_FROM(carbontarget, TRAIT_DEAF, EAR_DAMAGE))
-				render_list += "<span class='alert ml-2'>Subject is deaf from ear damage.\n</span>"
-			else if(HAS_TRAIT(carbontarget, TRAIT_DEAF))
-				render_list += "<span class='alert ml-2'>Subject is deaf.\n</span>"
-			else
-				if(ears.damage)
-					render_list += "<span class='alert ml-2'>Subject has [ears.damage > ears.maxHealth ? "permanent ": "temporary "]hearing damage.\n</span>"
-				if(ears.deaf)
-					render_list += "<span class='alert ml-2'>Subject is [ears.damage > ears.maxHealth ? "permanently ": "temporarily "] deaf.\n</span>"
-
-		// Eye status
-		var/obj/item/organ/eyes/eyes = carbontarget.get_organ_slot(ORGAN_SLOT_EYES)
-		if(istype(eyes))
-			if(carbontarget.is_blind())
-				render_list += "<span class='alert ml-2'>Subject is blind.\n</span>"
-			else if(HAS_TRAIT(carbontarget, TRAIT_NEARSIGHT))
-				render_list += "<span class='alert ml-2'>Subject is nearsighted.\n</span>"
-
-	// Body part damage report
-	if(iscarbon(target))
-		var/mob/living/carbon/carbontarget = target
-		var/list/damaged = carbontarget.get_injured_bodyparts(include_injuries = TRUE)
-		if(length(damaged)>0 || oxy_loss>0 || tox_loss>0 || fire_loss>0)
-			var/dmgreport = {"
-<span class='info ml-1'>General status:</span>
-<table class='ml-2' style='width:100%'>
-	<tr><font face='Verdana'>
-		<td style='width:7em;'><font color='#ff0000'><b>Damage:</b></font></td>
-		<td style='width:5em;'><font color='#ff3333'><b>Brute</b></font></td>
-		<td style='width:4em;'><font color='#ff9933'><b>Burn</b></font></td>
-		<td style='width:4em;'><font color='#00cc66'><b>Toxin</b></font></td>
-		<td style='width:8em;'><font color='#00cccc'><b>Hypoxia</b></td>
-		<td style='width:calc(100%-28em);'><font color='#7c7c7c'><b>Injuries</b></td>
-	</font></tr>
-	<tr>
-		<td><font color='#ff3333'><b>Overall:</b></font></td>
-		<td><font color='#ff3333'><b>[CEILING(brute_loss,1)]</b></font></td>
-		<td><font color='#ff9933'><b>[CEILING(fire_loss,1)]</b></font></td>
-		<td><font color='#00cc66'><b>[CEILING(tox_loss,1)]</b></font></td>
-		<td><font color='#33ccff'><b>[CEILING(oxy_loss,1)]</b></font></td>
-		<td></td>
-	</tr>"}
-
-			if(mode == SCANNER_VERBOSE)
-				for(var/obj/item/bodypart/limb as anything in damaged)
-					if(limb.bodytype & BODYTYPE_ROBOTIC)
-						dmgreport += "<tr><td><font color='#cc3333'>[capitalize(limb.name)]:</font></td>"
-					else
-						dmgreport += "<tr><td><font color='#cc3333'>[capitalize(limb.plaintext_zone)]:</font></td>"
-					dmgreport += "<td><font color='#ff3333'>[limb.get_injury_amount(BRUTE)]</font></td>"
-					dmgreport += "<td><font color='#ff9933'>[limb.get_injury_amount(BURN)]</font></td>"
-					dmgreport += "<td><font color='#00cc66'>[limb.get_injury_amount(TOX)]</font></td>"
-					dmgreport += "<td><font color='#33ccff'>[limb.get_injury_amount(OXY)]</font></td>"
-					var/list/injury_texts = list()
-					for (var/datum/injury/injury in limb.injuries)
-						if (!injury.examine_description)
-							continue
-						if (injury.type == BRUTE || injury.type == BURN || injury.type == TOX || injury.type == OXY)
-							continue
-						if (injury.heal_description)
-							injury_texts += span_tooltip(injury.heal_description, injury.examine_description)
-						else
-							injury_texts += injury.examine_description
-					dmgreport += "<td>[jointext(injury_texts, ", ")]</td>"
-					dmgreport += "</tr>"
-			dmgreport += "</font></table>"
-			render_list += dmgreport // tables do not need extra linebreak
-		for(var/obj/item/bodypart/limb as anything in carbontarget.bodyparts)
-			for(var/obj/item/embed as anything in limb.embedded_objects)
-				render_list += "<span class='alert ml-1'>Embedded object: [embed] located in \the [limb.plaintext_zone]</span>\n"
-
 	if(ishuman(target))
 		var/mob/living/carbon/human/humantarget = target
-
-		// Organ damage, missing organs
-		if(humantarget.internal_organs && humantarget.internal_organs.len)
-			var/render = FALSE
-			var/toReport = "<span class='info ml-1'>Organs:</span>\
-				<table class='ml-2'><tr>\
-				<td style='width:6em;'><font color='#ff0000'><b>Organ:</b></font></td>\
-				[advanced ? "<td style='width:3em;'><font color='#ff0000'><b>Dmg</b></font></td>" : ""]\
-				<td style='width:12em;'><font color='#ff0000'><b>Status</b></font></td>"
-
-			for(var/obj/item/organ/organ as anything in humantarget.internal_organs)
-				var/status = organ.get_status_text()
-				if (status != "")
-					render = TRUE
-					toReport += "<tr><td><font color='#cc3333'>[organ.name]:</font></td>\
-						[advanced ? "<td><font color='#ff3333'>[CEILING(organ.damage,1)]</font></td>" : ""]\
-						<td>[status]</td></tr>"
-
-			var/missing_organs = list()
-			if(!humantarget.get_organ_slot(ORGAN_SLOT_BRAIN))
-				missing_organs += "brain"
-			if(!HAS_TRAIT_FROM(humantarget, TRAIT_NO_BLOOD, SPECIES_TRAIT) && !humantarget.get_organ_slot(ORGAN_SLOT_HEART))
-				missing_organs += "heart"
-			if(!HAS_TRAIT_FROM(humantarget, TRAIT_NOBREATH, SPECIES_TRAIT) && !humantarget.get_organ_slot(ORGAN_SLOT_LUNGS))
-				missing_organs += "lungs"
-			if(/*!HAS_TRAIT_FROM(humantarget, TRAIT_LIVERLESS_METABOLISM, SPECIES_TRAIT) &&*/ !humantarget.get_organ_slot(ORGAN_SLOT_LIVER))
-				missing_organs += "liver"
-			if(!HAS_TRAIT_FROM(humantarget, TRAIT_NOHUNGER, SPECIES_TRAIT) && !humantarget.get_organ_slot(ORGAN_SLOT_STOMACH))
-				missing_organs += "stomach"
-			if(!humantarget.get_organ_slot(ORGAN_SLOT_TONGUE))
-				missing_organs += "tongue"
-			if(!humantarget.get_organ_slot(ORGAN_SLOT_EARS))
-				missing_organs += "ears"
-			if(!humantarget.get_organ_slot(ORGAN_SLOT_EYES))
-				missing_organs += "eyes"
-
-			if(length(missing_organs))
-				render = TRUE
-				for(var/organ in missing_organs)
-					toReport += "<tr><td><font color='#cc3333'>[organ]:</font></td>\
-						[advanced ? "<td><font color='#ff3333'>["-"]</font></td>" : ""]\
-						<td><font color='#cc3333'>["Missing"]</font></td></tr>"
-
-			if(render)
-				render_list += toReport + "</table>" // tables do not need extra linebreak
 
 		//Genetic stability
 		if(advanced && humantarget.has_dna())
@@ -445,6 +425,7 @@
 		to_chat(user, examine_block(jointext(render_list, "")), trailing_newline = FALSE, type = MESSAGE_TYPE_INFO)
 	else
 		return(jointext(render_list, ""))
+*/
 
 /proc/chemscan(mob/living/user, mob/living/target)
 	if(user.incapacitated())

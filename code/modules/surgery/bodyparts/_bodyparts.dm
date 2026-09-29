@@ -331,10 +331,9 @@
 
 	update_icon_dropped()
 
-///since organs aren't actually stored in the bodypart themselves while attached to a person, we have to query the owner for what we should have
 /obj/item/bodypart/proc/get_organs()
 	SHOULD_CALL_PARENT(TRUE)
-	RETURN_TYPE(/list)
+	RETURN_TYPE(/list/obj/item)
 
 	return contents
 

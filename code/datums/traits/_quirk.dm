@@ -123,6 +123,8 @@
 
 /mob/living/proc/get_visible_quirks(category = CAT_QUIRK_ALL)
 	. = list()
+	if (!mind)
+		return
 	for(var/datum/quirk/candidate as anything in mind.quirks)
 		switch(category)
 			if(CAT_QUIRK_MAJOR_DISABILITY)
