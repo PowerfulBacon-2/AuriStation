@@ -1,0 +1,29 @@
+
+.health_analyzer {
+
+  .injury_row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-evenly;
+  }
+
+  .injury_entry {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 1;
+  }
+
+  .injury_icon {
+    width: 50px;
+    height: 50px;
+
+    background-color: #b82828;
+    border-radius: 25px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+}

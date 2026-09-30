@@ -28,8 +28,8 @@ export const HealthAnalyzer = (props) => {
   const { act, data } = useBackend<Data>();
 
   return (
-    <Window width={500} height={450}>
-      <Window.Content scrollable>
+    <Window width={500} height={580}>
+      <Window.Content scrollable class="health_analyzer">
         { data.is_dead ? "Dead" : "Alive" }
         Consciousness: { data.consciousness ?? 0 }
         { Object.keys(data.injuries ?? []).map(x => MapZone(x, data.injuries![x])) }
@@ -41,11 +41,51 @@ export const HealthAnalyzer = (props) => {
 const MapZone = (zone: string, injuries: InjuryEntry[]) => {
   return (
     <Section title={zone}>
-      { injuries.map(MapInjury) }
+      <div class="injury_row">
+      { injuries.sort(x => x.severity ?? 0).map(MapInjury) }
+      </div>
     </Section>
   );
 };
 
 const MapInjury = (injury: InjuryEntry) => {
-  return <div key={injury.name}>{JSON.stringify(injury)}</div>;
+  return (
+    <div key={injury.name} class="injury_entry">
+      <div
+        class="injury_icon"
+        style={{
+          backgroundColor: injury.damage !== undefined
+            ? mixColors('#29ba41', '#b82828', injury.damage / 50)
+            : mixColors('#29ba41', '#b82828', (injury.severity ?? 2) / 2),
+        }}>
+          {injury.damage?.toFixed(1)}
+      </div>
+      <div>
+        {injury.name}
+      </div>
+    </div>
+  );
 };
+
+function mixColors(color1, color2, amount = 0.5) {
+  const hexToRgb = hex => {
+    hex = hex.replace("#", "");
+    return [
+      parseInt(hex.slice(0, 2), 16),
+      parseInt(hex.slice(2, 4), 16),
+      parseInt(hex.slice(4, 6), 16),
+    ];
+  };
+
+  const rgbToHex = rgb =>
+    "#" + rgb.map(x => Math.round(x).toString(16).padStart(2, "0")).join("");
+
+  const a = hexToRgb(color1);
+  const b = hexToRgb(color2);
+
+  const mixed = a.map((value, i) =>
+    value + (b[i] - value) * amount
+  );
+
+  return rgbToHex(mixed);
+}
