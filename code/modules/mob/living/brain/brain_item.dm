@@ -14,6 +14,7 @@
 	///The brain's organ variables are significantly more different than the other organs, with half the decay rate for balance reasons, and twice the maxHealth
 	/// Roughly 25 minutes for the brain, but if the body is damaged this will be much faster
 	decay_factor = STANDARD_ORGAN_DECAY	/ 2
+	hypoxia_start = 0
 
 	maxHealth = BRAIN_DAMAGE_DEATH
 	low_threshold = 45
