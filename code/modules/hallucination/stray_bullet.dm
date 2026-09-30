@@ -88,7 +88,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/projectile/hallucination)
 	parent.hallucinator.client?.images += fake_bullet
 	return ..()
 
-/obj/projectile/hallucination/on_hit(atom/target, blocked, pierce_hit)
+/obj/projectile/hallucination/on_hit(atom/target, def_zone, pierce_hit)
 	. = ..()
 	if(. != BULLET_ACT_HIT)
 		return

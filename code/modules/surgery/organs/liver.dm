@@ -87,6 +87,7 @@
 	desc = "An electronic device designed to mimic the functions of a human liver. Handles toxins slightly better than an organic liver."
 	organ_flags = ORGAN_SYNTHETIC
 	decay_factor = 0
+	hypoxia_multiplier = 0
 	status = ORGAN_ROBOTIC
 	maxHealth = 1.1 * STANDARD_ORGAN_THRESHOLD
 	toxTolerance = 3.3

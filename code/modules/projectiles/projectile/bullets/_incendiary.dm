@@ -3,7 +3,7 @@
 	sharpness = 80
 	var/fire_stacks = 4
 
-/obj/projectile/bullet/incendiary/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/incendiary/on_hit(atom/target, def_zone)
 	. = ..()
 	if(iscarbon(target))
 		var/mob/living/carbon/M = target

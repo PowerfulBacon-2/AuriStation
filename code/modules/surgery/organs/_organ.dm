@@ -16,6 +16,8 @@
 	/// Healing factor and decay factor function on % of maxhealth, and do not work by applying a static number per tick
 	var/healing_factor 	= 0										//fraction of maxhealth healed per on_life(), set to 0 for generic organs
 	var/decay_factor 	= 0										//same as above but when without a living owner, set to 0 for generic organs
+	/// Multiplier for the rate at which hypoxia applies
+	var/hypoxia_multiplier = 1
 	var/high_threshold	= STANDARD_ORGAN_THRESHOLD * 0.45		//when severe organ damage occurs
 	var/low_threshold	= STANDARD_ORGAN_THRESHOLD * 0.1		//when minor organ damage occurs
 
@@ -224,10 +226,10 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 	SHOULD_CALL_PARENT(TRUE) //PASS YOUR ARGS FUCKER
 
 	// Get the circulation rating
-	if (owner)
+	if (owner && status == ORGAN_ORGANIC)
 		var/circulation_rating = owner.blood.get_effectiveness()
 		// How much hypoxia damage do we want to deal?
-		var/desired_hypoxia_damage = max(0, (maxHealth * 3) - (((CLAMP01(circulation_rating) * (maxHealth * 3)) ** 0.3) / ((maxHealth * 3) ** (-0.7))))
+		var/desired_hypoxia_damage = max(0, (maxHealth * 3) - (((CLAMP01(circulation_rating + 0.2) * (maxHealth * 3)) ** 0.3) / ((maxHealth * 3) ** (-0.7))))
 		// Increase our damage until we reach the desired threshold
 		var/damage_dealt = clamp(desired_hypoxia_damage - hypoxia, -HYPOXIA_ORGAN_HEAL_PER_TICK * delta_time, MAX_HYPOXIA_ORGAN_DAMAGE_PER_TICK * delta_time)
 		var/hypoxia_damage = min(damage_dealt, maxHealth - hypoxia)

@@ -268,7 +268,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/mob/living/simple_animal/slime)
 	if((Proj.damage_type == BURN))
 		burn_damage_stored += abs(Proj.damage)
 		adjustBruteLoss(-abs(Proj.damage)) //fire projectiles heals slimes.
-		Proj.on_hit(src, 0, piercing_hit)
+		Proj.on_hit(src, def_zone, piercing_hit)
 	else
 		. = ..(Proj)
 	. = . || BULLET_ACT_BLOCK

@@ -11,7 +11,7 @@
 	. = ..()
 	SpinAnimation()
 
-/obj/projectile/energy/net/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/energy/net/on_hit(atom/target, def_zone)
 	if(isliving(target))
 		var/turf/Tloc = get_turf(target)
 		if(!locate(/obj/effect/nettingportal) in Tloc)
@@ -78,8 +78,8 @@
 	hitsound = 'sound/weapons/taserhit.ogg'
 	range = 4
 
-/obj/projectile/energy/trap/on_hit(atom/target, blocked = FALSE)
-	if(!ismob(target) || blocked >= 100) //Fully blocked by mob or collided with dense object - drop a trap
+/obj/projectile/energy/trap/on_hit(atom/target, def_zone)
+	if(!ismob(target) || astype(target, /mob/living)?.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness)) //Fully blocked by mob or collided with dense object - drop a trap
 		new/obj/item/restraints/legcuffs/beartrap/energy(get_turf(loc))
 	else if(iscarbon(target))
 		var/obj/item/restraints/legcuffs/beartrap/B = new /obj/item/restraints/legcuffs/beartrap/energy(get_turf(target))
@@ -98,8 +98,8 @@
 	hitsound = 'sound/weapons/taserhit.ogg'
 	range = 10
 
-/obj/projectile/energy/trap/cyborg/on_hit(atom/target, blocked = FALSE)
-	if(!ismob(target) || blocked >= 100)
+/obj/projectile/energy/trap/cyborg/on_hit(atom/target, def_zone)
+	if(!ismob(target) || astype(target, /mob/living)?.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness))
 		do_sparks(1, TRUE, src)
 		qdel(src)
 	if(iscarbon(target))

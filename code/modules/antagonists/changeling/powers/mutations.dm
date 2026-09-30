@@ -324,9 +324,9 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/gun/magic/tentacle)
 				playsound(get_turf(H),I.hitsound,75,1)
 				return
 
-/obj/projectile/tentacle/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/tentacle/on_hit(atom/target, def_zone)
 	var/mob/living/carbon/human/H = firer
-	if(blocked >= 100)
+	if(H.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness))
 		return BULLET_ACT_BLOCK
 	if(isitem(target))
 		var/obj/item/I = target
@@ -350,7 +350,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/gun/magic/tentacle)
 					if(I)
 						if(C.dropItemToGround(I))
 							C.visible_message("<span class='danger'>[I] is yanked off [C]'s hand by [src]!</span>","<span class='userdanger'>A tentacle pulls [I] away from you!</span>")
-							on_hit(I) //grab the item as if you had hit it directly with the tentacle
+							on_hit(I, C.active_hand_index % 2 ? BODY_ZONE_L_ARM : BODY_ZONE_R_ARM) //grab the item as if you had hit it directly with the tentacle
 							return BULLET_ACT_HIT
 						else
 							to_chat(firer, "<span class='warning'>You can't seem to pry [I] off [C]'s hands!</span>")

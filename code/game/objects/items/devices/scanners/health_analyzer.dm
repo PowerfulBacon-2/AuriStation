@@ -75,6 +75,15 @@
 	data["consciousness"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH) \
 		? HEALTH_THRESHOLD_DEAD \
 		: target.consciousness.value / target.consciousness.max_value
+	data["pain"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH) \
+		? 0 \
+		: target.pain.pain
+	data["circulation"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH) \
+		? 0 \
+		: target.blood.get_circulation_rating()
+	data["oxygenation"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH) \
+		? 0 \
+		: target.blood.get_oxygenation_rating()
 
 	// Body-wide Attribute
 	var/list/body_injuries = list()
@@ -84,6 +93,7 @@
 	append_husking(body_injuries, target)
 
 	if(iscarbon(target))
+		append_bleeding(body_injuries, target)
 		append_trauma_and_quirks(body_injuries, target)
 		append_brain(body_injuries, target)
 		append_ear(body_injuries, target)
@@ -120,7 +130,7 @@
 			for (var/obj/item/internal_item in limb?.get_organs())
 				if (istype(internal_item, /obj/item/organ))
 					var/obj/item/organ/organ = internal_item
-					var/injury = organ_injury(organ)
+					var/injury = organ_injury(organ, HAS_TRAIT(target, TRAIT_FAKEDEATH))
 					if (injury)
 						part_injuries += list(injury)
 
@@ -128,6 +138,11 @@
 
 			data["injuries"][parse_zone(zone)] = part_injuries
 	return data
+
+/datum/health_analyzer/proc/append_bleeding(list/body_injuries, mob/living/carbon/target)
+	PRIVATE_PROC(TRUE)
+	if (target.is_bleeding())
+		body_injuries += list(bleed_injury(target.get_bleed_rate_string()))
 
 /datum/health_analyzer/proc/append_heart(list/body_injuries, mob/living/carbon/human/target)
 	PRIVATE_PROC(TRUE)
@@ -228,15 +243,22 @@
 	injury_object["heal_text"] = heal_text
 	return injury_object
 
-/datum/health_analyzer/proc/organ_injury(obj/item/organ/organ)
+/datum/health_analyzer/proc/bleed_injury(amount)
+	var/list/injury_object = list()
+	injury_object["name"] = "Bleeding"
+	injury_object["heal_text"] = "Bandages/Cauterise"
+	injury_object["damage"] = amount
+	return injury_object
+
+/datum/health_analyzer/proc/organ_injury(obj/item/organ/organ, false_death = FALSE)
 	var/list/injury_object = list()
 	var/status = organ.get_status_text()
 	if (status == null)
 		return null
-	injury_object["name"] = "[organ.name] [organ.get_status_text()]"
+	injury_object["name"] = "[organ.name] [false_death ? "failure" : organ.get_status_text()]"
 	injury_object["heal_text"] = "Surgery/Chemistry"
 	if (advanced)
-		injury_object["damage"] = "[CEILING(organ.damage, 1)]"
+		injury_object["damage"] = "[false_death ? organ.maxHealth : CEILING(organ.damage, 1)]"
 	return injury_object
 
 /datum/health_analyzer/abstract

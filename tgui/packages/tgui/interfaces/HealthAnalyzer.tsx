@@ -7,7 +7,7 @@ import { Window } from '../layouts';
 type InjuryEntry = {
   name: string,
   heal_text: string,
-  damage?: number,
+  damage?: number | string,
   severity?: number
   effectiveness_modifier?: number,
   bone_armour_modifier?: number,
@@ -21,6 +21,9 @@ type Data = {
   target?: string,
   is_dead?: boolean,
   consciousness?: number,
+  pain?: number,
+  circulation?: number,
+  oxygenation?: number,
   injuries?: Injuries
 }
 
@@ -30,8 +33,21 @@ export const HealthAnalyzer = (props) => {
   return (
     <Window width={500} height={580}>
       <Window.Content scrollable class="health_analyzer">
+        <div>
         { data.is_dead ? "Dead" : "Alive" }
-        Consciousness: { data.consciousness ?? 0 }
+        </div>
+        <div>
+          Consciousness: { data.consciousness ?? 0 }
+        </div>
+        <div>
+          Pain: { data.pain ?? 0 }
+        </div>
+        <div>
+          Circulation: { data.circulation ?? 0 }
+        </div>
+        <div>
+          Oxygenation: { data.oxygenation ?? 0 }
+        </div>
         { Object.keys(data.injuries ?? []).map(x => MapZone(x, data.injuries![x])) }
       </Window.Content>
     </Window>
@@ -54,11 +70,11 @@ const MapInjury = (injury: InjuryEntry) => {
       <div
         class="injury_icon"
         style={{
-          backgroundColor: injury.damage !== undefined
+          borderColor: typeof injury.damage === 'number'
             ? mixColors('#29ba41', '#b82828', injury.damage / 50)
             : mixColors('#29ba41', '#b82828', (injury.severity ?? 2) / 2),
         }}>
-          {injury.damage?.toFixed(1)}
+          {typeof injury.damage === 'number' ? injury.damage.toFixed(1) : injury.damage}
       </div>
       <div>
         {injury.name}

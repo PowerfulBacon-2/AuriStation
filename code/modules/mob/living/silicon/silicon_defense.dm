@@ -151,7 +151,7 @@
 		for(var/mob/living/M in buckled_mobs)
 			unbuckle_mob(M)
 			M.visible_message(span_boldwarning("[M] is knocked off of [src] by the [Proj]!"))
-	Proj.on_hit(src, 0, piercing_hit)
+	Proj.on_hit(src, def_zone, piercing_hit)
 	return BULLET_ACT_HIT
 
 /mob/living/silicon/flash_act(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0, type = /atom/movable/screen/fullscreen/flash/static)

@@ -45,7 +45,7 @@
 	muzzle_type = /obj/effect/projectile/muzzle/heavy_laser
 	impact_type = /obj/effect/projectile/impact/heavy_laser
 
-/obj/projectile/beam/laser/cutting/on_hit(atom/target, blocked)
+/obj/projectile/beam/laser/cutting/on_hit(atom/target, def_zone)
 	damage = initial(damage)
 	if(isobj(target) && !istype(target, /obj/structure/blob))
 		damage = 70
@@ -67,7 +67,7 @@
 	muzzle_type = /obj/effect/projectile/muzzle/laser
 	impact_type = /obj/effect/projectile/impact/laser
 
-/obj/projectile/beam/laser/exploration_kill/on_hit(atom/target, blocked)
+/obj/projectile/beam/laser/exploration_kill/on_hit(atom/target, def_zone)
 	damage = initial(damage)
 	if(!iscarbon(target) && !issilicon(target))
 		damage = 50
@@ -91,7 +91,7 @@
 	muzzle_type = /obj/effect/projectile/muzzle/heavy_laser
 	impact_type = /obj/effect/projectile/impact/heavy_laser
 
-/obj/projectile/beam/laser/exploration_destroy/on_hit(atom/target, blocked)
+/obj/projectile/beam/laser/exploration_destroy/on_hit(atom/target, def_zone)
 	damage = initial(damage)
 	if(isobj(target) && !istype(target, /obj/structure/blob))
 		damage = 150

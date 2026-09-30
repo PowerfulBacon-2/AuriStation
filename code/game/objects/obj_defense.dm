@@ -24,7 +24,7 @@
 		if(EXPLODE_LIGHT)
 			deal_damage(rand(10, 90), 0, BRUTE, DAMAGE_BOMB, sound = 0)
 
-/obj/bullet_act(obj/projectile/P)
+/obj/bullet_act(obj/projectile/P, def_zone, piercing_hit = FALSE)
 	. = ..()
 	playsound(src, P.hitsound, 50, TRUE)
 	var/damage

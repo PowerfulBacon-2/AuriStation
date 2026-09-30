@@ -5,7 +5,7 @@
 	var/dropped = FALSE
 	impact_effect_type = null
 
-/obj/projectile/bullet/reusable/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/reusable/on_hit(atom/target, def_zone)
 	. = ..()
 	handle_drop()
 
