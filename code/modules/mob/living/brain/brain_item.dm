@@ -17,8 +17,8 @@
 	hypoxia_start = 0
 
 	maxHealth = BRAIN_DAMAGE_DEATH
-	low_threshold = 45
-	high_threshold = 120
+	low_threshold = BRAIN_DAMAGE_DEATH * 0.1
+	high_threshold = BRAIN_DAMAGE_DEATH * 0.5
 
 	organ_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_CAN_STRIP)
 

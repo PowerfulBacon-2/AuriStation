@@ -408,7 +408,7 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 /// How much that maximum amount increases per damage
 /// How much extra hypoxia damage we can take per-tick when our bodypart
 /// is damaged. Uses this value at max damage.
-#define INJURED_HYPOXIA_ORGAN_DAMAGE_PER_TICK 0.5
+#define INJURED_HYPOXIA_ORGAN_DAMAGE_PER_TICK 0.2
 
 /// How much hypoxia damage do organs heal per tick?
 /// This is important as it defines how long it takes for someone
@@ -441,5 +441,8 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 /// The most that we can acclimate to pain, if we have more pain
 /// than this value, then we will adjust to this value over time.
 #define PAIN_MAX_ACCLIMATION 90
+/// Base rate at which we enter light-pain crit, where we can move
+/// and use items.
+#define PAIN_CRIT 100
 /// The point at which pain is so bad we completely pass out
-#define PAIN_UNCONSCIOUS 140
+#define PAIN_UNCONSCIOUS 180
