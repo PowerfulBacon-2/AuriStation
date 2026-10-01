@@ -56,7 +56,7 @@ export const Panel = (props) => {
 
   return (
     <Pane theme={settings.theme}>
-      <Stack vertical height='100%'>
+      <Stack vertical height="100%">
         <Stack.Item>
           <Section backgroundColor="transparent">
             <Stack my={-1.25} align="center">
@@ -115,12 +115,13 @@ export const Panel = (props) => {
         <Stack.Item mt={1} grow>
           <Section fill fitted position="relative">
             <Pane.Content scrollable>
-              { stat.active ? (
-                <Flex direction='column' height='100%'>
+              {stat.active ? (
+                <Flex direction="column" height="100%">
                   <StatTabs direction="column" />
                 </Flex>
               ) : (
-              <ChatPanel lineHeight={settings.lineHeight} />) }
+                <ChatPanel lineHeight={settings.lineHeight} />
+              )}
             </Pane.Content>
             <Notifications>
               {game.connectionLostAt && (

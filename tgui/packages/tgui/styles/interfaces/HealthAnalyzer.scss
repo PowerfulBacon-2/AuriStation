@@ -1,5 +1,18 @@
-
 .health_analyzer {
+  width: 100%;
+  height: 100%;
+
+  .top_bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chart {
+    width: 30%;
+    height: 40px;
+  }
 
   .injury_row {
     display: flex;
@@ -26,5 +39,4 @@
     justify-content: center;
     align-items: center;
   }
-
 }

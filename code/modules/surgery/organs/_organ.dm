@@ -231,16 +231,24 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 		var/circulation_rating = owner.blood.get_effectiveness()
 		// How much hypoxia damage do we want to deal?
 		var/desired_hypoxia_damage = max(0, (maxHealth * 3) - (((CLAMP01(circulation_rating + hypoxia_start) * (maxHealth * 3)) ** 0.3) / ((maxHealth * 3) ** (-0.7))))
+
+		// Calculate hypoxia damage rate
+		var/obj/item/bodypart/part = astype(loc, /obj/item/bodypart)
+		var/hypoxia_damage_rate = BASE_HYPOXIA_ORGAN_DAMAGE_PER_TICK + ((part?.accumulated_damage || 0) / (part?.max_damage || 1)) * INJURED_HYPOXIA_ORGAN_DAMAGE_PER_TICK
+
 		// Increase our damage until we reach the desired threshold
-		var/damage_dealt = clamp(desired_hypoxia_damage - hypoxia, -HYPOXIA_ORGAN_HEAL_PER_TICK * delta_time, MAX_HYPOXIA_ORGAN_DAMAGE_PER_TICK * delta_time)
+		var/damage_dealt = clamp(desired_hypoxia_damage - hypoxia, -HYPOXIA_ORGAN_HEAL_PER_TICK * delta_time, hypoxia_damage_rate * delta_time)
 		var/hypoxia_damage = min(damage_dealt, maxHealth - hypoxia)
+
 		// Take the damage and update the effects of it
 		hypoxia += hypoxia_damage
 		update_hypoxia(hypoxia)
+
 		// If we are maxed out on hypoxia, then we start to take regular decay
 		var/decay_damage = damage_dealt - hypoxia
 		if (decay_damage > 0)
 			apply_organ_damage(decay_damage)
+
 		// Prevent healing while dying of hypoxia
 		if (damage_dealt > 0)
 			return

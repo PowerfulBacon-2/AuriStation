@@ -35,7 +35,7 @@
 
 /// If we get knocked out, then we stop feeling pain
 /datum/pain_source/proc/knocked_out_update()
-	if (HAS_TRAIT(owner, TRAIT_KNOCKEDOUT))
+	if (HAS_TRAIT_NOT_FROM(owner, TRAIT_KNOCKEDOUT, FROM_PAIN_SHOCK))
 		// This also immediately resets our pain value, we do not
 		// feel overpain while knocked out. No trauma from surgeries
 		adjusted_pain = 0
@@ -92,10 +92,12 @@
 		"The intense pain absorbs your entire body, you feel ready to give up.",\
 		"As pain overwhelms your body, your skin goes pale and you collapse."\
 	)))
+	ADD_TRAIT(owner, TRAIT_KNOCKEDOUT, FROM_PAIN_SHOCK)
 
 /datum/pain_source/proc/exit_pain_crit()
 	pain_crit = FALSE
 	owner.blood.exit_shock(FROM_PAIN_SHOCK)
+	REMOVE_TRAIT(owner, TRAIT_KNOCKEDOUT, FROM_PAIN_SHOCK)
 
 /// Update the damage overlay, pain level between
 /// 0: no pain
