@@ -15,6 +15,7 @@
 	/// Roughly 25 minutes for the brain, but if the body is damaged this will be much faster
 	decay_factor = STANDARD_ORGAN_DECAY	/ 2
 	hypoxia_start = 0
+	instakill_prob = 100
 
 	maxHealth = BRAIN_DAMAGE_DEATH
 	low_threshold = BRAIN_DAMAGE_DEATH * 0.1

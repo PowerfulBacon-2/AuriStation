@@ -40,6 +40,9 @@
 	var/visual = TRUE
 	/// Size between 0-100, determines probability of being hit by penetrating attacks
 	var/organ_size = 25
+	/// The probability that when we are at >200 damage, additional damage gets applied
+	/// to this organ.
+	var/instakill_prob = 0
 	/// Traits that are given to the holder of the organ.
 	var/list/organ_traits
 	/// Status Effects that are given to the holder of the organ.

@@ -818,6 +818,14 @@
 	// Damage organs
 	var/penetration_left = sharp_damage
 	if (!HAS_TRAIT(owner, TRAIT_NO_ORGAN_PENETRATION))
+		if (owner.get_total_damage() > owner.maxHealth - HEALTH_THRESHOLD_DEAD)
+			for (var/slot in organ_slots)
+				var/obj/item/organ/organ = owner.get_organ_slot(slot)
+				if (!organ)
+					continue
+				if (!prob(organ.instakill_prob))
+					continue
+				organ.apply_organ_damage(penetration_left * ORGAN_DAMAGE_MULTIPLIER_INSTAKILL)
 		for (var/slot in shuffle(organ_slots))
 			var/obj/item/organ/organ = owner.get_organ_slot(slot)
 			if (!organ)
