@@ -109,6 +109,7 @@ export const HealthAnalyzer = (props) => {
         <div>Pain: {data.pain ?? 0}</div>
         <div>Circulation: {data.circulation ?? 0}</div>
         <div>Oxygenation: {data.oxygenation ?? 0}</div>
+        <div>{data.blood_type}</div>
         {Object.keys(data.injuries ?? []).map((x) =>
           MapZone(x, data.injuries![x]),
         )}

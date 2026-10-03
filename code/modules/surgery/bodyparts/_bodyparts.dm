@@ -812,7 +812,12 @@
 	sharp_damage = current_damage * proportion
 	blunt_damage = (current_damage * (1 - proportion)) * BLUNT_DAMAGE_RATIO
 	// If our bones are destroyed, then they will cause damage to organs when taking blunt hits
-	sharp_damage += blunt_damage * (1 - bone_rating * internal_protection_rating)
+	// If it is an explosive force, the overpressure reaches our internal organs even
+	// without penetration.
+	if (damage_flag == DAMAGE_BOMB)
+		sharp_damage += blunt_damage
+	else
+		sharp_damage += blunt_damage * (1 - bone_rating * internal_protection_rating)
 	if (sharp_damage <= 0)
 		return
 	// Damage organs
