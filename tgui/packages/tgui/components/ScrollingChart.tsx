@@ -7,6 +7,7 @@ interface ScrollingChartProps {
   maxValues?: number;
   lineColour?: string;
   generator: ScrollingChartGenerator;
+  label?: string | Element;
 }
 
 interface ScrollingChartData {
@@ -88,6 +89,16 @@ export default function ScrollingChart(props: ScrollingChartProps) {
           vectorEffect="non-scaling-stroke"
         />
       </svg>
+      {!!props.label && (
+        <div
+          className="label"
+          style={{
+            color: props.lineColour ?? 'white',
+          }}
+        >
+          {props.label}
+        </div>
+      )}
     </div>
   );
 }

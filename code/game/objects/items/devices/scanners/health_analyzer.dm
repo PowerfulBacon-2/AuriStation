@@ -194,7 +194,6 @@
 
 	var/blood_id = target.blood.get_blood_id()
 	if(blood_id)
-		var/blood_percent = round((target.blood.volume / BLOOD_VOLUME_NORMAL) * 100)
 		var/blood_type = target.dna.blood_type.name
 		if(blood_id != /datum/reagent/blood) // special blood substance
 			var/datum/reagent/R = GLOB.chemical_reagents_list[blood_id]
@@ -202,13 +201,13 @@
 
 		// Get compatible blood type names
 		var/list/compatible_names = list()
-		for(var/compatible_type in carbontarget.dna.blood_type.compatible_types)
+		for(var/compatible_type in target.dna.blood_type.compatible_types)
 			var/datum/blood_type/compatible_datum = new compatible_type()
 			compatible_names += compatible_datum.name
 			qdel(compatible_datum)
 		var/blood_info = "[blood_type] (Compatible: [jointext(compatible_names, ", ")])"
 
-		if(HAS_TRAIT(carbontarget, TRAIT_MASQUERADE))
+		if(HAS_TRAIT(target, TRAIT_MASQUERADE))
 			data["blood_type"] = blood_info
 			data["blood_volume"] = BLOOD_VOLUME_NORMAL
 		else

@@ -25,21 +25,32 @@ type Data = {
   circulation?: number;
   oxygenation?: number;
   injuries?: Injuries;
+  is_bleeding?: boolean;
+  is_bandaged?: boolean;
+  timeofdeath?: string;
+  body_temperature?: string;
+  species?: string;
+  core_temperature?: string;
+  blood_type?: string;
+  blood_volume?: number;
 };
 
 export const HealthAnalyzer = (props) => {
   const { act, data } = useBackend<Data>();
 
   let heartBpm =
-    60 +
-    0.8 * (100 - (data.circulation ?? 0) * 100) +
-    120 * Math.exp(-Math.pow(((data.circulation ?? 0) * 100 - 10) / 10, 2));
+    72 +
+    0.8 * (100 - Math.min(data.circulation ?? 0, 1.1) * 100) +
+    120 *
+      Math.exp(
+        -Math.pow((Math.min(data.circulation ?? 0, 1.1) * 100 - 10) / 10, 2),
+      );
 
   if ((data.circulation ?? 0) <= 0) {
     heartBpm = 0;
   }
 
-  const heartTickRate = Math.round((20 * heartBpm) / 60);
+  const heartTickRate = Math.round((20 * 60) / heartBpm);
 
   return (
     <Window width={500} height={580}>
@@ -54,6 +65,13 @@ export const HealthAnalyzer = (props) => {
             }
             frameRate={20}
             maxValues={60}
+            lineColour="lime"
+            label={
+              <>
+                <p>{Math.round(heartBpm) + ' BPM'}</p>
+                <p>{Math.round((data.circulation ?? 0) * 100) + '%'}</p>
+              </>
+            }
           />
         </div>
         <div className="top_bar">
@@ -63,6 +81,27 @@ export const HealthAnalyzer = (props) => {
             frameRate={10}
             maxValues={60}
             lineColour="cyan"
+            label={Math.round((data.oxygenation ?? 0) * 100) + '%'}
+          />
+        </div>
+        <div className="top_bar">
+          <ScrollingChart
+            className="chart"
+            generator={(params) => (data.blood_volume ?? 0) / 650}
+            frameRate={10}
+            maxValues={60}
+            lineColour="red"
+            label={Math.round(data.blood_volume ?? 0) + ' cl'}
+          />
+        </div>
+        <div className="top_bar">
+          <ScrollingChart
+            className="chart"
+            generator={(params) => (data.pain ?? 0) / 120 + 0.1}
+            frameRate={10}
+            maxValues={60}
+            lineColour="yellow"
+            label={Math.round(data.pain ?? 0) + '%'}
           />
         </div>
         <div>{data.is_dead ? 'Dead' : 'Alive'}</div>
