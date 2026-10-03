@@ -41,7 +41,7 @@
 
 /obj/projectile/bullet/shrapnel
 	name = "flying shrapnel shard"
-	damage = 9
+	damage = 28
 	range = 10
 	dismemberment = 5
 	ricochets_max = 2
@@ -49,7 +49,7 @@
 	shrapnel_type = /obj/item/shrapnel
 	ricochet_incidence_leeway = 60
 	hit_stunned_targets = TRUE
-	sharpness = SHARP_IV
+	sharpness = SHARP_VI
 
 /obj/projectile/bullet/shrapnel/mega
 	name = "flying shrapnel hunk"

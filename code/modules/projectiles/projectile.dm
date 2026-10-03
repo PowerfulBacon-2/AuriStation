@@ -205,10 +205,10 @@
  *
  * @params
  * target - thing hit
- * blocked - percentage of hit blocked
+ * def_zone - The limb that was hit
  * pierce_hit - are we piercing through or regular hitting
  */
-/obj/projectile/proc/on_hit(atom/target, blocked = FALSE, pierce_hit)
+/obj/projectile/proc/on_hit(atom/target, def_zone, pierce_hit)
 	if(fired_from)
 		SEND_SIGNAL(fired_from, COMSIG_PROJECTILE_BEFORE_FIRE, src, original)
 	// i know that this is probably more with wands and gun mods in mind, but it's a bit silly that the projectile on_hit signal doesn't ping the projectile itself.
@@ -249,7 +249,9 @@
 
 	var/mob/living/L = target
 
-	if(blocked != 100) // not completely blocked
+	var/blocked = L.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness)
+
+	if(blocked) // not completely blocked
 		if(damage && L.blood.volume && damage_type == BRUTE)
 			var/splatter_dir = dir
 			if(starting)

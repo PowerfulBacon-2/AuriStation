@@ -1,6 +1,6 @@
 /datum/injury/acute/shock
 	base_type = /datum/injury/acute/shock
-	examine_description = "<b>neuromuscular incapacitation</b>"
+	examine_description = "neuromuscular incapacitation"
 	heal_description = "The effects of this injury will naturally dissipate over time."
 	max_absorption = 0
 	external = FALSE

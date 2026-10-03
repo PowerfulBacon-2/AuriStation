@@ -80,7 +80,6 @@
 	var/list/data = list()
 	data["irradiate"] = irradiate
 	data["stealth"] = stealth
-	data["scanmode"] = scanmode
 	data["intensity"] = intensity
 	data["wavelength"] = wavelength
 	data["on_cooldown"] = !COOLDOWN_FINISHED(src, cooldown)
@@ -98,9 +97,6 @@
 			. = TRUE
 		if("stealth")
 			stealth = !stealth
-			. = TRUE
-		if("scanmode")
-			scanmode = !scanmode
 			. = TRUE
 		if("radintensity")
 			var/target = params["target"]

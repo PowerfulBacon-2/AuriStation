@@ -159,6 +159,20 @@
 		for (var/obj/item/bodypart/part in get_bodyparts())
 			. += part.get_injury_amount(injury_type)
 
+/// Returns all injuries on the specified bodypart in a list, if not
+/// bodypart is provided then the body-wide injuries are returned.
+/mob/living/proc/get_injuries(zone = null)
+	RETURN_TYPE(/list/datum/injury)
+	var/list/results = list()
+	if (has_limbs && zone)
+		var/obj/item/bodypart/part = get_bodypart(zone)
+		if (!part)
+			return results
+		return part.injuries
+	for (var/injury_type in injuries)
+		results += injuries[injury_type]
+	return results
+
 /// Apply a specific injury to a mob, without having any progression
 /// injury_type: The type, or base-type (for injury trees), of the injury to progress.
 /// zone: Optional zone, applies the injury to a specific bodypart instead of the whole body

@@ -14,6 +14,7 @@
 
 	healing_factor = STANDARD_ORGAN_HEALING
 	decay_factor = STANDARD_ORGAN_DECAY
+	hypoxia_multiplier = 1
 
 	high_threshold_passed = span_warning("You feel some sort of constriction around your chest as your breathing becomes shallow and rapid.")
 	now_fixed = span_warning("Your lungs seem to once again be able to hold air.")
@@ -375,6 +376,7 @@
 	icon_state = "lungs-c"
 	organ_flags = ORGAN_SYNTHETIC
 	decay_factor = 0
+	hypoxia_multiplier = 0
 	status = ORGAN_ROBOTIC
 	maxHealth = 1.1 * STANDARD_ORGAN_THRESHOLD
 	breath_multiplier = 1.1

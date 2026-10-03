@@ -60,7 +60,7 @@
 	finale()
 	return ..()
 
-/obj/projectile/curse_hand/on_hit(atom/target, blocked, pierce_hit)
+/obj/projectile/curse_hand/on_hit(atom/target, def_zone, pierce_hit)
 	. = ..()
 	if (. == BULLET_ACT_HIT)
 		finale()

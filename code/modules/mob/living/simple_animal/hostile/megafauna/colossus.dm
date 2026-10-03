@@ -325,7 +325,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/effect/temp_visual/at_shield)
 	damage_type = BRUTE
 	pass_flags = PASSTABLE
 
-/obj/projectile/colossus/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/colossus/on_hit(atom/target, def_zone)
 	. = ..()
 	if(isturf(target) || isobj(target))
 		if(isobj(target))

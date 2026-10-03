@@ -54,8 +54,8 @@
 	damage = 0
 	icon_state = "tentacle_end"
 
-/obj/projectile/mega_arachnid/on_hit(atom/target, blocked = FALSE)
-	if(iscarbon(target) && blocked < 100)
+/obj/projectile/mega_arachnid/on_hit(atom/target, def_zone)
+	if(iscarbon(target) && !astype(target, /mob/living/carbon).check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness))
 		var/obj/item/restraints/legcuffs/beartrap/mega_arachnid/B = new /obj/item/restraints/legcuffs/beartrap/mega_arachnid(get_turf(target))
 		B.spring_trap(target)
 	return ..()

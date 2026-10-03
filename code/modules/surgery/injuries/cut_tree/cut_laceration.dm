@@ -4,7 +4,7 @@
 	skin_armour_modifier = 0.6
 	severity_level = INJURY_PRIORITY_ACTIVE
 	health_doll_icon = "blood"
-	examine_description = "<b>lacerations</b>"
+	examine_description = "lacerations"
 	healed_type = /datum/injury/cut_sutured
 	surgeries_provided = list(
 		/datum/surgery/cauterize

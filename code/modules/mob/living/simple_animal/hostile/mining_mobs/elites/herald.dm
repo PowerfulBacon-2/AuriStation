@@ -223,7 +223,7 @@
 	damage = 0
 	color = rgb(255,255,102)
 
-/obj/projectile/herald/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/herald/on_hit(atom/target, def_zone)
 	. = ..()
 	if(ismineralturf(target))
 		var/turf/closed/mineral/M = target
@@ -235,7 +235,7 @@
 		if(F != null && istype(F, /mob/living/simple_animal/hostile/asteroid/elite) && F.faction_check_mob(L))
 			L.heal_overall_injuries(BRUTE, damage)
 
-/obj/projectile/herald/teleshot/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/herald/teleshot/on_hit(atom/target, def_zone)
 	. = ..()
 	firer.forceMove(get_turf(src))
 

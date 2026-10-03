@@ -42,7 +42,7 @@
 		return
 	switch(mode)
 		if(HEALTH_SCAN)
-			healthscan(mod.wearer, target)
+			#warn healthscan(mod.wearer, target)
 		//if(WOUND_SCAN)
 		//	woundscan(mod.wearer, target)
 		if(CHEM_SCAN)

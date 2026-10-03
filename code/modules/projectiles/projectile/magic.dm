@@ -27,7 +27,7 @@
 	icon_state = "bigbiteburger"
 	hitsound = 'sound/weapons/bite.ogg'
 
-/obj/projectile/magic/burger/on_hit(atom/target, blocked, pierce_hit)
+/obj/projectile/magic/burger/on_hit(atom/target, def_zone, pierce_hit)
 	. = ..()
 	if(!isliving(target))
 		return
@@ -114,7 +114,7 @@
 	name = "bolt of dismembering"
 	icon_state = "scatterlaser"
 
-/obj/projectile/magic/dismember/on_hit(atom/target, blocked, pierce_hit)
+/obj/projectile/magic/dismember/on_hit(atom/target, def_zone, pierce_hit)
 	. = ..()
 	if(!iscarbon(target))
 		return
@@ -147,7 +147,7 @@
 	drain_beam = firer.Beam(src, icon = 'icons/effects/beam.dmi', icon_state = "lifedrain", time = 10 SECONDS, maxdistance = 7, beam_color = COLOR_RED)
 	return ..()
 
-/obj/projectile/magic/drain/on_hit(mob/living/target, blocked, pierce_hit)
+/obj/projectile/magic/drain/on_hit(mob/living/target, def_zone, pierce_hit)
 	. = ..()
 	if(!isliving(target))
 		return
@@ -230,7 +230,7 @@
 	var/temperature = -100
 	var/ground_freeze_range = 2 //radius, so a 5x5 area
 
-/obj/projectile/magic/icy_blast/on_hit(atom/target, blocked, pierce_hit)
+/obj/projectile/magic/icy_blast/on_hit(atom/target, def_zone, pierce_hit)
 	if(iscarbon(target))
 		var/mob/living/carbon/hit_mob = target
 		var/thermal_protection = 1 - hit_mob.get_insulation_protection(hit_mob.bodytemperature + temperature)
@@ -427,7 +427,7 @@
 	damage_type = BURN
 	nodamage = TRUE
 
-/obj/projectile/magic/animate/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/magic/animate/on_hit(atom/target, def_zone)
 	. = ..()
 	target.animate_atom_living(firer)
 
@@ -805,7 +805,7 @@
 	/// Flash radius of the fireball
 	var/exp_flash = 3
 
-/obj/projectile/magic/fireball/on_hit(atom/target, blocked = FALSE, pierce_hit)
+/obj/projectile/magic/fireball/on_hit(atom/target, def_zone, pierce_hit)
 	. = ..()
 	if(isliving(target))
 		var/mob/living/mob_target = target
@@ -832,7 +832,7 @@
 	damage_type = BURN
 	nodamage = FALSE
 
-/obj/projectile/magic/firebolt/on_hit(atom/target, blocked = FALSE, pierce_hit)
+/obj/projectile/magic/firebolt/on_hit(atom/target, def_zone, pierce_hit)
 	. = ..()
 	var/turf/target_turf = get_turf(target)
 
@@ -888,7 +888,7 @@
 	range = 15
 	speed = 7
 
-/obj/projectile/magic/spell/juggernaut/on_hit(atom/target, blocked)
+/obj/projectile/magic/spell/juggernaut/on_hit(atom/target, def_zone)
 	. = ..()
 	var/turf/target_turf = get_turf(src)
 	playsound(target_turf, 'sound/weapons/resonator_blast.ogg', 100, FALSE)

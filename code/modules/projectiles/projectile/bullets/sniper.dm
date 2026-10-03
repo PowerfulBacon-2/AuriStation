@@ -11,8 +11,8 @@
 	projectile_piercing = PASSMOB | PASSMACHINE | PASSTRANSPARENT | PASSGRILLE | PASSDOORS | PASSFLAPS | PASSSTRUCTURE
 	var/breakthings = TRUE
 
-/obj/projectile/bullet/p50/on_hit(atom/target, blocked = 0)
-	if(isobj(target) && (blocked != 100) && breakthings)
+/obj/projectile/bullet/p50/on_hit(atom/target, def_zone)
+	if(isobj(target) && !astype(target, /mob/living)?.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness) && breakthings)
 		var/obj/O = target
 		O.deal_damage(80, sharpness, BRUTE, damage_flag, sound = FALSE)
 	return ..()
@@ -46,8 +46,8 @@
 /obj/projectile/bullet/p50/utility/soporific
 	name =".50 soporific bullet"
 
-/obj/projectile/bullet/p50/utility/soporific/on_hit(atom/target, blocked = FALSE)
-	if((blocked != 100) && isliving(target))
+/obj/projectile/bullet/p50/utility/soporific/on_hit(atom/target, def_zone)
+	if(isliving(target) && !astype(target, /mob/living)?.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness))
 		var/mob/living/L = target
 		L.Sleeping(400)
 	return ..()
@@ -55,14 +55,14 @@
 /obj/projectile/bullet/p50/utility/emp
 	name = ".50 emp bullet"
 
-/obj/projectile/bullet/p50/utility/emp/on_hit(atom/target, blocked)
+/obj/projectile/bullet/p50/utility/emp/on_hit(atom/target, def_zone)
 	empulse(target, 3, 4)
 	return ..()
 
 /obj/projectile/bullet/p50/utility/explosive
 	name = ".50 explosive bullet"
 
-/obj/projectile/bullet/p50/utility/explosive/on_hit(atom/target, blocked)
+/obj/projectile/bullet/p50/utility/explosive/on_hit(atom/target, def_zone)
 	if (ismob(target))
 		explosion(target, 0, 1, 3)
 	else
@@ -72,13 +72,13 @@
 /obj/projectile/bullet/p50/utility/inferno
 	name = ".50 inferno bullet"
 
-/obj/projectile/bullet/p50/utility/inferno/on_hit(atom/target, blocked)
+/obj/projectile/bullet/p50/utility/inferno/on_hit(atom/target, def_zone)
 	explosion(target, 0, 0, 0, flame_range = 5)
 	return ..()
 
 /obj/projectile/bullet/p50/utility/antimatter
 	name = ".50 antimatter-tipped bullet"
 
-/obj/projectile/bullet/p50/utility/antimatter/on_hit(atom/target, blocked)
+/obj/projectile/bullet/p50/utility/antimatter/on_hit(atom/target, def_zone)
 	explosion(target, 5, 8, 8)
 	return ..()
