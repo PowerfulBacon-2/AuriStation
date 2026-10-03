@@ -7,7 +7,7 @@ interface ScrollingChartProps {
   maxValues?: number;
   lineColour?: string;
   generator: ScrollingChartGenerator;
-  label?: string | Element;
+  label?: string | any;
 }
 
 interface ScrollingChartData {

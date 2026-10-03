@@ -95,11 +95,12 @@
 	for (var/datum/injury/injury in target.get_injuries(null))
 		body_injuries += list(injury_to_list(injury))
 
+	append_reagents(data, target)
 	append_husking(body_injuries, target)
 	append_temperature(data, body_injuries, target)
 
 	if (ishuman(target))
-		append_species(data, target)
+		append_species(data, body_injuries, target)
 
 	if(iscarbon(target))
 		append_genetics(body_injuries, target)
@@ -148,6 +149,17 @@
 
 			data["injuries"][parse_zone(zone)] = part_injuries
 	return data
+
+/datum/health_analyzer/proc/append_reagents(list/data, mob/living/target)
+	PRIVATE_PROC(TRUE)
+	var/list/reagent_list = list()
+	for (var/datum/reagent/reagent in target.reagents.reagent_list)
+		reagent_list += list(list(
+			"name" = reagent.name,
+			"colour" = reagent.color,
+			"volume" = reagent.volume,
+		))
+	data["reagents"] = reagent_list
 
 /datum/health_analyzer/proc/append_diseases(list/body_injuries, mob/living/target)
 	PRIVATE_PROC(TRUE)
