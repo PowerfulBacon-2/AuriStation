@@ -224,7 +224,7 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 /obj/item/organ/proc/on_death(delta_time, times_fired) //runs decay when outside of a person
 	if(organ_flags & (ORGAN_SYNTHETIC | ORGAN_FROZEN))
 		return
-	apply_organ_damage(decay_factor * maxHealth * delta_time)
+	apply_organ_damage(decay_factor * (maxHealth / 100) * delta_time)
 
 /obj/item/organ/proc/on_life(delta_time, times_fired) //repair organ damage if the organ is not failing
 	SHOULD_CALL_PARENT(TRUE) //PASS YOUR ARGS FUCKER

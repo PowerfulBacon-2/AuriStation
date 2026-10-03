@@ -11,7 +11,7 @@
 
 	maxHealth = STANDARD_ORGAN_THRESHOLD
 	healing_factor = STANDARD_ORGAN_HEALING
-	decay_factor = STANDARD_ORGAN_DECAY * 4
+	decay_factor = STANDARD_ORGAN_DECAY * 1
 
 	food_reagents = list(/datum/reagent/consumable/nutriment = 5, /datum/reagent/iron = 5)
 
@@ -116,7 +116,7 @@
 	attack_verb_simple = list("process")
 	desc = "A machine component, installed in the chest. This grants the Machine the ability to process chemicals that enter its systems."
 	alcohol_tolerance = 0
-	decay_factor = STANDARD_ORGAN_DECAY * 4
+	decay_factor = STANDARD_ORGAN_DECAY * 1
 	toxTolerance = -1
 	toxLethality = 0
 	status = ORGAN_ROBOTIC
