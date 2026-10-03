@@ -4,7 +4,7 @@ import ScrollingChart from 'tgui/components/ScrollingChart';
 
 import { Window } from '../layouts';
 
-type InjuryEntry = {
+interface InjuryEntry {
   name: string;
   heal_text: string;
   damage?: number | string;
@@ -13,11 +13,17 @@ type InjuryEntry = {
   bone_armour_modifier?: number;
   skin_armour_modifier?: number;
   pain?: number;
-};
+}
 
 type Injuries = { [area: string]: InjuryEntry[] };
 
-type Data = {
+interface ReagentEntry {
+  name: string;
+  colour: string;
+  volume: number;
+}
+
+interface Data {
   target?: string;
   is_dead?: boolean;
   consciousness?: number;
@@ -33,7 +39,8 @@ type Data = {
   core_temperature?: string;
   blood_type?: string;
   blood_volume?: number;
-};
+  reagents?: ReagentEntry[];
+}
 
 export const HealthAnalyzer = (props) => {
   const { act, data } = useBackend<Data>();
@@ -113,6 +120,17 @@ export const HealthAnalyzer = (props) => {
         {Object.keys(data.injuries ?? []).map((x) =>
           MapZone(x, data.injuries![x]),
         )}
+        <Section title="Reagents">
+          <div className="injury_row">
+            {data.reagents?.map((x) =>
+              MapInjury({
+                name: x.name,
+                damage: x.volume,
+                heal_text: '',
+              }),
+            )}
+          </div>
+        </Section>
       </Window.Content>
     </Window>
   );
