@@ -1,6 +1,6 @@
 /datum/injury/acute/exhaustion
 	base_type = /datum/injury/acute/exhaustion
-	examine_description = "<b>exhaustion</b>"
+	examine_description = "exhaustion"
 	heal_description = "The victim should rest and naturally recover their stamina."
 	max_absorption = 0
 	external = FALSE

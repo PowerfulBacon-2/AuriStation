@@ -5,7 +5,7 @@
 	surgeries_provided = list(/datum/surgery/skin_graft)
 	severity_level = INJURY_PRIORITY_ACTIVE
 	health_doll_icon = "blood"
-	examine_description = "<b>second-degree burns</b>"
+	examine_description = "second-degree burns"
 	healed_type = /datum/injury/treated_burn
 	heal_description = "The victim can be treated with 5 units of advanced burn gel applied via patch to the site of the injury."
 	pain = 25

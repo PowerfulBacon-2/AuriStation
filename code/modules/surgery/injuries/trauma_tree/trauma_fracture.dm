@@ -2,7 +2,7 @@
 	base_type = /datum/injury/trauma_healthy
 	severity_level = INJURY_PRIORITY_ACTIVE
 	health_doll_icon = "blood"
-	examine_description = "<b>a fracture</b>"
+	examine_description = "a fracture"
 	effectiveness_modifier = 0.5
 	bone_armour_modifier = 0.7
 	healed_type = /datum/injury/trauma_splinted_bone

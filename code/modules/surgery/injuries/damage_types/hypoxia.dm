@@ -1,6 +1,6 @@
 /datum/injury/acute/hypoxia
 	base_type = /datum/injury/acute/hypoxia
-	examine_description = "<b>hypoxia</b>"
+	examine_description = "hypoxia"
 	heal_description = "The effects of this injury will naturally dissipate over time."
 	max_absorption = 0
 	external = TRUE
