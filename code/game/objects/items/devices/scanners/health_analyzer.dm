@@ -103,7 +103,7 @@
 
 	if(iscarbon(target))
 		append_genetics(body_injuries, target)
-		append_bleeding(body_injuries, target)
+		append_bleeding(data, body_injuries, target)
 		append_trauma_and_quirks(body_injuries, target)
 		append_brain(body_injuries, target)
 		append_ear(body_injuries, target)
@@ -183,13 +183,37 @@
 	if (target.has_status_effect(/datum/status_effect/ling_transformation))
 		body_injuries += list(fake_injury("Unstable DNA", "Clonexadone"))
 
-/datum/health_analyzer/proc/append_bleeding(list/body_injuries, mob/living/carbon/target)
+/datum/health_analyzer/proc/append_bleeding(list/data, list/body_injuries, mob/living/carbon/target)
 	PRIVATE_PROC(TRUE)
 	if (target.is_bleeding())
 		body_injuries += list(bleed_injury(target.get_bleed_rate_string()))
+
 	if (target.blood.volume < BLOOD_VOLUME_SAFE)
 		var/proportion = CLAMP01((target.blood.volume - BLOOD_VOLUME_SURVIVE) / (BLOOD_VOLUME_NORMAL - BLOOD_VOLUME_SURVIVE))
 		body_injuries += list(fake_injury("Low Blood", "Blood Transfusion", (1 - proportion) * 100))
+
+	var/blood_id = target.blood.get_blood_id()
+	if(blood_id)
+		var/blood_percent = round((target.blood.volume / BLOOD_VOLUME_NORMAL) * 100)
+		var/blood_type = target.dna.blood_type.name
+		if(blood_id != /datum/reagent/blood) // special blood substance
+			var/datum/reagent/R = GLOB.chemical_reagents_list[blood_id]
+			blood_type = R ? R.name : blood_id
+
+		// Get compatible blood type names
+		var/list/compatible_names = list()
+		for(var/compatible_type in carbontarget.dna.blood_type.compatible_types)
+			var/datum/blood_type/compatible_datum = new compatible_type()
+			compatible_names += compatible_datum.name
+			qdel(compatible_datum)
+		var/blood_info = "[blood_type] (Compatible: [jointext(compatible_names, ", ")])"
+
+		if(HAS_TRAIT(carbontarget, TRAIT_MASQUERADE))
+			data["blood_type"] = blood_info
+			data["blood_volume"] = BLOOD_VOLUME_NORMAL
+		else
+			data["blood_type"] = blood_info
+			data["blood_volume"] = target.blood.volume
 
 /datum/health_analyzer/proc/append_heart(list/body_injuries, mob/living/carbon/human/target)
 	PRIVATE_PROC(TRUE)
@@ -375,38 +399,6 @@
 	var/render_list = list()
 
 	SEND_SIGNAL(target, COMSIG_LIVING_HEALTHSCAN, render_list, advanced, user, mode, tochat)
-
-	// Blood Level
-	if(target.has_dna())
-		var/mob/living/carbon/carbontarget = target
-		var/blood_id = carbontarget.blood.get_blood_id()
-		if(blood_id)
-			var/blood_percent = round((carbontarget.blood.volume / BLOOD_VOLUME_NORMAL) * 100)
-			var/blood_type = carbontarget.dna.blood_type.name
-			if(blood_id != /datum/reagent/blood) // special blood substance
-				var/datum/reagent/R = GLOB.chemical_reagents_list[blood_id]
-				blood_type = R ? R.name : blood_id
-
-			// Get compatible blood type names
-			var/list/compatible_names = list()
-			for(var/compatible_type in carbontarget.dna.blood_type.compatible_types)
-				var/datum/blood_type/compatible_datum = new compatible_type()
-				compatible_names += compatible_datum.name
-				qdel(compatible_datum)
-			var/blood_info = "[blood_type] (Compatible: [jointext(compatible_names, ", ")])"
-
-			if(HAS_TRAIT(carbontarget, TRAIT_MASQUERADE))
-				render_list += "<span class='alert ml-1'>Blood level: 100 %, 560 cl,</span> [span_info("type: [blood_info]")]\n"
-			else if(carbontarget.blood.volume <= BLOOD_VOLUME_SAFE && carbontarget.blood.volume > BLOOD_VOLUME_OKAY)
-				render_list += "<span class='alert ml-1'>Blood level: LOW [blood_percent] %, [carbontarget.blood.volume] cl,</span> [span_info("type: [blood_info]")]\n"
-			else if(carbontarget.blood.volume <= BLOOD_VOLUME_OKAY)
-				render_list += "<span class='alert ml-1'>Blood level: <b>CRITICAL [blood_percent] %</b>, [carbontarget.blood.volume] cl,</span> [span_info("type: [blood_info]")]\n"
-			else
-				render_list += "<span class='info ml-1'>Blood level: [blood_percent] %, [round(carbontarget.blood.volume)] cl, type: [blood_type]</span>\n"
-		render_list += "<span class='info ml-1'>Final Cell Saturation: [round(carbontarget.blood.get_effectiveness() * 100)]%</span>\n"
-		render_list += "<span class='info ml-2'>Lung Oxygenation: [round(carbontarget.blood.get_oxygenation_rating() * 100)]%</span>\n"
-		render_list += "<span class='info ml-2'>Blood Circulation: [round(carbontarget.blood.get_circulation_rating() * 100)]%</span>\n"
-		render_list += "<span class='info ml-1'>Perceived Pain: [round(carbontarget.pain.adjusted_pain)]% (Approaching: [round(carbontarget.pain.pain)]%)</span>\n"
 
 	// Cybernetics
 	if(iscarbon(target))
