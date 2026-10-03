@@ -237,7 +237,7 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 
 		// Calculate hypoxia damage rate
 		var/obj/item/bodypart/part = astype(loc, /obj/item/bodypart)
-		var/hypoxia_damage_rate = BASE_HYPOXIA_ORGAN_DAMAGE_PER_TICK + ((part?.accumulated_damage || 0) / (part?.max_damage || 1)) * INJURED_HYPOXIA_ORGAN_DAMAGE_PER_TICK
+		var/hypoxia_damage_rate = BASE_HYPOXIA_ORGAN_DAMAGE_PER_TICK + CLAMP01((part?.accumulated_damage || 0) / (part?.max_damage || 1)) * INJURED_HYPOXIA_ORGAN_DAMAGE_PER_TICK
 
 		// Increase our damage until we reach the desired threshold
 		var/damage_dealt = clamp(desired_hypoxia_damage - hypoxia, -HYPOXIA_ORGAN_HEAL_PER_TICK * delta_time, hypoxia_damage_rate * delta_time)

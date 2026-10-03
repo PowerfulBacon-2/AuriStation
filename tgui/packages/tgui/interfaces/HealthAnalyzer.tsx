@@ -30,6 +30,17 @@ type Data = {
 export const HealthAnalyzer = (props) => {
   const { act, data } = useBackend<Data>();
 
+  let heartBpm =
+    60 +
+    0.8 * (100 - (data.circulation ?? 0) * 100) +
+    120 * Math.exp(-Math.pow(((data.circulation ?? 0) * 100 - 10) / 10, 2));
+
+  if ((data.circulation ?? 0) <= 0) {
+    heartBpm = 0;
+  }
+
+  const heartTickRate = Math.round((20 * heartBpm) / 60);
+
   return (
     <Window width={500} height={580}>
       <Window.Content scrollable class="health_analyzer">
@@ -37,12 +48,21 @@ export const HealthAnalyzer = (props) => {
           <ScrollingChart
             className="chart"
             generator={(params) =>
-              params.steps % 20 === 0
+              params.steps % heartTickRate === 0
                 ? (data.circulation ?? 0) * 0.5 + 0.25
                 : 0.25
             }
             frameRate={20}
             maxValues={60}
+          />
+        </div>
+        <div className="top_bar">
+          <ScrollingChart
+            className="chart"
+            generator={(params) => (data.oxygenation ?? 0) * 0.75}
+            frameRate={10}
+            maxValues={60}
+            lineColour="cyan"
           />
         </div>
         <div>{data.is_dead ? 'Dead' : 'Alive'}</div>

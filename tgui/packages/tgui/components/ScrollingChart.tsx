@@ -5,6 +5,7 @@ interface ScrollingChartProps {
   className?: string;
   frameRate?: number;
   maxValues?: number;
+  lineColour?: string;
   generator: ScrollingChartGenerator;
 }
 
@@ -82,7 +83,7 @@ export default function ScrollingChart(props: ScrollingChartProps) {
         <polyline
           points={points}
           fill="none"
-          stroke="green"
+          stroke={props.lineColour ?? 'green'}
           strokeWidth="1"
           vectorEffect="non-scaling-stroke"
         />
