@@ -20,4 +20,4 @@
 #define ORGAN_DAMAGE_MULTIPLIER 1
 /// Multiplier for organ damage for attacks that penetrate down to them while we have
 /// a total damage exceeding the mob's max health.
-#define ORGAN_DAMAGE_MULTIPLIER_INSTAKILL 3
+#define ORGAN_DAMAGE_MULTIPLIER_INSTAKILL 2
