@@ -84,6 +84,11 @@
 	data["oxygenation"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH) \
 		? 0 \
 		: target.blood.get_oxygenation_rating()
+	data["is_bleeding"] = target.is_bleeding()
+	data["is_bandaged"] = target.is_bandaged()
+
+	if (target.timeofdeath && (target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH)))
+		data["timeofdeath"] = DisplayTimeText(round(world.time - target.timeofdeath))
 
 	// Body-wide Attribute
 	var/list/body_injuries = list()
@@ -91,8 +96,13 @@
 		body_injuries += list(injury_to_list(injury))
 
 	append_husking(body_injuries, target)
+	append_temperature(data, body_injuries, target)
+
+	if (ishuman(target))
+		append_species(data, target)
 
 	if(iscarbon(target))
+		append_genetics(body_injuries, target)
 		append_bleeding(body_injuries, target)
 		append_trauma_and_quirks(body_injuries, target)
 		append_brain(body_injuries, target)
@@ -138,6 +148,40 @@
 
 			data["injuries"][parse_zone(zone)] = part_injuries
 	return data
+
+/datum/health_analyzer/proc/append_diseases(list/body_injuries, mob/living/target)
+	PRIVATE_PROC(TRUE)
+	for (var/datum/disease/disease as anything in target.diseases)
+		if (disease.visibility_flags & HIDDEN_SCANNER)
+			continue
+		body_injuries += list(fake_injury(disease.form, disease.cure_text, "Stage: [disease.stage]"))
+
+/datum/health_analyzer/proc/append_temperature(list/data, list/body_injuries, mob/living/target)
+	PRIVATE_PROC(TRUE)
+	data["body_temperature"] = "[round(target.bodytemperature-T0C, 0.1)] &deg;C ([round(target.bodytemperature*1.8-459.67,0.1)] &deg;F)"
+	if (target.bodytemperature >= target.get_body_temp_heat_damage_limit())
+		body_injuries += list(fake_injury("Hyperthermia (Body)", "Cold environment"))
+	else if (target.bodytemperature <= target.get_body_temp_cold_damage_limit())
+		body_injuries += list(fake_injury("Hypothermia (Body)", "Warm environment"))
+
+/datum/health_analyzer/proc/append_species(list/data, list/body_injuries, mob/living/carbon/human/target)
+	PRIVATE_PROC(TRUE)
+	data["species"] = target.dna.species.name
+
+	data["core_temperature"] = "[round(target.coretemperature-T0C, 0.1)] &deg;C ([round(target.coretemperature*1.8-459.67,0.1)] &deg;F)"
+	if (target.coretemperature >= target.get_body_temp_heat_damage_limit())
+		body_injuries += list(fake_injury("Hyperthermia (Core)", "Cold environment"))
+	else if (target.coretemperature <= target.get_body_temp_cold_damage_limit())
+		body_injuries += list(fake_injury("Hypothermia (Core)", "Warm environment"))
+
+/datum/health_analyzer/proc/append_genetics(list/body_injuries, mob/living/carbon/target)
+	PRIVATE_PROC(TRUE)
+	if (!target.has_dna())
+		return
+	if (target.dna.stability < 100)
+		body_injuries += list(fake_injury("Genetic Instability", "Genetics", target.dna.stability))
+	if (target.has_status_effect(/datum/status_effect/ling_transformation))
+		body_injuries += list(fake_injury("Unstable DNA", "Clonexadone"))
 
 /datum/health_analyzer/proc/append_bleeding(list/body_injuries, mob/living/carbon/target)
 	PRIVATE_PROC(TRUE)
@@ -332,82 +376,11 @@
 
 	SEND_SIGNAL(target, COMSIG_LIVING_HEALTHSCAN, render_list, advanced, user, mode, tochat)
 
-	if(ishuman(target))
-		var/mob/living/carbon/human/humantarget = target
-
-		//Genetic stability
-		if(advanced && humantarget.has_dna())
-			render_list += "<span class='info ml-1'>Genetic Stability: [humantarget.dna.stability]%.</span>\n"
-			if(humantarget.has_status_effect(/datum/status_effect/ling_transformation))
-				render_list += "<span class='info ml-1'>Subject's DNA appears to be in an unstable state.</span>\n"
-
-		// Species and body temperature
-		var/datum/species/targetspecies = humantarget.dna.species
-		var/mutant = humantarget.dna.check_mutation(/datum/mutation/hulk) \
-			|| targetspecies.mutantlungs != initial(targetspecies.mutantlungs) \
-			|| targetspecies.mutantbrain != initial(targetspecies.mutantbrain) \
-			|| targetspecies.mutantheart != initial(targetspecies.mutantheart) \
-			|| targetspecies.mutanteyes != initial(targetspecies.mutanteyes) \
-			|| targetspecies.mutantears != initial(targetspecies.mutantears) \
-			|| targetspecies.mutanttongue != initial(targetspecies.mutanttongue) \
-			|| targetspecies.mutantliver != initial(targetspecies.mutantliver) \
-			|| targetspecies.mutantstomach != initial(targetspecies.mutantstomach) \
-			|| targetspecies.mutantappendix != initial(targetspecies.mutantappendix) \
-			|| targetspecies.mutantwings != initial(targetspecies.mutantwings)
-
-		render_list += "<span class='info ml-1'>Species: [targetspecies.name][mutant ? "-derived mutant" : ""]</span>\n"
-		var/core_temperature_message = "Core temperature: [round(humantarget.coretemperature-T0C, 0.1)] &deg;C ([round(humantarget.coretemperature*1.8-459.67,0.1)] &deg;F)"
-		if(humantarget.coretemperature >= humantarget.get_body_temp_heat_damage_limit())
-			render_list += "<span class='alert ml-1'>☼ [core_temperature_message] ☼</span>\n"
-		else if(humantarget.coretemperature <= humantarget.get_body_temp_cold_damage_limit())
-			render_list += "<span class='alert ml-1'>❄ [core_temperature_message] ❄</span>\n"
-		else
-			render_list += "<span class='info ml-1'>[core_temperature_message]</span>\n"
-
-	var/body_temperature_message = "Body temperature: [round(target.bodytemperature-T0C, 0.1)] &deg;C ([round(target.bodytemperature*1.8-459.67,0.1)] &deg;F)"
-	if(target.bodytemperature >= target.get_body_temp_heat_damage_limit())
-		render_list += "<span class='alert ml-1'>☼ [body_temperature_message] ☼</span>\n"
-	else if(target.bodytemperature <= target.get_body_temp_cold_damage_limit())
-		render_list += "<span class='alert ml-1'>❄ [body_temperature_message] ❄</span>\n"
-	else
-		render_list += "<span class='info ml-1'>[body_temperature_message]</span>\n"
-
-	// Time of death
-	if(target.tod && (target.stat == DEAD || ((HAS_TRAIT(target, TRAIT_FAKEDEATH)) && !advanced)))
-		render_list += "<span class='info ml-1'>Time of Death: [target.tod]</span>\n"
-		var/tdelta = round(world.time - target.timeofdeath)
-		render_list += "<span class='alert ml-1'><b>Subject died [DisplayTimeText(tdelta)] ago.</b></span>\n"
-
-	/*
-	// Wounds
-	if(iscarbon(target))
-		var/mob/living/carbon/carbontarget = target
-		var/list/wounded_parts = carbontarget.get_wounded_bodyparts()
-		for(var/i in wounded_parts)
-			var/obj/item/bodypart/wounded_part = i
-			render_list += "<span class='alert ml-1'><b>Physical trauma[LAZYLEN(wounded_part.wounds) > 1 ? "s" : ""] detected in [wounded_part.name]</b>"
-			for(var/k in wounded_part.wounds)
-				var/datum/wound/W = k
-				render_list += "<div class='ml-2'>[W.name] ([W.severity_text()])\nRecommended treatment: [W.treat_text]</div>" // less lines than in woundscan() so we don't overload people trying to get basic med info
-			render_list += "</span>"
-	*/
-
-	//Diseases
-	for(var/datum/disease/disease as anything in target.diseases)
-		if(!(disease.visibility_flags & HIDDEN_SCANNER))
-			render_list += "<span class='alert ml-1'><b>Warning: [disease.form] detected</b>\n\
-			<div class='ml-2'>Name: [disease.name].\nType: [disease.spread_text].\nStage: [disease.stage]/[disease.max_stages].\nPossible Cure: [disease.cure_text]</div>\
-			</span>" // divs do not need extra linebreak
-
 	// Blood Level
 	if(target.has_dna())
 		var/mob/living/carbon/carbontarget = target
 		var/blood_id = carbontarget.blood.get_blood_id()
 		if(blood_id)
-			if(target.is_bleeding())
-				render_list += "<span class='alert ml-1'><b>Subject is bleeding at a rate of [round(carbontarget.get_bleed_rate(), 0.1)]/s!</b></span>\n"
-			else if (carbontarget.is_bandaged())
-				render_list += "<span class='alert ml-1'><b>Subject is bleeding (Bandaged)!</b></span>\n"
 			var/blood_percent = round((carbontarget.blood.volume / BLOOD_VOLUME_NORMAL) * 100)
 			var/blood_type = carbontarget.dna.blood_type.name
 			if(blood_id != /datum/reagent/blood) // special blood substance
