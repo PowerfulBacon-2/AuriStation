@@ -143,6 +143,9 @@
 	PRIVATE_PROC(TRUE)
 	if (target.is_bleeding())
 		body_injuries += list(bleed_injury(target.get_bleed_rate_string()))
+	if (target.blood.volume < BLOOD_VOLUME_SAFE)
+		var/proportion = CLAMP01((target.blood.volume - BLOOD_VOLUME_SURVIVE) / (BLOOD_VOLUME_NORMAL - BLOOD_VOLUME_SURVIVE))
+		body_injuries += list(fake_injury("Low Blood", "Blood Transfusion", (1 - proportion) * 100))
 
 /datum/health_analyzer/proc/append_heart(list/body_injuries, mob/living/carbon/human/target)
 	PRIVATE_PROC(TRUE)
@@ -237,10 +240,12 @@
 	injury_object["heal_text"] = injury.heal_description
 	return injury_object
 
-/datum/health_analyzer/proc/fake_injury(name, heal_text)
+/datum/health_analyzer/proc/fake_injury(name, heal_text, amount = null)
 	var/list/injury_object = list()
 	injury_object["name"] = name
 	injury_object["heal_text"] = heal_text
+	if (amount)
+		injury_object["damage"] = amount
 	return injury_object
 
 /datum/health_analyzer/proc/bleed_injury(amount)
