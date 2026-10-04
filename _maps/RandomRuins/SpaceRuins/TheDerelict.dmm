@@ -14,6 +14,18 @@
 /obj/machinery/power/tracker,
 /obj/structure/cable,
 /turf/open/floor/iron/airless,
+<<<<<<< HEAD
+/area/solar/derelict_starboard)
+"ae" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/template_noop,
+/area/solar/derelict_starboard)
+=======
+/area/station/solars/derelict_starboard)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "af" = (
 /turf/open/floor/plating/airless{
 	broken = 1
@@ -36,6 +48,74 @@
 "ai" = (
 /obj/structure/lattice/catwalk,
 /turf/template_noop,
+<<<<<<< HEAD
+/area/solar/derelict_starboard)
+"aj" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/template_noop,
+/area/solar/derelict_starboard)
+"ak" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/template_noop,
+/area/solar/derelict_starboard)
+"al" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/template_noop,
+/area/solar/derelict_starboard)
+"am" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/template_noop,
+/area/solar/derelict_starboard)
+"an" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/template_noop,
+/area/solar/derelict_starboard)
+"ao" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/template_noop,
+/area/solar/derelict_starboard)
+=======
+/area/station/solars/derelict_starboard)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "ap" = (
 /obj/machinery/power/solar{
 	id = "derelictsolar";
@@ -48,6 +128,18 @@
 /obj/structure/lattice/catwalk,
 /obj/structure/cable,
 /turf/template_noop,
+<<<<<<< HEAD
+/area/solar/derelict_starboard)
+"ar" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/template_noop,
+/area/solar/derelict_starboard)
+=======
+/area/station/solars/derelict_starboard)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "as" = (
 /turf/closed/wall,
 /area/ruin/space/derelict/solar_control)
@@ -230,6 +322,14 @@
 	name = "Starboard Solar Access";
 	req_access_txt = "10"
 	},
+<<<<<<< HEAD
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
+/obj/structure/cable/yellow,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron,
 /area/ruin/space/derelict/solar_control)
 "bi" = (
@@ -437,6 +537,17 @@
 /turf/open/floor/iron/airless{
 	broken = 1
 	},
+<<<<<<< HEAD
+/area/space/nearstation)
+"cc" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating/airless,
+/area/ruin/space/derelict/bridge/ai_upload)
+=======
+/area/misc/space/nearstation)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "cd" = (
 /obj/machinery/light,
 /turf/open/floor/iron/airless,
@@ -616,6 +727,14 @@
 	name = "E.V.A.";
 	req_access_txt = "18"
 	},
+<<<<<<< HEAD
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/command/eva,
+/obj/structure/cable/yellow,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron,
 /area/ruin/space/derelict/bridge/access)
 "cW" = (
@@ -769,6 +888,14 @@
 	name = "Engineering Access";
 	req_access_txt = "10"
 	},
+<<<<<<< HEAD
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
+/obj/structure/cable/yellow,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
@@ -857,6 +984,14 @@
 	name = "Engineering Access";
 	req_access_txt = "10"
 	},
+<<<<<<< HEAD
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
+/obj/structure/cable/yellow,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron,
 /area/ruin/space/derelict/gravity_generator)
 "dU" = (
@@ -2444,6 +2579,14 @@
 	name = "Security";
 	req_access_txt = "1"
 	},
+<<<<<<< HEAD
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/security/general,
+/obj/structure/cable/yellow,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/airless,
 /area/ruin/space/derelict/hallway/primary)
 "kS" = (
@@ -3157,6 +3300,28 @@
 /obj/structure/cable/yellow,
 /turf/closed/wall/r_wall,
 /area/ruin/space/derelict/se_solar)
+<<<<<<< HEAD
+"nK" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/closed/wall/r_wall,
+/area/ruin/space/derelict/se_solar)
+"nL" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/machinery/door/airlock/engineering{
+	name = "Aft Solar Access";
+	req_access_txt = "10"
+	},
+/turf/open/floor/iron/airless,
+/area/ruin/space/derelict/se_solar)
+=======
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "nM" = (
 /obj/effect/spawner/structure/window/hollow/reinforced/middle,
 /turf/open/floor/plating/airless,
@@ -3301,6 +3466,18 @@
 	name = "Derelict Solar Array"
 	},
 /turf/open/floor/iron/airless,
+<<<<<<< HEAD
+/area/solar/derelict_aft)
+"oo" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/template_noop,
+/area/solar/derelict_aft)
+=======
+/area/station/solars/derelict_aft)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "op" = (
 /obj/structure/cable/yellow,
 /obj/machinery/power/solar{
@@ -3310,6 +3487,77 @@
 /turf/open/floor/plating/airless{
 	broken = 1
 	},
+<<<<<<< HEAD
+/area/solar/derelict_aft)
+"or" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/template_noop,
+/area/solar/derelict_aft)
+"os" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/template_noop,
+/area/solar/derelict_aft)
+"ot" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/template_noop,
+/area/solar/derelict_aft)
+"ou" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/template_noop,
+/area/solar/derelict_aft)
+"ov" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/template_noop,
+/area/solar/derelict_aft)
+"ow" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/template_noop,
+/area/solar/derelict_aft)
+=======
+/area/station/solars/derelict_aft)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "ox" = (
 /obj/structure/cable,
 /obj/machinery/power/solar{
@@ -3326,6 +3574,31 @@
 "oz" = (
 /obj/structure/lattice/catwalk,
 /turf/template_noop,
+<<<<<<< HEAD
+/area/solar/derelict_aft)
+"oA" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/template_noop,
+/area/solar/derelict_aft)
+"oC" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/template_noop,
+/area/solar/derelict_aft)
+=======
+/area/station/solars/derelict_aft)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "oD" = (
 /obj/machinery/power/tracker,
 /obj/structure/cable,
@@ -3428,6 +3701,22 @@
 "Oj" = (
 /turf/closed/wall/r_wall,
 /area/ruin/space/derelict/bridge/access)
+<<<<<<< HEAD
+"ON" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/template_noop,
+/area/solar/derelict_aft)
+=======
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "OT" = (
 /turf/closed/wall/r_wall,
 /area/ruin/space/derelict/hallway/primary/port)

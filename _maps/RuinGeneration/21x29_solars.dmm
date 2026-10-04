@@ -76,6 +76,15 @@
 	name = "Solar Maintenance";
 	req_access_txt = "10; 13"
 	},
+<<<<<<< HEAD
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
+/obj/effect/mapping_helpers/airlock/access/all/engineering/external,
+/obj/structure/cable,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/plating,
 /area/ruin/unpowered)
 "D" = (
@@ -105,6 +114,15 @@
 	name = "Solar Maintenance";
 	req_access_txt = "10; 13"
 	},
+<<<<<<< HEAD
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/engineering/general,
+/obj/effect/mapping_helpers/airlock/access/all/engineering/external,
+/obj/structure/cable,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/plating,
 /area/ruin/unpowered)
 "K" = (

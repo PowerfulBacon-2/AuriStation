@@ -45,6 +45,13 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
+<<<<<<< HEAD
+/obj/structure/cable/orange{
+	icon_state = "4-8"
+	},
+=======
+/obj/structure/cable/orange,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/plating,
 /area/shuttle/exploration)
 "es" = (
@@ -355,6 +362,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+<<<<<<< HEAD
+=======
+/obj/structure/cable/orange,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/textured_half{
 	dir = 1
 	},
@@ -432,6 +443,10 @@
 	dir = 1
 	},
 /obj/machinery/light/small/directional/north,
+<<<<<<< HEAD
+=======
+/obj/structure/cable/orange,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/textured_half,
 /area/shuttle/exploration)
 "tQ" = (
@@ -596,6 +611,10 @@
 /area/shuttle/exploration)
 "HW" = (
 /obj/machinery/atmospherics/pipe/smart/manifold/supply/hidden,
+<<<<<<< HEAD
+=======
+/obj/structure/cable/orange,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/smooth,
 /area/shuttle/exploration)
 "HZ" = (
@@ -766,6 +785,10 @@
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden{
 	dir = 1
 	},
+<<<<<<< HEAD
+=======
+/obj/structure/cable/orange,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/smooth,
 /area/shuttle/exploration)
 "NG" = (
@@ -832,6 +855,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+<<<<<<< HEAD
+=======
+/obj/structure/cable/orange,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/textured_half{
 	dir = 1
 	},
@@ -896,6 +923,10 @@
 /obj/machinery/light/directional/east,
 /obj/effect/turf_decal/edges/borderfloor/black/corner1,
 /obj/machinery/light_switch/directional/east,
+<<<<<<< HEAD
+=======
+/obj/structure/cable/orange,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/smooth,
 /area/shuttle/exploration)
 "Sp" = (

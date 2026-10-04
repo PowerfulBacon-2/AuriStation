@@ -375,6 +375,15 @@
 	name = "mining Relay Room";
 	req_one_access_txt = "54;61"
 	},
+<<<<<<< HEAD
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/any/supply/mining_station,
+/obj/effect/mapping_helpers/airlock/access/any/engineering/tcoms,
+/obj/structure/cable/yellow,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/effect/turf_decal/stripes/closeup,
 /turf/open/floor/iron/techmaint,
 /area/mine/maintenance)
@@ -4996,6 +5005,16 @@
 	name = "Radioisotope Containment Room";
 	req_one_access_txt = "54;18;10"
 	},
+<<<<<<< HEAD
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/any/supply/mining_station,
+/obj/effect/mapping_helpers/airlock/access/any/command/eva,
+/obj/effect/mapping_helpers/airlock/access/any/engineering/general,
+/obj/structure/cable,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/effect/turf_decal/stripes/closeup,
 /turf/open/floor/iron/techmaint,
 /area/mine/production)

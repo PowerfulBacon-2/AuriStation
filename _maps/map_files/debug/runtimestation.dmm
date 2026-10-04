@@ -25,6 +25,18 @@
 /area/security/brig)
 "ah" = (
 /turf/closed/wall/r_wall,
+<<<<<<< HEAD
+/area/engine/atmos)
+"ai" = (
+/obj/machinery/power/rtg/advanced,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/plating/airless,
+/area/space/nearstation)
+=======
+/area/station/engineering/atmos)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "aj" = (
 /turf/closed/wall/r_wall,
 /area/engine/engineering)
@@ -37,6 +49,23 @@
 /area/engine/atmos)
 "an" = (
 /obj/structure/lattice/catwalk,
+<<<<<<< HEAD
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/space,
+/area/space/nearstation)
+"ao" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+=======
+/obj/structure/cable,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/space,
 /area/space/nearstation)
 "au" = (
@@ -60,6 +89,31 @@
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
 /turf/open/floor/plating,
+<<<<<<< HEAD
+/area/engine/atmos)
+"aA" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/open/space,
+/area/space/nearstation)
+"aB" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/space,
+/area/space/nearstation)
+=======
+/area/station/engineering/atmos)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "aC" = (
 /obj/structure/cable,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -84,6 +138,28 @@
 "aO" = (
 /obj/machinery/atmospherics/components/binary/pump/on,
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/engine/atmos)
+"aQ" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/open/space,
+/area/space/nearstation)
+"aR" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/space,
+/area/space/nearstation)
+=======
+/area/station/engineering/atmos)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "aX" = (
 /obj/machinery/door/airlock/engineering/glass{
 	name = "Gravity Generator"
@@ -1027,6 +1103,22 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/medical/medbay)
+"ji" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/medical/chemistry)
+=======
+/area/station/medical/medbay)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "jp" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted,
@@ -1242,6 +1334,22 @@
 "nj" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
+<<<<<<< HEAD
+/area/medical/chemistry)
+"nn" = (
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/hallway/secondary/entry)
+=======
+/area/station/medical/chemistry)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "nq" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -1407,6 +1515,19 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/medical/chemistry)
+"rh" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/iron,
+/area/hallway/secondary/entry)
+=======
+/area/station/medical/chemistry)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "rJ" = (
 /obj/structure/table,
 /obj/item/rcd_ammo/large,
@@ -1455,6 +1576,19 @@
 "sR" = (
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/quartermaster/storage)
+"sT" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/open/floor/iron,
+/area/hallway/primary/central)
+=======
+/area/station/cargo/storage)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "tg" = (
 /obj/effect/turf_decal/tile/purple/half/contrasted{
 	dir = 1
@@ -1518,6 +1652,19 @@
 	dir = 1
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
+/area/engine/atmos)
+"ux" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/iron,
+/area/hallway/secondary/entry)
+=======
+/area/station/engineering/atmos)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "uB" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
@@ -1561,6 +1708,19 @@
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/purple/half/contrasted,
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/science)
+"vF" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/fans/tiny/invisible,
+/turf/open/floor/iron,
+/area/construction)
+=======
+/area/station/science)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "vG" = (
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
 	dir = 8
@@ -1614,6 +1774,22 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/engine/engineering)
+"wo" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/hallway/secondary/entry)
+=======
+/area/station/engineering/main)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "wr" = (
 /obj/machinery/door/airlock/public/glass{
 	name = "Medbay"
@@ -1727,6 +1903,19 @@
 	},
 /obj/structure/fans/tiny/invisible,
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/construction)
+"yn" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/iron,
+/area/hallway/primary/central)
+=======
+/area/station/construction)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "yt" = (
 /obj/structure/sign/warning/vacuum/external{
 	pixel_x = 32
@@ -1814,6 +2003,19 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/hallway/secondary/entry)
+"Az" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/science)
+=======
+/area/station/hallway/secondary/entry)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "AD" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -1932,6 +2134,22 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/bridge)
+"CF" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/iron,
+/area/medical/chemistry)
+=======
+/area/station/command/bridge)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "CH" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 10
@@ -1969,6 +2187,22 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/hallway/primary/central)
+"Dt" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/open/floor/iron,
+/area/hallway/primary/central)
+=======
+/area/station/hallway/primary/central)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "Dv" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
@@ -2016,6 +2250,19 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/bridge)
+"Ec" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/hallway/secondary/exit/departure_lounge)
+=======
+/area/station/command/bridge)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "Eh" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /turf/open/floor/iron,
@@ -2259,6 +2506,22 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/medical/chemistry)
+"JW" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/engine/engineering)
+=======
+/area/station/medical/chemistry)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "JZ" = (
 /obj/machinery/door/airlock,
 /obj/structure/cable,
@@ -2402,10 +2665,36 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/bridge)
+"Mr" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/hallway/secondary/entry)
+=======
+/area/station/command/bridge)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "Mu" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
 /obj/effect/turf_decal/tile/blue/half/contrasted,
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/medical/medbay)
+"ML" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/iron,
+/area/medical/chemistry)
+=======
+/area/station/medical/medbay)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "Nf" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -2428,6 +2717,19 @@
 	dir = 2
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/medical/medbay)
+"Nr" = (
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/security/brig)
+=======
+/area/station/medical/medbay)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "NB" = (
 /obj/structure/cable,
 /turf/open/floor/plating,
@@ -2495,6 +2797,19 @@
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/science)
+"Pw" = (
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/hallway/secondary/entry)
+=======
+/area/station/science)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "Px" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/light{
@@ -2554,6 +2869,38 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/hallway/secondary/exit/departure_lounge)
+"QY" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/storage/primary)
+"Rb" = (
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/maintenance/aft)
+"Ru" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/storage/primary)
+=======
+/area/station/hallway/secondary/exit/departure_lounge)
+"Rb" = (
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/station/maintenance/aft)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "Rw" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
@@ -2561,6 +2908,18 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/medical/medbay)
+"RC" = (
+/obj/machinery/power/rtg/advanced,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/turf/open/floor/plating/airless,
+/area/space/nearstation)
+=======
+/area/station/medical/medbay)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "RI" = (
 /obj/effect/turf_decal/tile/purple/anticorner/contrasted{
 	dir = 1
@@ -2582,6 +2941,19 @@
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/bridge)
+"SY" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/engine/engineering)
+=======
+/area/station/command/bridge)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "TD" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
@@ -2615,6 +2987,22 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/hallway/secondary/exit/departure_lounge)
+"Ul" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/science)
+=======
+/area/station/hallway/secondary/exit/departure_lounge)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "Us" = (
 /obj/effect/turf_decal/tile/purple/half/contrasted{
 	dir = 4
@@ -2632,6 +3020,22 @@
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/storage/primary)
+"UJ" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/turf/open/floor/iron,
+/area/engine/engineering)
+=======
+/area/station/commons/storage/primary)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "Vg" = (
 /obj/machinery/light,
 /turf/open/floor/iron,
@@ -2720,6 +3124,30 @@
 	pixel_x = -1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/engine/atmos)
+"Xq" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/iron,
+/area/hallway/secondary/entry)
+"Xr" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/iron,
+/area/hallway/primary/central)
+=======
+/area/station/engineering/atmos)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "Xs" = (
 /obj/machinery/door/airlock{
 	name = "Science"
@@ -2791,6 +3219,22 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
 /turf/open/floor/iron,
+<<<<<<< HEAD
+/area/storage/primary)
+"YP" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/iron,
+/area/hallway/primary/central)
+=======
+/area/station/commons/storage/primary)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "Zb" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1

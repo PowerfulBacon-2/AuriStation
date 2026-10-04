@@ -9,6 +9,28 @@
 "ac" = (
 /obj/structure/lattice,
 /turf/template_noop,
+<<<<<<< HEAD
+/area/space/nearstation)
+"ad" = (
+/obj/machinery/power/solar,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/plating/airless,
+/area/ruin/unpowered/no_grav)
+"ae" = (
+/obj/machinery/power/solar,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/plating/airless,
+/area/ruin/unpowered/no_grav)
+=======
+/area/misc/space/nearstation)
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "af" = (
 /obj/structure/cable,
 /turf/open/floor/plating/airless,
@@ -705,6 +727,14 @@
 	name = "Hotel Maintenance";
 	req_access_txt = "201"
 	},
+<<<<<<< HEAD
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/away/maintenance,
+/obj/structure/cable/yellow,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden{
 	dir = 4
 	},
@@ -2138,6 +2168,15 @@
 	name = "Power Storage";
 	req_access_txt = "200,201"
 	},
+<<<<<<< HEAD
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/away/general,
+/obj/effect/mapping_helpers/airlock/access/all/away/maintenance,
+/obj/structure/cable/yellow,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden{
 	dir = 4
@@ -2877,6 +2916,15 @@
 	name = "Custodial Closet";
 	req_access_txt = "200,201"
 	},
+<<<<<<< HEAD
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/away/general,
+/obj/effect/mapping_helpers/airlock/access/all/away/maintenance,
+/obj/structure/cable/yellow,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden{
 	dir = 4
 	},
@@ -2935,6 +2983,14 @@
 	name = "Hotel Staff Room";
 	req_access_txt = "200"
 	},
+<<<<<<< HEAD
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/away/general,
+/obj/structure/cable/yellow,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/hotel/workroom)
 "mR" = (
@@ -3729,6 +3785,15 @@
 	name = "Power Storage";
 	req_access_txt = "200,201"
 	},
+<<<<<<< HEAD
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+=======
+/obj/effect/mapping_helpers/airlock/access/all/away/general,
+/obj/effect/mapping_helpers/airlock/access/all/away/maintenance,
+/obj/structure/cable/yellow,
+>>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/white,
 /area/ruin/space/has_grav/hotel/secondary_solars)
 "Pr" = (
