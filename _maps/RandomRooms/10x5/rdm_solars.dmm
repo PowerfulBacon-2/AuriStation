@@ -118,29 +118,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/template_noop)
-<<<<<<< HEAD
-"Y" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating,
-/area/template_noop)
-"Z" = (
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/obj/machinery/power/solar/fake,
-/turf/open/floor/iron/airless/dark,
-/area/template_noop)
-=======
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 
 (1,1,1) = {"
 o

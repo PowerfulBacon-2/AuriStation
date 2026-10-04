@@ -611,18 +611,6 @@
 	dir = 1
 	},
 /obj/machinery/door/firedoor,
-<<<<<<< HEAD
-/obj/machinery/door/airlock/maintenance{
-	req_access_txt = "150"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-=======
-/obj/machinery/door/airlock/maintenance,
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/techmaint,
 /area/ruin/unpowered/syndicate_lava_base/starboard)
 "fT" = (
@@ -2346,14 +2334,6 @@
 	name = "Bridge";
 	req_access_txt = "150"
 	},
-<<<<<<< HEAD
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-=======
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/techmaint,
 /area/ruin/unpowered/syndicate_lava_base/bridge)
 "yA" = (
@@ -3291,14 +3271,6 @@
 	name = "Cargo Bay";
 	req_access_txt = "150"
 	},
-<<<<<<< HEAD
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-=======
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/iron/techmaint,
 /area/ruin/unpowered/syndicate_lava_base/cargo)
 "Jj" = (

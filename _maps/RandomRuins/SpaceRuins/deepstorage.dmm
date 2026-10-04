@@ -258,14 +258,6 @@
 	name = "Recycling Room";
 	req_access_txt = "200"
 	},
-<<<<<<< HEAD
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-=======
-/obj/effect/mapping_helpers/airlock/access/all/away/general,
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/deepstorage/crusher)
@@ -995,14 +987,6 @@
 	name = "Provisions Storage";
 	req_access_txt = "200"
 	},
-<<<<<<< HEAD
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-=======
-/obj/effect/mapping_helpers/airlock/access/all/away/general,
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden{
 	dir = 4
@@ -1507,14 +1491,6 @@
 	name = "Secure Storage";
 	req_access_txt = "200"
 	},
-<<<<<<< HEAD
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-=======
-/obj/effect/mapping_helpers/airlock/access/all/away/general,
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden{
 	dir = 4
 	},
@@ -1608,14 +1584,6 @@
 	name = "Airlock Control";
 	req_access_txt = "200"
 	},
-<<<<<<< HEAD
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-=======
-/obj/effect/mapping_helpers/airlock/access/all/away/general,
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden,
 /turf/open/floor/iron,
@@ -2534,14 +2502,6 @@
 	name = "RTG Observation";
 	req_access_txt = "200"
 	},
-<<<<<<< HEAD
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-=======
-/obj/effect/mapping_helpers/airlock/access/all/away/general,
-/obj/structure/cable,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/deepstorage/power)
 "gN" = (

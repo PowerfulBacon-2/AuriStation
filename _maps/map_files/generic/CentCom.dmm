@@ -17285,17 +17285,6 @@
 "aSI" = (
 /obj/effect/turf_decal/siding/blue,
 /turf/open/floor/iron/tech,
-<<<<<<< HEAD
-/area/ctf)
-"aSJ" = (
-/obj/structure/cable/white{
-	icon_state = "1-2"
-	},
-/turf/open/floor/iron/dark,
-/area/centcom/ferry)
-=======
-/area/centcom/ctf)
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "aSK" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4

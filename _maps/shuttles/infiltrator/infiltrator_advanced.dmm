@@ -393,14 +393,6 @@
 	name = "Infiltrator Access";
 	req_access_txt = "150"
 	},
-<<<<<<< HEAD
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-=======
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/pod/dark,
 /area/shuttle/syndicate/hallway)
 "aX" = (
@@ -496,14 +488,6 @@
 	name = "Infiltrator Access";
 	req_access_txt = "150"
 	},
-<<<<<<< HEAD
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-=======
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /turf/open/floor/pod/dark,
 /area/shuttle/syndicate/hallway)
 "bf" = (
@@ -1703,14 +1687,6 @@
 	name = "Ordnance Storage";
 	req_access_txt = "150"
 	},
-<<<<<<< HEAD
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-=======
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/effect/turf_decal/delivery,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden{
 	dir = 4
@@ -1798,14 +1774,6 @@
 	name = "Ordnance Storage";
 	req_access_txt = "150"
 	},
-<<<<<<< HEAD
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-=======
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/effect/turf_decal/delivery,
 /obj/machinery/atmospherics/pipe/smart/simple/supply/hidden{
 	dir = 4
@@ -2459,13 +2427,6 @@ cf
 aQ
 bT
 dC
-<<<<<<< HEAD
-cn
-cN
-=======
-cl
-cM
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 cX
 cI
 ad

@@ -3,27 +3,6 @@
 /turf/template_noop,
 /area/template_noop)
 "ab" = (
-<<<<<<< HEAD
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
-	},
-/obj/structure/lattice/catwalk,
-/turf/template_noop,
-/area/space/nearstation)
-"ac" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/structure/lattice/catwalk,
-/turf/template_noop,
-/area/space/nearstation)
-"ad" = (
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
-	},
-=======
-/obj/structure/cable/yellow,
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 /obj/structure/lattice/catwalk,
 /turf/template_noop,
 /area/space/nearstation)
@@ -33,18 +12,6 @@
 	},
 /obj/structure/lattice/catwalk,
 /turf/template_noop,
-<<<<<<< HEAD
-/area/space/nearstation)
-"af" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
-/obj/structure/lattice/catwalk,
-/turf/template_noop,
-/area/space/nearstation)
-=======
-/area/misc/space/nearstation)
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "ag" = (
 /turf/closed/wall,
 /area/ruin/space/has_grav/onehalf/dorms_med)
@@ -52,16 +19,6 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/onehalf/dorms_med)
-<<<<<<< HEAD
-"ai" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/structure/lattice/catwalk,
-/turf/template_noop,
-/area/space/nearstation)
-=======
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "aj" = (
 /turf/open/floor/plating/airless,
 /area/ruin/space/has_grav/onehalf/hallway)
@@ -941,31 +898,6 @@
 /obj/structure/table/reinforced,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/onehalf/bridge)
-<<<<<<< HEAD
-"cV" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/machinery/door/poddoor/preopen{
-	id = "bridge_onehalf";
-	name = "bridge Blast Door"
-	},
-/obj/structure/cable/yellow,
-/turf/open/floor/plating,
-/area/ruin/space/has_grav/onehalf/bridge)
-"cW" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
-	},
-/obj/structure/lattice/catwalk,
-/turf/template_noop,
-/area/space/nearstation)
-=======
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "cX" = (
 /obj/structure/cable/yellow,
 /turf/open/floor/iron/airless{
@@ -1025,21 +957,6 @@
 /obj/item/stack/rods,
 /obj/structure/lattice/catwalk,
 /turf/template_noop,
-<<<<<<< HEAD
-/area/space/nearstation)
-"dk" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/structure/lattice/catwalk,
-/turf/template_noop,
-/area/space/nearstation)
-=======
-/area/misc/space/nearstation)
->>>>>>> 367709c9418 ([MDB IGNORE] Smartwires, again (#14275))
 "dl" = (
 /obj/item/stack/cable_coil/cut{
 	amount = 2
