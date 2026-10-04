@@ -140,7 +140,6 @@ export const HealthAnalyzer = (props) => {
       <Window.Content class="health_analyzer">
         <div className="interface_main">
           <div className="body_overview">
-            {data.consciousness}
             <svg width="140" height="320" viewBox="0 0 35 80">
               <defs>
                 <clipPath id="consciousnessClip">
@@ -165,6 +164,30 @@ export const HealthAnalyzer = (props) => {
                     }
                   />
                 </clipPath>
+                <filter id="staticNoise">
+                  <feTurbulence
+                    type="fractalNoise"
+                    baseFrequency="1.2"
+                    numOctaves="1"
+                    seed="1"
+                    result="noise"
+                  >
+                    <animate
+                      attributeName="seed"
+                      values="1;2;3;4;5;6;7;8;9;10"
+                      dur="0.12s"
+                      repeatCount="indefinite"
+                    />
+                  </feTurbulence>
+
+                  <feColorMatrix type="saturate" values="0" />
+
+                  <feComponentTransfer>
+                    <feFuncR type="discrete" tableValues="0 1" />
+                    <feFuncG type="discrete" tableValues="0 1" />
+                    <feFuncB type="discrete" tableValues="0 1" />
+                  </feComponentTransfer>
+                </filter>
               </defs>
 
               <path
@@ -218,6 +241,37 @@ export const HealthAnalyzer = (props) => {
                     )}
                 </>
               ))}
+              {data.is_dead && (
+                <>
+                  <rect
+                    x="0"
+                    y="0"
+                    width="35"
+                    height="80"
+                    fill="rgba(0, 0, 0, 1)"
+                    filter="url(#staticNoise)"
+                    opacity={0.5}
+                  />
+                  <rect
+                    x="0"
+                    y="26"
+                    width="35"
+                    height="11"
+                    fill="rgba(0, 0, 0, 0.7)"
+                  />
+                  <text
+                    x="16"
+                    y="32"
+                    fill="white"
+                    fontSize="6"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                  >
+                    Deceased
+                  </text>
+                </>
+              )}
             </svg>
             <div className="chart_container heart">
               Circulation
