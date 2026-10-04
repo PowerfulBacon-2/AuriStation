@@ -90,9 +90,6 @@
 	data["is_bleeding"] = target.is_bleeding()
 	data["is_bandaged"] = target.is_bandaged()
 
-	if (target.timeofdeath && (target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH)))
-		data["timeofdeath"] = DisplayTimeText(round(world.time - target.timeofdeath))
-
 	// Body-wide Attribute
 	var/list/body_injuries = list()
 	for (var/datum/injury/injury in target.get_injuries(null))
