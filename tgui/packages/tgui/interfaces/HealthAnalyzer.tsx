@@ -107,16 +107,16 @@ interface Data {
 export const HealthAnalyzer = (props) => {
   const { act, data } = useBackend<Data>();
 
-  const [selectedSection, setSelectedSection] = useLocalState<'body' | string>(
+  const [selectedSection, setSelectedSection] = useLocalState<'chest' | string>(
     'selectedSection',
-    'body',
+    'chest',
   );
 
   if (
-    selectedSection !== 'body' &&
+    selectedSection !== 'chest' &&
     (!data.injuries || !data.injuries[selectedSection])
   ) {
-    setSelectedSection('body');
+    setSelectedSection('chest');
     return;
   }
 
@@ -244,6 +244,8 @@ export const HealthAnalyzer = (props) => {
             <div>{data.blood_type}</div>
             {MapZone('body', data.injuries!['body'])}
             {selectedSection !== 'body' &&
+              !!data.injuries &&
+              !!data.injuries[selectedSection] &&
               MapZone(selectedSection, data.injuries![selectedSection])}
             {data.reagents && (
               <Section title="Reagents">

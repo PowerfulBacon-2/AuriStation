@@ -351,6 +351,10 @@
 		// Organic bodyparts that need blood and nothing else die without it
 		if (circulation_flags == CIRCULATION_BLOOD)
 			var/desired_hypoxia_damage = max(0, (max_damage * 3) - (((CLAMP01(circulation_disruption) * (max_damage * 3)) ** 0.3) / ((max_damage * 3) ** (-0.7))))
+
+			// Adjust so its total damage
+			desired_hypoxia_damage /= max(1, length(owner.bodyparts))
+
 			increase_injury(OXY, clamp(damage_applied * 0.1, 0, desired_hypoxia_damage - damage_applied * 0.1))
 	else
 		// Heal oxy damage
