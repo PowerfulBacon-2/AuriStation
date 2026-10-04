@@ -74,7 +74,7 @@ export const HealthAnalyzer = (props) => {
   const heartTickRate = Math.round((20 * 60) / heartBpm);
 
   return (
-    <Window width={500} height={594}>
+    <Window width={510} height={594}>
       <Window.Content class="health_analyzer">
         <div className="interface_main">
           <div className="body_overview">
