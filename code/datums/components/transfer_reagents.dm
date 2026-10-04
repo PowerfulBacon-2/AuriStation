@@ -86,7 +86,7 @@
 /datum/component/transfer_reagents/proc/on_touch(datum/source, mob/living/attacker, mob/living/target, datum/martial_art/attacker_style)
 	SIGNAL_HANDLER
 	// Protected
-	if (prob(target.run_armor_check(attacker.get_combat_bodyzone(target), BIO, silent = TRUE)))
+	if (target.is_biologically_sealed())
 		return
 	// Check for biological protection on the target
 	apply_poison(target)

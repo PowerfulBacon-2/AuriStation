@@ -210,9 +210,6 @@
 	weight = 8
 	minimum_players_required = 24
 	ruleset_flags = SHOULD_USE_ANTAG_REP | HIGH_IMPACT_RULESET | NO_OTHER_RULESETS | NO_LATE_JOIN | NO_CONVERSION_TRANSFER_RULESET | REQUIRED_POP_ALLOW_UNREADY
-	blocking_rulesets = list(
-		/datum/dynamic_ruleset/gamemode/clockcult,
-	)
 
 	var/datum/team/cult/team
 
