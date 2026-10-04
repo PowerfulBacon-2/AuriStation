@@ -329,7 +329,9 @@ export const HealthAnalyzer = (props) => {
           </div>
           <div className="side_bar">
             <div>{data.blood_type}</div>
-            {MapZone('body', data.injuries!['body'])}
+            {!!data.injuries &&
+              !!data.injuries['body'] &&
+              MapZone('body', data.injuries!['body'])}
             {selectedSection !== 'body' &&
               !!data.injuries &&
               !!data.injuries[selectedSection] &&
