@@ -305,7 +305,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		if(ORGAN_SLOT_WINGS)
 			return mutantwings
 		else
-			CRASH("Invalid organ slot [slot]")
+			return null
 
 //Please override this locally if you want to define when what species qualifies for what rank if human authority is enforced.
 /datum/species/proc/qualifies_for_rank(rank, list/features)

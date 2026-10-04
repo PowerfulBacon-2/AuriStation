@@ -145,7 +145,8 @@
 					if (injury)
 						part_injuries += list(injury)
 
-			// TODO: Missing organs
+			for (var/slot in limb?.get_missing_organ_slots())
+				part_injuries += list(fake_injury("Missing [slot]", "Find a new [slot]"))
 
 			data["injuries"][parse_zone(zone)] = part_injuries
 	return data
@@ -317,8 +318,8 @@
 	injury_object["bone_armour_modifier"] = injury.bone_armour_modifier
 	injury_object["skin_armour_modifier"] = injury.skin_armour_modifier
 	injury_object["pain"] = injury.pain + injury.pain_multiplier * injury.progression
-	injury_object["damage"] = injury.damage_multiplier == 0\
-		? injury.progression * injury.pain_multiplier + injury.pain\
+	injury_object["damage"] = injury.damage_multiplier == 0 \
+		? injury.progression * injury.pain_multiplier + injury.pain \
 		: injury.added_damage + injury.damage_multiplier * injury.progression
 	injury_object["heal_text"] = injury.heal_description
 	return injury_object

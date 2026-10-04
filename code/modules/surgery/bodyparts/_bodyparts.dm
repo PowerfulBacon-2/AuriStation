@@ -1034,3 +1034,18 @@
 	if (length(injury_words) == 1)
 		return "has [injury_words[1]]"
 	return "has [jointext(injury_words.Splice(1, -1), ", ")] and [injury_words[length(injury_words)]]"
+
+/// Get a list of organs that we started with but no longer have
+/obj/item/bodypart/proc/get_missing_organ_slots()
+	RETURN_TYPE(/list/obj/item/organ)
+	if (!owner)
+		return list()
+	if (!owner.dna)
+		return list()
+	. = list()
+	for (var/slot in organ_slots)
+		if (!owner.dna.species.get_mutant_organ_type_for_slot(slot))
+			continue
+		if (owner.get_organ_slot(slot))
+			continue
+		. += slot
