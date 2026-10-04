@@ -286,7 +286,7 @@ GLOBAL_LIST(admin_antag_list)
 	var/objective_count = 1
 	var/list/objective_data = list()
 	//all obj
-	for(var/datum/objective/objective in objectives)
+	for(var/datum/objective/objective in get_objectives())
 		objective_data += list(list(
 			"count" = objective_count,
 			"name" = objective.name,

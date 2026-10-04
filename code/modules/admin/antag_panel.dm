@@ -41,7 +41,7 @@ GLOBAL_VAR(antag_prototypes)
 		result += "<i>(no objectives)</i><br>"
 	else
 		var/obj_count = 1
-		for(var/datum/objective/objective in objectives)
+		for(var/datum/objective/objective in get_objectives())
 			result += "<B>[obj_count]</B>: <font color=[objective.check_completion() ? "green" : "white"]>[objective.explanation_text]</font> <a href='byond://?src=[REF(owner)];obj_edit=[REF(objective)]'>Edit</a> <a href='byond://?src=[REF(owner)];obj_delete=[REF(objective)]'>Delete</a> <a href='byond://?src=[REF(owner)];obj_completed=[REF(objective)]'><font color=[objective.completed ? "green" : "red"]>[objective.completed ? "Mark as incomplete" : "Mark as complete"]</font></a><br>"
 			obj_count++
 	return result
