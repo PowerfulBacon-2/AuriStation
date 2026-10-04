@@ -300,7 +300,6 @@
 	UNSETEMPTY(effect_str)
 
 #undef EFFECT_UPDATE
-#undef BASE_INTENSITY
 #undef LUM_FALLOFF
 #undef GET_LUM_DIST
 #undef REMOVE_CORNER
