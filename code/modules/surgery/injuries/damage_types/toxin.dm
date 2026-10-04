@@ -7,3 +7,4 @@
 	injury_flags = INJURY_BODY
 	damage_multiplier = 1
 	pain_multiplier = 0.7
+	severity_level = INJURY_PRIORITY_ACTIVE

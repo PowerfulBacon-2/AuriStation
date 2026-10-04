@@ -7,6 +7,7 @@
 	injury_flags = INJURY_LIMB
 	damage_multiplier = 1
 	pain_multiplier = 0.4
+	severity_level = INJURY_PRIORITY_ACTIVE
 
 /datum/injury/acute/hypoxia/update_progressive_effects()
 	if (!mob)

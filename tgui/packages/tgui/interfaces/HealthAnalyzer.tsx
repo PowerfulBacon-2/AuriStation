@@ -5,11 +5,72 @@ import { Tooltip } from 'tgui-core/components';
 
 import { Window } from '../layouts';
 
+const bodyPart =
+  'M16 0c-3 0-3 3-3 4-1 0-1 1 0 2 0 2 2 3 2 4s-1 2-4 3-3 2-3 4c0 5 0 9-1 12s-2 5-3 6-1 2-3 2c-1 0-1 1 2 1-1 1-2 1-2 3 0 1 2 2 4-1s4-6 5-10c1-3 1-5 1-8 1 2 1 4 0 7s-2 5-2 8c0 4 0 9 1 13s1 3 1 6c0 2-1 4-1 6 1 3 2 5 2 8 0 4-2 4-2 5s0 1 1 1h3c1 0 1-1 1-3-1-3-1-5 0-8s0-5 0-7c0-1-1-1 0-5 0-2 1-5 1-12 0 7 1 10 1 12 1 4 0 4 0 5 0 2-1 4 0 7 1 3 1 5 0 8 0 2 0 3 1 3h3c1 0 1-1 1-1 0-1-2-1-2-5 0-3 1-5 2-8 0-2-1-4-1-6 0-3 0-2 1-6 1-3 1-9 1-13 0-3-1-5-2-8s-1-5 0-7c0 3 0 5 1 8 1 4 3 7 5 10s4 2 4 1c0-2-1-2-2-3 3 0 3-1 2-1-2 0-2-1.3333-3-2-1-1-2-3-3-6s-1-7-1-12c0-2 0-3-3-4s-4-2-4-3 2-2 2-4c1-1 1-2 0-2 0-1 0-4-3-4';
+
+const bodyParts: BodyZoneUIPart[] = [
+  {
+    outline:
+      'M17 10c0-1 2-2 2-4 1-1 1-2 0-2 0-1 0-4-3-4S13 3 13 4c-1 0-1 1 0 2 0 2 2 3 2 4Z',
+    hitbox: 'M0 0 35 0 35 11 0 11Z',
+    zoneName: 'head',
+    center: { x: 16, y: 5 },
+  },
+  {
+    outline:
+      'M11 13c-3 1-3 2-3 4 0 5 0 9-1 12s-2 5-3 6-1 2-3 2c-1 0-1 1 2 1-1 1-2 1-2 3 0 1 2 2 4-1s4-6 5-10c1-3 1-5 1-8Z',
+    hitbox: 'M0 11 11 11 11 22 11 28 6 42 0 42 0 22Z',
+    zoneName: 'right arm',
+    center: { x: 8, y: 26.5 },
+  },
+  {
+    outline:
+      'M15 10C15 11 14 12 11 13L11 23c1 2 1 4 0 7s-2 5-2 8L23 38C23 35 22 33 21 30S20 24 21 22L21 13c-3-1-4-2-4-3Z',
+    hitbox: 'M11 11 21 11 21 28 24.2 37 7.8 37 11 28Z',
+    zoneName: 'chest',
+    center: { x: 16, y: 24 },
+  },
+  {
+    outline:
+      'M21 13c3 1 3 2 3 4 0 5 0 9 1 12s2 5 3 6 1 2 3 2c1 0 1 1-2 1 1 1 2 1 2 3 0 1-2 2-4-1s-4-6-5-10c-1-3-1-5-1-8Z',
+    hitbox: 'M32 11 21 11 21 22 21 28 26 42 32 42 32 22Z',
+    zoneName: 'left arm',
+    center: { x: 24, y: 26.5 },
+  },
+  {
+    outline:
+      'M9 37c0 4 0 9 1 13s1 3 1 6c0 2-1 4-1 6 1 3 2 5 2 8 0 4-2 4-2 5s0 1 1 1h3c1 0 1-1 1-3-1-3-1-5 0-8s0-5 0-7c0-1-1-1 0-5 0-2 1-5 1-12L16 37Z',
+    hitbox: 'M0 42 5 42 7.8 37 16 37 16 80 0 80Z',
+    zoneName: 'right leg',
+    center: { x: 12, y: 58.5 },
+  },
+  {
+    outline:
+      'M23 37c0 4 0 9-1 13s-1 3-1 6c0 2 1 4 1 6-1 3-2 5-2 8 0 4 2 4 2 5s0 1-1 1h-3c-1 0-1-1-1-3 1-3 1-5 0-8s0-5 0-7c0-1 1-1 0-5 0-2-1-5-1-12L16 37Z',
+    hitbox: 'M16 37 24.2 37 26 42 35 42 35 80 16 80Z',
+    zoneName: 'left leg',
+    center: { x: 20, y: 58.5 },
+  },
+];
+
+interface BodyZoneUIPart {
+  outline: string;
+  hitbox: string;
+  zoneName: string;
+  center: { x: number; y: number };
+}
+
+enum InjurySeverity {
+  None = 0,
+  Healing = 1,
+  Active = 2,
+}
+
 interface InjuryEntry {
   name: string;
   heal_text: string;
   damage?: number | string;
-  severity?: number;
+  severity?: InjurySeverity;
   effectiveness_modifier?: number;
   bone_armour_modifier?: number;
   skin_armour_modifier?: number;
@@ -79,105 +140,51 @@ export const HealthAnalyzer = (props) => {
         <div className="interface_main">
           <div className="body_overview">
             <svg width="140" height="320" viewBox="0 0 35 80">
-              <path
-                d="M16 0c-3 0-3 3-3 4-1 0-1 1 0 2 0 2 2 3 2 4s-1 2-4 3-3 2-3 4c0 5 0 9-1 12s-2 5-3 6-1 2-3 2c-1 0-1 1 2 1-1 1-2 1-2 3 0 1 2 2 4-1s4-6 5-10c1-3 1-5 1-8 1 2 1 4 0 7s-2 5-2 8c0 4 0 9 1 13s1 3 1 6c0 2-1 4-1 6 1 3 2 5 2 8 0 4-2 4-2 5s0 1 1 1h3c1 0 1-1 1-3-1-3-1-5 0-8s0-5 0-7c0-1-1-1 0-5 0-2 1-5 1-12 0 7 1 10 1 12 1 4 0 4 0 5 0 2-1 4 0 7 1 3 1 5 0 8 0 2 0 3 1 3h3c1 0 1-1 1-1 0-1-2-1-2-5 0-3 1-5 2-8 0-2-1-4-1-6 0-3 0-2 1-6 1-3 1-9 1-13 0-3-1-5-2-8s-1-5 0-7c0 3 0 5 1 8 1 4 3 7 5 10s4 2 4 1c0-2-1-2-2-3 3 0 3-1 2-1-2 0-2-1.3333-3-2-1-1-2-3-3-6s-1-7-1-12c0-2 0-3-3-4s-4-2-4-3 2-2 2-4c1-1 1-2 0-2 0-1 0-4-3-4"
-                stroke="white"
-                fill="none"
-                strokeWidth="0.5"
-              />
+              <path d={bodyPart} stroke="white" fill="none" strokeWidth="0.5" />
 
-              <path
-                className="areaPath"
-                d="M17 10c0-1 2-2 2-4 1-1 1-2 0-2 0-1 0-4-3-4S13 3 13 4c-1 0-1 1 0 2 0 2 2 3 2 4Z"
-                stroke="none"
-              />
-              <path
-                className="areaHitbox"
-                d="M0 0 35 0 35 11 0 11Z"
-                onClick={() => {
-                  setSelectedSection('head');
-                }}
-                stroke="none"
-                fill="transparent"
-              />
-
-              <path
-                className="areaPath"
-                d="M11 13c-3 1-3 2-3 4 0 5 0 9-1 12s-2 5-3 6-1 2-3 2c-1 0-1 1 2 1-1 1-2 1-2 3 0 1 2 2 4-1s4-6 5-10c1-3 1-5 1-8Z"
-                stroke="none"
-              />
-              <path
-                className="areaHitbox"
-                d="M0 11 11 11 11 22 11 28 6 42 0 42 0 22Z"
-                onClick={() => {
-                  setSelectedSection('right arm');
-                }}
-                stroke="none"
-                fill="transparent"
-              />
-
-              <path
-                className="areaPath"
-                d="M15 10C15 11 14 12 11 13L11 23c1 2 1 4 0 7s-2 5-2 8L23 38C23 35 22 33 21 30S20 24 21 22L21 13c-3-1-4-2-4-3Z"
-                stroke="none"
-              />
-              <path
-                className="areaHitbox"
-                d="M11 11 21 11 21 28 24.2 37 7.8 37 11 28Z"
-                onClick={() => {
-                  setSelectedSection('chest');
-                }}
-                stroke="none"
-                fill="transparent"
-              />
-
-              <path
-                className="areaPath"
-                d="M11 13c-3 1-3 2-3 4 0 5 0 9-1 12s-2 5-3 6-1 2-3 2c-1 0-1 1 2 1-1 1-2 1-2 3 0 1 2 2 4-1s4-6 5-10c1-3 1-5 1-8Z"
-                transform="translate(32 0) scale(-1 1)"
-                stroke="none"
-              />
-              <path
-                className="areaHitbox"
-                d="M0 11 11 11 11 22 11 28 6 42 0 42 0 22Z"
-                transform="translate(32 0) scale(-1 1)"
-                onClick={() => {
-                  setSelectedSection('left arm');
-                }}
-                stroke="none"
-                fill="transparent"
-              />
-
-              <path
-                className="areaPath"
-                d="M9 37c0 4 0 9 1 13s1 3 1 6c0 2-1 4-1 6 1 3 2 5 2 8 0 4-2 4-2 5s0 1 1 1h3c1 0 1-1 1-3-1-3-1-5 0-8s0-5 0-7c0-1-1-1 0-5 0-2 1-5 1-12L16 37Z"
-                stroke="none"
-              />
-              <path
-                className="areaHitbox"
-                d="M0 42 5 42 7.8 37 16 37 16 80 0 80Z"
-                onClick={() => {
-                  setSelectedSection('right leg');
-                }}
-                stroke="none"
-                fill="transparent"
-              />
-
-              <path
-                className="areaPath"
-                d="M9 37c0 4 0 9 1 13s1 3 1 6c0 2-1 4-1 6 1 3 2 5 2 8 0 4-2 4-2 5s0 1 1 1h3c1 0 1-1 1-3-1-3-1-5 0-8s0-5 0-7c0-1-1-1 0-5 0-2 1-5 1-12L16 37Z"
-                transform="translate(32 0) scale(-1 1)"
-                stroke="none"
-              />
-              <path
-                className="areaHitbox"
-                d="M16 37 24.2 37 26 42 35 42 35 80 16 80Z"
-                onClick={() => {
-                  setSelectedSection('left leg');
-                }}
-                stroke="none"
-                fill="transparent"
-              />
+              {bodyParts.map((x) => (
+                <>
+                  <path className="areaPath" d={x.outline} stroke="none" />
+                  <path
+                    className="areaHitbox"
+                    d={x.hitbox}
+                    onClick={() => {
+                      setSelectedSection(x.zoneName);
+                    }}
+                    stroke="none"
+                    fill="transparent"
+                  />
+                  {!!data.injuries &&
+                    data.injuries[x.zoneName]?.filter(
+                      (x) => x.severity === 2 || x.severity === undefined,
+                    )?.length > 0 && (
+                      <>
+                        <circle
+                          cx={x.center.x}
+                          cy={x.center.y}
+                          r={3}
+                          stroke={GetWorstInjuryColour(
+                            data.injuries[x.zoneName].filter(
+                              (x) =>
+                                x.severity === 2 || x.severity === undefined,
+                            ),
+                          )}
+                          fill="#212637"
+                        />
+                        <text
+                          x={x.center.x}
+                          y={x.center.y}
+                          fill="white"
+                          fontSize={4}
+                          text-anchor="middle"
+                          dominant-baseline="middle"
+                        >
+                          {data.injuries[x.zoneName]?.length}
+                        </text>
+                      </>
+                    )}
+                </>
+              ))}
             </svg>
             <div className="chart_container heart">
               Circulation
@@ -234,11 +241,6 @@ export const HealthAnalyzer = (props) => {
             </div>
           </div>
           <div className="side_bar">
-            <div>{data.is_dead ? 'Dead' : 'Alive'}</div>
-            <div>Consciousness: {data.consciousness ?? 0}</div>
-            <div>Pain: {data.pain ?? 0}</div>
-            <div>Circulation: {data.circulation ?? 0}</div>
-            <div>Oxygenation: {data.oxygenation ?? 0}</div>
             <div>{data.blood_type}</div>
             {MapZone('body', data.injuries!['body'])}
             {selectedSection !== 'body' &&
@@ -282,15 +284,12 @@ const MapInjury = (injury: InjuryEntry) => {
         <div
           className="injury_icon"
           style={{
-            borderColor:
-              typeof injury.damage === 'number'
-                ? mixColors('#29ba41', '#b82828', injury.damage / 50)
-                : mixColors('#29ba41', '#b82828', (injury.severity ?? 2) / 2),
+            borderColor: GetInjuryColour(injury),
           }}
         >
-          {typeof injury.damage === 'number'
+          {typeof injury.damage === 'number' && injury.damage > 0
             ? injury.damage.toFixed(1)
-            : injury.damage}
+            : injury.damage !== 0 && injury.damage}
         </div>
         <div>{injury.name}</div>
       </div>
@@ -317,4 +316,24 @@ function mixColors(color1, color2, amount = 0.5) {
   const mixed = a.map((value, i) => value + (b[i] - value) * amount);
 
   return rgbToHex(mixed);
+}
+
+function GetInjuryColour(injury: InjuryEntry) {
+  return typeof injury.damage === 'number' && injury.damage > 0
+    ? mixColors('#29ba41', '#b82828', injury.damage / 50)
+    : injury.severity === InjurySeverity.None
+      ? '#29ba41'
+      : injury.severity === InjurySeverity.Healing
+        ? '#29ba41'
+        : '#b82828';
+}
+
+function GetWorstInjuryColour(injuries: InjuryEntry[]) {
+  const firstInjury = injuries
+    .sort((x) => -(typeof x.damage === 'number' && x.damage > 0 ? x.damage : 0))
+    .sort((x) => -(x.severity ?? 0))[0];
+  if (!firstInjury) {
+    return undefined;
+  }
+  return GetInjuryColour(firstInjury);
 }

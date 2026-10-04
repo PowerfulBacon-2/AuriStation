@@ -6,3 +6,4 @@
 	skin_armour_modifier = 0
 	pain = 40
 	heal_description = "Replace the affected limb"
+	severity_level = INJURY_PRIORITY_ACTIVE

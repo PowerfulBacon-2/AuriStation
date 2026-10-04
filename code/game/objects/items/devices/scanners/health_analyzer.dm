@@ -330,6 +330,7 @@
 	injury_object["heal_text"] = heal_text
 	if (amount)
 		injury_object["damage"] = amount
+	injury_object["severity"] = INJURY_PRIORITY_ACTIVE
 	return injury_object
 
 /datum/health_analyzer/proc/bleed_injury(amount)
