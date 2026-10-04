@@ -477,9 +477,9 @@ GLOBAL_LIST(admin_antag_list)
 /// the same type would result in antagonists such as nuclear operatives equipping
 /// and teleporting the copy to the spawn location, which is undesirable for a
 /// generic behaviour.
-/datum/antagonist/proc/create_copy()
+/datum/antagonist/proc/create_copy(override_type = /datum/antagonist)
 	RETURN_TYPE(/datum/antagonist)
-	var/datum/antagonist/copy = new /datum/antagonist()
+	var/datum/antagonist/copy = new override_type()
 	copy.tips = tips
 	copy.name = "[name] (Duplicate)"
 	copy.roundend_category = "Duplicates"
