@@ -69,6 +69,9 @@
 		data["target"] = null
 		return data
 
+	if (!(target.mob_biotypes & MOB_ORGANIC))
+		return
+
 	// Overall Stats
 	data["target"] = target.get_examine_name(user)
 	data["is_dead"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH)
@@ -153,6 +156,8 @@
 /datum/health_analyzer/proc/append_reagents(list/data, mob/living/target)
 	PRIVATE_PROC(TRUE)
 	var/list/reagent_list = list()
+	if (!target.reagents)
+		return
 	for (var/datum/reagent/reagent in target.reagents.reagent_list)
 		reagent_list += list(list(
 			"name" = reagent.name,
