@@ -83,7 +83,7 @@
 		return BULLET_ACT_BLOCK
 	else if(bullet_signal & COMSIG_ATOM_BULLET_ACT_HIT)
 		return BULLET_ACT_HIT
-	. = hitting_projectile.on_hit(src, 0, def_zone, piercing_hit)
+	. = hitting_projectile.on_hit(src, def_zone, piercing_hit)
 
 /**
  * React to being hit by a thrown object

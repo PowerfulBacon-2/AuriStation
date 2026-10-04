@@ -110,6 +110,7 @@
 	icon = 'icons/obj/surgery.dmi'
 	icon_state = "demon_heart-on"
 	decay_factor = 0
+	hypoxia_multiplier = 0
 
 /obj/item/organ/heart/demon/update_icon()
 	return //always beating visually

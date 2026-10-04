@@ -138,7 +138,7 @@
 	else if(bullet_signal & COMSIG_ATOM_BULLET_ACT_HIT)
 		return BULLET_ACT_HIT
 	deal_damage(Proj.damage, Proj.sharpness, Proj.damage_type, Proj.damage_flag)
-	Proj.on_hit(src, 0, piercing_hit)
+	Proj.on_hit(src, def_zone, piercing_hit)
 	return BULLET_ACT_HIT
 
 /mob/living/simple_animal/ex_act(severity, target, origin)

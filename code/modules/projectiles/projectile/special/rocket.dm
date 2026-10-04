@@ -3,7 +3,7 @@
 	icon_state= "bolter"
 	damage = 50
 
-/obj/projectile/bullet/gyro/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/gyro/on_hit(atom/target, def_zone)
 	..()
 	explosion(target, -1, 0, 2)
 	return BULLET_ACT_HIT
@@ -16,7 +16,7 @@
 	var/anti_armour_damage = 200
 	dismemberment = 100
 
-/obj/projectile/bullet/a84mm/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/a84mm/on_hit(atom/target, def_zone)
 	..()
 	explosion(target, -1, 1, 3, 1, 0, flame_range = 4)
 
@@ -36,7 +36,7 @@
 	damage = 30
 	ricochets_max = 0 //it's a MISSILE
 
-/obj/projectile/bullet/a84mm_he/on_hit(atom/target, blocked=0)
+/obj/projectile/bullet/a84mm_he/on_hit(atom/target, def_zone)
 	..()
 	if(!isliving(target)) //if the target isn't alive, so is a wall or something
 		explosion(target, 0, 1, 2, 4)
@@ -68,7 +68,7 @@
 	w_class = WEIGHT_CLASS_TINY
 
 
-/obj/projectile/bullet/a84mm_br/on_hit(atom/target, blocked=0)
+/obj/projectile/bullet/a84mm_br/on_hit(atom/target, def_zone)
 	..()
 	for(var/i in sturdy)
 		if(istype(target, i))

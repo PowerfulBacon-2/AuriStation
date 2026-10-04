@@ -3,7 +3,7 @@
 	icon_state = "spidernet"
 	damage = 0
 
-/obj/projectile/bullet/spidernet/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/spidernet/on_hit(atom/target, def_zone)
 	if(iscarbon(target))
 		var/mob/living/carbon/C = target
 		C.Knockdown(4 SECONDS)
@@ -12,7 +12,7 @@
 		L.Immobilize(4 SECONDS)
 	return ..()
 
-/obj/projectile/bullet/spidernet/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/spidernet/on_hit(atom/target, def_zone)
 	. = ..()
 	if(isliving(target))
 		var/turf/T = get_turf(target)

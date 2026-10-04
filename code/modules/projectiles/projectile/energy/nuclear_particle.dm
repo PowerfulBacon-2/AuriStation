@@ -52,7 +52,7 @@
 		qdel(src)
 		break
 
-/obj/projectile/energy/nuclear_particle/on_hit(atom/target, blocked, pierce_hit)
+/obj/projectile/energy/nuclear_particle/on_hit(atom/target, def_zone, pierce_hit)
 	if(ishuman(target))
 		SSradiation.irradiate(target, intensity = rand(50, 100))
 	return ..()

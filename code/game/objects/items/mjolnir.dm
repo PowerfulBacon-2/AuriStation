@@ -154,7 +154,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/projectile/mjolnir)
 		contained = null
 	. = ..()
 
-/obj/projectile/mjolnir/on_hit(atom/target, blocked, pierce_hit)
+/obj/projectile/mjolnir/on_hit(atom/target, def_zone, pierce_hit)
 	. = ..()
 	if (isobj(target))
 		var/obj/hit_structure = target

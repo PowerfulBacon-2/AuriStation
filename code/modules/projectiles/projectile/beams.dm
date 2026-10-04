@@ -31,7 +31,7 @@
 	muzzle_type = /obj/effect/projectile/muzzle/heavy_laser
 	impact_type = /obj/effect/projectile/impact/heavy_laser
 
-/obj/projectile/beam/laser/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/beam/laser/on_hit(atom/target, def_zone)
 	. = ..()
 	if(iscarbon(target))
 		var/mob/living/carbon/M = target
@@ -109,7 +109,7 @@
 	muzzle_type = /obj/effect/projectile/muzzle/pulse
 	impact_type = /obj/effect/projectile/impact/pulse
 
-/obj/projectile/beam/pulse/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/beam/pulse/on_hit(atom/target, def_zone)
 	. = ..()
 	if (!QDELETED(target) && (isturf(target) || istype(target, /obj/structure/)))
 		if(isobj(target))
@@ -125,7 +125,7 @@
 	icon_state = "pulse1_bl"
 	var/life = 20
 
-/obj/projectile/beam/pulse/heavy/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/beam/pulse/heavy/on_hit(atom/target, def_zone)
 	life -= 10
 	if(life > 0)
 		. = BULLET_ACT_FORCE_PIERCE
@@ -152,7 +152,7 @@
 	impact_light_range = 2.5
 	impact_light_color_override = COLOR_LIME
 
-/obj/projectile/beam/emitter/on_hit(atom/target, blocked)
+/obj/projectile/beam/emitter/on_hit(atom/target, def_zone)
 	if(istype(target, /obj/structure/blob))
 		damage *= 0.25
 	. = ..()
@@ -170,7 +170,7 @@
 	muzzle_flash_color_override = COLOR_DARK_ORANGE
 	impact_light_color_override = COLOR_DARK_ORANGE
 
-/obj/projectile/beam/emitter/drill/on_hit(atom/target, blocked)
+/obj/projectile/beam/emitter/drill/on_hit(atom/target, def_zone)
 	if(istype(target, /turf/closed/mineral))
 		var/turf/closed/mineral/T = target
 		T.gets_drilled()
@@ -190,7 +190,7 @@
 	light_color = LIGHT_COLOR_BLUE
 	martial_arts_no_deflect = TRUE
 
-/obj/projectile/beam/lasertag/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/beam/lasertag/on_hit(atom/target, def_zone)
 	. = ..()
 	if(ishuman(target))
 		var/mob/living/carbon/human/M = target

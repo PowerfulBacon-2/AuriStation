@@ -4,7 +4,7 @@
 	skin_armour_modifier = 0.4
 	severity_level = INJURY_PRIORITY_ACTIVE
 	health_doll_icon = "blood"
-	examine_description = "<b>an arterial cut</b>"
+	examine_description = "an arterial cut"
 	surgeries_provided = list(
 		/datum/surgery/cauterize
 	)

@@ -5,7 +5,7 @@
 	surgeries_provided = list(/datum/surgery/skin_graft)
 	severity_level = INJURY_PRIORITY_ACTIVE
 	health_doll_icon = "blood"
-	examine_description = "<b>blisters</b>"
+	examine_description = "blisters"
 	healed_type = /datum/injury/treated_burn
 	heal_description = "This victim requires 5 units of either silver sulfadiazine, or advanced burn gel applied via patch."
 	pain = 15

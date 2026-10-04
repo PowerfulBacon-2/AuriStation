@@ -129,7 +129,7 @@
 	nodamage = FALSE
 	temperature = 200 // Heats you up! per hit!
 
-/obj/projectile/temp/basilisk/magmawing/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/temp/basilisk/magmawing/on_hit(atom/target, def_zone)
 	. = ..()
 	if(.)
 		var/mob/living/L = target
@@ -142,7 +142,7 @@
 	damage_type = BURN
 	nodamage = FALSE
 
-/obj/projectile/temp/basilisk/icewing/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/temp/basilisk/icewing/on_hit(atom/target, def_zone)
 	. = ..()
 	if(.)
 		var/mob/living/L = target

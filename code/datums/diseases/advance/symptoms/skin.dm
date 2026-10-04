@@ -381,7 +381,7 @@ Thresholds
 	icon_state = "energy2"
 	var/list/diseases
 
-/obj/projectile/pimple/on_hit(atom/target, blocked)
+/obj/projectile/pimple/on_hit(atom/target, def_zone)
 	. = ..()
 	var/turf/T = get_turf(target)
 	playsound(T, 'sound/effects/splat.ogg', 50, 1)

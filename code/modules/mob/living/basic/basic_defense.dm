@@ -137,7 +137,7 @@
 
 /mob/living/basic/bullet_act(obj/projectile/Proj, def_zone, piercing_hit = FALSE)
 	deal_damage(Proj.damage, Proj.sharpness, Proj.damage_type, Proj.damage_flag, zone = Proj.def_zone)
-	Proj.on_hit(src, 0, piercing_hit)
+	Proj.on_hit(src, def_zone, piercing_hit)
 	return BULLET_ACT_HIT
 
 /mob/living/basic/ex_act(severity, target, origin)

@@ -131,7 +131,7 @@
 		return 1
 	// Multiplied by blood volume
 	var/base_proportion = ..()
-	base_proportion *= CLAMP01((volume - BLOOD_VOLUME_SURVIVE) / (BLOOD_VOLUME_NORMAL - BLOOD_VOLUME_SURVIVE))
+	base_proportion *= CLAMP01((volume - BLOOD_VOLUME_SURVIVE) / (BLOOD_VOLUME_SAFE - BLOOD_VOLUME_SURVIVE))
 	return base_proportion
 
 #undef BLOOD_DRIP_RATE_MOD

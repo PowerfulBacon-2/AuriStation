@@ -7,7 +7,7 @@
 	damage = 5
 	damage_type = BRUTE
 
-/obj/projectile/holoparasite/on_hit(atom/target, blocked = FALSE, pierce_hit)
+/obj/projectile/holoparasite/on_hit(atom/target, def_zone, pierce_hit)
 	// Holoparasite projectiles will phase right through their summoner (or any of their summoner's other holoparasites)
 	var/mob/living/simple_animal/hostile/holoparasite/holopara = firer
 	if(istype(holopara) && holopara.has_matching_summoner(target))

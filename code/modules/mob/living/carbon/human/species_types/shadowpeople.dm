@@ -190,7 +190,7 @@
 	var/respawn_progress = 0
 	var/obj/item/light_eater/blade
 	decay_factor = 0
-
+	hypoxia_multiplier = 0
 
 /obj/item/organ/heart/nightmare/attack(mob/M, mob/living/carbon/user, obj/target)
 	if(M != user)
@@ -441,6 +441,7 @@
 /obj/item/organ/heart/shadow_ritual // This parent should never appear itself
 	visual = TRUE
 	decay_factor = 0
+	hypoxia_multiplier = 0
 	var/shadow_conversion = 0 // Determines progress of transforming owner into shadow person
 	var/sect_rituals_completed_granted = 0 // What level of sect_rituals_completed the heart grants
 	var/datum/action/innate/shadow_comms/comms/C = new // For granting shadow comms

@@ -73,7 +73,7 @@
 	var/datum/nanite_extra_setting/NS = extra_settings[NES_SCAN_TYPE]
 	switch(NS.get_value())
 		if("Medical")
-			healthscan(host_mob, host_mob)
+			#warn healthscan(host_mob, host_mob)
 		if("Chemical")
 			chemscan(host_mob, host_mob)
 		if("Nanite")

@@ -5,7 +5,7 @@
 	surgeries_provided = list(/datum/surgery/skin_graft)
 	severity_level = INJURY_PRIORITY_ACTIVE
 	health_doll_icon = "blood"
-	examine_description = "<b>third-degree burns</b>"
+	examine_description = "third-degree burns"
 	healed_type = /datum/injury/restored_skin_burn
 	heal_description = "The victim can be assisted with advanced burn gel applied via patch, but a full recovery is only possible via augmentation or replacement of the bodypart."
 	pain = 35

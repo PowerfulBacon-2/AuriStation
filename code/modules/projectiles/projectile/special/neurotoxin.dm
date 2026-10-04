@@ -4,7 +4,7 @@
 	damage = 5
 	damage_type = TOX
 
-/obj/projectile/bullet/neurotoxin/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/neurotoxin/on_hit(atom/target, def_zone)
 	if(isalien(target))
 		paralyze = 0
 		nodamage = TRUE

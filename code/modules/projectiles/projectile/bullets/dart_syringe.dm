@@ -19,10 +19,10 @@
 	. = ..()
 	create_reagents(50, NO_REACT)
 
-/obj/projectile/bullet/dart/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/dart/on_hit(atom/target, def_zone)
 	if(iscarbon(target))
 		var/mob/living/carbon/M = target
-		if(blocked != 100) // not completely blocked
+		if(!M.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness)) // not completely blocked
 			if(M.can_inject(firer, def_zone, piercing ? INJECT_CHECK_PENETRATE_THICK : NONE)) // Pass the hit zone to see if it can inject by whether it hit the head or the body.
 				..()
 				if(syringe)
@@ -33,11 +33,10 @@
 					reagents.trans_to(M, reagents.total_volume)
 					return BULLET_ACT_HIT
 			else
-				blocked = 100
 				target.visible_message(span_danger("\The [src] was deflected!"), \
 									   span_userdanger("You were protected against \the [src]!"))
 
-	..(target, blocked)
+	..()
 	if(syringe)
 		syringe.forceMove(loc) //no noreact explosions bypassing piercing protection
 	DISABLE_BITFIELD(reagents.flags, NO_REACT)
@@ -62,10 +61,10 @@
 	damage_flag = DAMAGE_STANDARD
 	piercing = TRUE
 
-/obj/projectile/bullet/dart/bee/on_hit(atom/target, blocked)
+/obj/projectile/bullet/dart/bee/on_hit(atom/target, def_zone)
 	if(iscarbon(target))
 		var/mob/living/carbon/M = target
-		if(blocked != 100) // not completely blocked
+		if(!M.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness)) // not completely blocked
 			if(M.can_inject(target_zone = def_zone) && !HAS_TRAIT(M, TRAIT_BEEFRIEND))
 				var/mob/living/simple_animal/hostile/poison/bees/B = new(src.loc)
 				for(var/datum/reagent/R in reagents.reagent_list)

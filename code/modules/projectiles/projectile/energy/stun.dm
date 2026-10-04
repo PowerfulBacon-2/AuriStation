@@ -42,11 +42,11 @@
 		CRASH("Projectile fired with no firer")
 	return ..()
 
-/obj/projectile/energy/electrode/on_hit(mob/living/target, blocked = 0, pierce_hit)
+/obj/projectile/energy/electrode/on_hit(mob/living/target, def_zone, pierce_hit)
 	. = ..()
 	if(pierce_hit)
 		return
-	if(. == BULLET_ACT_BLOCK || !isliving(target) || blocked >= 100)
+	if(. == BULLET_ACT_BLOCK || !isliving(target) || astype(target, /mob/living)?.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness))
 		return
 	if (!target.can_inject(null, def_zone, piercing ? INJECT_CHECK_PENETRATE_THICK : NONE))
 		target.visible_message(

@@ -565,6 +565,9 @@
 			to_chat(target, span_unconscious("You feel a breath of fresh air... but you don't feel any better..."))
 		else
 			target.adjustOxyLoss(-min(target.getOxyLoss(), 7))
+			var/obj/item/organ/lungs = target.get_organ_slot(ORGAN_SLOT_LUNGS)
+			lungs.hypoxia = max(0, lungs.hypoxia - 1)
+			lungs.update_hypoxia(lungs.hypoxia)
 			to_chat(target, span_unconscious("You feel a breath of fresh air enter your lungs... It feels good..."))
 
 		if (target.stat > CONSCIOUS)
