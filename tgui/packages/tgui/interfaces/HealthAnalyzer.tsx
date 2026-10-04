@@ -140,6 +140,7 @@ export const HealthAnalyzer = (props) => {
       <Window.Content class="health_analyzer">
         <div className="interface_main">
           <div className="body_overview">
+            {data.consciousness}
             <svg width="140" height="320" viewBox="0 0 35 80">
               <defs>
                 <clipPath id="consciousnessClip">
@@ -150,7 +151,7 @@ export const HealthAnalyzer = (props) => {
                       clamp01(
                         (data.consciousness ?? 1) >= 0
                           ? (data.consciousness ?? 1)
-                          : 1 + data.consciousness!,
+                          : Math.abs(data.consciousness!),
                       ) *
                         80
                     }
@@ -159,7 +160,7 @@ export const HealthAnalyzer = (props) => {
                       clamp01(
                         (data.consciousness ?? 1) >= 0
                           ? (data.consciousness ?? 1)
-                          : 1 + data.consciousness!,
+                          : Math.abs(data.consciousness!),
                       ) * 80
                     }
                   />

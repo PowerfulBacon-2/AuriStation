@@ -360,7 +360,11 @@
 
 			var/added_damage = max(desired_hypoxia_damage - hypoxia_damage, 0)
 
-			increase_injury(OXY, clamp(min(damage_applied * 0.1, added_damage), 0, desired_hypoxia_damage - damage_applied * 0.1))
+			if (added_damage > 0)
+				increase_injury(OXY, clamp(min(damage_applied * 0.1, added_damage), 0, desired_hypoxia_damage - damage_applied * 0.1))
+			else if (added_damage < 0 && circulation_disruption > 0.4)
+				// Heal oxy damage
+				increase_injury(OXY, min(-HYPOXIA_BODYPART_HEAL_PER_TICK * circulation_disruption, added_damage))
 	else
 		// Heal oxy damage
 		increase_injury(OXY, -HYPOXIA_BODYPART_HEAL_PER_TICK)

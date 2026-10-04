@@ -76,7 +76,7 @@
 	data["target"] = target.get_examine_name(user)
 	data["is_dead"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH)
 	data["consciousness"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH) \
-		? HEALTH_THRESHOLD_DEAD \
+		? -1 \
 		: target.consciousness.value / target.consciousness.max_value
 	data["pain"] = target.stat == DEAD || HAS_TRAIT(target, TRAIT_FAKEDEATH) \
 		? 0 \
