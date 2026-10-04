@@ -118,7 +118,7 @@ SUBSYSTEM_DEF(directives)
 			// The syndicate uplink is only aware of syndicate-given objectives.
 			if (antagonist_type.faction != FACTION_SYNDICATE)
 				continue
-			for (var/datum/objective/objective in antagonist_type.objectives)
+			for (var/datum/objective/objective in antagonist_type.get_objectives())
 				var/atom/tracking_target = objective.get_tracking_target(uplink_turf)
 				var/turf/tracking_turf = tracking_target && get_turf(tracking_target)
 				known_objectives += list(list(

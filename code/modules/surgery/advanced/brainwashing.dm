@@ -78,7 +78,7 @@
 	log_game("[key_name(user)] surgically brainwashed [key_name(target)] with the objective '[objective]'.")
 	// Find all antag datums and mark romerol objectives as complete
 	for (var/datum/antagonist/antagonist in user.mind?.antag_datums)
-		for (var/datum/objective/brainwash_targets/objective in antagonist.objectives)
+		for (var/datum/objective/brainwash_targets/objective in antagonist.get_objectives())
 			objective.amount++
 	return TRUE
 
