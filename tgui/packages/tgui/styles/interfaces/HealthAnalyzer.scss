@@ -2,17 +2,66 @@
   width: 100%;
   height: 100%;
 
-  overflow-y: scroll;
-
-  .top_bar {
+  .interface_main {
     display: flex;
     flex-direction: row;
+    width: 100%;
+    height: 100%;
+  }
+
+  .side_bar {
+    flex-grow: 1;
+
+    overflow-y: scroll;
+  }
+
+  .body_overview {
+    display: flex;
+    flex-direction: column;
+
+    padding-top: 10px;
+  }
+
+  .chart_container {
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
+
+    width: 100%;
+    padding: 0px 5px;
+
+    &.heart {
+      color: lime;
+    }
+
+    &.oxygen {
+      color: cyan;
+    }
+
+    &.blood {
+      color: #ff8888;
+    }
+
+    &.pain {
+      color: yellow;
+    }
+  }
+
+  svg {
+    .areaPath {
+      fill: none;
+      stroke: none;
+
+      &:has(+ .areaHitbox:hover) {
+        stroke: rgb(255, 248, 56);
+        animation: none;
+      }
+    }
   }
 
   .chart {
-    width: 30%;
+    width: 100%;
     height: 40px;
   }
 
@@ -21,12 +70,14 @@
     flex-direction: row;
     gap: 10px;
     justify-content: space-evenly;
+    flex-wrap: wrap;
   }
 
   .injury_entry {
     display: flex;
     flex-direction: column;
-    flex-shrink: 1;
+    text-align: center;
+    align-items: center;
   }
 
   .injury_icon {
@@ -40,5 +91,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+@keyframes damaged {
+  0% {
+    fill-opacity: 0.3;
+  }
+  50% {
+    fill-opacity: 0.5;
+  }
+  100% {
+    fill-opacity: 0.3;
   }
 }

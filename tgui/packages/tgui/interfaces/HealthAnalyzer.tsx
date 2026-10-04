@@ -1,6 +1,7 @@
-import { useBackend } from 'tgui/backend';
+import { useBackend, useLocalState } from 'tgui/backend';
 import { Section } from 'tgui/components';
 import ScrollingChart from 'tgui/components/ScrollingChart';
+import { Tooltip } from 'tgui-core/components';
 
 import { Window } from '../layouts';
 
@@ -45,6 +46,19 @@ interface Data {
 export const HealthAnalyzer = (props) => {
   const { act, data } = useBackend<Data>();
 
+  const [selectedSection, setSelectedSection] = useLocalState<'body' | string>(
+    'selectedSection',
+    'body',
+  );
+
+  if (
+    selectedSection !== 'body' &&
+    (!data.injuries || !data.injuries[selectedSection])
+  ) {
+    setSelectedSection('body');
+    return;
+  }
+
   let heartBpm =
     72 +
     0.8 * (100 - Math.min(data.circulation ?? 0, 1.1) * 100) +
@@ -60,77 +74,188 @@ export const HealthAnalyzer = (props) => {
   const heartTickRate = Math.round((20 * 60) / heartBpm);
 
   return (
-    <Window width={500} height={580}>
-      <Window.Content scrollable class="health_analyzer">
-        <div className="top_bar">
-          <ScrollingChart
-            className="chart"
-            generator={(params) =>
-              params.steps % heartTickRate === 0
-                ? (data.circulation ?? 0) * 0.5 + 0.25
-                : 0.25
-            }
-            frameRate={20}
-            maxValues={60}
-            lineColour="lime"
-            label={
-              <>
-                <p>{Math.round(heartBpm) + ' BPM'}</p>
-                <p>{Math.round((data.circulation ?? 0) * 100) + '%'}</p>
-              </>
-            }
-          />
-        </div>
-        <div className="top_bar">
-          <ScrollingChart
-            className="chart"
-            generator={(params) => (data.oxygenation ?? 0) * 0.75}
-            frameRate={10}
-            maxValues={60}
-            lineColour="cyan"
-            label={Math.round((data.oxygenation ?? 0) * 100) + '%'}
-          />
-        </div>
-        <div className="top_bar">
-          <ScrollingChart
-            className="chart"
-            generator={(params) => (data.blood_volume ?? 0) / 650}
-            frameRate={10}
-            maxValues={60}
-            lineColour="red"
-            label={Math.round(data.blood_volume ?? 0) + ' cl'}
-          />
-        </div>
-        <div className="top_bar">
-          <ScrollingChart
-            className="chart"
-            generator={(params) => (data.pain ?? 0) / 120 + 0.1}
-            frameRate={10}
-            maxValues={60}
-            lineColour="yellow"
-            label={Math.round(data.pain ?? 0) + '%'}
-          />
-        </div>
-        <div>{data.is_dead ? 'Dead' : 'Alive'}</div>
-        <div>Consciousness: {data.consciousness ?? 0}</div>
-        <div>Pain: {data.pain ?? 0}</div>
-        <div>Circulation: {data.circulation ?? 0}</div>
-        <div>Oxygenation: {data.oxygenation ?? 0}</div>
-        <div>{data.blood_type}</div>
-        {Object.keys(data.injuries ?? []).map((x) =>
-          MapZone(x, data.injuries![x]),
-        )}
-        <Section title="Reagents">
-          <div className="injury_row">
-            {data.reagents?.map((x) =>
-              MapInjury({
-                name: x.name,
-                damage: x.volume,
-                heal_text: '',
-              }),
-            )}
+    <Window width={500} height={594}>
+      <Window.Content class="health_analyzer">
+        <div className="interface_main">
+          <div className="body_overview">
+            <svg width="140" height="320" viewBox="0 0 35 80">
+              <path
+                d="M16 0c-3 0-3 3-3 4-1 0-1 1 0 2 0 2 2 3 2 4s-1 2-4 3-3 2-3 4c0 5 0 9-1 12s-2 5-3 6-1 2-3 2c-1 0-1 1 2 1-1 1-2 1-2 3 0 1 2 2 4-1s4-6 5-10c1-3 1-5 1-8 1 2 1 4 0 7s-2 5-2 8c0 4 0 9 1 13s1 3 1 6c0 2-1 4-1 6 1 3 2 5 2 8 0 4-2 4-2 5s0 1 1 1h3c1 0 1-1 1-3-1-3-1-5 0-8s0-5 0-7c0-1-1-1 0-5 0-2 1-5 1-12 0 7 1 10 1 12 1 4 0 4 0 5 0 2-1 4 0 7 1 3 1 5 0 8 0 2 0 3 1 3h3c1 0 1-1 1-1 0-1-2-1-2-5 0-3 1-5 2-8 0-2-1-4-1-6 0-3 0-2 1-6 1-3 1-9 1-13 0-3-1-5-2-8s-1-5 0-7c0 3 0 5 1 8 1 4 3 7 5 10s4 2 4 1c0-2-1-2-2-3 3 0 3-1 2-1-2 0-2-1.3333-3-2-1-1-2-3-3-6s-1-7-1-12c0-2 0-3-3-4s-4-2-4-3 2-2 2-4c1-1 1-2 0-2 0-1 0-4-3-4"
+                stroke="white"
+                fill="none"
+                strokeWidth="0.5"
+              />
+
+              <path
+                className="areaPath"
+                d="M17 10c0-1 2-2 2-4 1-1 1-2 0-2 0-1 0-4-3-4S13 3 13 4c-1 0-1 1 0 2 0 2 2 3 2 4Z"
+                stroke="none"
+              />
+              <path
+                className="areaHitbox"
+                d="M0 0 35 0 35 11 0 11Z"
+                onClick={() => {
+                  setSelectedSection('head');
+                }}
+                stroke="none"
+                fill="transparent"
+              />
+
+              <path
+                className="areaPath"
+                d="M11 13c-3 1-3 2-3 4 0 5 0 9-1 12s-2 5-3 6-1 2-3 2c-1 0-1 1 2 1-1 1-2 1-2 3 0 1 2 2 4-1s4-6 5-10c1-3 1-5 1-8Z"
+                stroke="none"
+              />
+              <path
+                className="areaHitbox"
+                d="M0 11 11 11 11 22 11 28 6 42 0 42 0 22Z"
+                onClick={() => {
+                  setSelectedSection('right arm');
+                }}
+                stroke="none"
+                fill="transparent"
+              />
+
+              <path
+                className="areaPath"
+                d="M15 10C15 11 14 12 11 13L11 23c1 2 1 4 0 7s-2 5-2 8L23 38C23 35 22 33 21 30S20 24 21 22L21 13c-3-1-4-2-4-3Z"
+                stroke="none"
+              />
+              <path
+                className="areaHitbox"
+                d="M11 11 21 11 21 28 26 42 6 42 11 28Z"
+                onClick={() => {
+                  setSelectedSection('chest');
+                }}
+                stroke="none"
+                fill="transparent"
+              />
+
+              <path
+                className="areaPath"
+                d="M11 13c-3 1-3 2-3 4 0 5 0 9-1 12s-2 5-3 6-1 2-3 2c-1 0-1 1 2 1-1 1-2 1-2 3 0 1 2 2 4-1s4-6 5-10c1-3 1-5 1-8Z"
+                transform="translate(32 0) scale(-1 1)"
+                stroke="none"
+              />
+              <path
+                className="areaHitbox"
+                d="M0 11 11 11 11 22 11 28 6 42 0 42 0 22Z"
+                transform="translate(32 0) scale(-1 1)"
+                onClick={() => {
+                  setSelectedSection('left arm');
+                }}
+                stroke="none"
+                fill="transparent"
+              />
+
+              <path
+                className="areaPath"
+                d="M9 37c0 4 0 9 1 13s1 3 1 6c0 2-1 4-1 6 1 3 2 5 2 8 0 4-2 4-2 5s0 1 1 1h3c1 0 1-1 1-3-1-3-1-5 0-8s0-5 0-7c0-1-1-1 0-5 0-2 1-5 1-12L16 37Z"
+                stroke="none"
+              />
+              <path
+                className="areaHitbox"
+                d="M0 42 16 42 16 80 0 80Z"
+                onClick={() => {
+                  setSelectedSection('right leg');
+                }}
+                stroke="none"
+                fill="transparent"
+              />
+
+              <path
+                className="areaPath"
+                d="M9 37c0 4 0 9 1 13s1 3 1 6c0 2-1 4-1 6 1 3 2 5 2 8 0 4-2 4-2 5s0 1 1 1h3c1 0 1-1 1-3-1-3-1-5 0-8s0-5 0-7c0-1-1-1 0-5 0-2 1-5 1-12L16 37Z"
+                transform="translate(32 0) scale(-1 1)"
+                stroke="none"
+              />
+              <path
+                className="areaHitbox"
+                d="M16 42 35 42 35 80 16 80Z"
+                onClick={() => {
+                  setSelectedSection('left leg');
+                }}
+                stroke="none"
+                fill="transparent"
+              />
+            </svg>
+            <div className="chart_container heart">
+              Circulation
+              <ScrollingChart
+                className="chart"
+                generator={(params) =>
+                  params.steps % heartTickRate === 0
+                    ? (data.circulation ?? 0) * 0.5 + 0.25
+                    : 0.25
+                }
+                frameRate={20}
+                maxValues={60}
+                lineColour="lime"
+                label={
+                  <>
+                    <p>{Math.round(heartBpm) + ' BPM'}</p>
+                    <p>{Math.round((data.circulation ?? 0) * 100) + '%'}</p>
+                  </>
+                }
+              />
+            </div>
+            <div className="chart_container oxygen">
+              Oxygen
+              <ScrollingChart
+                className="chart"
+                generator={(params) => (data.oxygenation ?? 0) * 0.75}
+                frameRate={10}
+                maxValues={60}
+                lineColour="cyan"
+                label={Math.round((data.oxygenation ?? 0) * 100) + '%'}
+              />
+            </div>
+            <div className="chart_container blood">
+              Blood
+              <ScrollingChart
+                className="chart"
+                generator={(params) => (data.blood_volume ?? 0) / 650}
+                frameRate={10}
+                maxValues={60}
+                lineColour="red"
+                label={Math.round(data.blood_volume ?? 0) + ' cl'}
+              />
+            </div>
+            <div className="chart_container pain">
+              Pain
+              <ScrollingChart
+                className="chart"
+                generator={(params) => (data.pain ?? 0) / 120 + 0.1}
+                frameRate={10}
+                maxValues={60}
+                lineColour="yellow"
+                label={Math.round(data.pain ?? 0) + '%'}
+              />
+            </div>
           </div>
-        </Section>
+          <div className="side_bar">
+            <div>{data.is_dead ? 'Dead' : 'Alive'}</div>
+            <div>Consciousness: {data.consciousness ?? 0}</div>
+            <div>Pain: {data.pain ?? 0}</div>
+            <div>Circulation: {data.circulation ?? 0}</div>
+            <div>Oxygenation: {data.oxygenation ?? 0}</div>
+            <div>{data.blood_type}</div>
+            {MapZone('body', data.injuries!['body'])}
+            {selectedSection !== 'body' &&
+              MapZone(selectedSection, data.injuries![selectedSection])}
+            <Section title="Reagents">
+              <div className="injury_row">
+                {data.reagents?.map((x) =>
+                  MapInjury({
+                    name: x.name,
+                    damage: x.volume,
+                    heal_text: '',
+                  }),
+                )}
+              </div>
+            </Section>
+          </div>
+        </div>
       </Window.Content>
     </Window>
   );
@@ -148,22 +273,24 @@ const MapZone = (zone: string, injuries: InjuryEntry[]) => {
 
 const MapInjury = (injury: InjuryEntry) => {
   return (
-    <div key={injury.name} className="injury_entry">
-      <div
-        className="injury_icon"
-        style={{
-          borderColor:
-            typeof injury.damage === 'number'
-              ? mixColors('#29ba41', '#b82828', injury.damage / 50)
-              : mixColors('#29ba41', '#b82828', (injury.severity ?? 2) / 2),
-        }}
-      >
-        {typeof injury.damage === 'number'
-          ? injury.damage.toFixed(1)
-          : injury.damage}
+    <Tooltip content={injury.heal_text}>
+      <div key={injury.name} className="injury_entry">
+        <div
+          className="injury_icon"
+          style={{
+            borderColor:
+              typeof injury.damage === 'number'
+                ? mixColors('#29ba41', '#b82828', injury.damage / 50)
+                : mixColors('#29ba41', '#b82828', (injury.severity ?? 2) / 2),
+          }}
+        >
+          {typeof injury.damage === 'number'
+            ? injury.damage.toFixed(1)
+            : injury.damage}
+        </div>
+        <div>{injury.name}</div>
       </div>
-      <div>{injury.name}</div>
-    </div>
+    </Tooltip>
   );
 };
 
