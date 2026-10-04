@@ -3,6 +3,7 @@ import { Section } from 'tgui/components';
 import ScrollingChart from 'tgui/components/ScrollingChart';
 import { Tooltip } from 'tgui-core/components';
 
+import { clamp01 } from '../../common/math';
 import { Window } from '../layouts';
 
 const bodyPart =
@@ -140,6 +141,37 @@ export const HealthAnalyzer = (props) => {
         <div className="interface_main">
           <div className="body_overview">
             <svg width="140" height="320" viewBox="0 0 35 80">
+              <defs>
+                <clipPath id="consciousnessClip">
+                  <rect
+                    x="0"
+                    y={
+                      80 -
+                      clamp01(
+                        (data.consciousness ?? 1) >= 0
+                          ? (data.consciousness ?? 1)
+                          : 1 + data.consciousness!,
+                      ) *
+                        80
+                    }
+                    width="35"
+                    height={
+                      clamp01(
+                        (data.consciousness ?? 1) >= 0
+                          ? (data.consciousness ?? 1)
+                          : 1 + data.consciousness!,
+                      ) * 80
+                    }
+                  />
+                </clipPath>
+              </defs>
+
+              <path
+                d={bodyPart}
+                stroke="none"
+                fill={(data.consciousness ?? 0) >= 0 ? 'green' : 'red'}
+                clipPath="url(#consciousnessClip)"
+              />
               <path d={bodyPart} stroke="white" fill="none" strokeWidth="0.5" />
 
               {bodyParts.map((x) => (

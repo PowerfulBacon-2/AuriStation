@@ -221,6 +221,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/item/stack/medical)
 	self_delay = 10 SECONDS
 	stop_bleeding = BLEED_CRITICAL
 	heal_creatures = TRUE
+	injury_intercepted = TRUE
 
 /obj/item/stack/medical/ointment
 	name = "ointment"
