@@ -123,7 +123,7 @@ export const HealthAnalyzer = (props) => {
               />
               <path
                 className="areaHitbox"
-                d="M11 11 21 11 21 28 26 42 6 42 11 28Z"
+                d="M11 11 21 11 21 28 24.2 37 7.8 37 11 28Z"
                 onClick={() => {
                   setSelectedSection('chest');
                 }}
@@ -155,7 +155,7 @@ export const HealthAnalyzer = (props) => {
               />
               <path
                 className="areaHitbox"
-                d="M0 42 16 42 16 80 0 80Z"
+                d="M0 42 5 42 7.8 37 16 37 16 80 0 80Z"
                 onClick={() => {
                   setSelectedSection('right leg');
                 }}
@@ -171,7 +171,7 @@ export const HealthAnalyzer = (props) => {
               />
               <path
                 className="areaHitbox"
-                d="M16 42 35 42 35 80 16 80Z"
+                d="M16 37 24.2 37 26 42 35 42 35 80 16 80Z"
                 onClick={() => {
                   setSelectedSection('left leg');
                 }}
