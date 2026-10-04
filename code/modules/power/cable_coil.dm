@@ -13,7 +13,7 @@
 
 	gender = NEUTER //That's a cable coil sounds better than that's some cable coils
 
-	obj_flags = CONDUCTS_ELECTRICITY
+	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BELT
 
 	w_class = WEIGHT_CLASS_SMALL
