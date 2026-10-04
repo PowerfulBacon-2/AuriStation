@@ -243,17 +243,20 @@ export const HealthAnalyzer = (props) => {
             {MapZone('body', data.injuries!['body'])}
             {selectedSection !== 'body' &&
               MapZone(selectedSection, data.injuries![selectedSection])}
-            <Section title="Reagents">
-              <div className="injury_row">
-                {data.reagents?.map((x) =>
-                  MapInjury({
-                    name: x.name,
-                    damage: x.volume,
-                    heal_text: '',
-                  }),
-                )}
-              </div>
-            </Section>
+            {data.reagents && (
+              <Section title="Reagents">
+                <div className="injury_row">
+                  {data.reagents?.map((x) =>
+                    MapInjury({
+                      name: x.name,
+                      damage: x.volume,
+                      heal_text: '',
+                    }),
+                  )}
+                  {data.reagents?.length === 0 && 'No reagents'}
+                </div>
+              </Section>
+            )}
           </div>
         </div>
       </Window.Content>
@@ -266,6 +269,7 @@ const MapZone = (zone: string, injuries: InjuryEntry[]) => {
     <Section title={zone}>
       <div className="injury_row">
         {injuries.sort((x) => x.severity ?? 0).map(MapInjury)}
+        {injuries.length === 0 && 'No injuries'}
       </div>
     </Section>
   );
