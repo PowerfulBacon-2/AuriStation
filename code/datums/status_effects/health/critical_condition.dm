@@ -61,6 +61,9 @@
 
 /datum/status_effect/critical_condition/proc/start_standing()
 	if (!do_after(owner, 3 SECONDS, owner, IGNORE_HELD_ITEM))
+		start_stand_timer()
+		return
+	if (!owner)
 		return
 	crawling = FALSE
 	REMOVE_TRAIT(owner, TRAIT_FLOORED, FROM_CRITICAL_CONDITION)
