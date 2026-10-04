@@ -148,7 +148,7 @@
 	data["intro"] = malfunction_flavor["introduction"]
 	data["allies"] = malfunction_flavor["allies"]
 	data["goal"] = malfunction_flavor["goal"]
-	data["objectives"] = get_objectives()
+	data["objectives"] = get_objectives_string()
 
 	return data
 

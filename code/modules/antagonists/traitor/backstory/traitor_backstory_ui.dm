@@ -43,7 +43,7 @@
 	data["has_uplink"] = uplink ? TRUE : FALSE
 	if(uplink)
 		data["uplink_unlock_info"] = uplink.unlock_text
-	data["objectives"] = get_objectives()
+	data["objectives"] = get_objectives_string()
 	data["backup_code"] = backup_code
 
 	return data
