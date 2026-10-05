@@ -4,36 +4,19 @@ SUBSYSTEM_DEF(department)
 	init_stage = INITSTAGE_EARLY
 	flags = SS_NO_FIRE
 
-	/// full list of department datums.
-	var/list/department_datums
-	/// assoc list of department datums by its department name(dept_id). The list may not have full departments of ingame.
-	var/list/department_assoc
-
-
-	/// department datums in a 'crew manifest' priority order. Only used for crew manifest window.
-	var/list/sorted_department_for_manifest
-	/// department datums in a 'job pref' priority order in character selection.
-	var/list/sorted_department_for_latejoin
+	var/list/datum/company/companies = list()
 
 /datum/controller/subsystem/department/Initialize(timeofday)
-	department_datums = list()
-	department_assoc = list()
 
-	for(var/datum/department_group/each_dept as anything in subtypesof(/datum/department_group))
-		each_dept = new each_dept()
+	for (var/company_type in subtypesof(/datum/company))
+		var/datum/company/company = new company_type()
+		var/list/departments = list()
+		for (var/department_type in company.departments)
+			departments += new department_type()
+		company.departments = departments
+		companies += company
 
-		department_datums += each_dept
-		if(each_dept.dept_id)
-			department_assoc[each_dept.dept_id] = each_dept
-
-	var/datum/department_group/dummy_datum
-	dummy_datum = dummy_datum // be gone compile warning
-	sorted_department_for_manifest = list()
-	sorted_department_for_latejoin = list()
-	init_and_sort_department(sorted_department_for_manifest, NAMEOF(dummy_datum, manifest_category_order))
-	init_and_sort_department(sorted_department_for_latejoin, NAMEOF(dummy_datum, pref_category_order))
-
-	// I don't like this here, but this globallist can't take proper values on its declaration.
+	// Allocate jobs lookup table
 	GLOB.exp_jobsmap = list(
 		EXP_TYPE_CREW = 	get_all_jobs(),
 		EXP_TYPE_COMMAND = SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND),
@@ -48,80 +31,13 @@ SUBSYSTEM_DEF(department)
 
 	return SS_INIT_SUCCESS
 
-/// Puts department datums into a list in a desired sort priority. Only called once in subsystem Initialize.
-/// * list_instance<list>: takes a list instance, to initialize and sort departments into this list
-/// * priority_varname<string/NAMEOF>: a hacky one since sorting code does the same thing.
-/datum/controller/subsystem/department/proc/init_and_sort_department(list/list_instance, priority_varname)
-	if(isnull(list_instance))
-		CRASH("'list_instance' does not exist: target_var [priority_varname]")
-	if(!islist(list_instance))
-		CRASH("'list_instance' is not a list: target_var [priority_varname]")
-	if(!priority_varname || !length(priority_varname))
-		CRASH("something's wrong to init department: target_var [priority_varname]")
-
-	var/list/_department_datums_to_sort = department_datums.Copy()
-	var/sanity_check = 1000
-	while(length(_department_datums_to_sort) && sanity_check--)
-		if(!sanity_check)
-			CRASH("the proc reached 0 sanity check - something's causing the infinite loop.")
-
-		var/datum/department_group/current
-		for(var/datum/department_group/each_dept in _department_datums_to_sort)
-			if(!each_dept.vars[priority_varname])
-				_department_datums_to_sort -= each_dept
-				continue
-			if(!current)
-				current = each_dept
-				continue
-			if(each_dept.vars[priority_varname] < current.vars[priority_varname])
-				current = each_dept
-				continue
-		list_instance += current
-		_department_datums_to_sort -= current
-
 /// WARNING: This always returns as a list.
 /// If your bitflag only gets a single department, it will return as a list.
 /datum/controller/subsystem/department/proc/get_department_by_bitflag(bitflag)
-	var/return_result = list()
-	. = return_result
-
-	for(var/datum/department_group/each_dept in department_datums)
-		if(each_dept.dept_bitflag & bitflag)
-			. += each_dept
-
-	return return_result
 
 /datum/controller/subsystem/department/proc/get_department_by_dept_id(id)
-	. = department_assoc[id]
-	if(!.)
-		CRASH("[id] isn't an existing department id.")
-	return department_assoc[id]
 
 /datum/controller/subsystem/department/proc/get_jobs_by_dept_id(id_or_list)
-	if(!id_or_list)
-		stack_trace("proc has no id value")
-		return list()
-
-	if(istext(id_or_list))
-		var/datum/department_group/dept = department_assoc[id_or_list]
-		return dept.jobs
-
-	if(!islist(id_or_list))
-		id_or_list = list(id_or_list)
-	else if(islist(id_or_list?[1]))
-		CRASH("You did something wrong. Check if you did like 'list(list())'")
-
-	var/list/jobs_to_return = list()
-	for(var/each in id_or_list)
-		var/datum/department_group/dept = department_assoc[each]
-		if(!dept)
-			message_admins("is not exist: [each]")
-			continue
-		if(!length(dept.jobs))
-			continue
-		jobs_to_return |= dept.jobs
-
-	return jobs_to_return
 
 /datum/company
 	/// Name of the company
@@ -131,22 +47,22 @@ SUBSYSTEM_DEF(department)
 	var/colour = ""
 
 	/// Primary bank account of the company
-	var/datum/bank_account/account
+	var/datum/bank_account/account = new /datum/bank_account
 
 	/// List of departments associated with the company, for companies that
 	/// have multiple departments such as Nanotrasen.
-	/// If this list is not defined, then a default department will be created
-	/// that will be ignored on UIs
+	/// This list may be empty, in which case the entire accounts and
+	/// employees list are directly in the company instead.
 	var/list/datum/company_department/departments
 
 	/// List of budget allocations that we have with this company, these let
 	/// us automatically give money to other accounts.
-	var/list/datum/budget_allocation/budget_allocations
+	var/list/datum/budget_allocation/budget_allocations = list()
 
 	/// List of employees who are in the company but are not part of any department
 	/// This is not a list of everyone who is employed with the company, as it
 	/// excludes those who are employed under a department.
-	var/list/datum/registered_employee/employees
+	var/list/datum/registered_employee/employees = list()
 
 /datum/company_department
 	/// Name of the department in the company
@@ -154,9 +70,9 @@ SUBSYSTEM_DEF(department)
 	/// The display colour of the department, a pale form of the company
 	var/colour = "#000000"
 	/// Account of this department
-	var/datum/bank_account/account
+	var/datum/bank_account/account = new /datum/bank_account()
 	/// List of employees in the department
-	var/list/datum/registered_employee/employees
+	var/list/datum/registered_employee/employees = list()
 
 /datum/registered_employee
 	/// The employees bank account
@@ -167,7 +83,11 @@ SUBSYSTEM_DEF(department)
 	/// How much this employee gets paid each pay-cycle.
 	var/paycheck = 0
 	/// History associated with edits to the employee
-	var/list/datum/registered_employee_history/history
+	var/list/datum/registered_employee_history/history = list()
+
+/datum/registered_employee/New(datum/bank_account/account)
+	. = ..()
+	src.account = account
 
 /datum/registered_employee_history
 	/// Which account is responsible for authoring this change
@@ -178,6 +98,12 @@ SUBSYSTEM_DEF(department)
 	var/new_removed = FALSE
 	/// Records the new paycheck value
 	var/new_paycheck
+
+/datum/registered_employee_history(datum/bank_account/author, datum/bank_account/new_account, new_removed, new_paycheck)
+	src.author = author
+	src.new_account = new_account
+	src.new_removed = new_removed
+	src.new_paycheck = new_paycheck
 
 /datum/budget_allocation
 	/// Name of the allocation, used to identify what this payment actually
@@ -206,6 +132,10 @@ SUBSYSTEM_DEF(department)
 	var/new_amount
 	/// The new account that we are paying into
 	var/datum/bank_account/new_account
+
+/datum/company_department/default
+	name = "Default"
+	colour = "#ffffff"
 
 // ---------------------------------------------------------------------
 //                                COMMAND
