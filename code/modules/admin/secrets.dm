@@ -418,7 +418,7 @@ GLOBAL_DATUM_INIT(admin_secrets, /datum/admin_secrets, new)
 			for(var/mob/living/H in chosenPlayers)
 				if(!(ishuman(H)||istype(H, /mob/living/silicon/)))
 					continue
-				if(H.stat == DEAD || !H.client || !H.mind || ispAI(H))
+				if(H.stat == DEAD || !H.mind || ispAI(H))
 					continue
 				if(is_special_character(H))
 					continue
@@ -780,7 +780,14 @@ GLOBAL_DATUM_INIT(admin_secrets, /datum/admin_secrets, new)
 			)
 
 			message_admins("[key_name(usr)] is creating a custom portal storm...")
-			var/list/prefreturn = presentpreflikepicker(usr,"Customize Portal Storm", "Customize Portal Storm", Button1="Ok", width = 600, StealFocus = 1,Timeout = 0, settings=settings)
+			var/list/prefreturn = present_pref_like_picker(
+				user = usr,
+				message = "Customize Portal Storm",
+				title = "Customize Portal Storm",
+				timeout = 0,
+				settings = settings,
+				width = 600,
+			)
 
 			if (prefreturn["button"] == 1)
 				var/list/prefs = settings["mainsettings"]

@@ -11,9 +11,7 @@ export const IMPL_HUB_STORAGE = 1;
 export const IMPL_INDEXED_DB = 2;
 
 type StorageImplementation =
-  | typeof IMPL_MEMORY
-  | typeof IMPL_HUB_STORAGE
-  | typeof IMPL_INDEXED_DB;
+  typeof IMPL_MEMORY | typeof IMPL_HUB_STORAGE | typeof IMPL_INDEXED_DB;
 
 const INDEXED_DB_VERSION = 1;
 const INDEXED_DB_NAME = 'tgui';

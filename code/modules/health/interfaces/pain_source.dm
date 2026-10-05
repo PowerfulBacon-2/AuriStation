@@ -35,7 +35,7 @@
 
 /// If we get knocked out, then we stop feeling pain
 /datum/pain_source/proc/knocked_out_update()
-	if (HAS_TRAIT(owner, TRAIT_KNOCKEDOUT))
+	if (HAS_TRAIT_NOT_FROM(owner, TRAIT_KNOCKEDOUT, FROM_PAIN_SHOCK))
 		// This also immediately resets our pain value, we do not
 		// feel overpain while knocked out. No trauma from surgeries
 		adjusted_pain = 0
@@ -75,7 +75,11 @@
 	var/consciousness_modifier = -min((consciousness_impact / impact_maximum) * owner.consciousness.max_value, owner.consciousness.max_value)
 	owner.consciousness.set_consciousness_source(consciousness_modifier, FROM_PAIN_SHOCK)
 	// If we don't take crit damage, then we don't enter shock from pain
-	if (adjusted_pain >= 100 && !HAS_TRAIT(owner, TRAIT_NOCRITDAMAGE))
+	if (adjusted_pain >= PAIN_UNCONSCIOUS && !HAS_TRAIT(owner, TRAIT_NOCRITDAMAGE))
+		ADD_TRAIT(owner, TRAIT_KNOCKEDOUT, FROM_PAIN_SHOCK)
+	else
+		REMOVE_TRAIT(owner, TRAIT_KNOCKEDOUT, FROM_PAIN_SHOCK)
+	if (adjusted_pain >= PAIN_CRIT && !HAS_TRAIT(owner, TRAIT_NOCRITDAMAGE))
 		enter_pain_crit()
 	else
 		exit_pain_crit()

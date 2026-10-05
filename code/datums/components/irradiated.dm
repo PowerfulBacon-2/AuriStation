@@ -175,6 +175,8 @@
 		return
 
 	var/obj/item/bodypart/affected_limb = human_parent.get_bodypart(ran_zone(probability = 0))
+	if (!affected_limb)
+		return
 	human_parent.visible_message(
 		span_boldwarning("[human_parent]'s [affected_limb.plaintext_zone] bubbles unnaturally, then bursts into blisters!"),
 		span_boldwarning("Your [affected_limb.plaintext_zone] bubbles unnaturally, then bursts into blisters!"),

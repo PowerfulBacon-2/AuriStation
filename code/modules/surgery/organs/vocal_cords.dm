@@ -28,12 +28,14 @@
 	desc = "Fragments of adamantine exist in all golems, stemming from their origins as purely magical constructs. These are used to \"hear\" messages from their leaders."
 	slot = ORGAN_SLOT_ADAMANTINE_RESONATOR
 	icon_state = "adamantine_resonator"
+	hypoxia_multiplier = 0
 
 /obj/item/organ/vocal_cords/adamantine
 	name = "adamantine vocal cords"
 	desc = "When adamantine resonates, it causes all nearby pieces of adamantine to resonate as well. Adamantine golems use this to broadcast messages to nearby golems."
 	actions_types = list(/datum/action/item_action/organ_action/use/adamantine_vocal_cords)
 	icon_state = "adamantine_cords"
+	hypoxia_multiplier = 0
 
 /datum/action/item_action/organ_action/use/adamantine_vocal_cords/on_activate(mob/user, atom/target)
 	var/message = tgui_input_text(owner, "Resonate a message to all nearby golems.", "Resonate")

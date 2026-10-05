@@ -93,6 +93,7 @@
 #include "spell_shapeshift.dm"
 #include "stat_mc.dm"
 #include "status_effect_validity.dm"
+#include "steal_objectives_trackability.dm"
 #include "strippable.dm"
 #include "subsystem_init.dm"
 #include "subsystem_metric_sanity.dm"
@@ -118,7 +119,7 @@
 #include "mapping\check_disposals.dm"
 #include "mapping\check_light_attachment.dm"
 #include "mapping\check_multiple_objects.dm"
-#include "mapping\check_wire_crossing.dm"
+#include "mapping\check_wires.dm"
 #include "mapping\map_test.dm"
 
 // END_INCLUDE

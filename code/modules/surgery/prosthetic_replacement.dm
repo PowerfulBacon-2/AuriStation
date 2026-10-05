@@ -19,11 +19,11 @@
 	self_operable = TRUE
 	required_trait = TRAIT_ROBOTICIST_SURGEON
 
-/datum/surgery/prosthetic_replacement/can_start(mob/user, mob/living/carbon/target)
+/datum/surgery/prosthetic_replacement/can_start(mob/user, mob/living/carbon/target, target_zone)
 	if(!iscarbon(target))
 		return FALSE
 	var/mob/living/carbon/C = target
-	if(!C.get_bodypart(user.get_combat_bodyzone(src))) //can only start if limb is missing
+	if(!C.get_bodypart(target_zone)) //can only start if limb is missing
 		return TRUE
 	return FALSE
 

@@ -16,8 +16,11 @@
 	/// Healing factor and decay factor function on % of maxhealth, and do not work by applying a static number per tick
 	var/healing_factor 	= 0										//fraction of maxhealth healed per on_life(), set to 0 for generic organs
 	var/decay_factor 	= 0										//same as above but when without a living owner, set to 0 for generic organs
+	/// Multiplier for the rate at which hypoxia applies
+	var/hypoxia_multiplier = 1
 	var/high_threshold	= STANDARD_ORGAN_THRESHOLD * 0.45		//when severe organ damage occurs
 	var/low_threshold	= STANDARD_ORGAN_THRESHOLD * 0.1		//when minor organ damage occurs
+	var/hypoxia_start = 0.2
 
 	///Organ variables for determining what we alert the owner with when they pass/clear the damage thresholds
 	var/prev_damage = 0
@@ -37,6 +40,9 @@
 	var/visual = TRUE
 	/// Size between 0-100, determines probability of being hit by penetrating attacks
 	var/organ_size = 25
+	/// The probability that when we are at >200 damage, additional damage gets applied
+	/// to this organ.
+	var/instakill_prob = 0
 	/// Traits that are given to the holder of the organ.
 	var/list/organ_traits
 	/// Status Effects that are given to the holder of the organ.
@@ -218,26 +224,34 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 /obj/item/organ/proc/on_death(delta_time, times_fired) //runs decay when outside of a person
 	if(organ_flags & (ORGAN_SYNTHETIC | ORGAN_FROZEN))
 		return
-	apply_organ_damage(decay_factor * maxHealth * delta_time)
+	apply_organ_damage(decay_factor * (maxHealth / 100) * delta_time)
 
 /obj/item/organ/proc/on_life(delta_time, times_fired) //repair organ damage if the organ is not failing
 	SHOULD_CALL_PARENT(TRUE) //PASS YOUR ARGS FUCKER
 
 	// Get the circulation rating
-	if (owner)
+	if (owner && status == ORGAN_ORGANIC)
 		var/circulation_rating = owner.blood.get_effectiveness()
 		// How much hypoxia damage do we want to deal?
-		var/desired_hypoxia_damage = max(0, (maxHealth * 3) - (((CLAMP01(circulation_rating) * (maxHealth * 3)) ** 0.3) / ((maxHealth * 3) ** (-0.7))))
+		var/desired_hypoxia_damage = max(0, (maxHealth * 3) - (((CLAMP01(circulation_rating + hypoxia_start) * (maxHealth * 3)) ** 0.3) / ((maxHealth * 3) ** (-0.7))))
+
+		// Calculate hypoxia damage rate
+		var/obj/item/bodypart/part = astype(loc, /obj/item/bodypart)
+		var/hypoxia_damage_rate = BASE_HYPOXIA_ORGAN_DAMAGE_PER_TICK + CLAMP01((part?.accumulated_damage || 0) / (part?.max_damage || 1)) * INJURED_HYPOXIA_ORGAN_DAMAGE_PER_TICK
+
 		// Increase our damage until we reach the desired threshold
-		var/damage_dealt = clamp(desired_hypoxia_damage - hypoxia, -HYPOXIA_ORGAN_HEAL_PER_TICK * delta_time, MAX_HYPOXIA_ORGAN_DAMAGE_PER_TICK * delta_time)
+		var/damage_dealt = clamp(desired_hypoxia_damage - hypoxia, -HYPOXIA_ORGAN_HEAL_PER_TICK * delta_time, hypoxia_damage_rate * delta_time)
 		var/hypoxia_damage = min(damage_dealt, maxHealth - hypoxia)
+
 		// Take the damage and update the effects of it
 		hypoxia += hypoxia_damage
 		update_hypoxia(hypoxia)
+
 		// If we are maxed out on hypoxia, then we start to take regular decay
 		var/decay_damage = damage_dealt - hypoxia
 		if (decay_damage > 0)
 			apply_organ_damage(decay_damage)
+
 		// Prevent healing while dying of hypoxia
 		if (damage_dealt > 0)
 			return
@@ -437,16 +451,15 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 
 /// Called by medical scanners to get a simple summary of how healthy the organ is. Returns an empty string if things are fine.
 /obj/item/organ/proc/get_status_text()
-	var/status = ""
 	if(organ_flags & ORGAN_FAILING)
-		status = "<font color='#cc3333'>Non-Functional</font>"
+		return "failure"
 	else if(damage > high_threshold)
-		status = "<font color='#ff9933'>Severely Damaged</font>"
+		return "damage (severe)"
 	else if (damage > low_threshold)
-		status = "<font color='#ffcc33'>Mildly Damaged</font>"
+		return "damage (mild)"
 	else if (hypoxia > high_threshold)
-		status = "<font color='#489cc6'>Severe Hypoxia</font>"
+		return "hypoxia (severe)"
 	else if (hypoxia > low_threshold)
-		status = "<font color='#66c4f3'>Mild Hypoxia</font>"
+		return "hypoxia (mild)"
 
-	return status
+	return null

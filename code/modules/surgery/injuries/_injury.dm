@@ -101,17 +101,18 @@
 /// Apply the injury to the target
 /datum/injury/proc/apply_to_human(mob/living/carbon/human/target)
 	RegisterSignal(target, COMSIG_ATOM_ATTACKBY, PROC_REF(item_interaction))
-	target.update_health_hud()
 	START_PROCESSING(SSinjuries, src)
 	if (pain)
 		target.pain.set_pain_source(pain, "[type]")
 	// Update progression, to apply initial effects
 	update_progressive_effects()
+	target.update_health_hud()
 
 /// Take the injury away from the person who owns the limb
 /datum/injury/proc/remove_from_human(mob/living/carbon/human/target)
 	remove_progressive_effects()
 	UnregisterSignal(target, COMSIG_ATOM_ATTACKBY)
+	target.pain.set_pain_source(0, "[type]")
 	target.update_health_hud()
 	STOP_PROCESSING(SSinjuries, src)
 

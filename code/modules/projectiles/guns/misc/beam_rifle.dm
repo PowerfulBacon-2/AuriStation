@@ -484,7 +484,7 @@
 	if(!QDELETED(target))
 		handle_impact(target)
 
-/obj/projectile/beam/beam_rifle/on_hit(atom/target, blocked = FALSE, piercing_hit = FALSE)
+/obj/projectile/beam/beam_rifle/on_hit(atom/target, def_zone, piercing_hit = FALSE)
 	handle_hit(target, piercing_hit)
 	return ..()
 

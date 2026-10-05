@@ -7,7 +7,7 @@
 	damage_flag = DAMAGE_FIRE
 	var/temperature = -50 // reduce the body temperature by 50 points
 
-/obj/projectile/temp/on_hit(atom/target, blocked = 0)
+/obj/projectile/temp/on_hit(atom/target, def_zone)
 	. = ..()
 	if(iscarbon(target))
 		var/mob/living/carbon/hit_mob = target
@@ -20,7 +20,8 @@
 	else if(isliving(target))
 		var/mob/living/L = target
 		// the new body temperature is adjusted by the bullet's effect temperature
-		L.adjust_bodytemperature((1 - blocked) * temperature)
+		if (!astype(target, /mob/living)?.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness))
+			L.adjust_bodytemperature(temperature)
 
 /obj/projectile/temp/hot
 	name = "heat beam"

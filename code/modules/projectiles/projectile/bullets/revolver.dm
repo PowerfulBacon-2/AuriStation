@@ -55,7 +55,7 @@
 	damage = 10
 	ricochets_max = 0
 
-/obj/projectile/bullet/c38/trac/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/c38/trac/on_hit(atom/target, def_zone)
 	. = ..()
 	var/mob/living/M = target
 	if(!istype(M))
@@ -71,7 +71,7 @@
 	damage = 12
 	ricochets_max = 0
 
-/obj/projectile/bullet/c38/hotshot/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/c38/hotshot/on_hit(atom/target, def_zone)
 	. = ..()
 	if(iscarbon(target))
 		var/mob/living/carbon/M = target
@@ -84,11 +84,13 @@
 	var/temperature = 100
 	ricochets_max = 0
 
-/obj/projectile/bullet/c38/iceblox/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/c38/iceblox/on_hit(atom/target, def_zone)
 	. = ..()
 	if(isliving(target))
 		var/mob/living/M = target
-		M.adjust_bodytemperature(((100-blocked)/100)*(temperature - M.bodytemperature))
+		if (M.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness))
+			return
+		M.adjust_bodytemperature(temperature - M.bodytemperature)
 
 /obj/projectile/bullet/c38/mime
 	name = "invisible .38 bullet"
@@ -97,7 +99,7 @@
 	nodamage = TRUE
 	martial_arts_no_deflect = TRUE
 
-/obj/projectile/bullet/c38/mime/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/c38/mime/on_hit(atom/target, def_zone)
 	if(isliving(target))
 		var/mob/living/carbon/human/M = target
 		if(HAS_TRAIT(M, TRAIT_MIMING))
@@ -113,7 +115,7 @@
 	icon_state = null
 	damage = 20
 
-/obj/projectile/bullet/c38/mime_lethal/on_hit(atom/target, blocked)
+/obj/projectile/bullet/c38/mime_lethal/on_hit(atom/target, def_zone)
 	. = ..()
 	if(isliving(target))
 		var/mob/living/living_target = target

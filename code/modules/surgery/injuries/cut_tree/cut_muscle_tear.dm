@@ -4,7 +4,7 @@
 	skin_armour_modifier = 0.4
 	severity_level = INJURY_PRIORITY_ACTIVE
 	health_doll_icon = "blood"
-	examine_description = "<b>a muscle tear</b>"
+	examine_description = "a muscle tear"
 	healed_type = /datum/injury/cut_stitched_muscle
 	surgeries_provided = list(
 		/datum/surgery/stitch_muscle

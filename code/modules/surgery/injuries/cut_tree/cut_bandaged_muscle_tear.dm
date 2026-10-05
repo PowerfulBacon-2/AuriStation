@@ -2,7 +2,7 @@
 	base_type = /datum/injury/cut_healthy
 	severity_level = INJURY_PRIORITY_HEALING
 	health_doll_icon = "bandage"
-	examine_description = "<b>a bandaged muscle tear</b>"
+	examine_description = "a bandaged muscle tear"
 	effectiveness_modifier = 0.8
 	healed_type = /datum/injury/cut_stitched_muscle
 	surgeries_provided = list(

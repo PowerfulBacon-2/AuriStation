@@ -32,9 +32,6 @@
 	/// The head of the department to show in the preferences menu
 	var/department_head_for_prefs
 
-	///Mostly deprecated, but only used in pref job savefiles
-	var/department_flag = NONE
-
 	///Players will be allowed to spawn in as jobs that are set to "Station"
 	var/faction = "None"
 
@@ -497,33 +494,6 @@
 			ACCESS_THEATRE, ACCESS_MAILSORTING, ACCESS_MINING_STATION,
 			ACCESS_GATEWAY, ACCESS_MINERAL_STOREROOM, ACCESS_MINING
 		)
-		// Access to cargo
-		if (SSjob.is_job_empty(JOB_NAME_CARGOTECHNICIAN))
-			. |= list(
-				ACCESS_CARGO
-			)
-		// Access to the bridge to request spare ID
-		if (SSjob.is_job_empty(JOB_NAME_CAPTAIN))
-			. |= ACCESS_HEADS
-			. |= ACCESS_KEYCARD_AUTH
-		// Access to science
-		if (SSjob.is_job_empty(JOB_NAME_SCIENTIST))
-			. |= list(
-				ACCESS_TOX, ACCESS_TOX_STORAGE, ACCESS_ROBOTICS,
-				ACCESS_RESEARCH, ACCESS_EXPLORATION, ACCESS_XENOBIOLOGY
-			)
-		// Access to engineering to setup the engine
-		if (SSjob.is_job_empty(JOB_NAME_STATIONENGINEER))
-			. |= list(
-				ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_ATMOSPHERICS
-			)
-		// Access to medical. Jobs like geneticist don't count
-		if (SSjob.is_job_empty(JOB_NAME_MEDICALDOCTOR))
-			. |= list(
-				ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_GENETICS,
-				ACCESS_CHEMISTRY, ACCESS_VIROLOGY, ACCESS_SURGERY,
-				ACCESS_CLONING
-			)
 
 /datum/job/proc/announce_head(mob/living/carbon/human/H, channels) //tells the given channel that the given mob is the new department head. See communications.dm for valid channels.
 	if(H && GLOB.announcement_systems.len)

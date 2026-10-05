@@ -33,24 +33,23 @@
 	return round(getBruteLoss() + getFireLoss() + getToxLoss() + getOxyLoss() + getCloneLoss(), precision)
 
 /mob/living/proc/apply_effect(effect = 0,effecttype = EFFECT_STUN, blocked = FALSE)
-	var/hit_percent = (100-blocked)/100
-	if(!effect || (hit_percent <= 0))
+	if(!effect || blocked)
 		return 0
 	switch(effecttype)
 		if(EFFECT_STUN)
-			Stun(effect * hit_percent)
+			Stun(effect)
 		if(EFFECT_KNOCKDOWN)
-			Knockdown(effect * hit_percent)
+			Knockdown(effect)
 		if(EFFECT_PARALYZE)
-			Paralyze(effect * hit_percent)
+			Paralyze(effect)
 		if(EFFECT_IMMOBILIZE)
-			Immobilize(effect * hit_percent)
+			Immobilize(effect)
 		if(EFFECT_UNCONSCIOUS)
-			Unconscious(effect * hit_percent)
+			Unconscious(effect)
 		if(EFFECT_EYE_BLUR)
-			blur_eyes(effect * hit_percent)
+			blur_eyes(effect)
 		if(EFFECT_DROWSY)
-			drowsyness = max(drowsyness,(effect * hit_percent))
+			drowsyness = max(drowsyness, effect)
 	return 1
 
 

@@ -154,6 +154,7 @@
 	desc = "A very basic set of optical sensors with no extra vision modes or functions."
 	status = ORGAN_ROBOTIC
 	organ_flags = ORGAN_SYNTHETIC
+	hypoxia_multiplier = 0
 
 /obj/item/organ/eyes/robotic/emp_act(severity)
 	. = ..()

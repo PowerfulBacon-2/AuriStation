@@ -127,7 +127,7 @@
 	/// Amount of blunt armour provided by the bones
 	var/bone_blunt_armour = 15
 	/// Injury status effects applied to this limb
-	var/list/injuries = list()
+	var/list/datum/injury/injuries = list()
 
 	/// If the bodypart is permanently destroyed
 	var/destroyed = FALSE
@@ -208,7 +208,7 @@
 	for (var/datum/injury/injury in injuries)
 		var/damage_provided = injury.added_damage + injury.damage_multiplier * injury.progression
 		accumulated_damage += damage_provided
-		pain += injury.pain + damage_provided
+		pain += injury.pain + injury.pain_multiplier * injury.progression
 	// Update pain
 	owner?.pain.set_pain_source(pain, body_zone)
 	// Move on to update the effectiveness of the part
@@ -331,10 +331,9 @@
 
 	update_icon_dropped()
 
-///since organs aren't actually stored in the bodypart themselves while attached to a person, we have to query the owner for what we should have
 /obj/item/bodypart/proc/get_organs()
 	SHOULD_CALL_PARENT(TRUE)
-	RETURN_TYPE(/list)
+	RETURN_TYPE(/list/obj/item)
 
 	return contents
 
@@ -352,7 +351,20 @@
 		// Organic bodyparts that need blood and nothing else die without it
 		if (circulation_flags == CIRCULATION_BLOOD)
 			var/desired_hypoxia_damage = max(0, (max_damage * 3) - (((CLAMP01(circulation_disruption) * (max_damage * 3)) ** 0.3) / ((max_damage * 3) ** (-0.7))))
-			increase_injury(OXY, clamp(damage_applied * 0.1, 0, desired_hypoxia_damage - damage_applied * 0.1))
+
+			// Adjust so its total damage
+			desired_hypoxia_damage /= max(1, length(owner.bodyparts))
+
+			// Get the total hypoxia damage
+			var/hypoxia_damage = get_injury_amount(OXY)
+
+			var/added_damage = max(desired_hypoxia_damage - hypoxia_damage, 0)
+
+			if (added_damage > 0)
+				increase_injury(OXY, clamp(min(damage_applied * 0.1, added_damage), 0, desired_hypoxia_damage - damage_applied * 0.1))
+			else if (added_damage < 0 && circulation_disruption > 0.4)
+				// Heal oxy damage
+				increase_injury(OXY, min(-HYPOXIA_BODYPART_HEAL_PER_TICK * circulation_disruption, added_damage))
 	else
 		// Heal oxy damage
 		increase_injury(OXY, -HYPOXIA_BODYPART_HEAL_PER_TICK)
@@ -813,12 +825,25 @@
 	sharp_damage = current_damage * proportion
 	blunt_damage = (current_damage * (1 - proportion)) * BLUNT_DAMAGE_RATIO
 	// If our bones are destroyed, then they will cause damage to organs when taking blunt hits
-	sharp_damage += blunt_damage * (1 - bone_rating * internal_protection_rating)
+	// If it is an explosive force, the overpressure reaches our internal organs even
+	// without penetration.
+	if (damage_flag == DAMAGE_BOMB)
+		sharp_damage += blunt_damage
+	else
+		sharp_damage += blunt_damage * (1 - bone_rating * internal_protection_rating)
 	if (sharp_damage <= 0)
 		return
 	// Damage organs
 	var/penetration_left = sharp_damage
 	if (!HAS_TRAIT(owner, TRAIT_NO_ORGAN_PENETRATION))
+		if (owner.get_total_damage() > owner.maxHealth - HEALTH_THRESHOLD_DEAD)
+			for (var/slot in organ_slots)
+				var/obj/item/organ/organ = owner.get_organ_slot(slot)
+				if (!organ)
+					continue
+				if (!prob(organ.instakill_prob))
+					continue
+				organ.apply_organ_damage(penetration_left * ORGAN_DAMAGE_MULTIPLIER_INSTAKILL)
 		for (var/slot in shuffle(organ_slots))
 			var/obj/item/organ/organ = owner.get_organ_slot(slot)
 			if (!organ)
@@ -1009,3 +1034,18 @@
 	if (length(injury_words) == 1)
 		return "has [injury_words[1]]"
 	return "has [jointext(injury_words.Splice(1, -1), ", ")] and [injury_words[length(injury_words)]]"
+
+/// Get a list of organs that we started with but no longer have
+/obj/item/bodypart/proc/get_missing_organ_slots()
+	RETURN_TYPE(/list/obj/item/organ)
+	if (!owner)
+		return list()
+	if (!owner.dna)
+		return list()
+	. = list()
+	for (var/slot in organ_slots)
+		if (!owner.dna.species.get_mutant_organ_type_for_slot(slot))
+			continue
+		if (owner.get_organ_slot(slot))
+			continue
+		. += slot

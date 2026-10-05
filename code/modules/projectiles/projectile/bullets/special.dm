@@ -16,7 +16,7 @@
 	. = ..()
 	SpinAnimation()
 
-/obj/projectile/bullet/honker/on_hit(mob/target, blocked, pierce_hit)
+/obj/projectile/bullet/honker/on_hit(mob/target, def_zone, pierce_hit)
 	. = ..()
 	var/mob/M = target
 	if(istype(M))
@@ -28,7 +28,7 @@
 /obj/projectile/bullet/mime
 	damage = 20
 
-/obj/projectile/bullet/mime/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/bullet/mime/on_hit(atom/target, def_zone)
 	. = ..()
 	if(!isliving(target))
 		return

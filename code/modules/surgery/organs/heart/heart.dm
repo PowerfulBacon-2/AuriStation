@@ -35,7 +35,7 @@
 
 /obj/item/organ/heart/Insert(mob/living/carbon/receiver, special, drop_if_replaced, pref_load)
 	. = ..()
-	receiver.blood.set_circulation_rating(circulation_effectiveness, FROM_HEART)
+	update_owner_circulation()
 
 /obj/item/organ/heart/Remove(mob/living/carbon/M, special = 0, pref_load = FALSE)
 	..()
@@ -64,7 +64,7 @@
 /obj/item/organ/heart/proc/Restart()
 	beating = TRUE
 	update_appearance()
-	owner?.blood.set_circulation_rating(circulation_effectiveness, FROM_HEART)
+	update_owner_circulation()
 	return TRUE
 
 /obj/item/organ/heart/proc/is_beating()
@@ -112,3 +112,12 @@
 
 /obj/item/organ/heart/get_availability(datum/species/owner_species, mob/living/owner_mob)
 	return owner_species.mutantheart && ..()
+
+/obj/item/organ/heart/apply_organ_damage(damage_amount, maximum)
+	. = ..()
+	update_owner_circulation()
+
+/obj/item/organ/heart/proc/update_owner_circulation()
+	if (!owner || !owner.blood)
+		return
+	owner.blood.set_circulation_rating(circulation_effectiveness * CLAMP01(1 - (damage / maxHealth)), FROM_HEART)

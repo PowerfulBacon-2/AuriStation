@@ -29,10 +29,10 @@
 	reagents.add_reagent(/datum/reagent/toxin, 5)
 	reagents.add_reagent(/datum/reagent/uranium/radium, 10)
 
-/obj/projectile/energy/bolt/radbolt/on_hit(atom/target, blocked = FALSE)
+/obj/projectile/energy/bolt/radbolt/on_hit(atom/target, def_zone)
 	if(iscarbon(target))
 		var/mob/living/carbon/M = target
-		if(blocked != 100) // not completely blocked
+		if(!M.check_shields(src, damage, "\the [name]", PROJECTILE_ATTACK, sharpness)) // not completely blocked
 			if(M.can_inject(null, def_zone, INJECT_CHECK_PENETRATE_THICK)) // Pass the hit zone to see if it can inject by whether it hit the head or the body.
 				..()
 				reagents.expose(M, INJECT)
@@ -41,11 +41,10 @@
 				M.adjust_confusion(3 SECONDS)
 				return BULLET_ACT_HIT
 			else
-				blocked = 100
 				target.visible_message(span_danger("\The [src] was deflected!"), \
 									   span_userdanger("You were protected against \the [src]!"))
 
-	..(target, blocked)
+	..()
 	DISABLE_BITFIELD(reagents.flags, NO_REACT)
 	reagents.handle_reactions()
 	return BULLET_ACT_HIT

@@ -1,12 +1,13 @@
 /datum/injury/acute/shock
 	base_type = /datum/injury/acute/shock
-	examine_description = "<b>neuromuscular incapacitation</b>"
+	examine_description = "neuromuscular incapacitation"
 	heal_description = "The effects of this injury will naturally dissipate over time."
 	max_absorption = 0
 	external = FALSE
 	damage_multiplier = 0
 	injury_flags = INJURY_LIMB
 	pain_multiplier = 1.4
+	severity_level = INJURY_PRIORITY_ACTIVE
 	var/stam_regen_start_time
 
 /datum/injury/acute/shock/adjust_progression(delta_damage)
