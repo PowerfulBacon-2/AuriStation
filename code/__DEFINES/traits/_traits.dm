@@ -91,7 +91,7 @@
 /// - Add 5 movespeed
 /// - Add 20% movespeed
 /// - etc.
-/// Ordering is deterministic and so is independant.
+/// Ordering is deterministic and so is independent.
 /// Parameters:
 /// 1: The target to receive the trait
 /// 2: The key of the trait
@@ -150,7 +150,7 @@
 /// - Add 5 movespeed
 /// - Add 20% movespeed
 /// - etc.
-/// Ordering is deterministic and so is independant.
+/// Ordering is deterministic and so is independent.
 /// Parameters:
 /// 1: The target to receive the trait
 /// 2: The key of the trait

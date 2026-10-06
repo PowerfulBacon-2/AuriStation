@@ -192,7 +192,7 @@
 
 /datum/dynamic_ruleset/gamemode/wizard/security_report()
 	return "Unconfirmed rumours suggest that a series of powerful artifacts that possess intricate control over space-time are in the hands \
-	of an independant organisation. While these reports currently lack credibility, the probability of incident has yet to be determined as \
+	of an independent organisation. While these reports currently lack credibility, the probability of incident has yet to be determined as \
 	negligable and security should utilise this possibility as a training excercise."
 
 //////////////////////////////////////////////

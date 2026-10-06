@@ -8,7 +8,7 @@
 /// Output value is between 0 and 100.
 /mob/living/damage_flag_to_armour_rating(damage_flag, zone = null)
 	switch (damage_flag)
-		// Runs through absorption and blunt independantly
+		// Runs through absorption and blunt independently
 		if (DAMAGE_ACID)
 			var/absorption = (100 - (zone ? get_bodyzone_armor_flag(zone, ARMOUR_ABSORPTION) : get_average_armor_flag(ARMOUR_ABSORPTION)) * 0.5) / 100
 			var/blunt = (100 - (zone ? get_bodyzone_armor_flag(zone, ARMOUR_BLUNT) : get_average_armor_flag(ARMOUR_BLUNT)) * 0.5) / 100
@@ -18,7 +18,7 @@
 		// Runs through absorption
 		if (DAMAGE_ABSORPTION)
 			return zone ? get_bodyzone_armor_flag(zone, ARMOUR_ABSORPTION) : get_average_armor_flag(ARMOUR_ABSORPTION)
-		// Runs through absorption and 50% of the heat, 50% of the absorption and 50% of the blunt independantly
+		// Runs through absorption and 50% of the heat, 50% of the absorption and 50% of the blunt independently
 		if (DAMAGE_BOMB)
 			var/heat = (100 - (zone ? get_bodyzone_armor_flag(zone, ARMOUR_HEAT) : get_average_armor_flag(ARMOUR_HEAT)) * 0.5) / 100
 			var/absorption = (100 - (zone ? get_bodyzone_armor_flag(zone, ARMOUR_ABSORPTION) : get_average_armor_flag(ARMOUR_ABSORPTION)) * 0.5) / 100

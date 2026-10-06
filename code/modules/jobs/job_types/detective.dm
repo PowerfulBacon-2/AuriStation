@@ -9,8 +9,7 @@
 	total_positions = 1
 	selection_color = "#ffeeee"
 	minimal_player_age = 7
-	exp_requirements = 180
-	exp_type = EXP_TYPE_SECURITY
+	exp_requirements = 120
 
 	outfit = /datum/outfit/job/detective
 

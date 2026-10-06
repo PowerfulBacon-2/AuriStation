@@ -11,8 +11,6 @@ GLOBAL_LIST_EMPTY(on_station_posis)
 	supervisors = "your laws" //No AI yet as you are just a cube
 	selection_color = "#ddffdd"
 	minimal_player_age = 21
-	exp_requirements = 120
-	exp_type = EXP_TYPE_CREW
 	random_spawns_possible = FALSE
 
 	display_order = JOB_DISPLAY_ORDER_CYBORG

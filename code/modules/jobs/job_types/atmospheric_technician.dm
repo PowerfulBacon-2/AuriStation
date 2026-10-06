@@ -7,9 +7,7 @@
 	faction = "Station"
 	total_positions = 3
 	selection_color = "#fff5cc"
-	// Requires advanced knowledge of the engineering department
-	// and can easilly disrupt large portions of the station
-	exp_requirements = 120
+	exp_requirements = 60
 	exp_type = EXP_TYPE_ENGINEERING
 
 	outfit = /datum/outfit/job/atmospheric_technician

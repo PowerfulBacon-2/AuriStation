@@ -7,8 +7,6 @@
 	total_positions = 2
 	supervisors = "the research director"
 	selection_color = "#ffeeff"
-	exp_requirements = 120
-	exp_type = EXP_TYPE_CREW
 	mind_traits = list(TRAIT_ROBOTICIST_SURGEON)
 
 	outfit = /datum/outfit/job/roboticist

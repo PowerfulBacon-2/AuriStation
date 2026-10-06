@@ -11,7 +11,7 @@
 	selection_color = "#ffddff"
 	req_admin_notify = 1
 	minimal_player_age = 7
-	exp_requirements = 1200
+	exp_requirements = 600
 	exp_type = EXP_TYPE_SCIENCE
 	min_pop = COMMAND_POPULATION_MINIMUM
 

@@ -90,14 +90,14 @@ const XenoartifactConsoleSellerEntry = (props) => {
   const stock = value['stock'] || [];
   return (
     <Flex.Item ml={1} my={0.5}>
-      <Section title={`${value['name']}`} px={2} py={1} independant>
+      <Section title={`${value['name']}`} px={2} py={1} independent>
         <BlockQuote>{`${value['dialogue']}`}</BlockQuote>
         <Divider />
         {stock.map((stock_list) => (
           <Section
             title={`${stock_list['name']}`}
             mx={5}
-            independant
+            independent
             buttons={
               <Button
                 icon={'shopping-cart'}

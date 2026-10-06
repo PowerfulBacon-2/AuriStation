@@ -25,29 +25,27 @@ SUBSYSTEM_DEF(department)
 		EXP_TYPE_SCIENCE = 	SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SCIENCE),
 		EXP_TYPE_SUPPLY = 	SSdepartment.get_jobs_by_dept_id(DEPT_NAME_CARGO),
 		EXP_TYPE_SECURITY = SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SECURITY),
-		EXP_TYPE_SERVICE = SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SERVICE),
 		EXP_TYPE_SILICON = 	SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SILICON)
 	)
 
 	return SS_INIT_SUCCESS
 
-/// WARNING: This always returns as a list.
-/// If your bitflag only gets a single department, it will return as a list.
-/datum/controller/subsystem/department/proc/get_department_by_bitflag(bitflag)
-
-/datum/controller/subsystem/department/proc/get_department_by_dept_id(id)
-
-/datum/controller/subsystem/department/proc/get_jobs_by_dept_id(id_or_list)
-
 /datum/company
 	/// Name of the company
 	var/name = ""
+
+	/// The display order, lower means it is displayed first
+	var/display_order = 0
 
 	/// The display colour of the company
 	var/colour = ""
 
 	/// Primary bank account of the company
 	var/datum/bank_account/account = new /datum/bank_account
+
+	/// List of jobs available for this company, at the top level
+	/// (not in any department).
+	var/list/available_jobs
 
 	/// List of departments associated with the company, for companies that
 	/// have multiple departments such as Nanotrasen.
@@ -67,10 +65,14 @@ SUBSYSTEM_DEF(department)
 /datum/company_department
 	/// Name of the department in the company
 	var/name = ""
+	/// The display order, lower means it is displayed first
+	var/display_order = 0
 	/// The display colour of the department, a pale form of the company
 	var/colour = "#000000"
 	/// Account of this department
 	var/datum/bank_account/account = new /datum/bank_account()
+	/// List of available jobs in the department
+	var/list/available_jobs
 	/// List of employees in the department
 	var/list/datum/registered_employee/employees = list()
 
@@ -99,7 +101,7 @@ SUBSYSTEM_DEF(department)
 	/// Records the new paycheck value
 	var/new_paycheck
 
-/datum/registered_employee_history(datum/bank_account/author, datum/bank_account/new_account, new_removed, new_paycheck)
+/datum/registered_employee_history/New(datum/bank_account/author, datum/bank_account/new_account, new_removed, new_paycheck)
 	src.author = author
 	src.new_account = new_account
 	src.new_removed = new_removed
@@ -147,21 +149,38 @@ SUBSYSTEM_DEF(department)
 		/datum/company_department/command,
 		/datum/company_department/science,
 	)
+	available_jobs = list(
+		/datum/job/captain
+	)
+	display_order = COMPANY_DISPLAY_ORDER_NANOTRASEN
 
 /datum/company_department/command
 	name = "Management"
 	colour = "#2f5ea5"
+	display_order = 0
+	available_jobs = list(
+		/datum/job/head_of_personnel,
+		/datum/job/lawyer,
+	)
 
 /datum/company_department/science
 	name = "Science"
 	colour = "#934a99"
+	display_order = 1
+	available_jobs = list(
+		/datum/job/research_director,
+		/datum/job/scientist,
+		/datum/job/roboticist,
+		/datum/job/exploration_crew,
+	)
 
 // ---------------------------------------------------------------------
 //                                SERVICE
 // ---------------------------------------------------------------------
-/datum/company/independant
-	name = "Independant"
+/datum/company/independent
+	name = "Independent"
 	colour = "#3d6714"
+	display_order = COMPANY_DISPLAY_ORDER_INDEPENDENT
 
 // ---------------------------------------------------------------------
 //                               SUPPLY (CARGO)
@@ -169,6 +188,12 @@ SUBSYSTEM_DEF(department)
 /datum/company/cargo
 	name = "Watabe Shipping"
 	colour = "#83381b"
+	display_order = COMPANY_DISPLAY_ORDER_CARGO
+	available_jobs = list(
+		/datum/job/quartermaster,
+		/datum/job/cargo_technician,
+		/datum/job/shaft_miner,
+	)
 
 // ---------------------------------------------------------------------
 //                            ENGINEERING
@@ -176,6 +201,12 @@ SUBSYSTEM_DEF(department)
 /datum/company/engineering
 	name = "Lager-Fein Electric"
 	colour = "#ff8929"
+	display_order = COMPANY_DISPLAY_ORDER_ENGINEERING
+	available_jobs = list(
+		/datum/job/chief_engineer,
+		/datum/job/station_engineer,
+		/datum/job/atmospheric_technician,
+	)
 
 // ---------------------------------------------------------------------
 //                               MEDICAL
@@ -183,6 +214,15 @@ SUBSYSTEM_DEF(department)
 /datum/company/medical
 	name = "AuriHealth Public Limited Company"
 	colour = "#4da5e4"
+	display_order = COMPANY_DISPLAY_ORDER_MEDICAL
+	available_jobs = list(
+		/datum/job/chief_medical_officer,
+		/datum/job/medical_doctor,
+		/datum/job/chemist,
+		/datum/job/surgeon,
+		/datum/job/geneticist,
+		/datum/job/paramedic,
+	)
 
 // ---------------------------------------------------------------------
 //                               SECURITY
@@ -190,3 +230,11 @@ SUBSYSTEM_DEF(department)
 /datum/company/security
 	name = "Garrison Private Security"
 	colour = "#ae1e1e"
+	display_order = COMPANY_DISPLAY_ORDER_SECURITY
+	available_jobs = list(
+		/datum/job/head_of_security,
+		/datum/job/warden,
+		/datum/job/security_officer,
+		/datum/job/deputy,
+		/datum/job/brig_physician,
+	)

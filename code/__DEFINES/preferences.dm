@@ -31,7 +31,6 @@
 #define EXP_TYPE_SUPPLY			"Supply"
 #define EXP_TYPE_SECURITY		"Security"
 #define EXP_TYPE_SILICON		"Silicon"
-#define EXP_TYPE_SERVICE		"Service"
 #define EXP_TYPE_ANTAG			"Antag"
 #define EXP_TYPE_SPECIAL		"Special"
 #define EXP_TYPE_GHOST			"Ghost"

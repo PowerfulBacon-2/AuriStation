@@ -7,8 +7,6 @@
 	faction = "Station"
 	total_positions = 1
 	selection_color = "#dddddd"
-	exp_requirements = 60
-	exp_type = EXP_TYPE_CREW
 	outfit = /datum/outfit/job/curator
 
 	base_access = list(ACCESS_LIBRARY, ACCESS_AUX_BASE, ACCESS_MINING_STATION)

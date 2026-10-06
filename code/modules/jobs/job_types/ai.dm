@@ -10,7 +10,7 @@
 	supervisors = "your laws"
 	req_admin_notify = TRUE
 	minimal_player_age = 30
-	exp_requirements = 600
+	exp_requirements = 120
 	exp_type = EXP_TYPE_SILICON
 	display_order = JOB_DISPLAY_ORDER_AI
 	departments = DEPT_BITFLAG_SILICON

@@ -13,7 +13,7 @@
 	selection_color = "#c1e1ec"
 	req_admin_notify = 1
 	minimal_player_age = 7
-	exp_requirements = 1200
+	exp_requirements = 600
 	exp_type = EXP_TYPE_MEDICAL
 	min_pop = COMMAND_POPULATION_MINIMUM
 

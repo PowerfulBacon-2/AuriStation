@@ -7,8 +7,6 @@
 	faction = "Station"
 	dynamic_spawn_group = JOB_SPAWN_GROUP_DEPARTMENT
 	selection_color = "#ffeeff"
-	exp_requirements = 120
-	exp_type = EXP_TYPE_CREW
 
 	outfit = /datum/outfit/job/scientist
 

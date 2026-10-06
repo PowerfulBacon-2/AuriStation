@@ -7,8 +7,6 @@
 	faction = "Station"
 	total_positions = 3
 	selection_color = "#bbe291"
-	exp_requirements = 60
-	exp_type = EXP_TYPE_CREW
 	outfit = /datum/outfit/job/botanist
 
 	base_access = list(
