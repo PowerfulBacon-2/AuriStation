@@ -13,6 +13,7 @@
 	exp_requirements = 600
 	exp_type = EXP_TYPE_SCIENCE
 	min_pop = COMMAND_POPULATION_MINIMUM
+	job_flags = JOB_HEAD
 
 	outfit = /datum/outfit/job/research_director
 

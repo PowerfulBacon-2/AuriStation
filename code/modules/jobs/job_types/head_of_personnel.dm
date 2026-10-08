@@ -14,6 +14,7 @@
 	exp_requirements = 300
 	exp_type = EXP_TYPE_COMMAND
 	min_pop = COMMAND_POPULATION_MINIMUM
+	job_flags = JOB_HEAD
 
 	outfit = /datum/outfit/job/head_of_personnel
 

@@ -378,7 +378,7 @@ SUBSYSTEM_DEF(dynamic)
 	if (CONFIG_GET(flag/protect_assistant_from_antagonist))
 		ruleset.restricted_roles |= JOB_NAME_ASSISTANT
 	if (CONFIG_GET(flag/protect_heads_from_antagonist))
-		ruleset.restricted_roles |= SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND)
+		ruleset.restricted_roles |= SSjob.get_all_jobs_with_flag(JOB_HEAD)
 
 	return ruleset
 

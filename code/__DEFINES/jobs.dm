@@ -20,6 +20,12 @@
 	. |= access;\
 }
 
+// Flags for identifying_flags
+/// Is this job considered a head of staff role?
+#define JOB_HEAD (1 << 0)
+/// Is this job a silicon role?
+#define JOB_SILICON (1 << 1)
+
 #define JOB_AVAILABLE 0
 #define JOB_UNAVAILABLE_GENERIC 1
 #define JOB_UNAVAILABLE_BANNED 2

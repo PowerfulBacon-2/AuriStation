@@ -8,6 +8,7 @@
 	selection_color = "#d7b088"
 	exp_requirements = 600
 	exp_type = EXP_TYPE_SUPPLY
+	job_flags = JOB_HEAD
 
 	outfit = /datum/outfit/job/quartermaster
 

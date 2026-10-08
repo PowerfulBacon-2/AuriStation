@@ -16,8 +16,10 @@
 	///Tells the given channels that the given mob is the new department head. See communications.dm for valid channels.
 	var/list/head_announce = null
 
+	/// Flags that identify this job
+	var/job_flags = NONE
+
 	///Bitflags for the job
-	var/flag = NONE //Deprecated //Except not really, still used throughout the codebase
 	var/auto_deadmin_role_flags = NONE
 
 	/// Determines whether or not late-joining as this role is allowed

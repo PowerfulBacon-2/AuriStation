@@ -18,17 +18,43 @@ SUBSYSTEM_DEF(department)
 
 	// Allocate jobs lookup table
 	GLOB.exp_jobsmap = list(
-		EXP_TYPE_CREW = 	get_all_jobs(),
-		EXP_TYPE_COMMAND = SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND),
-		EXP_TYPE_ENGINEERING = SSdepartment.get_jobs_by_dept_id(DEPT_NAME_ENGINEERING),
-		EXP_TYPE_MEDICAL = 	SSdepartment.get_jobs_by_dept_id(DEPT_NAME_MEDICAL),
-		EXP_TYPE_SCIENCE = 	SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SCIENCE),
-		EXP_TYPE_SUPPLY = 	SSdepartment.get_jobs_by_dept_id(DEPT_NAME_CARGO),
-		EXP_TYPE_SECURITY = SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SECURITY),
-		EXP_TYPE_SILICON = 	SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SILICON)
+		EXP_TYPE_CREW = get_all_jobs(),
+		EXP_TYPE_COMMAND = SSjob.get_all_jobs_with_flag(JOB_HEAD),
+		EXP_TYPE_ENGINEERING = SSdepartment.get_company_jobs(/datum/company/engineering),
+		EXP_TYPE_MEDICAL = SSdepartment.get_company_jobs(/datum/company/medical),
+		EXP_TYPE_SCIENCE = SSdepartment.get_department_jobs(/datum/company_department/science),
+		EXP_TYPE_SUPPLY = SSdepartment.get_company_jobs(/datum/company/cargo),
+		EXP_TYPE_SECURITY = SSdepartment.get_company_jobs(/datum/company/security),
+		EXP_TYPE_SILICON = SSjob.get_all_jobs_with_flag(JOB_SILICON)
 	)
 
 	return SS_INIT_SUCCESS
+
+/// Returns all of the jobs that a company can employ, given the company's typepath.
+/// Only valid for hard-coded companies, players can create new companies in game so this
+/// isn't appropriate logic for most game-code.
+/datum/controller/subsystem/department/proc/get_company_jobs(company_path)
+	for (var/datum/company/company in companies)
+		if (!istype(company, company_path))
+			continue
+		var/list/jobs = list()
+		jobs += company.available_jobs
+		for (var/datum/company_department/department as anything in company.departments)
+			jobs |= department.available_jobs
+		return jobs
+	CRASH("Could not locate default company with path [company_path]")
+
+/// Returns all of the jobs that a department can employ, given the departments's typepath.
+/// Only valid for hard-coded companies, players can create new companies in game so this
+/// isn't appropriate logic for most game-code.
+/datum/controller/subsystem/department/proc/get_department_jobs(department_path)
+	var/list/jobs = list()
+	for (var/datum/company/company in companies)
+		for (var/datum/company_department/department as anything in company.departments)
+			if (!istype(department, department_path))
+				continue
+			jobs |= department.available_jobs
+	return jobs
 
 /datum/company
 	/// Name of the company
@@ -44,7 +70,7 @@ SUBSYSTEM_DEF(department)
 	var/datum/bank_account/account = new /datum/bank_account
 
 	/// The job that is shown as the head role for the company
-	var/head_job
+	var/head_job = null
 
 	/// List of jobs available for this company, at the top level
 	/// (not in any department).
@@ -71,7 +97,7 @@ SUBSYSTEM_DEF(department)
 	/// The display order, lower means it is displayed first
 	var/display_order = 0
 	/// The job that is shown as the head role for the department
-	var/head_job
+	var/head_job = null
 	/// The display colour of the department, a pale form of the company
 	var/colour = "#000000"
 	/// Account of this department

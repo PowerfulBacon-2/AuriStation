@@ -235,7 +235,7 @@ SUBSYSTEM_DEF(job)
 		if(istype(job, GetJob(SSjob.overflow_role))) // We don't want to give him assistant, that's boring!
 			continue
 
-		if(job.title in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND)) //If you want a command position, select it!
+		if(job.job_flags & JOB_HEAD) //If you want a command position, select it!
 			continue
 
 		if(QDELETED(player))
@@ -807,7 +807,7 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/get_living_heads()
 	. = list()
 	for(var/mob/living/carbon/human/player in GLOB.alive_mob_list)
-		if(player.stat != DEAD && player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND)))
+		if(player.stat != DEAD && player.mind && (player.mind.assigned_role in get_all_jobs_with_flag(JOB_HEAD)))
 			. |= player.mind
 
 
@@ -818,7 +818,7 @@ SUBSYSTEM_DEF(job)
 	. = list()
 	for(var/i in GLOB.mob_list)
 		var/mob/player = i
-		if(player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND)))
+		if(player.mind && (player.mind.assigned_role in get_all_jobs_with_flag(JOB_HEAD)))
 			. |= player.mind
 
 //////////////////////////////////////////////
@@ -827,7 +827,7 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/get_living_sec()
 	. = list()
 	for(var/mob/living/carbon/human/player in GLOB.carbon_list)
-		if(player.stat != DEAD && player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SECURITY)))
+		if(player.stat != DEAD && player.mind && (player.mind.assigned_role in SSdepartment.get_company_jobs(/datum/company/security)))
 			. |= player.mind
 
 ////////////////////////////////////////
@@ -836,7 +836,7 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/get_all_sec()
 	. = list()
 	for(var/mob/living/carbon/human/player in GLOB.carbon_list)
-		if(player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SECURITY)))
+		if(player.mind && (player.mind.assigned_role in SSdepartment.get_company_jobs(/datum/company/security)))
 			. |= player.mind
 
 /datum/controller/subsystem/job/proc/JobDebug(message)
@@ -890,3 +890,10 @@ SUBSYSTEM_DEF(job)
 	new /obj/effect/pod_landingzone(loc, /obj/structure/closet/supplypod/centcompod, new /obj/item/paper/fluff/spare_id_safe_code/emergency_spare_id_safe_code())
 	safe_code_timer_id = null
 	safe_code_request_loc = null
+
+/// Get all of the jobs which have all of the provided flags
+/datum/controller/subsystem/job/proc/get_all_jobs_with_flag(job_flag)
+	. = list()
+	for (var/datum/job/job in occupations)
+		if ((job.job_flags & job_flag) == job_flag)
+			. += job

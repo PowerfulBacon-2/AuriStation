@@ -12,6 +12,7 @@
 	exp_requirements = 180
 	exp_type = EXP_TYPE_CREW
 	random_spawns_possible = FALSE
+	job_flags = JOB_SILICON
 
 	display_order = JOB_DISPLAY_ORDER_CYBORG
 

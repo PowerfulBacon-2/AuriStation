@@ -14,6 +14,7 @@
 	display_order = JOB_DISPLAY_ORDER_AI
 	random_spawns_possible = FALSE
 	allow_bureaucratic_error = FALSE
+	job_flags = JOB_SILICON
 	var/do_special_check = TRUE
 
 /datum/job/ai/get_access() // no point of calling parent proc
