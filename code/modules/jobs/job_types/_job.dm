@@ -90,8 +90,6 @@
 
 	///Bitfield of departments this job belongs with
 	var/departments = NONE
-	/// Same as the departments bitflag, but only one is allowed. Used in the preferences menu.
-	var/department_for_prefs = null
 	///Is this job affected by weird spawns like the ones from station traits
 	var/random_spawns_possible = TRUE
 	/// Should this job be allowed to be picked for the bureaucratic error event?
@@ -443,10 +441,6 @@
 /datum/job/proc/equip(mob/living/carbon/human/H, visuals_only = FALSE, announce = TRUE, latejoin = FALSE, datum/outfit/outfit_override = null, client/preference_source)
 	if(!H)
 		return FALSE
-	if(CONFIG_GET(flag/enforce_human_authority) && (title in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND)))
-		if(H.dna.species.id != SPECIES_HUMAN)
-			H.set_species(/datum/species/human)
-			H.apply_pref_name(/datum/preference/name/backup_human, preference_source)
 	if(!visuals_only)
 		var/datum/bank_account/bank_account = new(H.real_name, src)
 		bank_account.payday(STARTING_PAYCHECKS, TRUE)
@@ -668,7 +662,7 @@
 	if(!player_client)
 		return // Disconnected while checking for the appearance ban.
 
-	var/require_human = CONFIG_GET(flag/enforce_human_authority) && (job.departments & DEPT_BITFLAG_COM)
+	var/require_human = FALSE
 
 	if(fully_randomize)
 		if(require_human)

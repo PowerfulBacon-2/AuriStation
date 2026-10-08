@@ -1,7 +1,6 @@
 /datum/job/bartender
 	title = JOB_NAME_BARTENDER
 	description = "Brew a variety of drinks for the crew, cooperate with Botany and Chemistry for more exotic recipes, create a comfy atmosphere in your Bar."
-	department_for_prefs = DEPT_NAME_SERVICE
 	department_head = list(JOB_NAME_HEADOFPERSONNEL)
 	supervisors = "the head of personnel"
 	faction = "Station"
@@ -19,7 +18,6 @@
 	)
 	extra_access = list(ACCESS_HYDROPONICS, ACCESS_KITCHEN, ACCESS_MORGUE)
 
-	departments = DEPT_BITFLAG_SRV
 	bank_account_department = ACCOUNT_SRV_BITFLAG
 	payment_per_department = list(ACCOUNT_SRV_ID = PAYCHECK_EASY)
 

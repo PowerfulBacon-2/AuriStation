@@ -1,7 +1,6 @@
 /datum/job/paramedic
 	title = JOB_NAME_PARAMEDIC
 	description = "Retrieve the gravely injured and dead people from around the station, deliver medicine for minor wounds, and keep a close eye on the Crew Monitor in your free time."
-	department_for_prefs = DEPT_NAME_MEDICAL
 	department_head = list(JOB_NAME_CHIEFMEDICALOFFICER)
 	supervisors = "the chief medical officer"
 	faction = "Station"
@@ -21,7 +20,6 @@
 	)
 	extra_access = list(ACCESS_SURGERY, ACCESS_MINERAL_STOREROOM, ACCESS_VIROLOGY)
 
-	departments = DEPT_BITFLAG_MED
 	bank_account_department = ACCOUNT_MED_BITFLAG
 	payment_per_department = list(ACCOUNT_MED_ID = PAYCHECK_MEDIUM)
 	mind_traits = list(TRAIT_MEDICAL_METABOLISM)

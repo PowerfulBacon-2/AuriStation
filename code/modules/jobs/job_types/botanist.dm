@@ -1,7 +1,6 @@
 /datum/job/botanist
 	title = JOB_NAME_BOTANIST
 	description = "Grow plants for the Kitchen, Bar and Chemistry. Sell cannabis and other goods to the crew."
-	department_for_prefs = DEPT_NAME_SERVICE
 	department_head = list(JOB_NAME_HEADOFPERSONNEL)
 	supervisors = "the head of personnel"
 	faction = "Station"
@@ -20,7 +19,6 @@
 		ACCESS_KITCHEN,
 	)
 
-	departments = DEPT_BITFLAG_SRV
 	bank_account_department = ACCOUNT_SRV_BITFLAG
 	payment_per_department = list(ACCOUNT_SRV_ID = PAYCHECK_EASY)
 

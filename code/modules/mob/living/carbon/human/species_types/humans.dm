@@ -79,12 +79,4 @@
 		SPECIES_PERK_DESC = "You're a human, you were born to inherit the stars!",
 	))
 
-	if(CONFIG_GET(flag/enforce_human_authority))
-		to_add += list(list(
-			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
-			SPECIES_PERK_ICON = "bullhorn",
-			SPECIES_PERK_NAME = "Chain of Command",
-			SPECIES_PERK_DESC = "Nanotrasen only recognizes humans for command roles, such as Captain.",
-		))
-
 	return to_add

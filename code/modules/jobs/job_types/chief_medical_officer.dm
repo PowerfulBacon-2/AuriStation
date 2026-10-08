@@ -3,7 +3,6 @@
 	description = "Oversee paramedics, doctors, chemists, geneticists and the virologist. \
 	Ensure doctors and paramedicts are treating people in a timely manner, request medicine and other concoctions from chemists, \
 	and ensure geneticists and the virologist are following appropriate safety precautions while performing their research."
-	department_for_prefs = DEPT_NAME_MEDICAL
 	department_head = list(JOB_NAME_CAPTAIN)
 	supervisors = "the captain"
 	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD
@@ -24,7 +23,6 @@
 			ACCESS_KEYCARD_AUTH, ACCESS_SEC_DOORS, ACCESS_MAINT_TUNNELS, ACCESS_BRIGPHYS, ACCESS_EVA, ACCESS_EXTERNAL_AIRLOCKS, ACCESS_WEAPONS)
 	extra_access = list()
 
-	departments = DEPT_BITFLAG_MED | DEPT_BITFLAG_COM
 	bank_account_department = ACCOUNT_MED_BITFLAG | ACCOUNT_COM_BITFLAG
 	payment_per_department = list(
 		ACCOUNT_COM_ID = PAYCHECK_COMMAND_NT,

@@ -87,16 +87,6 @@
 /datum/preference/name/clown/create_default_value()
 	return pick(GLOB.clown_names)
 
-/datum/preference/name/mime
-	db_key = "mime_name"
-
-	explanation = "Mime name"
-	group = "fun"
-	relevant_job = /datum/job/mime
-
-/datum/preference/name/mime/create_default_value()
-	return pick(GLOB.mime_names)
-
 /datum/preference/name/cyborg
 	db_key = "cyborg_name"
 

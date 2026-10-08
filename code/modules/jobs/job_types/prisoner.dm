@@ -1,7 +1,6 @@
 /datum/job/prisoner
 	title = JOB_NAME_PRISONER
 	description = "As a prisoner your job is to be imprisoned. Play cards or chess, cook some food or grow some plants. Run away when security ain't looking."
-	department_for_prefs = DEPT_NAME_ASSISTANT
 	show_in_prefs = TRUE
 	faction = "Station"
 	total_positions = 3
@@ -10,7 +9,6 @@
 	selection_color = "#dddddd"
 
 	base_access = list()
-	departments = DEPT_BITFLAG_UNASSIGNED
 	bank_account_department = NONE
 
 	display_order = JOB_DISPLAY_ORDER_PRISONER

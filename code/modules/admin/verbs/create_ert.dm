@@ -17,7 +17,7 @@
 			"teamsize" = list("desc" = "Team Size", "type" = "number", "value" = template.teamsize),
 			"mission" = list("desc" = "Mission", "type" = "string", "value" = template.mission),
 			"polldesc" = list("desc" = "Ghost poll description", "type" = "string", "value" = template.polldesc),
-			"enforce_human" = list("desc" = "Enforce human authority", "type" = "boolean", "value" = "[(CONFIG_GET(flag/enforce_human_authority) ? "Yes" : "No")]"),
+			"enforce_human" = list("desc" = "Enforce human authority", "type" = "boolean", "value" = "Yes"),
 			"open_armory" = list("desc" = "Open armory doors", "type" = "boolean", "value" = "[(template.opendoors ? "Yes" : "No")]"),
 			"leader_experience" = list("desc" = "Pick an experienced leader", "type" = "boolean", "value" = "[(template.leader_experience ? "Yes" : "No")]"),
 			"random_names" = list("desc" = "Randomize names", "type" = "boolean", "value" = "[(template.random_names ? "Yes" : "No")]"),

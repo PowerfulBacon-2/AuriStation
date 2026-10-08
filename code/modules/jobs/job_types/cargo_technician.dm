@@ -1,7 +1,6 @@
 /datum/job/cargo_technician
 	title = JOB_NAME_CARGOTECHNICIAN
 	description = "Push crates around, deliver bounty papers and mail around the station, make use of the Disposals network to make your life easier."
-	department_for_prefs = DEPT_NAME_CARGO
 	department_head_for_prefs = JOB_NAME_QUARTERMASTER
 	department_head = list(JOB_NAME_HEADOFPERSONNEL)
 	supervisors = "the quartermaster and the head of personnel"
@@ -25,7 +24,6 @@
 		ACCESS_GATEWAY
 	)
 
-	departments = DEPT_BITFLAG_CAR
 	bank_account_department = ACCOUNT_CAR_BITFLAG
 	payment_per_department = list(ACCOUNT_CAR_ID = PAYCHECK_EASY)
 

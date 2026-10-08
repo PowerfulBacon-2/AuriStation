@@ -3,7 +3,6 @@ GLOBAL_LIST_EMPTY(on_station_posis)
 /datum/job/posibrain
 	title = JOB_NAME_POSIBRAIN
 	description = "Follow your AI's interpretation of your laws above all else, or your own interpretation if not connected to an AI. Choose one of many modules with different tools, ask robotics for maintenance and upgrades."
-	department_for_prefs = DEPT_BITFLAG_SILICON
 	department_head_for_prefs = JOB_NAME_AI
 	auto_deadmin_role_flags = DEADMIN_POSITION_SILICON
 	faction = "Station"
@@ -14,7 +13,6 @@ GLOBAL_LIST_EMPTY(on_station_posis)
 	random_spawns_possible = FALSE
 
 	display_order = JOB_DISPLAY_ORDER_CYBORG
-	departments = DEPT_BITFLAG_SILICON
 
 	show_in_prefs = FALSE //No reason to show in preferences
 

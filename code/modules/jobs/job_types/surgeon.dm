@@ -1,7 +1,6 @@
 /datum/job/surgeon
 	title = JOB_NAME_SURGEON
 	description = "Perform advanced surgeries that regular crew are not capable of, including experimental surgeries which can upgrade the body."
-	department_for_prefs = DEPT_NAME_MEDICAL
 	department_head = list(JOB_NAME_CHIEFMEDICALOFFICER)
 	supervisors = "the chief medical officer"
 	faction = "Station"
@@ -14,7 +13,6 @@
 	base_access = list(ACCESS_MEDICAL, ACCESS_MORGUE, ACCESS_SURGERY, ACCESS_CLONING, ACCESS_MECH_MEDICAL, ACCESS_VIROLOGY)
 	extra_access = list(ACCESS_CHEMISTRY, ACCESS_GENETICS)
 
-	departments = DEPT_BITFLAG_MED
 	bank_account_department = ACCOUNT_MED_BITFLAG
 	payment_per_department = list(ACCOUNT_MED_ID = PAYCHECK_HARD)
 	mind_traits = list(TRAIT_MEDICAL_METABOLISM, TRAIT_SURGEON, TRAIT_ROBOTICIST_SURGEON)

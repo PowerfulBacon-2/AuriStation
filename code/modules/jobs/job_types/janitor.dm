@@ -1,7 +1,6 @@
 /datum/job/janitor
 	title = JOB_NAME_JANITOR
 	description = "Clean up vomit, trash, and other messes around the station. Put down signs to warn people of slipping hazards, and eradicate rodents when you find them. Keep the station clean and tidy."
-	department_for_prefs = DEPT_NAME_SERVICE
 	department_head = list(JOB_NAME_HEADOFPERSONNEL)
 	supervisors = "the head of personnel"
 	faction = "Station"
@@ -18,7 +17,6 @@
 	)
 	extra_access = list()
 
-	departments = DEPT_BITFLAG_SRV
 	bank_account_department = ACCOUNT_SRV_BITFLAG
 	payment_per_department = list(ACCOUNT_SRV_ID = PAYCHECK_EASY)
 

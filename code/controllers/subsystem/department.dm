@@ -43,6 +43,9 @@ SUBSYSTEM_DEF(department)
 	/// Primary bank account of the company
 	var/datum/bank_account/account = new /datum/bank_account
 
+	/// The job that is shown as the head role for the company
+	var/head_job
+
 	/// List of jobs available for this company, at the top level
 	/// (not in any department).
 	var/list/available_jobs
@@ -67,6 +70,8 @@ SUBSYSTEM_DEF(department)
 	var/name = ""
 	/// The display order, lower means it is displayed first
 	var/display_order = 0
+	/// The job that is shown as the head role for the department
+	var/head_job
 	/// The display colour of the department, a pale form of the company
 	var/colour = "#000000"
 	/// Account of this department
@@ -149,24 +154,33 @@ SUBSYSTEM_DEF(department)
 		/datum/company_department/command,
 		/datum/company_department/science,
 	)
+	head_job = /datum/job/captain
 	available_jobs = list(
-		/datum/job/captain
+		/datum/job/captain,
+		/datum/job/lawyer,
 	)
 	display_order = COMPANY_DISPLAY_ORDER_NANOTRASEN
 
 /datum/company_department/command
-	name = "Management"
+	name = "Site Management"
 	colour = "#2f5ea5"
 	display_order = 0
+	head_job = /datum/job/head_of_personnel
+	// At least one of these plebs is actually useful to the station
+	// The other service jobs are self-employed
 	available_jobs = list(
 		/datum/job/head_of_personnel,
-		/datum/job/lawyer,
+		/datum/job/janitor,
+		/datum/job/curator,
+		/datum/job/chaplain,
+		/datum/job/clown,
 	)
 
 /datum/company_department/science
-	name = "Science"
+	name = "Research & Development"
 	colour = "#934a99"
 	display_order = 1
+	head_job = /datum/job/research_director
 	available_jobs = list(
 		/datum/job/research_director,
 		/datum/job/scientist,
@@ -189,6 +203,7 @@ SUBSYSTEM_DEF(department)
 	name = "Watabe Shipping"
 	colour = "#83381b"
 	display_order = COMPANY_DISPLAY_ORDER_CARGO
+	head_job = /datum/job/quartermaster
 	available_jobs = list(
 		/datum/job/quartermaster,
 		/datum/job/cargo_technician,
@@ -202,6 +217,7 @@ SUBSYSTEM_DEF(department)
 	name = "Lager-Fein Electric"
 	colour = "#ff8929"
 	display_order = COMPANY_DISPLAY_ORDER_ENGINEERING
+	head_job = /datum/job/chief_engineer
 	available_jobs = list(
 		/datum/job/chief_engineer,
 		/datum/job/station_engineer,
@@ -215,6 +231,7 @@ SUBSYSTEM_DEF(department)
 	name = "AuriHealth Public Limited Company"
 	colour = "#4da5e4"
 	display_order = COMPANY_DISPLAY_ORDER_MEDICAL
+	head_job = /datum/job/chief_medical_officer
 	available_jobs = list(
 		/datum/job/chief_medical_officer,
 		/datum/job/medical_doctor,
@@ -231,6 +248,7 @@ SUBSYSTEM_DEF(department)
 	name = "Garrison Private Security"
 	colour = "#ae1e1e"
 	display_order = COMPANY_DISPLAY_ORDER_SECURITY
+	head_job = /datum/job/head_of_security
 	available_jobs = list(
 		/datum/job/head_of_security,
 		/datum/job/warden,
