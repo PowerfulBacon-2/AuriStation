@@ -11,7 +11,7 @@ GLOBAL_PROTECT(exp_to_update)
 		return 0
 	if(!exp_requirements || !exp_type)
 		return 0
-	if(!job_is_xp_locked(src.title))
+	if(!job_is_xp_locked())
 		return 0
 	if(CONFIG_GET(flag/use_exp_restrictions_admin_bypass) && check_rights_for(C,R_ADMIN))
 		return 0
@@ -28,19 +28,15 @@ GLOBAL_PROTECT(exp_to_update)
 		return (job_requirement - my_exp)
 
 /datum/job/proc/get_exp_req_amount()
-	if(title in (SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND) | list(JOB_NAME_AI)))
-		var/uerhh = CONFIG_GET(number/use_exp_restrictions_heads_hours)
-		if(uerhh)
-			return uerhh * 60
 	return exp_requirements
 
 /datum/job/proc/get_exp_req_type()
 	return exp_type
 
-/proc/job_is_xp_locked(jobtitle)
-	if(!CONFIG_GET(flag/use_exp_restrictions_heads) && (jobtitle in (SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND) | list(JOB_NAME_AI))))
+/datum/job/proc/job_is_xp_locked()
+	if(!CONFIG_GET(flag/use_exp_restrictions_heads) && (job_flags & JOB_HEAD))
 		return FALSE
-	if(!CONFIG_GET(flag/use_exp_restrictions_other) && !(jobtitle in (SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND) | list(JOB_NAME_AI))))
+	if(!CONFIG_GET(flag/use_exp_restrictions_other) && !(job_flags & JOB_HEAD))
 		return FALSE
 	return TRUE
 
