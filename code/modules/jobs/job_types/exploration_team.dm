@@ -3,7 +3,7 @@
 	description = "Go out into space to complete different missions for loads of cash. Find and deliver back research disks for rare technologies."
 	department_head = list(JOB_NAME_RESEARCHDIRECTOR)
 	supervisors = "the research director"
-	faction = "Station"
+	faction = FACTION_STATION
 	total_positions = 3
 	minimal_player_age = 3
 	selection_color = "#ffeeff"

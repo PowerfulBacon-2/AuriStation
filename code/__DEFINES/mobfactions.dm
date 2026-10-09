@@ -6,6 +6,8 @@
 #define FACTION_HOSTILE "hostile"
 /// Acts as a default faction for most peaceful creatures
 #define FACTION_NEUTRAL "neutral"
+/// The station faction
+#define FACTION_STATION "Station"
 
 // Creature factions
 

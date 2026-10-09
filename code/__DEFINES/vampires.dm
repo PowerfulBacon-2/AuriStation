@@ -138,4 +138,4 @@
 #define TRAIT_MESMERIZED "trait_mesmerized"
 
 // Macros
-#define IS_CURATOR(mob) (mob?.mind?.assigned_role == JOB_NAME_CURATOR)
+#define IS_CURATOR(mob) (istype(mob?.mind?.assigned_job, /datum/job/curator))

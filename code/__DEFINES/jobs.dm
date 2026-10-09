@@ -25,6 +25,8 @@
 #define JOB_HEAD (1 << 0)
 /// Is this job a silicon role?
 #define JOB_SILICON (1 << 1)
+/// If set, this job's arrival doesn't get announced
+#define JOB_NO_ANNOUNCE (1 << 2)
 
 #define JOB_AVAILABLE 0
 #define JOB_UNAVAILABLE_GENERIC 1

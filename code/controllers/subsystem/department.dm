@@ -19,13 +19,13 @@ SUBSYSTEM_DEF(department)
 	// Allocate jobs lookup table
 	GLOB.exp_jobsmap = list(
 		EXP_TYPE_CREW = get_all_jobs(),
-		EXP_TYPE_COMMAND = SSjob.get_all_jobs_with_flag(JOB_HEAD),
-		EXP_TYPE_ENGINEERING = SSdepartment.get_company_jobs(/datum/company/engineering),
-		EXP_TYPE_MEDICAL = SSdepartment.get_company_jobs(/datum/company/medical),
-		EXP_TYPE_SCIENCE = SSdepartment.get_department_jobs(/datum/company_department/science),
-		EXP_TYPE_SUPPLY = SSdepartment.get_company_jobs(/datum/company/cargo),
-		EXP_TYPE_SECURITY = SSdepartment.get_company_jobs(/datum/company/security),
-		EXP_TYPE_SILICON = SSjob.get_all_jobs_with_flag(JOB_SILICON)
+		EXP_TYPE_COMMAND = SSjob.get_job_datums_in_group(/datum/job_group/command),
+		EXP_TYPE_ENGINEERING = SSjob.get_job_datums_in_group(/datum/job_group/engineering),
+		EXP_TYPE_MEDICAL = SSjob.get_job_datums_in_group(/datum/job_group/medical),
+		EXP_TYPE_SCIENCE = SSjob.get_job_datums_in_group(/datum/job_group/science),
+		EXP_TYPE_SUPPLY = SSjob.get_job_datums_in_group(/datum/job_group/supply),
+		EXP_TYPE_SECURITY = SSjob.get_job_datums_in_group(/datum/job_group/security),
+		EXP_TYPE_SILICON = SSjob.get_job_datums_in_group(/datum/job_group/silicon)
 	)
 
 	return SS_INIT_SUCCESS

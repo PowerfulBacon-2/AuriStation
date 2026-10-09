@@ -3,7 +3,7 @@
 	description = "Grow plants for the Kitchen, Bar and Chemistry. Sell cannabis and other goods to the crew."
 	department_head = list(JOB_NAME_HEADOFPERSONNEL)
 	supervisors = "the head of personnel"
-	faction = "Station"
+	faction = FACTION_STATION
 	total_positions = 3
 	selection_color = "#bbe291"
 	outfit = /datum/outfit/job/botanist

@@ -2,7 +2,7 @@
 	title = JOB_NAME_GIMMICK
 	description = "Use your unique position to provide a service or entertain the crew."
 	show_in_prefs = TRUE
-	faction = "Station"
+	faction = FACTION_STATION
 	total_positions = 0
 	supervisors = "no one"
 	selection_color = "#dddddd"

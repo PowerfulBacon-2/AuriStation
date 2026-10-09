@@ -3,7 +3,7 @@
 	description = "Ensure the station has an adequate power supply, repair and build new machinery, repair wiring chewed up by mice."
 	department_head = list(JOB_NAME_CHIEFENGINEER)
 	supervisors = "the chief engineer"
-	faction = "Station"
+	faction = FACTION_STATION
 	dynamic_spawn_group = JOB_SPAWN_GROUP_DEPARTMENT
 	selection_color = "#fff5cc"
 

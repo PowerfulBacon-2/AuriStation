@@ -58,6 +58,9 @@ SUBSYSTEM_DEF(job)
 	/// The loc to which the emergency safe code has been requested for delivery.
 	var/turf/safe_code_request_loc
 
+	/// Job group instances
+	var/list/job_groups = null
+
 /datum/controller/subsystem/job/Initialize()
 	if(!occupations.len)
 		SetupOccupations()
@@ -114,7 +117,7 @@ SUBSYSTEM_DEF(job)
 		overflow_role = new_overflow_role
 		JobDebug("Overflow role set to : [new_overflow_role]")
 
-/datum/controller/subsystem/job/proc/SetupOccupations(faction = "Station")
+/datum/controller/subsystem/job/proc/SetupOccupations(faction = FACTION_STATION)
 	occupations = list()
 	var/list/all_jobs = subtypesof(/datum/job)
 	if(!all_jobs.len)
@@ -897,3 +900,11 @@ SUBSYSTEM_DEF(job)
 	for (var/datum/job/job in occupations)
 		if ((job.job_flags & job_flag) == job_flag)
 			. += job
+
+/// Get all the job datums inside the job group
+/datum/controller/subsystem/job/proc/get_job_datums_in_group(job_group)
+	if (!job_groups)
+		for (var/job_path in subtypesof(/datum/job_group))
+			job_groups += new job_path()
+	var/datum/job_group/group = job_groups[job_group]
+	return group?.jobs || list()

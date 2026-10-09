@@ -321,9 +321,9 @@
 	var/area/A = get_area(character)
 	var/message = span_gamedeadsay("[span_name(character.real_name)] ([rank]) has arrived at the station at [span_name(A.name)].")
 	deadchat_broadcast(message, follow_target = character, message_type=DEADCHAT_ARRIVALRATTLE)
-	if((!GLOB.announcement_systems.len) || (!character.mind))
+	if(!GLOB.announcement_systems.len || !character.mind)
 		return
-	if((character.mind.assigned_role == JOB_NAME_CYBORG) || (character.mind.assigned_role == character.mind.special_role))
+	if(!character.mind.assigned_job || (character.mind.assigned_job.job_flags & JOB_NO_ANNOUNCE))
 		return
 
 	var/obj/machinery/announcement_system/announcer = pick(GLOB.announcement_systems)

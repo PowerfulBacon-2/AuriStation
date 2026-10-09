@@ -4,7 +4,7 @@
 	lock_flags = JOB_LOCK_REASON_ABSTRACT
 	department_head = list(JOB_NAME_HEADOFSECURITY)
 	supervisors = "the head of security"
-	faction = "Station"
+	faction = FACTION_STATION
 	total_positions = 0
 	selection_color = "#ffeeee"
 	minimal_player_age = 7

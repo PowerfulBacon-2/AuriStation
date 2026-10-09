@@ -34,7 +34,7 @@
 	/// The head of the department to show in the preferences menu
 	var/department_head_for_prefs
 
-	///Players will be allowed to spawn in as jobs that are set to "Station"
+	///Players will be allowed to spawn in as jobs that are set to FACTION_STATION ("Station")
 	var/faction = "None"
 
 	///How many players can be this job

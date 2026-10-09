@@ -50,9 +50,11 @@
 	var/memory
 	var/list/quirks = list()
 
-	/// The role that this mob was assigned, as a text value, may be a job which GetJob can be called to fetch
-	var/assigned_role
-	var/special_role
+	/// The job assigned to this mind at roundstart, or null if we aren't a station crewmember.
+	var/datum/job/assigned_job = null
+	/// A text string, or null, which indicates if we are an antagonist role.
+	/// TODO: Replace with checks against the antag datums instead.
+	var/special_role = null
 	var/list/restricted_roles = list()
 	/// Martial art on this mind
 	var/datum/martial_art/martial_art = null

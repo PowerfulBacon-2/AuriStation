@@ -2,7 +2,7 @@
 	title = JOB_NAME_PRISONER
 	description = "As a prisoner your job is to be imprisoned. Play cards or chess, cook some food or grow some plants. Run away when security ain't looking."
 	show_in_prefs = TRUE
-	faction = "Station"
+	faction = FACTION_STATION
 	total_positions = 3
 	min_pop = MINPOP_JOB_LIMIT
 	supervisors = "your own conscience"

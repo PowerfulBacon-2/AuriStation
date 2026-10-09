@@ -46,7 +46,7 @@ GLOBAL_VAR(survivor_report) //! Contains shared survivor report for roundend rep
 					var/mob/living/carbon/human/H = L
 					category = "humans"
 					if(H.mind)
-						mob_data["job"] = H.mind.assigned_role
+						mob_data["job"] = H.mind.assigned_job?.title ?? "Unknown"
 					else
 						mob_data["job"] = "Unknown"
 					mob_data["species"] = H.dna.species.name

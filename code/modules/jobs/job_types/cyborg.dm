@@ -3,7 +3,7 @@
 	description = "Follow your AI's interpretation of your laws above all else, or your own interpretation if not connected to an AI. Choose one of many modules with different tools, ask robotics for maintenance and upgrades."
 	department_head_for_prefs = JOB_NAME_AI
 	auto_deadmin_role_flags = DEADMIN_POSITION_SILICON
-	faction = "Station"
+	faction = FACTION_STATION
 	total_positions = 1
 	latejoin_allowed = FALSE
 	supervisors = "your laws and the AI"	//Nodrak
@@ -12,7 +12,7 @@
 	exp_requirements = 180
 	exp_type = EXP_TYPE_CREW
 	random_spawns_possible = FALSE
-	job_flags = JOB_SILICON
+	job_flags = JOB_SILICON | JOB_NO_ANNOUNCE
 
 	display_order = JOB_DISPLAY_ORDER_CYBORG
 

@@ -3,7 +3,7 @@
 	description = "Perform advanced surgeries that regular crew are not capable of, including experimental surgeries which can upgrade the body."
 	department_head = list(JOB_NAME_CHIEFMEDICALOFFICER)
 	supervisors = "the chief medical officer"
-	faction = "Station"
+	faction = FACTION_STATION
 	total_positions = 1
 	selection_color = "#d4ebf2"
 	exp_requirements = 120
