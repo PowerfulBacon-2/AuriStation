@@ -170,13 +170,12 @@ SUBSYSTEM_DEF(job)
 	var/datum/job/J = name_occupations[rank]
 	return J.departments
 
-/datum/controller/subsystem/job/proc/AssignRole(mob/dead/new_player/authenticated/player, rank, latejoin = FALSE)
-	JobDebug("Running AR, Player: [player], Rank: [rank], LJ: [latejoin]")
-	if(player?.mind && rank)
-		var/datum/job/job = GetJob(rank)
-		if(!job || job.lock_flags)
+/datum/controller/subsystem/job/proc/AssignRole(mob/dead/new_player/authenticated/player, datum/job/job, latejoin = FALSE)
+	JobDebug("Running AR, Player: [player], Rank: [job?.title], LJ: [latejoin]")
+	if(player?.mind && job)
+		if(job.lock_flags)
 			return FALSE
-		if(QDELETED(player) || is_banned_from(player.ckey, rank))
+		if(QDELETED(player) || is_banned_from(player.ckey, job?.title))
 			return FALSE
 		if(!job.player_old_enough(player.client))
 			return FALSE
@@ -184,18 +183,17 @@ SUBSYSTEM_DEF(job)
 			return FALSE
 		var/position_limit = job.get_spawn_position_count()
 		// Unassign our previous job, to prevent double counts
-		if(player.mind.assigned_role)
-			var/datum/job/current_job = SSjob.GetJob(player.mind.assigned_role)
-			current_job.current_positions--
-			player.mind.assigned_role = null
-		player.mind.assigned_role = rank
+		if(player.mind.assigned_job)
+			player.mind.assigned_job.current_positions--
+			player.mind.assigned_job = null
+		player.mind.assigned_job = job
 		unassigned -= player
 		job.current_positions++
 		if(!latejoin)
 			player.client.inc_metabalance(METACOIN_READY_UP_REWARD, reason = "Joined the station as a roundstart crew member.")
-		JobDebug("Player: [player] is now Rank: [rank], JCP:[job.current_positions], JPL:[position_limit]. Group size: [job.count_players_in_group()]")
+		JobDebug("Player: [player] is now Rank: [job.title], JCP:[job.current_positions], JPL:[position_limit]. Group size: [job.count_players_in_group()]")
 		return TRUE
-	JobDebug("AR has failed, Player: [player], Rank: [rank]")
+	JobDebug("AR has failed, Player: [player], Rank: [job]")
 	return FALSE
 
 /datum/controller/subsystem/job/proc/FreeRole(rank)
@@ -271,7 +269,7 @@ SUBSYSTEM_DEF(job)
 	JobDebug("Occupations reset.")
 	for(var/mob/dead/new_player/authenticated/player in GLOB.player_list)
 		if((player) && (player.mind))
-			player.mind.assigned_role = null
+			player.mind.assigned_job = null
 			player.mind.special_role = null
 			SSpersistence.antag_rep_change[player.ckey] = 0
 	SetupOccupations()
@@ -295,7 +293,7 @@ SUBSYSTEM_DEF(job)
 
 	//Get the players who are ready
 	for(var/mob/dead/new_player/authenticated/player in GLOB.player_list)
-		if(player.ready == PLAYER_READY_TO_PLAY && player.mind && !player.mind.assigned_role)
+		if(player.ready == PLAYER_READY_TO_PLAY && player.mind && !player.mind.assigned_job)
 			if(!player.check_preferences())
 				player.ready = PLAYER_NOT_READY
 			else
@@ -424,7 +422,7 @@ SUBSYSTEM_DEF(job)
 				continue
 			// Provisional assignment
 			job.current_positions++
-			player.mind.assigned_role = job.title
+			player.mind.assigned_job = job
 			JobDebug("DO [player.ckey] was assigned the provisional job [job.title]")
 			break
 	// Step 4: Create a random ordering of players
@@ -451,29 +449,28 @@ SUBSYSTEM_DEF(job)
 			// Reassign to a new job
 			for (var/datum/job/job in player_preferences)
 				// We already have this job, so don't need to reassign
-				if (player.mind.assigned_role == job.title)
+				if (player.mind.assigned_job == job)
 					break
 				// This job is full, skip
 				var/job_position_count = job.get_spawn_position_count()
 				if (job.current_positions >= job_position_count && job_position_count != -1)
 					continue
-				JobDebug("DO [player.ckey] switched from job [player.mind.assigned_role] to job [job.title]")
+				JobDebug("DO [player.ckey] switched from job [player.mind.assigned_job?.title] to job [job.title]")
 				// Unassign our previous job
-				if (player.mind.assigned_role)
-					var/datum/job/current_job = SSjob.GetJob(player.mind.assigned_role)
-					current_job.current_positions--
-					player.mind.assigned_role = null
+				if (player.mind.assigned_job)
+					player.mind.assigned_job.current_positions--
+					player.mind.assigned_job = null
 				// Provisional assignment
 				job.current_positions++
-				player.mind.assigned_role = job.title
+				player.mind.assigned_job = job
 				changed = TRUE
 				break
 	// Step 5: Assign job roles that we have so far
 	for(var/mob/dead/new_player/authenticated/player in sorted_orderings)
-		if (!player.mind.assigned_role)
+		if (!player.mind.assigned_job)
 			JobDebug("DO [player.ckey] has no medium or high priority jobs assigned")
 			continue
-		AssignRole(player, player.mind.assigned_role)
+		AssignRole(player, player.mind.assigned_job)
 		unassigned -= player
 
 /datum/controller/subsystem/job/proc/is_valid_job(mob/dead/new_player/authenticated/player, datum/job/job, required_priority)
@@ -533,7 +530,10 @@ SUBSYSTEM_DEF(job)
 
 
 //Gives the player the stuff he should have with his rank
-/datum/controller/subsystem/job/proc/EquipRank(mob/M, rank, joined_late = FALSE)
+/datum/controller/subsystem/job/proc/EquipRank(mob/M, datum/job/job, joined_late = FALSE)
+	if (!job)
+		return
+
 	var/mob/dead/new_player/authenticated/newplayer
 	var/mob/living/living_mob
 
@@ -542,10 +542,6 @@ SUBSYSTEM_DEF(job)
 		living_mob = newplayer.new_character
 	else
 		living_mob = M
-
-	var/datum/job/job = GetJob(rank)
-
-	living_mob.job = rank
 
 	//If we joined at roundstart we should be positioned at our workstation
 	if(!joined_late)
@@ -560,11 +556,11 @@ SUBSYSTEM_DEF(job)
 		else if(HAS_TRAIT(SSstation, STATION_TRAIT_HANGOVER) && job.random_spawns_possible)
 			SpawnLandAtRandom(living_mob, (typesof(/area/hallway) | typesof(/area/crew_quarters/bar) | typesof(/area/crew_quarters/dorms)))
 			spawning_handled = TRUE
-		else if(length(GLOB.jobspawn_overrides[rank]))
-			S = pick(GLOB.jobspawn_overrides[rank])
+		else if(length(GLOB.jobspawn_overrides[job.title]))
+			S = pick(GLOB.jobspawn_overrides[job.title])
 		else
 			for(var/obj/effect/landmark/start/sloc in GLOB.start_landmarks_list)
-				if(sloc.name != rank)
+				if(sloc.name != job.title)
 					S = sloc //so we can revert to spawning them on top of eachother if something goes wrong
 					continue
 				if(locate(/mob/living) in sloc.loc)
@@ -575,13 +571,13 @@ SUBSYSTEM_DEF(job)
 		if(S)
 			S.JoinPlayerHere(living_mob, FALSE)
 		if(!S && !spawning_handled) //if there isn't a spawnpoint send them to latejoin, if there's no latejoin go yell at your mapper
-			log_world("Couldn't find a round start spawn point for [rank]")
+			log_world("Couldn't find a round start spawn point for [job.title]")
 			SendToLateJoin(living_mob)
 
 
 	if(living_mob.mind)
-		living_mob.mind.assigned_role = rank
-	to_chat(M, "<b>You are the [rank].</b>")
+		living_mob.mind.assigned_job = job
+	to_chat(M, "<b>You are the [job.title].</b>")
 	if(job)
 		var/new_mob = job.equip(living_mob, null, null, joined_late , null, M.client)
 		if(ismob(new_mob))
@@ -596,7 +592,7 @@ SUBSYSTEM_DEF(job)
 				var/mob/dead/new_player/authenticated/NP = new()
 				NP.ckey = M.client.ckey
 				qdel(M)
-				to_chat(M, "Error equipping [rank]. Returning to lobby.</b>")
+				to_chat(M, "Error equipping [job.title]. Returning to lobby.</b>")
 				return null
 		SSpersistence.antag_rep_change[M.client.ckey] += job.GetAntagRep()
 
@@ -604,8 +600,8 @@ SUBSYSTEM_DEF(job)
 			if(CONFIG_GET(flag/auto_deadmin_players) || M.client?.prefs.read_player_preference(/datum/preference/toggle/deadmin_always))
 				M.client.holder.auto_deadmin()
 			else
-				handle_auto_deadmin_roles(M.client, rank)
-		to_chat(M, "<b>As the [rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>")
+				handle_auto_deadmin_roles(M.client, job)
+		to_chat(M, "<b>As the [job.title] you answer directly to [job.supervisors]. Special circumstances may change this.</b>")
 		job.radio_help_message(M)
 		if(job.req_admin_notify)
 			to_chat(M, "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>")
@@ -626,10 +622,9 @@ SUBSYSTEM_DEF(job)
 
 	return living_mob
 
-/datum/controller/subsystem/job/proc/handle_auto_deadmin_roles(client/C, rank)
+/datum/controller/subsystem/job/proc/handle_auto_deadmin_roles(client/C, datum/job/job)
 	if(!C?.holder)
 		return TRUE
-	var/datum/job/job = GetJob(rank)
 	if(!job)
 		return
 	if((job.auto_deadmin_role_flags & DEADMIN_POSITION_HEAD) && (CONFIG_GET(flag/auto_deadmin_heads) || C.prefs?.read_player_preference(/datum/preference/toggle/deadmin_position_head)))
@@ -679,7 +674,7 @@ SUBSYSTEM_DEF(job)
 		for(var/mob/dead/new_player/authenticated/player in GLOB.player_list)
 			if(job.lock_flags)
 				continue
-			if(!(player.ready == PLAYER_READY_TO_PLAY && player.mind && !player.mind.assigned_role))
+			if(!(player.ready == PLAYER_READY_TO_PLAY && player.mind && !player.mind.assigned_job))
 				continue //This player is not ready
 			if(is_banned_from(player.ckey, job.title) || QDELETED(player))
 				banned++
@@ -738,8 +733,8 @@ SUBSYSTEM_DEF(job)
 
 /datum/controller/subsystem/job/proc/SendToLateJoin(mob/M, buckle = TRUE)
 	var/atom/destination
-	if(M.mind && M.mind.assigned_role && length(GLOB.jobspawn_overrides[M.mind.assigned_role])) //We're doing something special today.
-		destination = pick(GLOB.jobspawn_overrides[M.mind.assigned_role])
+	if(M.mind && M.mind.assigned_job && length(GLOB.jobspawn_overrides[M.mind.assigned_job.title])) //We're doing something special today.
+		destination = pick(GLOB.jobspawn_overrides[M.mind.assigned_job.title])
 		destination.JoinPlayerHere(M, FALSE)
 		return
 
@@ -810,7 +805,7 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/get_living_heads()
 	. = list()
 	for(var/mob/living/carbon/human/player in GLOB.alive_mob_list)
-		if(player.stat != DEAD && player.mind && (player.mind.assigned_role in get_all_jobs_with_flag(JOB_HEAD)))
+		if(player.stat != DEAD && player.mind && (player.mind.assigned_job?.job_flags & JOB_HEAD))
 			. |= player.mind
 
 
@@ -821,7 +816,7 @@ SUBSYSTEM_DEF(job)
 	. = list()
 	for(var/i in GLOB.mob_list)
 		var/mob/player = i
-		if(player.mind && (player.mind.assigned_role in get_all_jobs_with_flag(JOB_HEAD)))
+		if(player.mind && (player.mind.assigned_job?.job_flags & JOB_HEAD))
 			. |= player.mind
 
 //////////////////////////////////////////////
@@ -830,7 +825,7 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/get_living_sec()
 	. = list()
 	for(var/mob/living/carbon/human/player in GLOB.carbon_list)
-		if(player.stat != DEAD && player.mind && (player.mind.assigned_role in SSdepartment.get_company_jobs(/datum/company/security)))
+		if(player.stat != DEAD && (player.mind.assigned_job?.type in get_job_datums_in_group(/datum/job_group/security)))
 			. |= player.mind
 
 ////////////////////////////////////////
@@ -839,7 +834,7 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/get_all_sec()
 	. = list()
 	for(var/mob/living/carbon/human/player in GLOB.carbon_list)
-		if(player.mind && (player.mind.assigned_role in SSdepartment.get_company_jobs(/datum/company/security)))
+		if(player.mind && (player.mind.assigned_job?.type in get_job_datums_in_group(/datum/job_group/security)))
 			. |= player.mind
 
 /datum/controller/subsystem/job/proc/JobDebug(message)
@@ -901,7 +896,7 @@ SUBSYSTEM_DEF(job)
 		if ((job.job_flags & job_flag) == job_flag)
 			. += job
 
-/// Get all the job datums inside the job group
+/// Get all the job datums inside the job group, returns datums not instances.
 /datum/controller/subsystem/job/proc/get_job_datums_in_group(job_group)
 	if (!job_groups)
 		for (var/job_path in subtypesof(/datum/job_group))

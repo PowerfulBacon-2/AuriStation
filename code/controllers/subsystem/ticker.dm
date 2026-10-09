@@ -321,10 +321,7 @@ SUBSYSTEM_DEF(ticker)
 	var/list/lightup_area_typecache = list()
 	var/minimal_access = SSjob.initial_players_to_assign < LOWPOP_JOB_LIMIT
 	for(var/mob/living/carbon/human/player in GLOB.player_list)
-		var/role = player.mind?.assigned_role
-		if(!role)
-			continue
-		var/datum/job/job = SSjob.GetJob(role)
+		var/datum/job/job = player.mind?.assigned_job
 		if(!job)
 			continue
 		lightup_area_typecache |= job.areas_to_light_up(minimal_access)
@@ -417,8 +414,8 @@ SUBSYSTEM_DEF(ticker)
 	for(var/mob/dead/new_player/authenticated/N in GLOB.player_list)
 		var/mob/living/carbon/human/player = N.new_character
 		var/datum/mind/mind = player?.mind
-		if(istype(player) && mind && mind.assigned_role)
-			if(mind.assigned_role == JOB_NAME_CAPTAIN)
+		if(istype(player) && mind && mind.assigned_job)
+			if(istype(mind.assigned_job, /datum/job/captain))
 				captainless = FALSE
 				spare_id_candidates += N
 			else if(captainless && (mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND)) && !(is_banned_from(N.ckey, JOB_NAME_CAPTAIN)))
@@ -434,7 +431,7 @@ SUBSYSTEM_DEF(ticker)
 						else if(spare_id_priority == highest_rank)
 							spare_id_candidates += N
 			if(mind.assigned_role != mind.special_role)
-				SSjob.EquipRank(N, mind.assigned_role, FALSE)
+				SSjob.EquipRank(N, mind.assigned_job, FALSE)
 			if(CONFIG_GET(flag/roundstart_traits))
 				SSquirks.AssignQuirks(mind, N.client, TRUE)
 		CHECK_TICK

@@ -18,12 +18,12 @@
 			continue
 
 		// Compatible job?
-		if(candidate.mind.assigned_role in restricted_roles)
+		if(candidate.mind.assigned_job && (candidate.mind.assigned_job.title in restricted_roles))
 			candidates -= candidate
 			continue
 
 		// Ghost role?
-		if(!allow_ghost_roles && (candidate.mind?.assigned_role in GLOB.exp_specialmap[EXP_TYPE_SPECIAL]))
+		if(!allow_ghost_roles && (!candidate.mind?.assigned_job || (candidate.mind.assigned_job.job_flags & JOB_NO_MIDROUND)))
 			candidates -= candidate
 			continue
 
@@ -215,7 +215,7 @@
 			continue
 
 		// Ghost role?
-		if(!allow_ghost_roles && (candidate.mind?.assigned_role in GLOB.exp_specialmap[EXP_TYPE_SPECIAL]))
+		if(!allow_ghost_roles && (!candidate.mind?.assigned_job || (candidate.mind.assigned_job & JOB_NO_MIDROUND)))
 			candidates -= candidate
 			continue
 

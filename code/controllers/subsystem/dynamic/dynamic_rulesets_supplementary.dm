@@ -44,7 +44,7 @@
 			continue
 
 		// Compatible job?
-		if(candidate.mind.assigned_role && (candidate.mind.assigned_role in restricted_roles))
+		if(candidate.mind.assigned_job && (candidate.mind.assigned_job.title in restricted_roles))
 			candidates -= candidate
 			continue
 

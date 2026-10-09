@@ -27,6 +27,8 @@
 #define JOB_SILICON (1 << 1)
 /// If set, this job's arrival doesn't get announced
 #define JOB_NO_ANNOUNCE (1 << 2)
+/// Not applicable for midround roles
+#define JOB_NO_MIDROUND (1 << 3)
 
 #define JOB_AVAILABLE 0
 #define JOB_UNAVAILABLE_GENERIC 1

@@ -226,7 +226,7 @@
 
 /datum/dynamic_ruleset/midround/ghost/nuclear_assault/finish_setup(mob/new_character)
 	new_character.mind.special_role = ROLE_OPERATIVE
-	new_character.mind.assigned_role = ROLE_OPERATIVE
+	new_character.mind.assigned_job = new /datum/job/special("Syndicate Field Operative")
 
 	if(has_made_leader)
 		return ..()
@@ -418,7 +418,7 @@
 
 /datum/dynamic_ruleset/midround/ghost/abductors/finish_setup(mob/new_character)
 	new_character.mind.special_role = ROLE_ABDUCTOR
-	new_character.mind.assigned_role = ROLE_ABDUCTOR
+	new_character.mind.assigned_job = new /datum/job/special("Alien")
 
 	if(!has_made_leader)
 		has_made_leader = TRUE
@@ -449,7 +449,7 @@
 
 /datum/dynamic_ruleset/midround/ghost/lone_abductor/finish_setup(mob/new_character)
 	new_character.mind.special_role = ROLE_ABDUCTOR
-	new_character.mind.assigned_role = ROLE_ABDUCTOR
+	new_character.mind.assigned_job = new /datum/job/special("Alien")
 
 	team = new
 	new_character.mind.add_antag_datum(antag_datum, team, ruleset = src)

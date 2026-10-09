@@ -53,7 +53,7 @@
 			continue
 
 		// Compatible job?
-		if(candidate.mind.assigned_role && (candidate.mind.assigned_role in restricted_roles))
+		if(candidate.mind.assigned_job && (candidate.mind.assigned_job.title in restricted_roles))
 			candidates -= candidate
 			continue
 
@@ -182,13 +182,13 @@
 /datum/dynamic_ruleset/gamemode/wizard/choose_candidates()
 	. = ..()
 	for(var/datum/mind/chosen_mind in chosen_candidates)
-		chosen_mind.assigned_role = initial(antag_datum.banning_key)
+		chosen_mind.assigned_job = new /datum/job/special("Space Wizard")
 
 /datum/dynamic_ruleset/gamemode/wizard/execute()
 	. = ..()
 	for(var/datum/mind/chosen_mind in chosen_candidates)
 		chosen_mind.current.forceMove(pick(GLOB.wizardstart))
-		chosen_mind.assigned_role = initial(antag_datum.banning_key)
+		chosen_mind.assigned_job = new /datum/job/special("Space Wizard")
 
 /datum/dynamic_ruleset/gamemode/wizard/security_report()
 	return "Unconfirmed rumours suggest that a series of powerful artifacts that possess intricate control over space-time are in the hands \
@@ -267,7 +267,7 @@
 /datum/dynamic_ruleset/gamemode/nuclear/choose_candidates()
 	. = ..()
 	for(var/datum/mind/chosen_mind in chosen_candidates)
-		chosen_mind.assigned_role = initial(antag_datum.banning_key)
+		chosen_mind.assigned_job = new /datum/job/special("Syndicate Field Operative")
 
 /datum/dynamic_ruleset/gamemode/nuclear/execute()
 	var/has_made_leader = FALSE
