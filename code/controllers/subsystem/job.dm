@@ -21,14 +21,6 @@ SUBSYSTEM_DEF(job)
 
 	var/spare_id_safe_code = ""
 
-	var/list/chain_of_command = list(
-		"Captain" = 1,				//Not used yet but captain is first in chain_of_command
-		"Head of Personnel" = 2,
-		"Research Director" = 3,
-		"Chief Engineer" = 4,
-		"Chief Medical Officer" = 5,
-		"Head of Security" = 6)
-
 	//Crew Objective stuff
 	var/list/crew_obj_list = list()
 	var/list/crew_obj_jobs = list()
@@ -150,7 +142,7 @@ SUBSYSTEM_DEF(job)
 		CRASH("job name [rank] is not valid")
 	return name_occupations[rank]
 
-/datum/controller/subsystem/job/proc/GetJobType(jobtype)
+/datum/controller/subsystem/job/proc/get_job_by_type(jobtype)
 	RETURN_TYPE(/datum/job)
 	if(!jobtype)
 		CRASH("proc has taken no job type")
@@ -825,7 +817,7 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/get_living_sec()
 	. = list()
 	for(var/mob/living/carbon/human/player in GLOB.carbon_list)
-		if(player.stat != DEAD && (player.mind.assigned_job?.type in get_job_datums_in_group(/datum/job_group/security)))
+		if(player.stat != DEAD && (player.mind.assigned_job?.type in get_job_types_in_group(/datum/job_group/security)))
 			. |= player.mind
 
 ////////////////////////////////////////
@@ -834,7 +826,7 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/get_all_sec()
 	. = list()
 	for(var/mob/living/carbon/human/player in GLOB.carbon_list)
-		if(player.mind && (player.mind.assigned_job?.type in get_job_datums_in_group(/datum/job_group/security)))
+		if(player.mind && (player.mind.assigned_job?.type in get_job_types_in_group(/datum/job_group/security)))
 			. |= player.mind
 
 /datum/controller/subsystem/job/proc/JobDebug(message)
@@ -896,10 +888,17 @@ SUBSYSTEM_DEF(job)
 		if ((job.job_flags & job_flag) == job_flag)
 			. += job
 
-/// Get all the job datums inside the job group, returns datums not instances.
-/datum/controller/subsystem/job/proc/get_job_datums_in_group(job_group)
+/// Get all the job types inside the job group, returns typepaths not instances.
+/datum/controller/subsystem/job/proc/get_job_types_in_group(job_group)
 	if (!job_groups)
 		for (var/job_path in subtypesof(/datum/job_group))
 			job_groups += new job_path()
 	var/datum/job_group/group = job_groups[job_group]
 	return group?.jobs || list()
+
+/// Returns a list of job typepaths where the job has the specified faction
+/datum/controller/subsystem/job/proc/get_job_types_with_faction(faction)
+	. = list()
+	for (var/datum/job/job as anything in subtypesof(/datum/job))
+		if (job::faction == faction)
+			. += job

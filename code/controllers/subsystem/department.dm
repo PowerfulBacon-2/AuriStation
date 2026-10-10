@@ -18,14 +18,14 @@ SUBSYSTEM_DEF(department)
 
 	// Allocate jobs lookup table
 	GLOB.exp_jobsmap = list(
-		EXP_TYPE_CREW = get_all_jobs(),
-		EXP_TYPE_COMMAND = SSjob.get_job_datums_in_group(/datum/job_group/command),
-		EXP_TYPE_ENGINEERING = SSjob.get_job_datums_in_group(/datum/job_group/engineering),
-		EXP_TYPE_MEDICAL = SSjob.get_job_datums_in_group(/datum/job_group/medical),
-		EXP_TYPE_SCIENCE = SSjob.get_job_datums_in_group(/datum/job_group/science),
-		EXP_TYPE_SUPPLY = SSjob.get_job_datums_in_group(/datum/job_group/supply),
-		EXP_TYPE_SECURITY = SSjob.get_job_datums_in_group(/datum/job_group/security),
-		EXP_TYPE_SILICON = SSjob.get_job_datums_in_group(/datum/job_group/silicon)
+		EXP_TYPE_CREW = SSjob.get_job_types_with_faction(FACTION_STATION),
+		EXP_TYPE_COMMAND = SSjob.get_job_types_in_group(/datum/job_group/command),
+		EXP_TYPE_ENGINEERING = SSjob.get_job_types_in_group(/datum/job_group/engineering),
+		EXP_TYPE_MEDICAL = SSjob.get_job_types_in_group(/datum/job_group/medical),
+		EXP_TYPE_SCIENCE = SSjob.get_job_types_in_group(/datum/job_group/science),
+		EXP_TYPE_SUPPLY = SSjob.get_job_types_in_group(/datum/job_group/supply),
+		EXP_TYPE_SECURITY = SSjob.get_job_types_in_group(/datum/job_group/security),
+		EXP_TYPE_SILICON = SSjob.get_job_types_in_group(/datum/job_group/silicon)
 	)
 
 	return SS_INIT_SUCCESS

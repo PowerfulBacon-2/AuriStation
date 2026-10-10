@@ -152,7 +152,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/machinery/newscaster)
 		data["user"]["authenticated"] = TRUE
 		data["user"]["silicon"] = TRUE
 		data["user"]["name"] = user.name
-		data["user"]["job"] = user.job
+		data["user"]["job"] = user.mind?.assigned_job?.title || "Unknown"
 		data["security_mode"] = !ispAI(user)
 	else
 		data["user"]["name"] = "Unknown"
@@ -743,7 +743,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/machinery/newscaster)
 		creating_comment = FALSE
 		return TRUE
 	var/datum/feed_comment/new_feed_comment = new/datum/feed_comment
-	var/author_text = issilicon(usr) ? "[usr.name] ([usr.job])" : "[account.account_holder] ([account.account_job?.title])"
+	var/author_text = issilicon(usr) ? "[usr.name] ([usr.mind?.assigned_job?.title])" : "[account.account_holder] ([account.account_job?.title])"
 	new_feed_comment.author = author_text
 	new_feed_comment.body = comment_text
 	new_feed_comment.time_stamp = station_time_timestamp()
@@ -821,7 +821,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/machinery/newscaster)
 		return TRUE
 	if(temp_message)
 		feed_channel_message = temp_message
-	GLOB.news_network.submit_article("<font face=\"[PEN_FONT]\">[parsemarkdown(feed_channel_message, usr)]</font>", usr_name, current_channel.channel_name, send_photo_data(), adminMessage = FALSE, allow_comments = TRUE, author_job = issilicon(usr) ? usr.job : account.account_job.title, author_account = account)
+	GLOB.news_network.submit_article("<font face=\"[PEN_FONT]\">[parsemarkdown(feed_channel_message, usr)]</font>", usr_name, current_channel.channel_name, send_photo_data(), adminMessage = FALSE, allow_comments = TRUE, author_job = issilicon(usr) ? usr.mind?.assigned_job?.title : account.account_job.title, author_account = account)
 	SSblackbox.record_feedback("amount", "newscaster_stories", 1)
 	feed_channel_message = ""
 	current_image = null

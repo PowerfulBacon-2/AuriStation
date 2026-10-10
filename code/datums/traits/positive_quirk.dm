@@ -109,7 +109,7 @@
 
 /datum/quirk/multilingual/proc/set_up_language()
 	var/datum/language_holder/LH = quirk_target.get_language_holder()
-	if(quirk_holder.assigned_role == JOB_NAME_CURATOR)
+	if(istype(quirk_holder.assigned_job, /datum/job/curator))
 		return
 	var/obj/item/organ/tongue/T = quirk_target.get_organ_slot(ORGAN_SLOT_TONGUE)
 	var/list/languages_possible = T.get_possible_languages()

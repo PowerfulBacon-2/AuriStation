@@ -29,6 +29,10 @@
 #define JOB_NO_ANNOUNCE (1 << 2)
 /// Not applicable for midround roles
 #define JOB_NO_MIDROUND (1 << 3)
+/// Do not run equip procs on round-start
+#define JOB_NO_EQUIP (1 << 4)
+/// Is the job a role that will mostly be off-station?
+#define JOB_OFF_STATION (1 << 5)
 
 #define JOB_AVAILABLE 0
 #define JOB_UNAVAILABLE_GENERIC 1

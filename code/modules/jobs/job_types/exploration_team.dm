@@ -7,6 +7,7 @@
 	total_positions = 3
 	minimal_player_age = 3
 	selection_color = "#ffeeff"
+	job_flags = JOB_OFF_STATION
 
 	outfit = /datum/outfit/job/exploration_crew
 

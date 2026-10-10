@@ -69,3 +69,20 @@
 		/datum/job/cyborg,
 		/datum/job/ai,
 	)
+
+/datum/job_group/service
+	jobs = list(
+		/datum/job/assistant,
+		/datum/job/bartender,
+		/datum/job/botanist,
+		/datum/job/chaplain,
+		/datum/job/clown,
+		/datum/job/cook,
+		/datum/job/curator,
+		/datum/job/gimmick,
+		/datum/job/gimmick/barber,
+		/datum/job/gimmick/psychiatrist,
+		/datum/job/gimmick/stage_magician,
+		/datum/job/gimmick/vip,
+		/datum/job/janitor,
+	)

@@ -74,7 +74,7 @@
 
 /datum/symptom/pierrot/End(datum/disease/advance/A)
 	..()
-	if(!A.affected_mob.job == JOB_NAME_CLOWN)
+	if(!istype(A.affected_mob.mind?.assigned_job, /datum/job/clown))
 		to_chat(A.affected_mob, span_notice("You feel less dumb."))
 		REMOVE_TRAIT(A.affected_mob, TRAIT_CLUMSY, DISEASE_TRAIT)
 	if(ishuman(A.affected_mob))

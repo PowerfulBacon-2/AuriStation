@@ -244,7 +244,7 @@ GLOBAL_LIST_EMPTY(uplinks)
 			if(I.restricted_roles.len && I.discounted == FALSE)
 				var/is_inaccessible = TRUE
 				for(var/R in I.restricted_roles)
-					if(R == user.mind.assigned_role || debug)
+					if(R == user.mind.assigned_job?.title || debug)
 						is_inaccessible = FALSE
 				if(is_inaccessible)
 					continue
@@ -317,7 +317,7 @@ GLOBAL_LIST_EMPTY(uplinks)
 		U.limited_stock -= 1
 
 	SSblackbox.record_feedback("nested tally", "traitor_uplink_items_bought", 1, list("[initial(U.name)]", "[U.cost]"))
-	log_game("[initial(U.name)] purchased by [user.ckey]/[user.name] the [user.job ? user.job : "Unknown Job"] for [U.cost] TC, [telecrystals] TC remaining.")
+	log_game("[initial(U.name)] purchased by [user.ckey]/[user.name] the [user.mind?.assigned_job?.title || "Unknown Job"] for [U.cost] TC, [telecrystals] TC remaining.")
 	return TRUE
 
 // Implant signal responses

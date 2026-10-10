@@ -148,7 +148,7 @@
 	for (var/datum/quirk/quirk in quirks)
 		mind_copy.quirks += new quirk.type(mind_copy, body, TRUE)
 	// Note that this copies the reference, but jobs are singletons
-	mind_copy.assigned_role = assigned_role
+	mind_copy.assigned_job = assigned_job
 	mind_copy.special_role = special_role
 	mind_copy.restricted_roles = restricted_roles
 	if (martial_art)
@@ -556,10 +556,10 @@
 		A.admin_remove(usr)
 
 	if (href_list["role_edit"])
-		var/new_role = input("Select new role", "Assigned role", assigned_role) as null|anything in sort_list(get_all_jobs())
+		var/new_role = input("Select new role", "Assigned role", assigned_job?.title) as null|anything in sort_list(get_all_job_names())
 		if (!new_role)
 			return
-		assigned_role = new_role
+		assigned_job = SSjob.GetJob(new_role)
 
 	else if (href_list["memory_edit"])
 		var/new_memo = stripped_multiline_input(usr, "Write new memory", "Memory", memory, MAX_MESSAGE_LEN)
@@ -850,23 +850,23 @@
 //HUMAN
 /mob/living/carbon/human/mind_initialize()
 	..()
-	if(!mind.assigned_role)
-		mind.assigned_role = "Unassigned" //default
+	if(!mind.assigned_job)
+		mind.assigned_job = new /datum/job/special("Unassigned") //default
 
 //AI
 /mob/living/silicon/ai/mind_initialize()
 	..()
-	mind.assigned_role = JOB_NAME_AI
+	mind.assigned_job = SSjob.get_job_by_type(/datum/job/ai)
 
 //BORG
 /mob/living/silicon/robot/mind_initialize()
 	..()
-	mind.assigned_role = JOB_NAME_CYBORG
+	mind.assigned_job = SSjob.get_job_by_type(/datum/job/cyborg)
 
 //PAI
 /mob/living/silicon/pai/mind_initialize()
 	..()
-	mind.assigned_role = ROLE_PAI
+	mind.assigned_job = new /datum/job/special(ROLE_PAI)
 	mind.special_role = ""
 
 // Quirk Procs //

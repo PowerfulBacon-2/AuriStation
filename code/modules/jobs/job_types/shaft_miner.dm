@@ -7,6 +7,7 @@
 	faction = FACTION_STATION
 	total_positions = 3
 	selection_color = "#dcba97"
+	job_flags = JOB_OFF_STATION
 
 	outfit = /datum/outfit/job/miner
 

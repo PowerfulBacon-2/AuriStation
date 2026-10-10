@@ -50,7 +50,7 @@
 
 /datum/outfit/job/cook/pre_equip(mob/living/carbon/human/H, visuals_only = FALSE)
 	..()
-	var/datum/job/cook/J = SSjob.GetJobType(jobtype)
+	var/datum/job/cook/J = SSjob.get_job_by_type(jobtype)
 	if(J) // Fix for runtime caused by invalid job being passed
 		if(J.cooks>0)//Cooks
 			suit = /obj/item/clothing/suit/apron/chef

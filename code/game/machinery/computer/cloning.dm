@@ -603,7 +603,7 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/computer/cloning)
 		// Gender
 		mob_occupant.gender,
 		// Initial Rank
-		mob_occupant.mind?.assigned_role,
+		mob_occupant.mind?.assigned_job?.title,
 		// Name
 		mob_occupant.real_name,
 		// Species

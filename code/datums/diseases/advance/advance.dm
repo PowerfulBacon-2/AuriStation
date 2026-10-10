@@ -590,8 +590,8 @@
 	if(!initial && A.mutable && (spread_flags & DISEASE_SPREAD_CONTACT_FLUIDS))
 		var/minimum = 1
 		if(prob(clamp(35-(A.resistance + A.stealth - A.speed), 0, 50) * (A.mutability)))//stealthy/resistant diseases are less likely to mutate. this means diseases used to farm mutations should be easier to cure. hypothetically.
-			if(infectee.job == "clown" || infectee.job == "mime" || prob(1))//infecting a clown or mime can evolve l0 symptoms/. they can also appear very rarely
-				minimum = 0
+			if(istype(infectee.mind?.assigned_job, /datum/job/clown)  || prob(1))//infecting a clown or mime can evolve l0 symptoms/. they can also appear very rarely
+				minimum = 10
 			else
 				minimum = clamp(A.severity - 1, 1, 7)
 			A.Evolve(minimum, clamp(A.severity + 4, minimum, 9))
@@ -677,8 +677,8 @@
 	if(diseasesource)
 		if(ishuman(diseasesource))
 			var/mob/living/carbon/human/H = diseasesource
-			prefixes += pick("[H.first_name()]'s", "[H.name]'s", "[H.job]'s", "[H.dna.species]'s")
-			bodies += pick("[H.first_name()]", "[H.job]", "[H.dna.species]")
+			prefixes += pick("[H.first_name()]'s", "[H.name]'s", "[H.mind?.assigned_job?.title || "Unknown"]'s", "[H.dna.species]'s")
+			bodies += pick("[H.first_name()]", "[H.mind?.assigned_job?.title || "Unknown"]", "[H.dna.species]")
 			if(islizard(H) || iscatperson(H))//add rat-origin prefixes to races that eat rats
 				prefixes += list("Vermin ", "Zoo", "Maintenance ")
 				bodies += list("Rat", "Maint")

@@ -100,7 +100,7 @@
 	if(!birthday_person)
 		var/list/birthday_options = list()
 		for(var/mob/living/carbon/human/human in GLOB.human_list)
-			if(human.mind?.assigned_role in get_all_jobs())
+			if(human.mind?.assigned_job?.type in SSjob.get_job_types_with_faction(FACTION_STATION))
 				birthday_options += human
 		if(length(birthday_options))
 			birthday_person = pick(birthday_options)
@@ -124,7 +124,7 @@
 	if(isnull(birthday_override_mob))
 		return FALSE
 
-	if(birthday_override_mob.mind?.assigned_role in get_all_jobs())
+	if(birthday_override_mob.mind?.assigned_job?.type in SSjob.get_job_types_with_faction(FACTION_STATION))
 		birthday_person = birthday_override_mob
 		birthday_person_name = birthday_person.real_name
 		return TRUE

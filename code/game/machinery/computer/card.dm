@@ -365,7 +365,7 @@ GLOBAL_VAR_INIT(time_last_changed_position, 0)
 
 		var/jobs_all = ""
 		var/list/alljobs = list("Unassigned")
-		alljobs += (istype(src, /obj/machinery/computer/card/centcom)? get_all_centcom_jobs() : get_all_jobs()) + "Custom"
+		alljobs += (istype(src, /obj/machinery/computer/card/centcom)? get_all_centcom_jobs() : get_all_job_names()) + "Custom"
 		for(var/job in alljobs)
 			if(job == JOB_NAME_ASSISTANT)
 				jobs_all += "<br/>* Service: "

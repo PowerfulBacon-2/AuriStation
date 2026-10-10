@@ -1,7 +1,7 @@
 /datum/job/special
 	title = "Unemployed"
 	description = "Not employed or working on Space Station 13."
-	job_flags = JOB_NO_ANNOUNCE | JOB_NO_MIDROUND
+	job_flags = JOB_NO_ANNOUNCE | JOB_NO_MIDROUND | JOB_NO_EQUIP | JOB_OFF_STATION
 	show_in_prefs = FALSE
 	bank_account_department = NONE
 	biohazard = 0

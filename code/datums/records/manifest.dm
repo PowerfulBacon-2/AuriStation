@@ -22,7 +22,7 @@
 	/// assoc-ing to head names, so that we give their name an officer mark on crew manifest
 	var/static/list/heads
 	if(!heads) // do not do this in pre-runtime.
-		heads = make_associative(SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND))
+		heads = make_associative(SSjob.get_job_types_in_group(/datum/job_group/command))
 	/// Takes a result of each crew data in a format
 	var/list/manifest_out = list()
 
@@ -33,8 +33,8 @@
 		var/dept_bitflags = person_record.active_department
 		var/entry = list("name" = name, "rank" = rank, "hud" = hud)
 		if(dept_bitflags)
-			for(var/datum/department_group/department as anything in SSdepartment.get_department_by_bitflag(dept_bitflags))
-				LAZYINITLIST(manifest_out[department.dept_id])
+			for (var/datum/company/company in SSdepartment.companies)
+				LAZYINITLIST(manifest_out[company.name])
 				// Append to beginning of list if captain or department head
 				var/put_at_top = (hud == JOB_HUD_CAPTAIN) || (hud == JOB_HUD_ACTINGCAPTAIN) || (department.dept_id != DEPT_NAME_COMMAND && heads[rank])
 				var/list/_internal = manifest_out[department.dept_id]
@@ -128,7 +128,6 @@
 		name = person.real_name,
 		rank = assignment,
 		species = record_dna.species,
-		active_department = bank_account.active_departments,
 		// Crew specific
 		lock_ref = FAST_REF(lockfile),
 		major_disabilities = person.get_quirk_string(FALSE, CAT_QUIRK_MAJOR_DISABILITY),

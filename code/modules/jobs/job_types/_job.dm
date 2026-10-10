@@ -601,7 +601,7 @@
 	if(visuals_only)
 		return
 
-	var/datum/job/equipped_job = SSjob.GetJobType(jobtype)
+	var/datum/job/equipped_job = SSjob.get_job_by_type(jobtype)
 	if(!equipped_job)
 		equipped_job = SSjob.GetJob(user.job)
 

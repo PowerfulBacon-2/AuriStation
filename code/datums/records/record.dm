@@ -27,8 +27,6 @@
 	var/species
 	/// The character's HUD icon
 	var/hud
-	/// The character's department
-	var/active_department
 
 /datum/record/New(
 	age = 18,
@@ -40,7 +38,6 @@
 	initial_rank = "Unassigned",
 	name = "Unknown",
 	rank = "Unassigned",
-	active_department = NONE,
 	species = "Human",
 	hud = "None"
 )
@@ -54,7 +51,6 @@
 	src.name = name
 	src.rank = rank
 	src.hud = hud
-	src.active_department = active_department
 	src.species = species
 
 /**

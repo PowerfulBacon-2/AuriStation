@@ -407,9 +407,7 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/proc/equip_characters()
 	var/captainless = TRUE
-	var/highest_rank = length(SSjob.chain_of_command) + 1
 	var/list/spare_id_candidates = list()
-	var/enforce_coc = CONFIG_GET(flag/spare_enforce_coc)
 
 	for(var/mob/dead/new_player/authenticated/N in GLOB.player_list)
 		var/mob/living/carbon/human/player = N.new_character
@@ -418,31 +416,14 @@ SUBSYSTEM_DEF(ticker)
 			if(istype(mind.assigned_job, /datum/job/captain))
 				captainless = FALSE
 				spare_id_candidates += N
-			else if(captainless && (mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND)) && !(is_banned_from(N.ckey, JOB_NAME_CAPTAIN)))
-				if(!enforce_coc)
-					spare_id_candidates += N
-				else
-					var/spare_id_priority = SSjob.chain_of_command[mind.assigned_role]
-					if(spare_id_priority)
-						if(spare_id_priority < highest_rank)
-							spare_id_candidates.Cut()
-							spare_id_candidates += N
-							highest_rank = spare_id_priority
-						else if(spare_id_priority == highest_rank)
-							spare_id_candidates += N
-			if(mind.assigned_role != mind.special_role)
+			else if(captainless && (istype(mind.assigned_job, /datum/job/head_of_personnel)) && !(is_banned_from(N.ckey, JOB_NAME_CAPTAIN)))
+				spare_id_candidates += N
+			if(!(mind.assigned_job?.job_flags & JOB_NO_EQUIP))
 				SSjob.EquipRank(N, mind.assigned_job, FALSE)
 			if(CONFIG_GET(flag/roundstart_traits))
 				SSquirks.AssignQuirks(mind, N.client, TRUE)
-		CHECK_TICK
 	if(length(spare_id_candidates))			//No captain, time to choose acting captain
-		if(!enforce_coc)
-			for(var/mob/dead/new_player/authenticated/player in spare_id_candidates)
-				SSjob.promote_to_captain(player, captainless)
-
-		else
-			SSjob.promote_to_captain(pick(spare_id_candidates), captainless)		//This is just in case 2 heads of the same priority spawn
-		CHECK_TICK
+		SSjob.promote_to_captain(pick(spare_id_candidates), captainless)		//This is just in case 2 heads of the same priority spawn
 
 
 /datum/controller/subsystem/ticker/proc/transfer_characters()
@@ -633,9 +614,9 @@ SUBSYSTEM_DEF(ticker)
 	round_credits += "<center><h1>The Glorious Command Staff:</h1>"
 	len_before_addition = round_credits.len
 	for(var/mob/player in GLOB.mob_list)
-		if(player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_COMMAND)))
+		if(player.mind && (player.mind.assigned_job?.type in SSjob.get_job_types_in_group(/datum/job_group/command)))
 			custom_title_holder = get_custom_title_from_id(player.mind, newline=TRUE)
-			round_credits += "<center><h2>[player] as the [player.mind.assigned_role][custom_title_holder]</h2>"
+			round_credits += "<center><h2>[player] as the [player.mind.assigned_job?.title][custom_title_holder]</h2>"
 	if(round_credits.len == len_before_addition)
 		round_credits += list("<center><h2>A serious bureaucratic error has occurred!</h2>", "<center><h2>No one was in charge of the crew!</h2>")
 	round_credits += "<br>"
@@ -644,8 +625,8 @@ SUBSYSTEM_DEF(ticker)
 	round_credits += "<center><h1>The Silicon \"Intelligences\":</h1>"
 	len_before_addition = round_credits.len
 	for(var/mob/living/silicon/player in GLOB.mob_list)
-		if(player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SILICON)))
-			round_credits += "<center><h2>[player] as the [player.mind.assigned_role]</h2>"
+		if(player.mind && (player.mind.assigned_job?.type in SSjob.get_job_types_in_group(/datum/job_group/silicon)))
+			round_credits += "<center><h2>[player] as the [player.mind.assigned_job?.title]</h2>"
 	if(round_credits.len == len_before_addition)
 		round_credits += list("<center><h2>[station_name()] had no silicon helpers!</h2>", "<center><h2>Not a single door was opened today!</h2>")
 	round_credits += "<br>"
@@ -654,9 +635,9 @@ SUBSYSTEM_DEF(ticker)
 	round_credits += "<center><h1>The Brave Security Officers:</h1>"
 	len_before_addition = round_credits.len
 	for(var/mob/player in GLOB.mob_list)
-		if(player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SECURITY)))
+		if(player.mind && (player.mind.assigned_job?.type in SSjob.get_job_types_in_group(/datum/job_group/security)))
 			custom_title_holder = get_custom_title_from_id(player.mind, newline=TRUE)
-			round_credits += "<center><h2>[player] as the [player.mind.assigned_role][custom_title_holder]</h2>"
+			round_credits += "<center><h2>[player] as the [player.mind.assigned_job?.title][custom_title_holder]</h2>"
 	if(round_credits.len == len_before_addition)
 		round_credits += list("<center><h2>[station_name()] has fallen to Communism!</h2>", "<center><h2>No one was there to protect the crew!</h2>")
 	round_credits += "<br>"
@@ -665,9 +646,9 @@ SUBSYSTEM_DEF(ticker)
 	round_credits += "<center><h1>The Wise Medical Department:</h1>"
 	len_before_addition = round_credits.len
 	for(var/mob/player in GLOB.mob_list)
-		if(player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_MEDICAL)))
+		if(player.mind && (player.mind.assigned_job?.type in SSjob.get_job_types_in_group(/datum/job_group/medical)))
 			custom_title_holder = get_custom_title_from_id(player.mind, newline=TRUE)
-			round_credits += "<center><h2>[player] as the [player.mind.assigned_role][custom_title_holder]</h2>"
+			round_credits += "<center><h2>[player] as the [player.mind.assigned_job?.title][custom_title_holder]</h2>"
 	if(round_credits.len == len_before_addition)
 		round_credits += list("<center><h2>Healthcare was not included!</h2>", "<center><h2>There were no doctors today!</h2>")
 	round_credits += "<br>"
@@ -676,9 +657,9 @@ SUBSYSTEM_DEF(ticker)
 	round_credits += "<center><h1>The Industrious Engineers:</h1>"
 	len_before_addition = round_credits.len
 	for(var/mob/player in GLOB.mob_list)
-		if(player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_ENGINEERING)))
+		if(player.mind && (player.mind.assigned_job?.type in SSjob.get_job_types_in_group(/datum/job_group/engineering)))
 			custom_title_holder = get_custom_title_from_id(player.mind, newline=TRUE)
-			round_credits += "<center><h2>[player] as the [player.mind.assigned_role][custom_title_holder]</h2>"
+			round_credits += "<center><h2>[player] as the [player.mind.assigned_job?.title][custom_title_holder]</h2>"
 	if(round_credits.len == len_before_addition)
 		round_credits += list("<center><h2>[station_name()] probably did not last long!</h2>", "<center><h2>No one was holding the station together!</h2>")
 	round_credits += "<br>"
@@ -687,9 +668,9 @@ SUBSYSTEM_DEF(ticker)
 	round_credits += "<center><h1>The Inventive Science Employees:</h1>"
 	len_before_addition = round_credits.len
 	for(var/mob/player in GLOB.mob_list)
-		if(player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_SCIENCE)))
+		if(player.mind && (player.mind.assigned_job?.type in SSjob.get_job_types_in_group(/datum/job_group/science)))
 			custom_title_holder = get_custom_title_from_id(player.mind, newline=TRUE)
-			round_credits += "<center><h2>[player] as the [player.mind.assigned_role][custom_title_holder]</h2>"
+			round_credits += "<center><h2>[player] as the [player.mind.assigned_job?.title][custom_title_holder]</h2>"
 	if(round_credits.len == len_before_addition)
 		round_credits += list("<center><h2>No one was doing \"science\" today!</h2>", "<center><h2>Everyone probably made it out alright, then!</h2>")
 	round_credits += "<br>"
@@ -698,9 +679,9 @@ SUBSYSTEM_DEF(ticker)
 	round_credits += "<center><h1>The Rugged Cargo Crew:</h1>"
 	len_before_addition = round_credits.len
 	for(var/mob/player in GLOB.mob_list)
-		if(player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_CARGO)))
+		if(player.mind && (player.mind.assigned_job?.type in SSjob.get_job_types_in_group(/datum/job_group/supply)))
 			custom_title_holder = get_custom_title_from_id(player.mind, newline=TRUE)
-			round_credits += "<center><h2>[player] as the [player.mind.assigned_role][custom_title_holder]</h2>"
+			round_credits += "<center><h2>[player] as the [player.mind.assigned_job?.title][custom_title_holder]</h2>"
 	if(round_credits.len == len_before_addition)
 		round_credits += list("<center><h2>The station was freed from paperwork!</h2>", "<center><h2>No one worked in cargo today!</h2>")
 	round_credits += "<br>"
@@ -710,12 +691,12 @@ SUBSYSTEM_DEF(ticker)
 	round_credits += "<center><h1>The Hardy Civilians:</h1>"
 	len_before_addition = round_credits.len
 	for(var/mob/player in GLOB.mob_list) // gimmicks shouldn't be here, but let's not make the code dirty
-		if(player.mind && (player.mind.assigned_role in SSdepartment.get_jobs_by_dept_id(DEPT_NAME_CIVILIAN)))
-			if(player.mind.assigned_role == JOB_NAME_ASSISTANT)
+		if(player.mind && (player.mind.assigned_job?.type in SSjob.get_job_types_in_group(/datum/job_group/service)))
+			if(istype(player.mind.assigned_job, /datum/job/assistant))
 				human_garbage += player.mind
 			else
 				custom_title_holder = get_custom_title_from_id(player.mind, newline=TRUE)
-				round_credits += "<center><h2>[player] as the [player.mind.assigned_role][custom_title_holder]</h2>"
+				round_credits += "<center><h2>[player] as the [player.mind.assigned_job?.title][custom_title_holder]</h2>"
 	if(round_credits.len == len_before_addition)
 		round_credits += list("<center><h2>Everyone was stuck in traffic this morning!</h2>", "<center><h2>No civilians made it to work!</h2>")
 	round_credits += "<br>"

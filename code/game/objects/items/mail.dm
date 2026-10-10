@@ -194,9 +194,9 @@
 /obj/item/mail/proc/initialize_for_recipient(datum/mind/recipient, list/received_report)
 	switch(rand(1,5))
 		if(5)
-			name = "[initial(name)] critical to [recipient.name] ([recipient.assigned_role])"
+			name = "[initial(name)] critical to [recipient.name] ([recipient.assigned_job?.title])"
 		else
-			name = "[initial(name)] for [recipient.name] ([recipient.assigned_role])"
+			name = "[initial(name)] for [recipient.name] ([recipient.assigned_job?.title])"
 	recipient_ref = WEAKREF(recipient)
 
 	//Recipients
@@ -205,7 +205,7 @@
 	var/list/goodies = generic_goodies.Copy()
 
 	//Load the job the player have
-	var/datum/job/this_job = SSjob.name_occupations[recipient.assigned_role] // only station crews have 'assigned role'
+	var/datum/job/this_job = recipient.assigned_job
 	if(this_job)
 		goodies += this_job.mail_goodies
 		var/datum/record/crew/R = find_record(recipient.name, GLOB.manifest.general)

@@ -19,7 +19,7 @@
 	if(!job_to_add)
 		return
 
-	var/datum/job/job = SSjob.GetJobType(job_to_add)
+	var/datum/job/job = SSjob.get_job_by_type(job_to_add)
 	job.total_positions++
 	return ..()
 

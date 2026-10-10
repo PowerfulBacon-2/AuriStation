@@ -11,6 +11,7 @@ GLOBAL_LIST_EMPTY(on_station_posis)
 	selection_color = "#ddffdd"
 	minimal_player_age = 21
 	random_spawns_possible = FALSE
+	job_flags = JOB_SILICON
 
 	display_order = JOB_DISPLAY_ORDER_CYBORG
 
