@@ -6,16 +6,17 @@ SUBSYSTEM_DEF(job)
 		/datum/controller/subsystem/processing/station,
 	)
 
-	var/list/occupations = list()		//List of all jobs
-	var/list/datum/job/name_occupations = list()	//Dict of all jobs, keys are titles
-	var/list/type_occupations = list()	//Dict of all jobs, keys are types
+	/// List of all job instances that have been created
+	/// There may be mutliple instances of the same job created, assigned to different
+	/// companies.
+	VAR_PRIVATE/list/occupations = list()
 	var/list/unassigned = list()		//Players who need jobs
 	var/initial_players_to_assign = 0 	//used for checking against population caps
 
 	var/list/prioritized_jobs = list()
 	var/list/latejoin_trackers = list()	//Don't read this list, use GetLateJoinTurfs() instead
 
-	var/overflow_role = JOB_NAME_ASSISTANT
+	var/datum/job/overflow_role
 
 	var/list/level_order = list(JP_HIGH,JP_MEDIUM,JP_LOW)
 
@@ -55,10 +56,9 @@ SUBSYSTEM_DEF(job)
 
 /datum/controller/subsystem/job/Initialize()
 	if(!occupations.len)
-		SetupOccupations()
+		setup_occupations()
 	if(CONFIG_GET(flag/load_jobs_from_txt))
 		LoadJobs()
-	set_overflow_role(CONFIG_GET(string/overflow_job))
 
 	spare_id_safe_code = "[rand(0,9)][rand(0,9)][rand(0,9)][rand(0,9)][rand(0,9)]"
 
@@ -77,8 +77,6 @@ SUBSYSTEM_DEF(job)
 
 /datum/controller/subsystem/job/Recover()
 	occupations = SSjob.occupations
-	name_occupations = SSjob.name_occupations
-	type_occupations = SSjob.type_occupations
 	unassigned = SSjob.unassigned
 	initial_players_to_assign = SSjob.initial_players_to_assign
 
@@ -93,74 +91,28 @@ SUBSYSTEM_DEF(job)
 
 	job_manager_blacklisted = SSjob.job_manager_blacklisted
 
-/datum/controller/subsystem/job/proc/set_overflow_role(new_overflow_role)
-	var/datum/job/new_overflow = GetJob(new_overflow_role)
-	if(!new_overflow || new_overflow.lock_flags)
-		CRASH("[new_overflow_role] was used for an overflow role, but it's not allowed. BITFLAG: [new_overflow?.lock_flags]")
-	var/cap = CONFIG_GET(number/overflow_cap)
-
-	new_overflow.allow_bureaucratic_error = FALSE
-	new_overflow.total_positions = cap
-
-	if(new_overflow_role != overflow_role)
-		var/datum/job/old_overflow = GetJob(overflow_role)
-		old_overflow.allow_bureaucratic_error = initial(old_overflow.allow_bureaucratic_error)
-		old_overflow.total_positions = initial(old_overflow.total_positions)
-		overflow_role = new_overflow_role
-		JobDebug("Overflow role set to : [new_overflow_role]")
-
-/datum/controller/subsystem/job/proc/SetupOccupations(faction = FACTION_STATION)
+/datum/controller/subsystem/job/proc/setup_occupations()
+	PRIVATE_PROC(TRUE)
 	occupations = list()
-	var/list/all_jobs = subtypesof(/datum/job)
-	if(!all_jobs.len)
-		to_chat(world, span_boldannounce("Error setting up jobs, no job datums found."))
-		return 0
 
-	for(var/datum/job/each_job as anything in all_jobs)
-		each_job = new each_job()
-		if(each_job.faction != faction)
-			continue
-		occupations += each_job
-		name_occupations[each_job.title] = each_job
-		type_occupations[each_job.type] = each_job
-	if(SSmapping.map_adjustment)
-		SSmapping.map_adjustment.job_change()
-		log_world("Applied '[SSmapping.map_adjustment.map_file_name]' map adjustment: job_change()")
+	if (!length(SSdepartment.companies))
+		to_chat(world, span_boldannounce("Error setting up jobs, companies not initialized."))
+		CRASH("Could not setup occupations")
 
-	return 1
-
-/datum/controller/subsystem/job/proc/is_job_empty(rank)
-	return GetJob(rank).current_positions == 0
-
-/datum/controller/subsystem/job/proc/GetJob(rank)
-	RETURN_TYPE(/datum/job)
-	if(!rank)
-		CRASH("proc has taken no job name")
-	if(!occupations.len)
-		SetupOccupations()
-	if(!name_occupations[rank])
-		CRASH("job name [rank] is not valid")
-	return name_occupations[rank]
-
-/datum/controller/subsystem/job/proc/get_job_by_type(jobtype)
-	RETURN_TYPE(/datum/job)
-	if(!jobtype)
-		CRASH("proc has taken no job type")
-	if(!occupations.len)
-		SetupOccupations()
-	if(!type_occupations[jobtype])
-		CRASH("job type [jobtype] is not valid")
-	return type_occupations[jobtype]
-
-/datum/controller/subsystem/job/proc/GetJobActiveDepartment(rank)
-	if(!rank)
-		CRASH("proc has taken no job name")
-	if(!occupations.len)
-		SetupOccupations()
-	if(!name_occupations[rank])
-		CRASH("job name [rank] is not valid")
-	var/datum/job/J = name_occupations[rank]
-	return J.departments
+	for (var/datum/company/company in SSdepartment.companies)
+		for (var/job_type in company.available_jobs)
+			var/datum/job/job = new job_type()
+			job.company = company
+			occupations += job
+			SSmapping.map_adjustment?.upate_job(job)
+		for (var/datum/company_department/department in company.departments)
+			for (var/job_type in department.available_jobs)
+				var/datum/job/job = new job_type()
+				job.company = company
+				job.department = department
+				occupations += job
+				SSmapping.map_adjustment?.upate_job(job)
+	return TRUE
 
 /datum/controller/subsystem/job/proc/AssignRole(mob/dead/new_player/authenticated/player, datum/job/job, latejoin = FALSE)
 	JobDebug("Running AR, Player: [player], Rank: [job?.title], LJ: [latejoin]")
@@ -188,15 +140,6 @@ SUBSYSTEM_DEF(job)
 	JobDebug("AR has failed, Player: [player], Rank: [job]")
 	return FALSE
 
-/datum/controller/subsystem/job/proc/FreeRole(rank)
-	if(!rank)
-		return
-	JobDebug("Freeing role: [rank]")
-	var/datum/job/job = GetJob(rank)
-	if(!job)
-		return FALSE
-	job.current_positions = max(0, job.current_positions - 1)
-
 /datum/controller/subsystem/job/proc/FindOccupationCandidates(datum/job/job, level)
 	JobDebug("Running FOC, Job: [job], Level: [level]")
 	var/list/candidates = list()
@@ -223,9 +166,6 @@ SUBSYSTEM_DEF(job)
 	. = FALSE
 	for(var/datum/job/job in shuffle(occupations))
 		if(!job || job.lock_flags)
-			continue
-
-		if(istype(job, GetJob(SSjob.overflow_role))) // We don't want to give him assistant, that's boring!
 			continue
 
 		if(job.job_flags & JOB_HEAD) //If you want a command position, select it!
@@ -264,7 +204,7 @@ SUBSYSTEM_DEF(job)
 			player.mind.assigned_job = null
 			player.mind.special_role = null
 			SSpersistence.antag_rep_change[player.ckey] = 0
-	SetupOccupations()
+	setup_occupations()
 	unassigned = list()
 	return
 

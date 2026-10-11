@@ -17,8 +17,8 @@
 	var/fingerprint
 	/// The character's gender
 	var/gender
-	/// The character's initial rank at roundstart
-	var/initial_rank
+	/// The character's assigned job at roundstart
+	var/datum/job/assigned_job
 	/// The character's name
 	var/name = "Unknown"
 	/// The character's rank
@@ -35,19 +35,21 @@
 	dna_string = "Unknown",
 	fingerprint = "?????",
 	gender = "Other",
-	initial_rank = "Unassigned",
+	datum/job/assigned_job = null,
 	name = "Unknown",
 	rank = "Unassigned",
 	species = "Human",
 	hud = "None"
 )
+	if (assigned_job && !istype(assigned_job))
+		CRASH("Assigned job passed in with invalid type, [assigned_job].")
 	src.age = age
 	src.blood_type = blood_type
 	src.character_appearance = character_appearance
 	src.dna_string = dna_string
 	src.fingerprint = fingerprint
 	src.gender = gender
-	src.initial_rank = rank
+	src.assigned_job = assigned_job
 	src.name = name
 	src.rank = rank
 	src.hud = hud
@@ -94,7 +96,7 @@
 	dna_string = "Unknown",
 	fingerprint = "?????",
 	gender = "Other",
-	initial_rank = "Unassigned",
+	datum/job/assigned_job = null,
 	name = "Unknown",
 	rank = "Unassigned",
 	active_department = NONE,
@@ -405,7 +407,7 @@
 	dna_string = "Unknown",
 	fingerprint = "?????",
 	gender = "Other",
-	initial_rank = "Unassigned",
+	datum/job/assigned_job = null,
 	name = "Unknown",
 	rank = "Unassigned",
 	active_department = NONE,
@@ -616,7 +618,7 @@
 		dna_string = "Unknown",
 		fingerprint = "?????",
 		gender = "Other",
-		initial_rank = "Unassigned",
+		datum/job/assigned_job = null,
 		name = "Unknown",
 		species = "Unknown",
 		weakref_dna,
@@ -634,7 +636,7 @@
 	src.dna_string = dna_string
 	src.fingerprint = fingerprint
 	src.gender = gender
-	src.initial_rank = initial_rank
+	src.assigned_job = assigned_job
 	src.name = name
 	src.species = species
 	src.weakref_dna = weakref_dna
@@ -654,7 +656,7 @@
 	dna_string = target.dna_string
 	fingerprint = target.fingerprint
 	gender = target.gender
-	initial_rank = target.initial_rank
+	assigned_job = target.assigned_job
 	name = target.name
 	species = target.species
 	weakref_dna = target.weakref_dna

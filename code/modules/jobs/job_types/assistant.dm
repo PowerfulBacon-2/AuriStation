@@ -9,6 +9,7 @@ Assistant
 	total_positions = -1
 	selection_color = "#dddddd"
 	antag_rep = 7
+	job_flags = JOB_INDEPENDENT
 
 	outfit = /datum/outfit/job/assistant
 

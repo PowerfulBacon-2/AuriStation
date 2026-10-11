@@ -10,6 +10,11 @@
 	var/list/base_access = list()  // access list that's basically given to jobs.
 	var/list/extra_access = list() // EXTRA access list that's given in lowpop.
 
+	/// The company (or null) that this job was created to serve
+	var/datum/company/company
+	/// The department (or null) that this job was created to sever
+	var/datum/company_department/department
+
 	///Determines who can demote this position
 	var/department_head = list()
 
@@ -230,7 +235,8 @@
 	if (total_positions == -1 && !dynamic_spawn_group && (player_count >= min_pop || !min_pop_redirect || !min_pop_redirect::dynamic_spawn_group))
 		return -1
 	// If the population is lower than our min pop spawn amount
-	// then we will instead treat ourselves
+	// then we will instead use the position count of our assigned
+	// proxy role.
 	var/datum/job/proxy = src
 	if (min_pop_redirect && player_count < min_pop)
 		proxy = SSjob.GetJob(min_pop_redirect::title)

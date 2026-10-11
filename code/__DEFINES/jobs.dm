@@ -33,6 +33,11 @@
 #define JOB_NO_EQUIP (1 << 4)
 /// Is the job a role that will mostly be off-station?
 #define JOB_OFF_STATION (1 << 5)
+/// If set to true, then an instance of the job is created
+/// without a company assigned to it.
+/// Used by silicons which cannot belong to a company, and
+/// assistants.
+#define JOB_INDEPENDENT (1 << 6)
 
 #define JOB_AVAILABLE 0
 #define JOB_UNAVAILABLE_GENERIC 1

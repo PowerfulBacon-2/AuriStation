@@ -69,6 +69,15 @@ SUBSYSTEM_DEF(department)
 	/// Primary bank account of the company
 	var/datum/bank_account/account = new /datum/bank_account
 
+	/// If a company is not unique then it will not appear as its own entry
+	/// on the job-selection menu. When a company is updated by its administrators,
+	/// then it becomes unique and will render as its own thing.
+	var/unique = TRUE
+
+	/// If set to true, then upon spawning a random member of the company is made
+	/// to be its director.
+	var/random_director = FALSE
+
 	/// The job that is shown as the head role for the company
 	var/head_job = null
 
@@ -117,6 +126,8 @@ SUBSYSTEM_DEF(department)
 	var/paycheck = 0
 	/// History associated with edits to the employee
 	var/list/datum/registered_employee_history/history = list()
+	/// Is this employee an administrator of the company
+	var/s = FALSE
 
 /datum/registered_employee/New(datum/bank_account/account)
 	. = ..()
@@ -281,4 +292,41 @@ SUBSYSTEM_DEF(department)
 		/datum/job/security_officer,
 		/datum/job/deputy,
 		/datum/job/brig_physician,
+	)
+
+// ---------------------------------------------------------------------
+//                               SERVICE (Various)
+// Service companies will assign a random director on spawn, and they can
+// change the name and manage the company. Once they change the name, it
+// becomes unique and renders as its own entry on the job-selection screen.
+// ---------------------------------------------------------------------
+
+/datum/company/bar
+	name = "Bar"
+	colour = "#57ca3a"
+	unique = FALSE
+	random_director = TRUE
+	display_order = COMPANY_DISPLAY_ORDER_INDEPENDENT
+	available_jobs = list(
+		/datum/job/bartender
+	)
+
+/datum/company/kitchen
+	name = "Kitchen"
+	colour = "#57ca3a"
+	unique = FALSE
+	random_director = TRUE
+	display_order = COMPANY_DISPLAY_ORDER_INDEPENDENT
+	available_jobs = list(
+		/datum/job/cook
+	)
+
+/datum/company/botany
+	name = "Botany"
+	colour = "#57ca3a"
+	unique = FALSE
+	random_director = TRUE
+	display_order = COMPANY_DISPLAY_ORDER_INDEPENDENT
+	available_jobs = list(
+		/datum/job/botanist
 	)

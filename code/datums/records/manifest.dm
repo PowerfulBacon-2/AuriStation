@@ -18,11 +18,8 @@
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CREW_MANIFEST_UPDATE)
 
 /// Gets the current manifest.
+/// Format: { [company: string]: { name: string, rank: string, hud: string, department: string? }[] }
 /datum/manifest/proc/get_manifest()
-	/// assoc-ing to head names, so that we give their name an officer mark on crew manifest
-	var/static/list/heads
-	if(!heads) // do not do this in pre-runtime.
-		heads = make_associative(SSjob.get_job_types_in_group(/datum/job_group/command))
 	/// Takes a result of each crew data in a format
 	var/list/manifest_out = list()
 
@@ -30,15 +27,16 @@
 		var/name = person_record.name
 		var/rank = person_record.rank
 		var/hud = person_record.hud
-		var/dept_bitflags = person_record.active_department
 		var/entry = list("name" = name, "rank" = rank, "hud" = hud)
-		if(dept_bitflags)
-			for (var/datum/company/company in SSdepartment.companies)
-				LAZYINITLIST(manifest_out[company.name])
-				// Append to beginning of list if captain or department head
-				var/put_at_top = (hud == JOB_HUD_CAPTAIN) || (hud == JOB_HUD_ACTINGCAPTAIN) || (department.dept_id != DEPT_NAME_COMMAND && heads[rank])
-				var/list/_internal = manifest_out[department.dept_id]
-				_internal.Insert(put_at_top, list(entry))
+
+		for (var/datum/company/company in SSdepartment.companies)
+			LAZYINITLIST(manifest_out[company.name])
+			// Append to beginning of list if captain or department head
+			var/put_at_top = (hud == JOB_HUD_CAPTAIN) || (hud == JOB_HUD_ACTINGCAPTAIN) || (person_record.assigned_job?.job_flags & JOB_HEAD)
+			var/list/_internal = manifest_out[department.dept_id]
+			_internal.Insert(put_at_top, list(entry))
+
+
 		else
 			LAZYINITLIST(manifest_out["Misc"])
 			var/put_at_top = (hud == JOB_HUD_CAPTAIN) || (hud == JOB_HUD_ACTINGCAPTAIN) || (heads[rank])
@@ -95,9 +93,6 @@
 		gender_string = "Male"
 	if(person.gender == FEMALE)
 		gender_string = "Female"
-	var/assignment = person.mind?.assigned_role
-	if(isnull(assignment))
-		assignment = "None"
 	var/datum/bank_account/bank_account = person.get_bank_account()
 
 	var/datum/record/locked/lockfile = new(
@@ -107,7 +102,7 @@
 		dna_string = record_dna.unique_enzymes,
 		fingerprint = md5(record_dna.unique_identity),
 		gender = gender_string,
-		initial_rank = assignment,
+		assigned_job = person.mind?.assigned_job,
 		name = person.real_name,
 		rank = assignment,
 		species = record_dna.species,
@@ -124,7 +119,7 @@
 		dna_string = record_dna.unique_enzymes,
 		fingerprint = md5(record_dna.unique_identity),
 		gender = gender_string,
-		initial_rank = assignment,
+		assigned_job = person.mind?.assigned_job,
 		name = person.real_name,
 		rank = assignment,
 		species = record_dna.species,
