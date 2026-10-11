@@ -16,7 +16,8 @@ SUBSYSTEM_DEF(job)
 	var/list/prioritized_jobs = list()
 	var/list/latejoin_trackers = list()	//Don't read this list, use GetLateJoinTurfs() instead
 
-	var/datum/job/overflow_role
+	var/overflow_job_path = /datum/job/assistant
+	var/datum/job/overflow_job
 
 	var/list/level_order = list(JP_HIGH,JP_MEDIUM,JP_LOW)
 
@@ -112,6 +113,13 @@ SUBSYSTEM_DEF(job)
 				job.department = department
 				occupations += job
 				SSmapping.map_adjustment?.upate_job(job)
+	for (var/datum/job/job_path as anything in subtypesof(/datum/job))
+		if (!(job_path::job_flags & JOB_INDEPENDENT))
+			continue
+		var/datum/job/job = new job_path()
+		occupations += job
+		if (istype(job, overflow_job_path))
+			overflow_job = job
 	return TRUE
 
 /datum/controller/subsystem/job/proc/AssignRole(mob/dead/new_player/authenticated/player, datum/job/job, latejoin = FALSE)
