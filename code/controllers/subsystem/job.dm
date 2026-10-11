@@ -84,7 +84,7 @@ SUBSYSTEM_DEF(job)
 	prioritized_jobs = SSjob.prioritized_jobs
 	latejoin_trackers = SSjob.latejoin_trackers
 
-	overflow_role = SSjob.overflow_role
+	overflow_job = SSjob.overflow_job
 
 	spare_id_safe_code = SSjob.spare_id_safe_code
 	crew_obj_list = SSjob.crew_obj_list
@@ -321,7 +321,7 @@ SUBSYSTEM_DEF(job)
 	//Mop up people who can't leave.
 	for(var/mob/dead/new_player/authenticated/player in unassigned) //Players that wanted to back out but couldn't because they're antags (can you feel the edge case?)
 		if(!GiveRandomJob(player))
-			if(!AssignRole(player, SSjob.overflow_role)) //If everything is already filled, make them an assistant
+			if(!AssignRole(player, SSjob.overflow_job)) //If everything is already filled, make them an assistant
 				return FALSE //Living on the edge, the forced antagonist couldn't be assigned to overflow role (bans, client age) - just reroll
 
 	//Scale number of open security officer slots to population
