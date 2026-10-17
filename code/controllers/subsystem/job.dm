@@ -827,12 +827,26 @@ SUBSYSTEM_DEF(job)
 	safe_code_timer_id = null
 	safe_code_request_loc = null
 
+/// Returns all job instances
+/datum/controller/subsystem/job/proc/get_all_job_instances()
+	RETURN_TYPE(/list/datum/job)
+	return occupations
+
 /// Get all of the jobs which have all of the provided flags
-/datum/controller/subsystem/job/proc/get_all_jobs_with_flag(job_flag)
+/datum/controller/subsystem/job/proc/get_job_instances_with_flag(job_flag)
+	RETURN_TYPE(/list/datum/job)
 	. = list()
 	for (var/datum/job/job in occupations)
 		if ((job.job_flags & job_flag) == job_flag)
 			. += job
+
+/// Gets any job instance that has the specified type
+/datum/controller/subsystem/job/proc/get_any_job_instance_of_type(job_type)
+	RETURN_TYPE(/datum/job)
+	for (var/datum/job/job in occupations)
+		if (istype(job, job_type))
+			return job
+	return null
 
 /// Get all the job types inside the job group, returns typepaths not instances.
 /datum/controller/subsystem/job/proc/get_job_types_in_group(job_group)

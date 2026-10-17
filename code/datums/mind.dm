@@ -556,10 +556,20 @@
 		A.admin_remove(usr)
 
 	if (href_list["role_edit"])
-		var/new_role = input("Select new role", "Assigned role", assigned_job?.title) as null|anything in sort_list(get_all_job_names())
+		var/list/roles = list()
+		for (var/datum/job/job in SSjob.get_all_job_instances())
+			if (job.company && job.department)
+				roles["[job.title] of [job.company.name]'s [job.department.name] department"] = job
+			else if (job.company)
+				roles["[job.title] of [job.company.name]"] = job
+			else
+				roles["[job.title]"] = job
+		var/datum/job/new_role = tgui_input_list(usr, "Select new role", "Assigned role", sort_list(roles))
 		if (!new_role)
 			return
-		assigned_job = SSjob.GetJob(new_role)
+		if (!istype(new_role))
+			CRASH("Assertion violation, expected new_role to be a job.")
+		assigned_job = new_role
 
 	else if (href_list["memory_edit"])
 		var/new_memo = stripped_multiline_input(usr, "Write new memory", "Memory", memory, MAX_MESSAGE_LEN)
@@ -856,12 +866,12 @@
 //AI
 /mob/living/silicon/ai/mind_initialize()
 	..()
-	mind.assigned_job = SSjob.get_job_by_type(/datum/job/ai)
+	mind.assigned_job = SSjob.get_any_job_instance_of_type(/datum/job/ai)
 
 //BORG
 /mob/living/silicon/robot/mind_initialize()
 	..()
-	mind.assigned_job = SSjob.get_job_by_type(/datum/job/cyborg)
+	mind.assigned_job = SSjob.get_any_job_instance_of_type(/datum/job/cyborg)
 
 //PAI
 /mob/living/silicon/pai/mind_initialize()
