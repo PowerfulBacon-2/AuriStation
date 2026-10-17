@@ -445,16 +445,15 @@ SUBSYSTEM_DEF(job)
 
 	switch (jobless_role)
 		if (BEOVERFLOW)
-			var/datum/job/overflow_role_datum = GetJob(overflow_role)
-			if(!istype(overflow_role_datum))
-				stack_trace("Invalid overflow_role set ([overflow_role]), please make sure it matches a valid job datum.")
+			if(!istype(overflow_job))
+				stack_trace("Invalid overflow_role set ([overflow_job_path]), please make sure it matches a valid job datum.")
 				RejectPlayer(player)
 			else
-				var/allowed_to_be_a_loser = !is_banned_from(player.ckey, overflow_role_datum.title)
+				var/allowed_to_be_a_loser = !is_banned_from(player.ckey, overflow_job.title)
 				if(QDELETED(player) || !allowed_to_be_a_loser)
 					RejectPlayer(player)
 				else
-					if(!AssignRole(player, overflow_role_datum.title))
+					if(!AssignRole(player, overflow_job.title))
 						RejectPlayer(player)
 		if (BERANDOMJOB)
 			if(!GiveRandomJob(player))
@@ -575,12 +574,11 @@ SUBSYSTEM_DEF(job)
 		return C.holder.auto_deadmin()
 
 /datum/controller/subsystem/job/proc/setup_officer_positions()
-	var/datum/job/J = SSjob.GetJob("Security Officer")
-	if(!J)
+	if(!overflow_job)
 		CRASH("setup_officer_positions(): Security officer job is missing")
 
 	//Spawn some extra eqipment lockers if we have more than 5 officers
-	var/equip_needed = J.get_spawn_position_count()
+	var/equip_needed = overflow_job.get_spawn_position_count()
 	if(equip_needed < 0) // -1: infinite available slots
 		equip_needed = 12
 	for(var/i=equip_needed-5, i>0, i--)
