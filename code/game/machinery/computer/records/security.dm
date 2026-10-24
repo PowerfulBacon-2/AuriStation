@@ -103,7 +103,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/machinery/computer/records/security)
 			gender = target.gender,
 			name = target.name,
 			security_note = target.security_note,
-			rank = target.rank,
+			rank = target.assigned_job.title,
 			species = target.species,
 			wanted_status = target.wanted_status,
 		))
@@ -343,7 +343,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/obj/machinery/computer/records/security)
 		entry["fingerprint"] = player_record.fingerprint
 		entry["gender"] = player_record.gender
 		entry["name"] = player_record.name
-		entry["rank"] = player_record.rank
+		entry["rank"] = player_record.assigned_job.title
 		entry["record"] = REF(player_record)
 		entry["species"] = player_record.species
 

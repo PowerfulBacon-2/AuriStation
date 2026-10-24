@@ -18,6 +18,7 @@
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CREW_MANIFEST_UPDATE)
 
 /// Gets the current manifest.
+/// Unsorted, UI is responsible for sorting
 /// Format: { [company: string]: { name: string, rank: string, hud: string, department: string? }[] }
 /datum/manifest/proc/get_manifest()
 	/// Takes a result of each crew data in a format
@@ -25,31 +26,20 @@
 
 	for(var/datum/record/crew/person_record in GLOB.manifest.general)
 		var/name = person_record.name
-		var/rank = person_record.rank
+		var/rank = person_record.assigned_job?.title || "Unassigned"
 		var/hud = person_record.hud
-		var/entry = list("name" = name, "rank" = rank, "hud" = hud)
+		var/datum/company/company = person_record.assigned_job?.company
+		var/datum/company_department/department = person_record.assigned_job?.department
+		var/company_name = company?.name || "Unaffiliated"
+		var/department_name = department?.name
+		var/entry = list("name" = name, "rank" = rank, "hud" = hud, "department" = department_name)
 
-		for (var/datum/company/company in SSdepartment.companies)
-			LAZYINITLIST(manifest_out[company.name])
-			// Append to beginning of list if captain or department head
-			var/put_at_top = (hud == JOB_HUD_CAPTAIN) || (hud == JOB_HUD_ACTINGCAPTAIN) || (person_record.assigned_job?.job_flags & JOB_HEAD)
-			var/list/_internal = manifest_out[department.dept_id]
-			_internal.Insert(put_at_top, list(entry))
-
-
-		else
-			LAZYINITLIST(manifest_out["Misc"])
-			var/put_at_top = (hud == JOB_HUD_CAPTAIN) || (hud == JOB_HUD_ACTINGCAPTAIN) || (heads[rank])
-			var/list/_internal = manifest_out["Misc"]
-			_internal.Insert(put_at_top, list(entry))
-
-	// 'manifest_out' is not sorted.
-	var/list/sorted_out = list()
-	for(var/datum/department_group/department as anything in SSdepartment.sorted_department_for_manifest)
-		if(isnull(manifest_out[department.dept_id]))
-			continue
-		sorted_out[department.manifest_category_name] = manifest_out[department.dept_id] // this also changes a department name.
-	return sorted_out
+		LAZYINITLIST(manifest_out[company_name])
+		// Append to beginning of list if captain or department head
+		var/put_at_top = (department && department.head_job == person_record.assigned_job?.type) || (company && company.head_job == person_record.assigned_job?.type)
+		var/list/_internal = manifest_out[company_name]
+		_internal.Insert(put_at_top, list(entry))
+	return manifest_out
 
 /// Returns the manifest as an html.
 /datum/manifest/proc/get_html(monochrome = FALSE)
@@ -104,7 +94,6 @@
 		gender = gender_string,
 		assigned_job = person.mind?.assigned_job,
 		name = person.real_name,
-		rank = assignment,
 		species = record_dna.species,
 		hud = person.get_job_id(),
 		// Locked specifics
@@ -121,7 +110,6 @@
 		gender = gender_string,
 		assigned_job = person.mind?.assigned_job,
 		name = person.real_name,
-		rank = assignment,
 		species = record_dna.species,
 		// Crew specific
 		lock_ref = FAST_REF(lockfile),
@@ -139,12 +127,12 @@
 		SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CREW_MANIFEST_UPDATE)
 
 /// Edits the rank of the found record.
-/datum/manifest/proc/modify(name, assignment, hud_state)
+/datum/manifest/proc/modify(name, datum/job/assigned_job, hud_state)
 	var/datum/record/crew/target = find_record(name, GLOB.manifest.general)
 	if(!target)
 		return
 
-	target.rank = assignment
+	target.assigned_job = assigned_job
 	target.hud = hud_state
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CREW_MANIFEST_UPDATE)
 

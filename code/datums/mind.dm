@@ -112,6 +112,8 @@
 	martial_art = default_martial_art
 	setup_soul_glimmer()
 	created_at = world.time
+	if (!assigned_job)
+		assigned_job = new /datum/job/special("Unassigned")
 
 /datum/mind/Destroy()
 	SSticker.minds -= src
@@ -856,12 +858,6 @@
 /mob/living/carbon/mind_initialize()
 	..()
 	last_mind = mind
-
-//HUMAN
-/mob/living/carbon/human/mind_initialize()
-	..()
-	if(!mind.assigned_job)
-		mind.assigned_job = new /datum/job/special("Unassigned") //default
 
 //AI
 /mob/living/silicon/ai/mind_initialize()

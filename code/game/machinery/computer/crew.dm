@@ -274,7 +274,7 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 
 		if (I)
 			entry["name"] = I.registered_name ? I.registered_name : "Unknown"
-			entry["assignment"] = I.assignment ? I.assignment : "Unknown"
+			entry["assignment"] = I.assigned_job?.title || "Unknown"
 			if(jobs[I.hud_state] != null)
 				entry["ijob"] = jobs[I.hud_state]
 

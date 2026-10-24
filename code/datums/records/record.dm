@@ -21,8 +21,6 @@
 	var/datum/job/assigned_job
 	/// The character's name
 	var/name = "Unknown"
-	/// The character's rank
-	var/rank
 	/// The character's species
 	var/species
 	/// The character's HUD icon
@@ -37,7 +35,6 @@
 	gender = "Other",
 	datum/job/assigned_job = null,
 	name = "Unknown",
-	rank = "Unassigned",
 	species = "Human",
 	hud = "None"
 )
@@ -50,8 +47,9 @@
 	src.fingerprint = fingerprint
 	src.gender = gender
 	src.assigned_job = assigned_job
+	if (!src.assigned_job)
+		src.assigned_job = new /datum/job/special("Unassigned")
 	src.name = name
-	src.rank = rank
 	src.hud = hud
 	src.species = species
 
@@ -98,7 +96,6 @@
 	gender = "Other",
 	datum/job/assigned_job = null,
 	name = "Unknown",
-	rank = "Unassigned",
 	active_department = NONE,
 	species = "Human",
 	hud = "None",
@@ -150,7 +147,6 @@
 		mental_status = src.mental_status,
 		name = src.name,
 		quirk_notes = src.quirk_notes,
-		rank = src.rank,
 		species = src.species,
 		medical_notes = list_of_medical_notes
 		)
@@ -409,7 +405,6 @@
 	gender = "Other",
 	datum/job/assigned_job = null,
 	name = "Unknown",
-	rank = "Unassigned",
 	active_department = NONE,
 	species = "Human",
 	hud = "None",
@@ -575,7 +570,7 @@
 	var/obj/item/paper/med_record_paper = new
 	var/med_record_text
 	med_record_text += "<CENTER><B>Medical Record</B></CENTER>"
-	med_record_text += "<BR>Name: [name] Rank: [rank]"
+	med_record_text += "<BR>Name: [name] Rank: [assigned_job?.title || "Unassigned"]"
 	med_record_text += "<BR>Gender: [gender]</BR>"
 	med_record_text += "<BR>Age: [age]<BR>"
 	med_record_text += "<BR>\n<CENTER><B>Medical Data</B></CENTER></BR>"
@@ -637,6 +632,8 @@
 	src.fingerprint = fingerprint
 	src.gender = gender
 	src.assigned_job = assigned_job
+	if (!src.assigned_job)
+		src.assigned_job = new /datum/job/special("Unassigned")
 	src.name = name
 	src.species = species
 	src.weakref_dna = weakref_dna

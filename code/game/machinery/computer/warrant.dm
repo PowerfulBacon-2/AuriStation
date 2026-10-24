@@ -45,7 +45,7 @@
 			crew_name = target.name,
 			record_ref = REF(target),
 			notes = target.security_note,
-			rank = target.rank,
+			rank = target.assigned_job.title,
 		))
 		records += record
 

@@ -186,8 +186,9 @@
 	/// Linked holopay.
 	var/obj/machinery/paystand/my_store
 
-	/// The job name registered on the card (for example: Assistant).
-	var/assignment
+	/// The job that the ID card is assigned to
+	/// Must not be null
+	var/datum/job/assigned_job
 
 	/// Access levels held by this card.
 	var/list/access = list()
@@ -206,6 +207,9 @@
 		access = text2access(access_txt)
 
 	RegisterSignal(src, COMSIG_ATOM_UPDATED_ICON, PROC_REF(update_in_wallet))
+
+	if (!assigned_job)
+		assigned_job = new /datum/job/special("Unassigned")
 
 /obj/item/card/id/Destroy()
 	if (registered_account)

@@ -95,7 +95,7 @@
 		if(ID && istype(ID))
 			if(check_access(ID))
 				authenticated = TRUE
-				auth_id = "[ID.registered_name] ([ID.assignment])"
+				auth_id = "[ID.registered_name] ([ID.assigned_job?.title])"
 				log_activity("logged in")
 				playsound(src, 'sound/machines/terminal_on.ogg', 50, 0)
 	if(href_list["log_out"])

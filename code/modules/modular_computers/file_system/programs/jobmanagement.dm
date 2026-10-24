@@ -23,11 +23,11 @@
 	..()
 	change_position_cooldown = CONFIG_GET(number/id_console_jobslot_delay)
 
-/datum/computer_file/program/proc/job_blacklisted(jobtitle)
-	return jobtitle == SSjob.overflow_role ? TRUE : (jobtitle in SSjob.job_manager_blacklisted)
+/datum/computer_file/program/proc/job_blacklisted(datum/job/job)
+	return job?.type == SSjob.overflow_job_path ? TRUE : (job && (job.title in SSjob.job_manager_blacklisted))
 
 /datum/computer_file/program/job_management/proc/can_open_job(datum/job/job)
-	if(!job_blacklisted(job?.title))
+	if(!job_blacklisted(job))
 		if((job.get_spawn_position_count() <= length(GLOB.player_list) * (max_relative_positions / 100)))
 			var/delta = (world.time / 10) - GLOB.time_last_changed_position
 			if((change_position_cooldown < delta) || (opened_positions[job.title] < 0))
@@ -35,7 +35,7 @@
 	return FALSE
 
 /datum/computer_file/program/job_management/proc/can_close_job(datum/job/job)
-	if(!job_blacklisted(job?.title))
+	if(!job_blacklisted(job))
 		if(job.get_spawn_position_count() > length(GLOB.player_list) * (max_relative_positions / 100))
 			var/delta = (world.time / 10) - GLOB.time_last_changed_position
 			if((change_position_cooldown < delta) || (opened_positions[job.title] > 0))
@@ -108,7 +108,7 @@
 	var/list/pos = list()
 	for(var/j in SSjob.occupations)
 		var/datum/job/job = j
-		if(job_blacklisted(job.title))
+		if(job_blacklisted(job))
 			continue
 
 		pos += list(list(

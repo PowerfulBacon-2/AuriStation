@@ -12,7 +12,7 @@ import {
 } from '../components';
 import { Window } from '../layouts';
 
-type DepartmentCrew = { [department: string]: ManifestEntry[] };
+type DepartmentCrew = { [company: string]: ManifestEntry[] };
 type JobOrdering = { [job: string]: number };
 
 const sortSpecific = (entries: ManifestEntry[], chain: JobOrdering) =>
@@ -25,6 +25,8 @@ type ManifestEntry = {
   rank: string;
   /** The HUD icon of this crew member.  */
   hud: string;
+  /** The department that the person belongs to */
+  department: string | null;
 };
 
 type CommandInfo = {
