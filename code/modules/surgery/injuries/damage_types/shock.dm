@@ -6,7 +6,7 @@
 	external = FALSE
 	damage_multiplier = 0
 	injury_flags = INJURY_LIMB
-	pain_multiplier = 1.4
+	pain_multiplier = 1
 	severity_level = INJURY_PRIORITY_ACTIVE
 	var/stam_regen_start_time
 
