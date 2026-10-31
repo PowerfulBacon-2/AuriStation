@@ -236,6 +236,7 @@
 	fire_sound = 'sound/weapons/rifleshot.ogg'
 	rack_sound = 'sound/weapons/chunkyrack.ogg'
 	full_auto = TRUE
+	distant_range = DISTANT_GUNSHOT_POWERFUL
 
 /obj/item/gun/ballistic/automatic/l6_saw/unrestricted
 	pin = /obj/item/firing_pin
@@ -326,6 +327,7 @@
 	actions_types = null
 	fire_rate = 2
 	spread = 10
+	distant_range = DISTANT_GUNSHOT_QUIET
 
 // Laser rifle (rechargeable magazine) //
 
@@ -340,4 +342,5 @@
 	fire_sound = 'sound/weapons/laser.ogg'
 	casing_ejector = FALSE
 	fire_rate = 2
+	distant_sound = null
 

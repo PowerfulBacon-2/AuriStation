@@ -17,6 +17,7 @@
 	var/spin_delay = 10
 	var/recent_spin = 0
 	trade_flags = TRADE_CONTRABAND
+	distant_range = DISTANT_GUNSHOT_POWERFUL
 
 /obj/item/gun/ballistic/revolver/chamber_round(spin_cylinder = TRUE)
 	if(spin_cylinder)
@@ -45,6 +46,7 @@
 		playsound(src, fire_sound, fire_sound_volume, vary_fire_sound)
 		if(play_click)
 			playsound(src, 'sound/weapons/effects/ballistic_click.ogg', fire_sound_volume, vary_fire_sound, frequency = click_frequency_to_use)
+		play_distant_gunshot()
 
 /obj/item/gun/ballistic/revolver/verb/spin()
 	set name = "Spin Chamber"
@@ -329,6 +331,7 @@
 	throw_range = 0
 	throw_speed = 0
 	can_gunpoint = FALSE
+	distant_sound = null
 
 /obj/item/gun/ballistic/revolver/mime/shoot_with_empty_chamber(mob/living/user as mob|obj)
 	to_chat(user, span_warning("Your fingergun is out of ammo!"))

@@ -25,6 +25,7 @@
 	slot_flags = ITEM_SLOT_BACK
 	actions_types = list()
 	mag_display = TRUE
+	distant_range = DISTANT_GUNSHOT_OVERPOWERED
 
 /obj/item/gun/ballistic/sniper_rifle/syndicate
 	name = "syndicate sniper rifle"

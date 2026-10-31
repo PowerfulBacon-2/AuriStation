@@ -22,6 +22,14 @@
 	max_integrity = 500
 	integrity_failure = 0.2
 
+	// Distant gunshots
+	/// Sound effect that plays when hearing a gunshot at a distance
+	var/distant_sound = 'sound/weapons/gunshot_distant.ogg'
+	/// Range of the distant gunshot sound effect
+	var/distant_range = DISTANT_GUNSHOT_DEFAULT
+	/// Volume of the distant shot sound effect
+	var/distant_shot_volume = 60
+
 	var/fire_sound = "gunshot"
 	var/vary_fire_sound = TRUE
 	var/fire_sound_volume = 50
@@ -245,9 +253,14 @@
 
 /obj/item/gun/proc/fire_sounds()
 	if(suppressed)
-		playsound(src, suppressed_sound, suppressed_volume, vary_fire_sound)
+		playsound(src, suppressed_sound, suppressed_volume, vary_fire_sound, ignore_walls = FALSE, extrarange = SILENCED_SOUND_EXTRARANGE, falloff_distance = 0)
 	else
 		playsound(src, fire_sound, fire_sound_volume, vary_fire_sound)
+		play_distant_gunshot()
+
+/obj/item/gun/proc/play_distant_gunshot()
+	if (distant_sound && distant_shot_volume > 0 && distant_range >= SOUND_RANGE)
+		playsound(src, distant_sound, distant_shot_volume, vary_fire_sound, extrarange = distant_range - SOUND_RANGE, falloff_distance = distant_range * 0.5, ignore_walls = TRUE)
 
 /obj/item/gun/proc/after_live_shot_fired(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
 	if(recoil && !tk_firing(user))

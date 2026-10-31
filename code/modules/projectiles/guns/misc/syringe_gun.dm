@@ -10,6 +10,7 @@
 	custom_materials = list(/datum/material/iron=2000)
 	clumsy_check = 0
 	fire_sound = 'sound/items/syringeproj.ogg'
+	distant_sound = null
 	var/load_sound = 'sound/weapons/shotguninsert.ogg'
 	var/list/syringes = list()
 	var/max_syringes = 1
