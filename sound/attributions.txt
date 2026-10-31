@@ -23,3 +23,5 @@ sound/effects/fire_puff.ogg made from: Bonfire Being Lit by samararaine -- https
 
 crimescenealarm.ogg uses:
 alarm2.wav by bumpelsnake -- https://freesound.org/s/456566/ -- License: Attribution 4.0
+
+Distant Gunshot by nicStage -- https://freesound.org/s/432606/ -- License: Attribution 4.0

@@ -79,6 +79,7 @@
 	lock_back_sound = "sound/weapons/deaglelock.ogg"
 	fire_sound = "sound/weapons/deagleshot.ogg"
 	custom_price = 300
+	distant_range = DISTANT_GUNSHOT_POWERFUL
 
 /obj/item/gun/ballistic/automatic/pistol/deagle/gold
 	desc = "A gold plated Desert Eagle folded over a million times by superior martian gunsmiths. Uses .50 AE ammo."
@@ -137,6 +138,7 @@
 	can_suppress = FALSE
 	worn_icon_state = "officer_pistol"
 	trade_flags = NONE
+	distant_sound = null
 	var/stripe_state = "officer_com"
 
 /obj/item/gun/ballistic/automatic/pistol/service/update_icon()

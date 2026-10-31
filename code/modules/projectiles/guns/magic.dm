@@ -25,6 +25,7 @@
 	requires_wielding = FALSE	//Magic has no recoil, just hold with 1 hand
 	equip_time = 0
 	has_weapon_slowdown = FALSE
+	distant_sound = null
 
 /obj/item/gun/magic/fire_sounds()
 	var/frequency_to_use = sin((90/max_charges) * charges)

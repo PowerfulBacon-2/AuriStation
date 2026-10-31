@@ -16,6 +16,7 @@
 	burst_size = 3
 	fire_delay = 3 // Slightly worse than the actual sabre
 	custom_price = 75
+	distant_sound = null
 
 /obj/item/gun/ballistic/automatic/toy/update_icon()
 	. = ..()
@@ -65,6 +66,7 @@
 	can_suppress = FALSE
 	pb_knockback = 0
 	recoil = 0
+	distant_sound = null
 
 /obj/item/gun/ballistic/shotgun/toy/update_icon()
 	. = ..()
@@ -95,6 +97,7 @@
 	mag_type = /obj/item/ammo_box/magazine/toy/smgm45/riot
 	casing_ejector = FALSE
 	clumsy_check = FALSE
+	distant_sound = null
 
 /obj/item/gun/ballistic/automatic/c20r/toy/unrestricted //Use this for actual toys
 	pin = /obj/item/firing_pin
@@ -115,6 +118,7 @@
 	mag_type = /obj/item/ammo_box/magazine/toy/m762/riot
 	casing_ejector = FALSE
 	clumsy_check = FALSE
+	distant_sound = null
 
 /obj/item/gun/ballistic/automatic/l6_saw/toy/unrestricted //Use this for actual toys
 	pin = /obj/item/firing_pin

@@ -4,9 +4,10 @@
 	id_arg_index = 2
 	var/casingtype = /obj/item/ammo_casing
 	var/projectilesound = 'sound/weapons/gunshot.ogg'
+	var/distant_projectilesound = 'sound/weapons/gunshot_distant.ogg'
 	var/projectiletype
 
-/datum/element/ranged_attacks/Attach(atom/movable/target, casingtype, projectilesound, projectiletype)
+/datum/element/ranged_attacks/Attach(atom/movable/target, casingtype, projectilesound, projectiletype, distant_projectilesound = 'sound/weapons/gunshot_distant.ogg')
 	. = ..()
 	if(!isbasicmob(target))
 		return COMPONENT_INCOMPATIBLE
@@ -14,6 +15,7 @@
 	src.casingtype = casingtype
 	src.projectilesound = projectilesound
 	src.projectiletype = projectiletype
+	src.distant_projectilesound = distant_projectilesound
 
 	RegisterSignal(target, COMSIG_MOB_ATTACK_RANGED, PROC_REF(fire_ranged_attack))
 
@@ -37,6 +39,8 @@
 	if(casingtype)
 		var/obj/item/ammo_casing/casing = new casingtype(startloc)
 		playsound(firer, projectilesound, 100, TRUE)
+		if(distant_projectilesound)
+			playsound(firer, distant_projectilesound, 60, TRUE, extrarange = DISTANT_GUNSHOT_DEFAULT - SOUND_RANGE, falloff_distance = DISTANT_GUNSHOT_DEFAULT * 0.5, ignore_walls = TRUE)
 		var/target_zone
 		target_zone = ran_zone()
 		casing.fire_casing(target, firer, null, null, null, target_zone, 0,  firer)
@@ -44,6 +48,8 @@
 	else if(projectiletype)
 		var/obj/projectile/P = new projectiletype(startloc)
 		playsound(firer, projectilesound, 100, TRUE)
+		if(distant_projectilesound)
+			playsound(firer, distant_projectilesound, 60, TRUE, extrarange = DISTANT_GUNSHOT_DEFAULT - SOUND_RANGE, falloff_distance = DISTANT_GUNSHOT_DEFAULT * 0.5, ignore_walls = TRUE)
 		P.starting = startloc
 		P.firer = firer
 		P.fired_from = firer

@@ -5,6 +5,8 @@
 	icon = 'icons/obj/guns/energy.dmi'
 	custom_price = 100 // Adding this here because only SOME guns were covered by export datums
 
+	distant_sound = null
+
 	///What type of power cell this uses
 	var/obj/item/stock_parts/cell/cell
 	var/cell_type = /obj/item/stock_parts/cell

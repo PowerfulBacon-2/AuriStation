@@ -18,6 +18,7 @@
 	tac_reloads = FALSE
 	internal_magazine = TRUE
 	has_weapon_slowdown = FALSE
+	distant_sound = null
 
 /obj/item/gun/ballistic/taser/after_live_shot_fired(mob/living/user, pointblank, atom/pbtarget, message)
 	. = ..()

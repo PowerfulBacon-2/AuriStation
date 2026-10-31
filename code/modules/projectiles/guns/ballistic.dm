@@ -96,6 +96,7 @@
 		playsound(src, fire_sound, fire_sound_volume, vary_fire_sound)
 		if(play_click)
 			playsound(src, 'sound/weapons/effects/ballistic_click.ogg', fire_sound_volume, vary_fire_sound, frequency = click_frequency_to_use)
+		play_distant_gunshot()
 
 /obj/item/gun/ballistic/add_weapon_description()
 	AddElement(/datum/element/weapon_description, attached_proc = PROC_REF(add_notes_ballistic))

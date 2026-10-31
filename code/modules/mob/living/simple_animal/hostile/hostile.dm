@@ -17,6 +17,8 @@
 
 	var/projectiletype	//set ONLY it and NULLIFY casingtype var, if we have ONLY projectile
 	var/projectilesound
+	/// Sound that plays at a ranged distance when the projectile is fired
+	var/distant_projectilesound
 	var/casingtype		//set ONLY it and NULLIFY projectiletype, if we have projectile IN CASING
 	var/move_to_delay = 3 //delay for the automated movement.
 	var/list/friends = list()
@@ -419,10 +421,14 @@
 	if(casingtype)
 		var/obj/item/ammo_casing/casing = new casingtype(startloc)
 		playsound(src, projectilesound, 100, 1)
+		if(distant_projectilesound)
+			playsound(src, distant_projectilesound, 60, TRUE, extrarange = DISTANT_GUNSHOT_DEFAULT - SOUND_RANGE, falloff_distance = DISTANT_GUNSHOT_DEFAULT * 0.5, ignore_walls = TRUE)
 		casing.fire_casing(targeted_atom, src, zone_override = ran_zone(), fired_from = src)
 	else if(projectiletype)
 		var/obj/projectile/P = new projectiletype(startloc)
 		playsound(src, projectilesound, 100, 1)
+		if(distant_projectilesound)
+			playsound(src, distant_projectilesound, 60, TRUE, extrarange = DISTANT_GUNSHOT_DEFAULT - SOUND_RANGE, falloff_distance = DISTANT_GUNSHOT_DEFAULT * 0.5, ignore_walls = TRUE)
 		P.starting = startloc
 		P.firer = src
 		P.fired_from = src
