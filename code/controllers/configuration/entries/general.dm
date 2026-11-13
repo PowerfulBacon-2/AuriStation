@@ -683,9 +683,6 @@
 
 /datum/config_entry/string/discord_ooc_tag
 
-/**
- * Tgui ui_act payloads larger than 2kb are split into chunks a maximum of 1kb in size.
- * This flag represents the maximum chunk count the server is willing to receive.
- */
-/datum/config_entry/number/tgui_max_chunk_count
-	config_entry_value = 32
+/// If enabled, all Debugger.enabled checks are also satisfied by this config.
+/// For example: sending runtimes to chat, muting lobby music, etc.
+/datum/config_entry/flag/mimic_debugger
