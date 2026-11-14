@@ -1,5 +1,5 @@
 {
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"configurations": [
 		{
 			"type": "byond",
@@ -7,6 +7,14 @@
 			"name": "Launch DreamSeeker",
 			"preLaunchTask": "Build All",
 			"dmb": "${workspaceFolder}/${command:CurrentDMB}"
+		},
+		{
+			"type": "auxtools",
+			"request": "launch",
+			"name": "Debug DreamSeeker (hot-reloading)",
+			"preLaunchTask": "Build All",
+			"dmb": "${workspaceFolder}/beestation.dmb",
+			"server": "dreamseeker"
 		}
 	]
 }

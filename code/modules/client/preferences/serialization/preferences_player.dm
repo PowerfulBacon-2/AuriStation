@@ -5,7 +5,7 @@
 /datum/preferences_holder/preferences_player/load_from_database(datum/preferences/prefs)
 	. = ..()
 	// Give the developers +1 sanity points
-	if(. == PREFERENCE_LOAD_IGNORE && Debugger?.enabled)
+	if(. == PREFERENCE_LOAD_IGNORE && (Debugger?.enabled || CONFIG_GET(flag/mimic_debugger)))
 		prefs.update_preference(/datum/preference/toggle/sound_ambience, FALSE)
 		prefs.update_preference(/datum/preference/toggle/sound_ship_ambience, FALSE)
 		prefs.update_preference(/datum/preference/toggle/sound_lobby, FALSE)
