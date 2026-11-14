@@ -57,6 +57,7 @@
 /atom/movable/screen/plane_master/rendering_plate/game_world/proc/update_suppression(mob/mymob, enabled)
 	if (enabled)
 		// Create a second relay but blur it
+		var/created_suppression = suppression == null
 		suppression = suppression || relay_render_to_plane(mymob, RENDER_PLANE_EFFECTS)
 
 		// Apply filters
@@ -77,8 +78,16 @@
 		suppression.layer += 1
 
 		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(0.4), color_matrix_lightness(-0.3))
-		suppression.color = suppress_effect
-		animate(suppression, time=0.4 SECONDS, color=suppress_effect, flags=ANIMATION_PARALLEL)
+		if (created_suppression)
+			// Start transparent and fade in quickly
+			suppression.color = list(
+				1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+			)
+		animate(suppression, time=0.2 SECONDS, color=suppress_effect, flags=ANIMATION_PARALLEL)
 		animate(suppression, time=2.5 SECONDS, color=color_matrix_identity())
 	else if (suppression != null)
 		animate(suppression, time=5 SECONDS, color=list(
