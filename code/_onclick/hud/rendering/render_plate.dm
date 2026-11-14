@@ -57,12 +57,11 @@
 /atom/movable/screen/plane_master/rendering_plate/game_world/proc/update_suppression(mob/mymob, enabled)
 	if (enabled)
 		// Create a second relay but blur it
-		var/created_suppression = suppression == null
 		suppression = suppression || relay_render_to_plane(mymob, RENDER_PLANE_EFFECTS)
 
 		// Apply filters
 		// TODO: The filter doesn't animate
-		add_filter_and_animate("radial_blur", 1, angular_blur_filter(size=1.5), list("size" = 3), list("size" = 1.5))
+		add_filter_and_animate("radial_blur", 1, angular_blur_filter(size=3), list(size = 3), list(size = 1))
 
 		// var/filter = suppression_blur.filters[length(suppression_blur.filters)]
 		// animate(filter, time=0, loop=-1, size=1, flags=ANIMATION_PARALLEL)
@@ -77,19 +76,19 @@
 		suppression.add_filter("alpha_mask", 4, alpha_mask_filter(icon = icon))
 		suppression.layer += 1
 
-		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(0.4), color_matrix_lightness(-0.1))
+		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(0.4), color_matrix_lightness(-0.3))
 		suppression.color = suppress_effect
-		animate(suppression, time=4, color=suppress_effect, flags=ANIMATION_PARALLEL)
-		animate(suppression, time=25, color=color_matrix_identity())
+		animate(suppression, time=0.4 SECONDS, color=suppress_effect, flags=ANIMATION_PARALLEL)
+		animate(suppression, time=2.5 SECONDS, color=color_matrix_identity())
 	else if (suppression != null)
-		animate(suppression, time=50, color=list(
+		animate(suppression, time=5 SECONDS, color=list(
 			1, 0, 0, 0,
 			0, 1, 0, 0,
 			0, 0, 1, 0,
 			0, 0, 0, 0,
 			0, 0, 0, 0,
 		), flags=ANIMATION_PARALLEL)
-		QDEL_IN(suppression, 100)
+		QDEL_IN(suppression, 10 SECONDS)
 		suppression = null
 
 /atom/movable/screen/plane_master/rendering_plate/game_world/proc/add_filter_and_animate(filter_id, priority, list/filter_effect, list/start_animation, list/end_animation)
@@ -99,13 +98,13 @@
 	animate(filter, flags=ANIMATION_PARALLEL)
 	// Apply the starting animation
 	var/list/start_args = list(
-		time = 2,
+		time = 0.2 SECONDS,
 	)
 	start_args += start_animation
 	// Transition to the ending animation
 	animate(arglist(start_args))
 	var/list/end_args = list(
-		time = 25,
+		time = 1.2 SECONDS,
 	)
 	end_args += end_animation
 	animate(arglist(end_args))
