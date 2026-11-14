@@ -166,12 +166,15 @@
 /datum/status_effect/incapacitating/suppressed
 	id = "suppressed"
 
+/datum/status_effect/incapacitating/suppressed/proc/trigger()
+	var/atom/movable/screen/plane_master/rendering_plate/game_world/game_world_plane = owner.hud_used.plane_masters["[RENDER_PLANE_GAME]"]
+	game_world_plane.update_suppression(owner, TRUE)
+
 /datum/status_effect/incapacitating/suppressed/on_apply()
 	. = ..()
 	if(!.)
 		return
-	var/atom/movable/screen/plane_master/rendering_plate/game_world/game_world_plane = owner.hud_used.plane_masters["[RENDER_PLANE_GAME]"]
-	game_world_plane.update_suppression(owner, TRUE)
+	trigger()
 
 /datum/status_effect/incapacitating/suppressed/on_remove()
 	var/atom/movable/screen/plane_master/rendering_plate/game_world/game_world_plane = owner.hud_used.plane_masters["[RENDER_PLANE_GAME]"]

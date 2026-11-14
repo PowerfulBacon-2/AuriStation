@@ -730,6 +730,7 @@
 		var/datum/status_effect/incapacitating/suppressed/K = is_suppressed()
 		if(K)
 			K.duration = max(world.time + amount, K.duration)
+			K.trigger()
 		else if(amount > 0)
 			K = apply_status_effect(/datum/status_effect/incapacitating/suppressed, amount)
 		return K
@@ -747,6 +748,7 @@
 				return
 			if(K)
 				K.duration = world.time + amount
+				K.trigger()
 			else
 				K = apply_status_effect(/datum/status_effect/incapacitating/suppressed, amount)
 		return K
@@ -760,6 +762,7 @@
 		var/datum/status_effect/incapacitating/suppressed/K = is_suppressed()
 		if(K)
 			K.duration += amount
+			K.trigger()
 		else if(amount > 0)
 			K = apply_status_effect(/datum/status_effect/incapacitating/suppressed, amount)
 		return K

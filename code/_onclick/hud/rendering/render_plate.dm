@@ -59,29 +59,50 @@
 		// Create a second relay but blur it
 		var/created_suppression = suppression == null
 		suppression = suppression || relay_render_to_plane(mymob, RENDER_PLANE_EFFECTS)
+
 		// Apply filters
-		add_filter_and_animate("radial_blur", 1, angular_blur_filter(size=0), list("size" = 3), list("size" = 1.5))
+		// TODO: The filter doesn't animate
+		add_filter_and_animate("radial_blur", 1, angular_blur_filter(size=1.5), list("size" = 3), list("size" = 1.5))
+
 		// var/filter = suppression_blur.filters[length(suppression_blur.filters)]
 		// animate(filter, time=0, loop=-1, size=1, flags=ANIMATION_PARALLEL)
 		// animate(time=10, loop=-1, size=1.5)
 		// animate(time=20, loop=-1, size=1)
 		// suppression_blur.add_filter("guassian_blur", 2, gauss_blur_filter(size=1))
 		// suppression_blur.add_filter("darken", 3, color_matrix_filter(color_matrix_multiply(color_matrix_saturation(0.4), color_matrix_lightness(-0.1))))
+
+		//add_filter_and_animate("darken", 3, color_matrix_filter(suppress_effect), list("alpha" = 255), list("alpha" = 0))
+
 		var/icon/icon = icon('icons/hud/fullscreen/screen_full.dmi', "oxydamageoverlay7")
 		suppression.add_filter("alpha_mask", 4, alpha_mask_filter(icon = icon))
 		suppression.layer += 1
+
+		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(0.4), color_matrix_lightness(-0.1))
+		suppression.color = suppress_effect
+		animate(suppression, time=4, color=suppress_effect, flags=ANIMATION_PARALLEL)
+		animate(suppression, time=25, color=color_matrix_identity())
 	else if (suppression != null)
-		qdel(suppression)
+		animate(suppression, time=50, color=list(
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 0,
+			0, 0, 0, 0,
+		), flags=ANIMATION_PARALLEL)
+		QDEL_IN(suppression, 100)
 		suppression = null
 
 /atom/movable/screen/plane_master/rendering_plate/game_world/proc/add_filter_and_animate(filter_id, priority, list/filter_effect, list/start_animation, list/end_animation)
 	suppression.add_filter("radial_blur", 1, filter_effect)
 	var/filter = suppression.filters[length(suppression.filters)]
+	// Start the animation
+	animate(filter, flags=ANIMATION_PARALLEL)
+	// Apply the starting animation
 	var/list/start_args = list(
-		filter,
-		time = 4,
+		time = 2,
 	)
 	start_args += start_animation
+	// Transition to the ending animation
 	animate(arglist(start_args))
 	var/list/end_args = list(
 		time = 25,

@@ -261,6 +261,8 @@
 /obj/item/gun/proc/play_distant_gunshot()
 	if (distant_sound && distant_shot_volume > 0 && distant_range >= SOUND_RANGE)
 		playsound(src, distant_sound, distant_shot_volume, vary_fire_sound, extrarange = distant_range - SOUND_RANGE, falloff_distance = distant_range * 0.5, ignore_walls = TRUE)
+		for (var/mob/living/person in view(4, get_turf(src)))
+			person.suppress(50)
 
 /obj/item/gun/proc/after_live_shot_fired(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
 	if(recoil && !tk_firing(user))
