@@ -62,7 +62,7 @@
 
 		// Apply filters
 		// TODO: The filter doesn't animate
-		suppression.add_filter("radial_blur", 1, angular_blur_filter(size=3))
+		suppression.add_filter("radial_blur", 1, angular_blur_filter(size=1.5))
 
 		// var/filter = suppression_blur.filters[length(suppression_blur.filters)]
 		// animate(filter, time=0, loop=-1, size=1, flags=ANIMATION_PARALLEL)
@@ -77,7 +77,7 @@
 		suppression.add_filter("alpha_mask", 4, alpha_mask_filter(icon = icon))
 		suppression.layer += 1
 
-		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(0.4), color_matrix_lightness(-0.3))
+		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(0.4), color_matrix_lightness(-0.2))
 		if (created_suppression)
 			// Start transparent and fade in quickly
 			suppression.color = list(
@@ -87,16 +87,16 @@
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			)
-		animate(suppression, time=0.2 SECONDS, color=suppress_effect, flags=ANIMATION_PARALLEL)
-		animate(suppression, time=2.5 SECONDS, color=color_matrix_identity())
+		animate(suppression, time=0.1 SECONDS, color=suppress_effect)
+		animate(time=2.5 SECONDS, color=color_matrix_identity())
 	else if (suppression != null)
-		animate(suppression, time=5 SECONDS, color=list(
+		animate(suppression, time=1 SECONDS, color=list(
 			1, 0, 0, 0,
 			0, 1, 0, 0,
 			0, 0, 1, 0,
 			0, 0, 0, 0,
 			0, 0, 0, 0,
-		), flags=ANIMATION_PARALLEL)
+		))
 		QDEL_IN(suppression, 10 SECONDS)
 		suppression = null
 
