@@ -168,7 +168,7 @@
 
 #define GAME_PLANE -4
 #define ABOVE_GAME_PLANE -3
-#define GAME_PLANE_RENDER_TARGET "GAME_PLANE_RENDER_TARGET"
+#define GAME_PLANE_RENDER_TARGET "*GAME_PLANE_RENDER_TARGET"
 
 #define BLACKNESS_PLANE 0 //To keep from conflicts with SEE_BLACKNESS internals
 
@@ -232,6 +232,7 @@
 #define BLIND_FEATURE_PLANE 552
 
 //-------------------- Rendering ---------------------
+#define RENDER_PLANE_EFFECTS 985
 #define RENDER_PLANE_GAME 990
 #define RENDER_PLANE_NON_GAME 995
 #define RENDER_PLANE_MASTER 999
