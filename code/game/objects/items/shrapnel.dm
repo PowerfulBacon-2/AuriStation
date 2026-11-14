@@ -50,6 +50,7 @@
 	ricochet_incidence_leeway = 60
 	hit_stunned_targets = TRUE
 	sharpness = SHARP_VI
+	speed = 0.6
 
 /obj/projectile/bullet/shrapnel/mega
 	name = "flying shrapnel hunk"

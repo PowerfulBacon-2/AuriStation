@@ -61,7 +61,7 @@
 
 		// Apply filters
 		// TODO: The filter doesn't animate
-		add_filter_and_animate("radial_blur", 1, angular_blur_filter(size=3), list(size = 3), list(size = 1))
+		suppression.add_filter("radial_blur", 1, angular_blur_filter(size=3))
 
 		// var/filter = suppression_blur.filters[length(suppression_blur.filters)]
 		// animate(filter, time=0, loop=-1, size=1, flags=ANIMATION_PARALLEL)

@@ -168,6 +168,8 @@
 	var/sharpness = 0
 	/// If we are zone accurate, we always hit the zone we were targeting
 	var/zone_accurate = FALSE
+	/// How much suppressive effect this projectile applies
+	var/suppressive_effect = 20
 
 /obj/projectile/Initialize(mapload)
 	. = ..()
@@ -184,6 +186,9 @@
 	range--
 	if(range <= 0 && loc)
 		on_range()
+	if (suppressive_effect > 0)
+		for (var/mob/living/person in view(2, get_turf(src)))
+			person.suppress(suppressive_effect)
 
 /obj/projectile/proc/on_range() //if we want there to be effects when they reach the end of their range
 	SEND_SIGNAL(src, COMSIG_PROJECTILE_RANGE_OUT)
