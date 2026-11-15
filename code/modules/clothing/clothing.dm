@@ -417,6 +417,64 @@
 		readout += "</span>"
 		return readout.Join()
 
+	var/added_effects_header = FALSE
+	for(var/key in clothing_traits)
+		// Attempt to find description from the good, otherwise try to fetch from the bad
+		var/description = GLOB.trait_descriptions["good"][key]
+		var/good = description != null
+		if (!description)
+			description = GLOB.trait_descriptions["bad"][key]
+		// Non-description traits remain secret
+		if (!description)
+			continue
+		if(!added_effects_header)
+			readout += "\n<b>EFFECTS</b>"
+			added_effects_header = TRUE
+		if (good)
+			readout += "\n[span_green(description)]"
+		else
+			readout += "\n[span_red(description)]"
+
+	for(var/key,value in multiplicative_traits)
+		// Attempt to find description from the good, otherwise try to fetch from the bad
+		var/description = GLOB.trait_descriptions["good"][key]
+		var/good = description != null
+		if (!description)
+			description = GLOB.trait_descriptions["bad"][key]
+		// Non-description traits remain secret
+		if (!description)
+			continue
+		if(!added_effects_header)
+			readout += "\n<b>EFFECTS</b>"
+			added_effects_header = TRUE
+		var/percentage_change = value > 1 ? "+[round((value - 1) * 100, 1)]%" : "-[round((1 - value) * 100, 1)]%"
+		if (value < 1)
+			good = !good
+		if (good)
+			readout += span_green("\n[percentage_change] [description]")
+		else
+			readout += span_red("\n[percentage_change] [description]")
+
+	for(var/key,value in additive_traits)
+		// Attempt to find description from the good, otherwise try to fetch from the bad
+		var/description = GLOB.trait_descriptions["good"][key]
+		var/good = description != null
+		if (!description)
+			description = GLOB.trait_descriptions["bad"][key]
+		// Non-description traits remain secret
+		if (!description)
+			continue
+		if(!added_effects_header)
+			readout += "\n<b>EFFECTS</b>"
+			added_effects_header = TRUE
+		var/amount_change = value > 1 ? "+[round(value , 1)]" : "-[round(-value, 1)]"
+		if (value < 1)
+			good = !good
+		if (good)
+			readout += span_green("\n[amount_change] [description]")
+		else
+			readout += span_red("\n[amount_change] [description]")
+
 	var/environment_readout = list()
 	if (!isnull(max_heat_protection_temperature))
 		environment_readout += "HEAT [max_heat_protection_temperature] K or less"
