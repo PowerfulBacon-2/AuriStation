@@ -64,6 +64,7 @@
 			suppression.add_filter("radial_blur", 1, angular_blur_filter(size=1.5))
 
 			var/icon/icon = icon('icons/hud/fullscreen/screen_full.dmi', "oxydamageoverlay7")
+
 			suppression.add_filter("alpha_mask", 4, alpha_mask_filter(icon = icon))
 			suppression.layer += 1
 			// Start transparent and fade in quickly
