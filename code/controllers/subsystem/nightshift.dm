@@ -4,8 +4,8 @@ SUBSYSTEM_DEF(nightshift)
 
 	var/forced_nightshift = null
 	var/nightshift_active = FALSE
-	var/nightshift_start_time = 702000		//7:30 PM, station time
-	var/nightshift_end_time = 270000		//7:30 AM, station time
+	var/nightshift_start_time = 0			//0:00 AM, station time
+	var/nightshift_end_time = 216000		//6:00 AM, station time
 	var/nightshift_first_check = 30 SECONDS
 
 	var/high_security_mode = FALSE

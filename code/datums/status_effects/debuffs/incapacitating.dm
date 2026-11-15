@@ -169,6 +169,8 @@
 /datum/status_effect/incapacitating/suppressed/proc/trigger(suppressive_force)
 	if (!owner)
 		return
+	if (!owner.hud_used)
+		return
 	var/atom/movable/screen/plane_master/rendering_plate/game_world/game_world_plane = owner.hud_used.plane_masters["[RENDER_PLANE_GAME]"]
 	game_world_plane.update_suppression(owner, TRUE)
 	shake_camera(owner, 0.2 SECONDS, 0.2)
@@ -180,6 +182,8 @@
 	trigger()
 
 /datum/status_effect/incapacitating/suppressed/on_remove()
+	if (!owner.hud_used)
+		return
 	var/atom/movable/screen/plane_master/rendering_plate/game_world/game_world_plane = owner.hud_used.plane_masters["[RENDER_PLANE_GAME]"]
 	game_world_plane.update_suppression(owner, FALSE)
 	return ..()
