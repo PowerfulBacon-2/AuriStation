@@ -32,6 +32,7 @@
 	fire_rate = 1 //reee
 	recoil = 1
 	pb_knockback = 2
+	suppressive_force = 30
 
 /obj/item/gun/ballistic/shotgun/fire_shot_at(mob/living/user, atom/target, message, params, zone_override, aimed)
 	if(chambered && chambered.caliber == ".50")

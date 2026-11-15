@@ -5,6 +5,7 @@
 	mag_type = /obj/item/ammo_box/magazine/internal/leveraction/exploration
 	no_pin_required = FALSE
 	pin = /obj/item/firing_pin/off_station
+	suppressive_force = 20
 
 /obj/item/ammo_box/magazine/internal/leveraction/exploration
 	name = "lever action rifle internal magazine"

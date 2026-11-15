@@ -237,6 +237,7 @@
 	rack_sound = 'sound/weapons/chunkyrack.ogg'
 	full_auto = TRUE
 	distant_range = DISTANT_GUNSHOT_POWERFUL
+	suppressive_force = 70
 
 /obj/item/gun/ballistic/automatic/l6_saw/unrestricted
 	pin = /obj/item/firing_pin
@@ -343,4 +344,5 @@
 	casing_ejector = FALSE
 	fire_rate = 2
 	distant_sound = null
+	suppressive_force = 10
 

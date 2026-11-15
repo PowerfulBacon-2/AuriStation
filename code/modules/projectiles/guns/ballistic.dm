@@ -4,6 +4,8 @@
 	icon_state = "pistol"
 	w_class = WEIGHT_CLASS_LARGE
 
+	suppressive_force = 30
+
 	//sound info vars
 	var/load_sound = "gun_insert_full_magazine"
 	var/load_empty_sound = "gun_insert_empty_magazine"

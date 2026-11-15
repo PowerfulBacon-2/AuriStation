@@ -369,15 +369,22 @@
 /// Returns a list of trait sources for this trait. Only useful for wacko cases and internal futzing
 #define GET_TRAIT_SOURCES(target, trait) (target.status_traits?[trait] || list())
 
-GLOBAL_DATUM_INIT(_trait_located, /datum/trait, null)
+GLOBAL_DATUM_INIT(_trait_located, /datum/trait/value_head, null)
 
-// Note: a?:b is used because : alone breaks the terniary operator
-/// Get the value of the specified trait
+/// Get the value of the specified trait, for priority traits will read the value with the highest priority
+/// and for multiplicative/cumulative traits will take the final cumulative * multiplicative value
 #define GET_TRAIT_VALUE(target, trait) (target.status_traits ?\
 	(length(target.status_traits[trait])\
 		? ((GLOB._trait_located = (target.status_traits[trait][FROM_TRAIT_QUEUE_HEAD] || target.status_traits[trait][1])) && GLOB._trait_located.value)\
 		: null)\
 	: null)
+
+/// Takes in a base value, adds on the additive values and then multiplies it by all of the multiplicative values.
+#define MODIFY_TRAIT_VALUE(target, trait, base) (target.status_traits ?\
+	(length(target.status_traits[trait])\
+		? ((GLOB._trait_located = (target.status_traits[trait][FROM_TRAIT_QUEUE_HEAD] || target.status_traits[trait][1])) && ((base + GLOB._trait_located.add_cum) * GLOB._trait_located.mult_cum))\
+		: base)\
+	: base)
 
 /proc/____has_trait_not_from(datum/target, trait, source)
 	var/list/heap

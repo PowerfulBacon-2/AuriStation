@@ -231,8 +231,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_NO_BUMP_SLAM		"no_bump_slam"	// Disables the ability to slam into walls
 /// Trait given by being a hulk
 #define TRAIT_HULK "hulk"
-/// Trait that stores the skin colour of a bodypart. Must be applied to a bodypart and not the mob as a whole.
-#define TRAIT_OVERRIDE_SKIN_COLOUR "skin_colour"
 #define TRAIT_STEALTH_PICKPOCKET "stealth_pickpocket" // The user can take something off of someone via the strip menu without sending a message.
 /// Trait that prevents you from being moved when pulled.
 #define TRAIT_NO_MOVE_PULL "no_move_pull"
@@ -476,8 +474,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /// The mob will not be able to take organ damage from penetration attacks
 #define TRAIT_NO_ORGAN_PENETRATION "no_organ_penetration"
 
-#define TRAIT_VALUE_SOUND_SCAPE "sound_scape"
-
 /// Oozelings with this trait will not lose limbs from low blood/nutrition.
 #define TRAIT_OOZELING_NO_CANNIBALIZE "oozeling_no_cannibalize"
 
@@ -504,11 +500,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_DREAMING "currently_dreaming"
 /// Trait given to people that were successfully assassinated
 #define TRAIT_ASSASSINATION_VICTIM "assassinated"
-
-/// Stores typepaths, the typepath value read from this trait indicates that this item
-/// is meant to look like the item with that path, which might affect how you show
-/// this item to players (such as through armour readouts).
-#define TRAIT_VALUE_MIMIC_PATH "mimic_path"
 
 ///without a human having this trait, they speak as if they have no tongue.
 #define TRAIT_SPEAKS_CLEARLY "speaks_clearly"

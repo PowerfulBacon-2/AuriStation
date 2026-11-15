@@ -10,6 +10,8 @@
 	item_flags = NONE
 	clumsy_check = FALSE
 
+	suppressive_force = 200
+
 	var/hugbox = TRUE
 	var/max_power = INFINITY
 	var/reaction_volume_mod = 0

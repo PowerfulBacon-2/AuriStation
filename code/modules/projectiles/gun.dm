@@ -110,6 +110,10 @@
 	/// Can we hold someone at gunpoint with this?
 	var/can_gunpoint = TRUE
 
+	/// How much suppressive force this weapon gives off when fired to anyone
+	/// nearby.
+	var/suppressive_force = 0
+
 /obj/item/gun/Initialize(mapload)
 	. = ..()
 	if(pin)
@@ -261,14 +265,23 @@
 /obj/item/gun/proc/play_distant_gunshot()
 	if (distant_sound && distant_shot_volume > 0 && distant_range >= SOUND_RANGE)
 		playsound(src, distant_sound, distant_shot_volume, vary_fire_sound, extrarange = distant_range - SOUND_RANGE, falloff_distance = distant_range * 0.5, ignore_walls = TRUE)
-		for (var/mob/living/person in view(4, get_turf(src)))
-			person.suppress(50)
 
 /obj/item/gun/proc/after_live_shot_fired(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
 	if(recoil && !tk_firing(user))
 		shake_camera(user, recoil + 1, recoil)
 	fire_sounds()
 	if(!suppressed)
+		if (suppressive_force > 0)
+			for (var/mob/living/person in view(4, get_turf(src)))
+				// Calculate suppressive force for this mob
+				var/final_suppressive_force = MODIFY_TRAIT_VALUE(person, person == user ? TRAIT_VALUE_ARMOR_SUPPRESSION_SELF : TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER, suppressive_force)
+
+				// Apply suppression
+				if (final_suppressive_force <= 0)
+					continue
+				person.suppress(final_suppressive_force)
+				if (final_suppressive_force > 10)
+					person.soundbang_act(intensity = 1, stun_pwr = 0, damage_pwr = 5, deafen_pwr = 5)
 		if(message)
 			if(tk_firing(user))
 				user.visible_message(

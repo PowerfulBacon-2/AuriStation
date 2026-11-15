@@ -17,6 +17,7 @@
 	fire_delay = 3 // Slightly worse than the actual sabre
 	custom_price = 75
 	distant_sound = null
+	suppressive_force = 0
 
 /obj/item/gun/ballistic/automatic/toy/update_icon()
 	. = ..()

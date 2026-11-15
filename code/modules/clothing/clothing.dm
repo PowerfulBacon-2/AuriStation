@@ -41,9 +41,13 @@
 	var/list/user_vars_remembered //Auto built by the above + dropped() + equipped()
 
 	/// Trait modification, lazylist of traits to add/take away, on equipment/drop in the correct slot
-
-	/// Trait modification, lazylist of traits to add/take away, on equipment/drop in the correct slot
 	var/list/clothing_traits
+
+	/// Lazy list of traits which apply multiplicatively to the person that equips this.
+	var/list/multiplicative_traits
+	/// Lazy list of traits which apply additively to the person that equips this.
+	var/list/additive_traits
+
 	//These allow head/mask items to dynamically alter the user's hair
 	// and facial hair, checking hair_extensions.dmi and facialhair_extensions.dmi
 	// for a state matching hair_state+dynamic_hair_suffix
@@ -242,6 +246,10 @@
 	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
 	for(var/trait in clothing_traits)
 		REMOVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
+	for (var/trait in multiplicative_traits)
+		REMOVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
+	for (var/trait in additive_traits)
+		REMOVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
 
 	if(LAZYLEN(user_vars_remembered))
 		for(var/variable in user_vars_remembered)
@@ -259,6 +267,10 @@
 			RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(bristle))
 		for(var/trait in clothing_traits)
 			ADD_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
+		for (var/trait,amount in multiplicative_traits)
+			ADD_MULTIPLICATIVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]", amount)
+		for (var/trait,amount in additive_traits)
+			ADD_CUMULATIVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]", amount)
 		if (LAZYLEN(user_vars_to_edit))
 			for(var/variable in user_vars_to_edit)
 				if(variable in user.vars)

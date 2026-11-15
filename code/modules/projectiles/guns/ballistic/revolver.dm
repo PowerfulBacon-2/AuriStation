@@ -18,6 +18,7 @@
 	var/recent_spin = 0
 	trade_flags = TRADE_CONTRABAND
 	distant_range = DISTANT_GUNSHOT_POWERFUL
+	suppressive_force = 50
 
 /obj/item/gun/ballistic/revolver/chamber_round(spin_cylinder = TRUE)
 	if(spin_cylinder)

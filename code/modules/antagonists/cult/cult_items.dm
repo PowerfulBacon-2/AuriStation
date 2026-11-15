@@ -564,6 +564,7 @@ Striking a noncultist, however, will tear their flesh."}
 	equip_time = 0
 	has_weapon_slowdown = FALSE
 	distant_sound = null
+	suppressive_force = 0
 
 /obj/item/ammo_box/magazine/internal/boltaction/enchanted/arcane_barrage/blood
 	ammo_type = /obj/item/ammo_casing/magic/arcane_barrage/blood

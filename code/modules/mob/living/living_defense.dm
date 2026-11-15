@@ -508,7 +508,7 @@
 	return TRUE
 
 //called when the mob receives a loud bang
-/mob/living/proc/soundbang_act()
+/mob/living/proc/soundbang_act(intensity = 1, stun_pwr = 20, damage_pwr = 5, deafen_pwr = 15)
 	return 0
 
 //to damage the clothes worn by a mob
