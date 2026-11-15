@@ -273,7 +273,6 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"TRAIT_NOVOMIT" = TRAIT_NOVOMIT,
 		"TRAIT_NO_DNA_COPY" = TRAIT_NO_DNA_COPY,
 		"TRAIT_OFF_BALANCE_TACKLER" = TRAIT_OFF_BALANCE_TACKLER,
-		"TRAIT_OVERRIDE_SKIN_COLOUR" = TRAIT_OVERRIDE_SKIN_COLOUR,
 		"TRAIT_PARALYSIS_L_ARM" = TRAIT_PARALYSIS_L_ARM,
 		"TRAIT_PARALYSIS_L_LEG" = TRAIT_PARALYSIS_L_LEG,
 		"TRAIT_PARALYSIS_R_ARM" = TRAIT_PARALYSIS_R_ARM,
@@ -339,6 +338,22 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"TRAIT_ROBOTICIST_SURGEON" = TRAIT_ROBOTICIST_SURGEON,
 		"TRAIT_SURGEON" = TRAIT_SURGEON,
 		"TRAIT_GENETICIST" = TRAIT_GENETICIST,
+	)
+))
+
+// Traits in this list will be revealed to players
+// Standard traits:
+// - Good: (Green) "Stun immunity"
+// - Bad: (Red) "Stun vulnerability"
+// Value traits:
+// - +25% "stun vulnerability"
+GLOBAL_LIST_INIT(trait_descriptions, list(
+	// Traits where higher values are better
+	"good" = list(),
+	// Traits where lower values are better
+	"bad" = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = "suppression from shooting",
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = "suppression from bullets",
 	)
 ))
 

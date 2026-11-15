@@ -18,7 +18,7 @@
 	bang_protect = 1
 	custom_price = 100
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.75,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.7,
 		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.75,
 	)
 
@@ -63,7 +63,8 @@
 	inhand_icon_state = "helmetalt"
 	armor_type = /datum/armor/bulletproof
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.85
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.85,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.4,
 	)
 
 /obj/item/clothing/head/helmet/alt/Initialize(mapload)
@@ -75,7 +76,8 @@
 	desc = "Standard issue security helmet. Due to degradation the helmet's visor obstructs the users ability to see long distances."
 	tint = 2
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.95
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.95,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.9,
 	)
 
 /obj/item/clothing/head/helmet/blueshirt
@@ -135,7 +137,7 @@
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	visor_flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.6
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.6,
 	)
 
 /obj/item/clothing/head/helmet/toggleable/riot/Initialize(mapload)
@@ -194,7 +196,8 @@
 	clothing_flags = STOPSPRESSUREDAMAGE | SNUG_FIT
 	strip_delay = 80
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.5
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.5,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.5,
 	)
 
 /obj/item/clothing/head/helmet/police
@@ -239,7 +242,7 @@
 	inhand_icon_state = "roman"
 	strip_delay = 100
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.95
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.9,
 	)
 
 /obj/item/clothing/head/helmet/roman/fake
@@ -265,7 +268,7 @@
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEHAIR
 	flags_cover = HEADCOVERSEYES
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.95
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.95
 	)
 
 /obj/item/clothing/head/helmet/redtaghelm
@@ -276,7 +279,7 @@
 	inhand_icon_state = "redtaghelm"
 	armor_type = /datum/armor/civilian_light_armor
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.85
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.85
 	)
 
 /obj/item/clothing/head/helmet/bluetaghelm
@@ -287,7 +290,7 @@
 	inhand_icon_state = "bluetaghelm"
 	armor_type = /datum/armor/civilian_light_armor
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.85
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.85
 	)
 
 /obj/item/clothing/head/helmet/knight
@@ -301,7 +304,7 @@
 	strip_delay = 80
 	bang_protect = 1
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.95
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.95
 	)
 
 /obj/item/clothing/head/helmet/knight/blue
@@ -326,7 +329,7 @@
 	inhand_icon_state = "skull"
 	strip_delay = 100
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.9
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.9
 	)
 
 /obj/item/clothing/head/helmet/durathread

@@ -57,28 +57,15 @@
 /atom/movable/screen/plane_master/rendering_plate/game_world/proc/update_suppression(mob/mymob, enabled)
 	if (enabled)
 		// Create a second relay but blur it
-		var/created_suppression = suppression == null
-		suppression = suppression || relay_render_to_plane(mymob, RENDER_PLANE_EFFECTS)
+		if (!suppression)
+			suppression = relay_render_to_plane(mymob, RENDER_PLANE_EFFECTS)
 
-		// Apply filters
-		// TODO: The filter doesn't animate
-		suppression.add_filter("radial_blur", 1, angular_blur_filter(size=1.5))
+			// Apply filters
+			suppression.add_filter("radial_blur", 1, angular_blur_filter(size=1.5))
 
-		// var/filter = suppression_blur.filters[length(suppression_blur.filters)]
-		// animate(filter, time=0, loop=-1, size=1, flags=ANIMATION_PARALLEL)
-		// animate(time=10, loop=-1, size=1.5)
-		// animate(time=20, loop=-1, size=1)
-		// suppression_blur.add_filter("guassian_blur", 2, gauss_blur_filter(size=1))
-		// suppression_blur.add_filter("darken", 3, color_matrix_filter(color_matrix_multiply(color_matrix_saturation(0.4), color_matrix_lightness(-0.1))))
-
-		//add_filter_and_animate("darken", 3, color_matrix_filter(suppress_effect), list("alpha" = 255), list("alpha" = 0))
-
-		var/icon/icon = icon('icons/hud/fullscreen/screen_full.dmi', "oxydamageoverlay7")
-		suppression.add_filter("alpha_mask", 4, alpha_mask_filter(icon = icon))
-		suppression.layer += 1
-
-		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(0.4), color_matrix_lightness(-0.2))
-		if (created_suppression)
+			var/icon/icon = icon('icons/hud/fullscreen/screen_full.dmi', "oxydamageoverlay7")
+			suppression.add_filter("alpha_mask", 4, alpha_mask_filter(icon = icon))
+			suppression.layer += 1
 			// Start transparent and fade in quickly
 			suppression.color = list(
 				1, 0, 0, 0,
@@ -87,6 +74,8 @@
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			)
+
+		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(0.4), color_matrix_lightness(-0.2))
 		animate(suppression, time=0.1 SECONDS, color=suppress_effect)
 		animate(time=2.5 SECONDS, color=color_matrix_identity())
 	else if (suppression != null)

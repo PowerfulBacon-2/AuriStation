@@ -188,7 +188,17 @@
 		on_range()
 	if (suppressive_effect > 0)
 		for (var/mob/living/person in view(2, get_turf(src)))
-			person.suppress(suppressive_effect)
+			if (person == firer)
+				continue
+			// Calculate suppressive force for this mob
+			var/final_suppressive_force = MODIFY_TRAIT_VALUE(person, TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER, suppressive_effect)
+
+			// Apply suppression
+			if (final_suppressive_force <= 0)
+				continue
+			if (final_suppressive_force > 50)
+				person.soundbang_act(intensity = 1, stun_pwr = 0, damage_pwr = 5, deafen_pwr = 5)
+			person.suppress(final_suppressive_force)
 
 /obj/projectile/proc/on_range() //if we want there to be effects when they reach the end of their range
 	SEND_SIGNAL(src, COMSIG_PROJECTILE_RANGE_OUT)
