@@ -350,11 +350,21 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 // - +25% "stun vulnerability"
 GLOBAL_LIST_INIT(trait_descriptions, list(
 	// Traits where higher values are better
-	"good" = list(),
+	"good" = list(
+		TRAIT_MADNESS_IMMUNE = "Prevents supermatter hallucinations",
+		TRAIT_REAGENT_SCANNER = "Allows reagent scanning",
+		TRAIT_QUICK_CARRY = "Allows quicker carrying",
+		TRAIT_QUICKER_CARRY = "Allows quicker carrying",
+		TRAIT_FASTMED = "Speeds up medical item usage",
+		TRAIT_NEGATES_GRAVITY = "Negates gravity",
+	),
 	// Traits where lower values are better
 	"bad" = list(
 		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = "suppression from shooting",
 		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = "suppression from bullets",
+		TRAIT_DEAF = "Blocks all sound",
+		TRAIT_FINGERPRINT_PASSTHROUGH = "Does not conceal fingerprints",
+		TRAIT_HATED_BY_DOGS = "Hated by dogs",
 	)
 ))
 
