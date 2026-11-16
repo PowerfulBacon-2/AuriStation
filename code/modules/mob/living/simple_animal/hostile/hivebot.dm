@@ -18,6 +18,7 @@
 	attack_verb_simple = "claw"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	projectilesound = 'sound/weapons/gunshot.ogg'
+	distant_projectilesound = 'sound/weapons/gunshot_distant.ogg'
 	projectiletype = /obj/projectile/hivebotbullet
 	faction = list(FACTION_HIVEBOT)
 	check_friendly_fire = 1

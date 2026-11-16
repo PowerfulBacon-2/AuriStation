@@ -24,6 +24,7 @@
 	if (!air_contents || icon_state != "latexballon_blow")
 		return
 	playsound(src, 'sound/weapons/gunshot.ogg', 100, 1)
+	playsound(src, 'sound/weapons/gunshot_distant.ogg', 60, TRUE, extrarange = DISTANT_GUNSHOT_DEFAULT - SOUND_RANGE, falloff_distance = DISTANT_GUNSHOT_DEFAULT * 0.5, ignore_walls = TRUE)
 	icon_state = "latexballon_bursted"
 	inhand_icon_state = "lgloves"
 	if(isliving(loc))

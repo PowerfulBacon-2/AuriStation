@@ -41,9 +41,13 @@
 	var/list/user_vars_remembered //Auto built by the above + dropped() + equipped()
 
 	/// Trait modification, lazylist of traits to add/take away, on equipment/drop in the correct slot
-
-	/// Trait modification, lazylist of traits to add/take away, on equipment/drop in the correct slot
 	var/list/clothing_traits
+
+	/// Lazy list of traits which apply multiplicatively to the person that equips this.
+	var/list/multiplicative_traits
+	/// Lazy list of traits which apply additively to the person that equips this.
+	var/list/additive_traits
+
 	//These allow head/mask items to dynamically alter the user's hair
 	// and facial hair, checking hair_extensions.dmi and facialhair_extensions.dmi
 	// for a state matching hair_state+dynamic_hair_suffix
@@ -242,6 +246,10 @@
 	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
 	for(var/trait in clothing_traits)
 		REMOVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
+	for (var/trait in multiplicative_traits)
+		REMOVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
+	for (var/trait in additive_traits)
+		REMOVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
 
 	if(LAZYLEN(user_vars_remembered))
 		for(var/variable in user_vars_remembered)
@@ -259,6 +267,10 @@
 			RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(bristle))
 		for(var/trait in clothing_traits)
 			ADD_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
+		for (var/trait,amount in multiplicative_traits)
+			ADD_MULTIPLICATIVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]", amount)
+		for (var/trait,amount in additive_traits)
+			ADD_CUMULATIVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]", amount)
 		if (LAZYLEN(user_vars_to_edit))
 			for(var/variable in user_vars_to_edit)
 				if(variable in user.vars)
@@ -322,8 +334,7 @@
 		how_cool_are_your_threads += "</span>"
 		. += how_cool_are_your_threads.Join()
 
-	if(get_armor_for_examination(user).has_any_armor() || (flags_cover & (HEADCOVERSMOUTH)) || (clothing_flags & STOPSPRESSUREDAMAGE) || (visor_flags & STOPSPRESSUREDAMAGE))
-		. += span_notice("It has a <a href='byond://?src=[REF(src)];list_armor=1'>tag</a> listing its protection classes.")
+	. += span_notice("<a href='byond://?src=[REF(src)];list_armor=1'>Inspect armour</a>")
 
 /obj/item/clothing/examine_tags(mob/user)
 	. = ..()
@@ -374,6 +385,8 @@
 /obj/item/clothing/proc/generate_armor_readout(mob/examiner, obj/item/clothing/compare_to, external_examination = FALSE)
 	var/list/readout = list("<span class='notice'><u><b>PROTECTION CLASSES</u></b>")
 
+	var/anything = FALSE
+
 	var/datum/armor/armor = get_armor_for_examination(examiner)
 	var/datum/armor/compare_armor = compare_to ? compare_to.get_armor_for_examination(examiner) : null
 
@@ -387,6 +400,7 @@
 			readout += "\n<b>ARMOR (I-X)</b>"
 			added_damage_header = TRUE
 		readout += "\n[armor_to_protection_name(damage_key)] [armor_to_protection_class(rating, compare_rating)]"
+		anything = TRUE
 
 	var/added_durability_header = FALSE
 	for(var/durability_key in ARMOR_LIST_DURABILITY)
@@ -398,12 +412,74 @@
 			readout += "\n<b>DURABILITY (I-X)</b>"
 			added_durability_header = TRUE
 		readout += "\n[armor_to_protection_name(durability_key)] [armor_to_protection_class(rating, compare_rating)]"
+		anything = TRUE
 
 	// During external examinations, you can only see armour values and not the tags (since we are less able to
 	// find them if we have a disguised item like changeling armour)
 	if (external_examination)
 		readout += "</span>"
 		return readout.Join()
+
+	var/added_effects_header = FALSE
+	for(var/key in clothing_traits)
+		// Attempt to find description from the good, otherwise try to fetch from the bad
+		var/description = GLOB.trait_descriptions["good"][key]
+		var/good = description != null
+		if (!description)
+			description = GLOB.trait_descriptions["bad"][key]
+		// Non-description traits remain secret
+		if (!description)
+			continue
+		if(!added_effects_header)
+			readout += "\n<b>EFFECTS</b>"
+			added_effects_header = TRUE
+		if (good)
+			readout += "\n[span_green(description)]"
+		else
+			readout += "\n[span_red(description)]"
+		anything = TRUE
+
+	for(var/key,value in multiplicative_traits)
+		// Attempt to find description from the good, otherwise try to fetch from the bad
+		var/description = GLOB.trait_descriptions["good"][key]
+		var/good = description != null
+		if (!description)
+			description = GLOB.trait_descriptions["bad"][key]
+		// Non-description traits remain secret
+		if (!description)
+			continue
+		if(!added_effects_header)
+			readout += "\n<b>EFFECTS</b>"
+			added_effects_header = TRUE
+		var/percentage_change = value > 1 ? "+[round((value - 1) * 100, 1)]%" : "-[round((1 - value) * 100, 1)]%"
+		if (value < 1)
+			good = !good
+		if (good)
+			readout += span_green("\n[percentage_change] [description]")
+		else
+			readout += span_red("\n[percentage_change] [description]")
+		anything = TRUE
+
+	for(var/key,value in additive_traits)
+		// Attempt to find description from the good, otherwise try to fetch from the bad
+		var/description = GLOB.trait_descriptions["good"][key]
+		var/good = description != null
+		if (!description)
+			description = GLOB.trait_descriptions["bad"][key]
+		// Non-description traits remain secret
+		if (!description)
+			continue
+		if(!added_effects_header)
+			readout += "\n<b>EFFECTS</b>"
+			added_effects_header = TRUE
+		var/amount_change = value > 1 ? "+[round(value , 1)]" : "-[round(-value, 1)]"
+		if (value < 1)
+			good = !good
+		if (good)
+			readout += span_green("\n[amount_change] [description]")
+		else
+			readout += span_red("\n[amount_change] [description]")
+		anything = TRUE
 
 	var/environment_readout = list()
 	if (!isnull(max_heat_protection_temperature))
@@ -414,6 +490,7 @@
 	if (length(environment_readout))
 		readout += "\n<b>ENVIRONMENT</b>\n"
 		readout += jointext(environment_readout, "\n")
+		anything = TRUE
 
 	if(flags_cover & HEADCOVERSMOUTH)
 		var/list/things_blocked = list()
@@ -422,6 +499,7 @@
 		if(length(things_blocked))
 			readout += "\n<b>COVERAGE</b>"
 			readout += "\nIt will block [english_list(things_blocked)]."
+			anything = TRUE
 
 	if((clothing_flags & STOPSPRESSUREDAMAGE) || (visor_flags & STOPSPRESSUREDAMAGE))
 		var/list/parts_covered = list()
@@ -434,6 +512,10 @@
 			parts_covered += "torso"
 		if(length(parts_covered)) // Just in case someone makes spaceproof gloves or something
 			readout += "\n\n[output_string] will protect the wearer's [english_list(parts_covered)] from [span_tooltip("The extremely low pressure is the biggest danger posed by the vacuum of space.", "low pressure")]."
+			anything = TRUE
+
+	if (!anything)
+		readout += "<br/>Nothing."
 
 	readout += "</span>"
 

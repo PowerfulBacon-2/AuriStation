@@ -234,7 +234,7 @@ GLOBAL_LIST_INIT(master_filter_info, list(
 	if(!isnull(flags))
 		.["flags"] = flags
 
-/proc/radial_blur_filter(size, x, y)
+/proc/radial_blur_filter(size, x, y, offset)
 	. = list("type" = "radial_blur")
 	if(!isnull(size))
 		.["size"] = size
@@ -242,6 +242,8 @@ GLOBAL_LIST_INIT(master_filter_info, list(
 		.["x"] = x
 	if(!isnull(y))
 		.["y"] = y
+	if (!isnull(offset))
+		.["offset"] = offset
 
 /proc/rays_filter(size, color, offset, density, threshold, factor, x, y, flags)
 	. = list("type" = "rays")
@@ -293,6 +295,17 @@ GLOBAL_LIST_INIT(master_filter_info, list(
 		.["offset"] = offset
 	if(!isnull(flags))
 		.["flags"] = flags
+
+/proc/bloom_filter(threshold, size, offset, alpha)
+	. = list("type" = "bloom")
+	if(!isnull(threshold))
+		.["threshold"] = threshold
+	if(!isnull(size))
+		.["size"] = size
+	if(!isnull(offset))
+		.["offset"] = offset
+	if(!isnull(alpha))
+		.["alpha"] = alpha
 
 /proc/apply_wibbly_filters(atom/in_atom, length)
 	for(var/i in 1 to 7)

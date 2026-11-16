@@ -17,6 +17,10 @@
 	flags_inv = HIDEHAIR
 	bang_protect = 1
 	custom_price = 100
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.4,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.75,
+	)
 
 /obj/item/clothing/head/helmet/Initialize(mapload)
 	. = ..()
@@ -58,6 +62,10 @@
 	icon_state = "helmetalt"
 	inhand_icon_state = "helmetalt"
 	armor_type = /datum/armor/bulletproof
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.7,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.4,
+	)
 
 /obj/item/clothing/head/helmet/alt/Initialize(mapload)
 	. = ..()
@@ -67,6 +75,10 @@
 	name = "degrading helmet"
 	desc = "Standard issue security helmet. Due to degradation the helmet's visor obstructs the users ability to see long distances."
 	tint = 2
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.95,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.9,
+	)
 
 /obj/item/clothing/head/helmet/blueshirt
 	name = "blue helmet"
@@ -75,7 +87,6 @@
 	inhand_icon_state = "blueshift"
 	max_demand = 10
 	custom_premium_price = 150
-
 
 /obj/item/clothing/head/helmet/toggleable
 	///chat message when the visor is toggled down.
@@ -125,6 +136,9 @@
 	visor_flags_inv = HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	visor_flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.6,
+	)
 
 /obj/item/clothing/head/helmet/toggleable/riot/Initialize(mapload)
 	. = ..()
@@ -181,12 +195,17 @@
 	max_heat_protection_temperature = SPACE_HELM_MAX_TEMP_PROTECT
 	clothing_flags = STOPSPRESSUREDAMAGE | SNUG_FIT
 	strip_delay = 80
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.5,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.5,
+	)
 
 /obj/item/clothing/head/helmet/police
 	name = "police officer's hat"
 	desc = "A police officer's Hat. This hat emphasizes that you are THE LAW."
 	icon_state = "policehelm"
 	dynamic_hair_suffix = ""
+	multiplicative_traits = null
 
 /obj/item/clothing/head/helmet/swat/nanotrasen
 	name = "\improper SWAT helmet"
@@ -222,10 +241,14 @@
 	icon_state = "roman"
 	inhand_icon_state = "roman"
 	strip_delay = 100
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.9,
+	)
 
 /obj/item/clothing/head/helmet/roman/fake
 	desc = "An ancient helmet made of plastic and leather."
 	armor_type = /datum/armor/civilian_padded
+	multiplicative_traits = null
 
 /obj/item/clothing/head/helmet/roman/legionnaire
 	name = "\improper Roman legionnaire helmet"
@@ -244,6 +267,9 @@
 	inhand_icon_state = "gladiator"
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEHAIR
 	flags_cover = HEADCOVERSEYES
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.95
+	)
 
 /obj/item/clothing/head/helmet/redtaghelm
 	name = "red laser tag helmet"
@@ -252,6 +278,9 @@
 	flags_cover = HEADCOVERSEYES
 	inhand_icon_state = "redtaghelm"
 	armor_type = /datum/armor/civilian_light_armor
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.85
+	)
 
 /obj/item/clothing/head/helmet/bluetaghelm
 	name = "blue laser tag helmet"
@@ -260,6 +289,9 @@
 	flags_cover = HEADCOVERSEYES
 	inhand_icon_state = "bluetaghelm"
 	armor_type = /datum/armor/civilian_light_armor
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.85
+	)
 
 /obj/item/clothing/head/helmet/knight
 	name = "medieval helmet"
@@ -271,6 +303,9 @@
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	strip_delay = 80
 	bang_protect = 1
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.95
+	)
 
 /obj/item/clothing/head/helmet/knight/blue
 	icon_state = "knight_blue"
@@ -293,6 +328,9 @@
 	icon_state = "skull"
 	inhand_icon_state = "skull"
 	strip_delay = 100
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.9
+	)
 
 /obj/item/clothing/head/helmet/durathread
 	name = "durathread helmet"
@@ -309,6 +347,7 @@
 	icon_state = "rus_helmet"
 	inhand_icon_state = "rus_helmet"
 	armor_type = /datum/armor/security_padded
+	multiplicative_traits = null
 
 /obj/item/clothing/head/helmet/rus_helmet/Initialize(mapload)
 	. = ..()
@@ -324,6 +363,7 @@
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELM_MIN_TEMP_PROTECT
 	armor_type = /datum/armor/security_padded
+	multiplicative_traits = null
 
 /obj/item/clothing/head/helmet/outlaw
 	name = "outlaw's hat"
@@ -335,3 +375,4 @@
 	worn_icon_state = "cowboy_outlaw"
 	body_parts_covered = HEAD
 	armor_type = /datum/armor/civilian_padded
+	multiplicative_traits = null

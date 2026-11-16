@@ -13,7 +13,7 @@
 			"request": "launch",
 			"name": "Debug DreamSeeker (hot-reloading)",
 			"preLaunchTask": "Build All",
-			"dmb": "${workspaceFolder}/beestation.dmb",
+			"dmb": "${workspaceFolder}/AuriStation.dmb",
 			"server": "dreamseeker"
 		}
 	]

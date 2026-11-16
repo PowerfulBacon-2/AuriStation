@@ -29,6 +29,7 @@
 		TRAIT_MUTE,
 		TRAIT_DEAF,
 		TRAIT_STUNIMMUNE,
+		TRAIT_SUPPRESSIONIMMUNE,
 	)
 
 /datum/status_effect/frenzy/get_examine_text()

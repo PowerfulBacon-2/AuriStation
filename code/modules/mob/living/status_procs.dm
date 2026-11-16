@@ -708,3 +708,55 @@
 /// Helper to check if we seem to be alive or not
 /mob/living/proc/appears_alive()
 	return stat != DEAD && !HAS_TRAIT(src, TRAIT_FAKEDEATH)
+
+///////////////////////////////// SUPPRESSION /////////////////////////////////////
+
+/mob/living/proc/is_suppressed()
+	SHOULD_NOT_OVERRIDE(TRUE)
+	return has_status_effect(/datum/status_effect/incapacitating/suppressed)
+
+/mob/living/proc/amount_suppressed() //How many deciseconds remain in our suppression
+	var/datum/status_effect/incapacitating/suppressed/K = is_suppressed()
+	if(K)
+		return K.duration - world.time
+	return 0
+
+/mob/living/proc/suppress(amount, ignore_immunity = FALSE) //Can't go below remaining duration
+	if(SEND_SIGNAL(src, COMSIG_LIVING_STATUS_KNOCKDOWN, amount, ignore_immunity) & COMPONENT_NO_STUN)
+		return
+	if((!HAS_TRAIT(src, TRAIT_SUPPRESSIONIMMUNE)) || ignore_immunity)
+		var/datum/status_effect/incapacitating/suppressed/K = is_suppressed()
+		if(K)
+			K.duration = max(world.time + amount, K.duration)
+		else if(amount > 0)
+			K = apply_status_effect(/datum/status_effect/incapacitating/suppressed, amount)
+		K.trigger(amount)
+		return K
+
+/mob/living/proc/set_suppressed(amount, ignore_immunity = FALSE) //Sets remaining duration
+	if(SEND_SIGNAL(src, COMSIG_LIVING_STATUS_KNOCKDOWN, amount, ignore_immunity) & COMPONENT_NO_STUN)
+		return
+	if((!HAS_TRAIT(src, TRAIT_SUPPRESSIONIMMUNE)) || ignore_immunity)
+		var/datum/status_effect/incapacitating/suppressed/K = is_suppressed()
+		if(amount <= 0)
+			if(K)
+				qdel(K)
+		else
+			if(K)
+				K.duration = world.time + amount
+			else
+				K = apply_status_effect(/datum/status_effect/incapacitating/suppressed, amount)
+			K.trigger(amount)
+		return K
+
+/mob/living/proc/adjust_suppressed(amount, ignore_immunity = FALSE) //Adds to remaining duration
+	if(SEND_SIGNAL(src, COMSIG_LIVING_STATUS_KNOCKDOWN, amount, ignore_immunity) & COMPONENT_NO_STUN)
+		return
+	if((!HAS_TRAIT(src, TRAIT_SUPPRESSIONIMMUNE)) || ignore_immunity)
+		var/datum/status_effect/incapacitating/suppressed/K = is_suppressed()
+		if(K)
+			K.duration += amount
+		else if(amount > 0)
+			K = apply_status_effect(/datum/status_effect/incapacitating/suppressed, amount)
+		K.trigger(amount)
+		return K

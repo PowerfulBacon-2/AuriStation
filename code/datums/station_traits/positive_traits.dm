@@ -62,39 +62,6 @@
 	blacklist = list(/datum/station_trait/distant_supply_lines)
 	trait_to_give = STATION_TRAIT_STRONG_SUPPLY_LINES
 
-/datum/station_trait/scarves
-	name = "Scarves"
-	trait_type = STATION_TRAIT_POSITIVE
-	weight = 5
-	cost = STATION_TRAIT_COST_LOW
-	show_in_report = TRUE
-	var/list/scarves
-
-/datum/station_trait/scarves/New()
-	. = ..()
-	report_message = pick(
-		"Nanotrasen is experimenting with seeing if neck warmth improves employee morale.",
-		"After Space Fashion Week, scarves are the hot new accessory.",
-		"Everyone was simultaneously a little bit cold when they packed to go to the station.",
-		"The station is definitely not under attack by neck grappling aliens masquerading as wool. Definitely not.",
-		"You all get free scarves. Don't ask why.",
-		"A shipment of scarves was delivered to the station.",
-	)
-	scarves = typesof(/obj/item/clothing/neck/scarf) + list(
-		/obj/item/clothing/neck/stripedredscarf,
-		/obj/item/clothing/neck/stripedgreenscarf,
-		/obj/item/clothing/neck/stripedbluescarf,
-	)
-
-	RegisterSignal(SSdcs, COMSIG_GLOB_JOB_AFTER_SPAWN, PROC_REF(on_job_after_spawn))
-
-/datum/station_trait/scarves/proc/on_job_after_spawn(datum/source, datum/job/job, mob/living/living_mob, mob/M, joined_late)
-	SIGNAL_HANDLER
-
-	var/scarf_type = pick(scarves)
-
-	living_mob.equip_to_slot_or_del(new scarf_type(living_mob), ITEM_SLOT_NECK)
-
 /datum/station_trait/filled_maint
 	name = "Filled up maintenance"
 	trait_type = STATION_TRAIT_POSITIVE
@@ -102,7 +69,7 @@
 	cost = STATION_TRAIT_COST_LOW
 	show_in_report = TRUE
 	report_message = "Our workers accidentally forgot more of their personal belongings in the maintenance areas."
-	blacklist = list(/datum/station_trait/empty_maint)
+	blacklist = list()
 	trait_to_give = STATION_TRAIT_FILLED_MAINT
 	can_revert = FALSE
 

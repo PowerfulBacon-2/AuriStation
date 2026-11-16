@@ -230,6 +230,7 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"TRAIT_SNOWSTORM_IMMUNE" = TRAIT_SNOWSTORM_IMMUNE,
 		"TRAIT_STEALTH_PICKPOCKET" = TRAIT_STEALTH_PICKPOCKET,
 		"TRAIT_STUNIMMUNE" = TRAIT_STUNIMMUNE,
+		"TRAIT_SUPPRESSIONIMMUNE" = TRAIT_SUPPRESSIONIMMUNE,
 		"TRAIT_STUNRESISTANCE" = TRAIT_STUNRESISTANCE,
 		"TRAIT_TESLA_SHOCKIMMUNE" = TRAIT_TESLA_SHOCKIMMUNE,
 		"TRAIT_TOXIMMUNE" = TRAIT_TOXIMMUNE,
@@ -273,7 +274,6 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"TRAIT_NOVOMIT" = TRAIT_NOVOMIT,
 		"TRAIT_NO_DNA_COPY" = TRAIT_NO_DNA_COPY,
 		"TRAIT_OFF_BALANCE_TACKLER" = TRAIT_OFF_BALANCE_TACKLER,
-		"TRAIT_OVERRIDE_SKIN_COLOUR" = TRAIT_OVERRIDE_SKIN_COLOUR,
 		"TRAIT_PARALYSIS_L_ARM" = TRAIT_PARALYSIS_L_ARM,
 		"TRAIT_PARALYSIS_L_LEG" = TRAIT_PARALYSIS_L_LEG,
 		"TRAIT_PARALYSIS_R_ARM" = TRAIT_PARALYSIS_R_ARM,
@@ -339,6 +339,32 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"TRAIT_ROBOTICIST_SURGEON" = TRAIT_ROBOTICIST_SURGEON,
 		"TRAIT_SURGEON" = TRAIT_SURGEON,
 		"TRAIT_GENETICIST" = TRAIT_GENETICIST,
+	)
+))
+
+// Traits in this list will be revealed to players
+// Standard traits:
+// - Good: (Green) "Stun immunity"
+// - Bad: (Red) "Stun vulnerability"
+// Value traits:
+// - +25% "stun vulnerability"
+GLOBAL_LIST_INIT(trait_descriptions, list(
+	// Traits where higher values are better
+	"good" = list(
+		TRAIT_MADNESS_IMMUNE = "Prevents supermatter hallucinations",
+		TRAIT_REAGENT_SCANNER = "Allows reagent scanning",
+		TRAIT_QUICK_CARRY = "Allows quicker carrying",
+		TRAIT_QUICKER_CARRY = "Allows quicker carrying",
+		TRAIT_FASTMED = "Speeds up medical item usage",
+		TRAIT_NEGATES_GRAVITY = "Negates gravity",
+	),
+	// Traits where lower values are better
+	"bad" = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = "suppression from shooting",
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = "suppression from bullets",
+		TRAIT_DEAF = "Blocks all sound",
+		TRAIT_FINGERPRINT_PASSTHROUGH = "Does not conceal fingerprints",
+		TRAIT_HATED_BY_DOGS = "Hated by dogs",
 	)
 ))
 

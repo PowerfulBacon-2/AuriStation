@@ -278,7 +278,8 @@
 		TRAIT_RESISTCOLD,
 		TRAIT_RESISTHEAT,
 		TRAIT_PIERCEIMMUNE,
-		TRAIT_NOBREATH
+		TRAIT_NOBREATH,
+		TRAIT_SUPPRESSIONIMMUNE
 		)
 
 /datum/heretic_knowledge/final/rust_final/recipe_snowflake_check(mob/living/user, list/atoms, list/selected_atoms, turf/loc)

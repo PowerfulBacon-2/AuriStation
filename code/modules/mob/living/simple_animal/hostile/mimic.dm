@@ -246,6 +246,7 @@ CREATION_TEST_IGNORE_SUBTYPES(/mob/living/simple_animal/hostile/mimic/copy)
 		melee_damage = G.force
 		move_to_delay = 2 * G.w_class + 1
 		projectilesound = G.fire_sound
+		distant_projectilesound = G.distant_sound
 		TrueGun = G
 		if(istype(G, /obj/item/gun/magic))
 			Zapstick = G

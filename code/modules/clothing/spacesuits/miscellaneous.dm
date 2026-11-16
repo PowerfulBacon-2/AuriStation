@@ -27,6 +27,10 @@ Contains:
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	actions_types = list()
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.1,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.1,
+	)
 
 /obj/item/clothing/head/helmet/space/hardsuit/deathsquad/attack_self(mob/user)
 	return
@@ -171,6 +175,10 @@ Contains:
 	actions_types = list(
 		/datum/action/item_action/toggle_helmet_light,
 		/datum/action/item_action/toggle_beacon_hud
+	)
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.3,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.3,
 	)
 	var/beacon_colour = "#4b48ec"
 	var/beacon_zdiff_colour = "#0b0a47"
@@ -454,6 +462,7 @@ Contains:
 	clothing_flags = STOPSPRESSUREDAMAGE | SNUG_FIT | HEADINTERNALS
 	max_heat_protection_temperature = 100
 	actions_types = null
+	multiplicative_traits = null
 
 /obj/item/clothing/head/helmet/space/hardsuit/skinsuit/attack_self(mob/user)
 	return

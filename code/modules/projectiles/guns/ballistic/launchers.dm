@@ -14,6 +14,7 @@
 	bolt_type = BOLT_TYPE_NO_BOLT
 	weapon_weight = WEAPON_MEDIUM
 	fire_rate = 2
+	distant_sound = null
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/unrestricted
 	pin = /obj/item/firing_pin
@@ -44,6 +45,7 @@
 	actions_types = list()
 	casing_ejector = FALSE
 	custom_price = 300
+	distant_sound = null
 
 /obj/item/gun/ballistic/rocketlauncher
 	name = "\improper PML-9"
@@ -64,6 +66,7 @@
 	cartridge_wording = "rocket"
 	empty_indicator = TRUE
 	tac_reloads = FALSE
+	distant_sound = null
 
 /obj/item/gun/ballistic/rocketlauncher/unrestricted
 	pin = /obj/item/firing_pin

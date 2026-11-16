@@ -728,6 +728,7 @@ GLOBAL_LIST_INIT(arcade_prize_pool, list(
 		if(gameStatus == ORION_STATUS_NORMAL || event == ORION_TRAIL_LING)
 			var/sheriff = remove_crewmember() //I shot the sheriff
 			playsound(loc,'sound/weapons/gunshot.ogg', 100, 1)
+			playsound(loc, 'sound/weapons/gunshot_distant.ogg', 60, TRUE, extrarange = DISTANT_GUNSHOT_DEFAULT - SOUND_RANGE, falloff_distance = DISTANT_GUNSHOT_DEFAULT * 0.5, ignore_walls = TRUE)
 			killed_crew++
 
 			var/mob/living/user = usr

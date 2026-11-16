@@ -56,6 +56,8 @@
 	ricochet_chance = 50
 	ricochet_decay_chance = 0.9
 	sharpness = SHARP_III
+	speed = 0.8
+	suppressive_effect = 5
 
 /obj/projectile/bullet/pellet/shotgun_buckshot/armour_piercing
 	name = "armour-piercing buckshot pellet"

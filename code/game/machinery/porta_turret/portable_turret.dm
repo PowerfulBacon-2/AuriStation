@@ -53,9 +53,11 @@
 	/// Stun mode projectile type
 	var/stun_projectile
 	var/stun_projectile_sound
+	var/stun_projectile_distant_sound
 	/// Lethal mode projectile type
 	var/lethal_projectile
 	var/lethal_projectile_sound
+	var/lethal_projectile_distant_sound
 
 	/// power needed per shot
 	var/reqpower = 500
@@ -188,8 +190,10 @@
 	//required properties
 	stun_projectile = gun_properties["stun_projectile"]
 	stun_projectile_sound = gun_properties["stun_projectile_sound"]
+	stun_projectile_distant_sound = gun_properties["stun_projectile_distant_sound"]
 	lethal_projectile = gun_properties["lethal_projectile"]
 	lethal_projectile_sound = gun_properties["lethal_projectile_sound"]
+	lethal_projectile_distant_sound = gun_properties["lethal_projectile_distant_sound"]
 	base_icon_state = gun_properties["base_icon_state"]
 
 	//optional properties
@@ -621,10 +625,14 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/porta_turret)
 		use_power(reqpower)
 		fired_projectile = new stun_projectile(T)
 		playsound(loc, stun_projectile_sound, 75, 1)
+		if(stun_projectile_distant_sound)
+			playsound(loc, stun_projectile_distant_sound, 60, TRUE, extrarange = DISTANT_GUNSHOT_DEFAULT - SOUND_RANGE, falloff_distance = DISTANT_GUNSHOT_DEFAULT * 0.5, ignore_walls = TRUE)
 	else
 		use_power(reqpower * 2)
 		fired_projectile = new lethal_projectile(T)
 		playsound(loc, lethal_projectile_sound, 75, 1)
+		if(lethal_projectile_distant_sound)
+			playsound(loc, lethal_projectile_distant_sound, 60, TRUE, extrarange = DISTANT_GUNSHOT_DEFAULT - SOUND_RANGE, falloff_distance = DISTANT_GUNSHOT_DEFAULT * 0.5, ignore_walls = TRUE)
 
 
 	//Shooting Code:
@@ -724,6 +732,8 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/porta_turret)
 	lethal_projectile = /obj/projectile/bullet
 	lethal_projectile_sound = 'sound/weapons/gunshot.ogg'
 	stun_projectile_sound = 'sound/weapons/gunshot.ogg'
+	lethal_projectile_distant_sound = 'sound/weapons/gunshot_distant.ogg'
+	stun_projectile_distant_sound = 'sound/weapons/gunshot_distant.ogg'
 	faction = list(FACTION_SYNDICATE)
 
 /obj/machinery/porta_turret/syndicate/Initialize(mapload)
@@ -741,8 +751,10 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/porta_turret)
 	base_icon_state = "standard"
 	stun_projectile = /obj/projectile/energy/electrode
 	stun_projectile_sound = 'sound/weapons/taser.ogg'
+	stun_projectile_distant_sound = null
 	lethal_projectile = /obj/projectile/beam/laser
 	lethal_projectile_sound = 'sound/weapons/laser.ogg'
+	lethal_projectile_distant_sound = null
 	desc = "An energy blaster auto-turret."
 
 /obj/machinery/porta_turret/syndicate/energy/heavy
@@ -752,13 +764,16 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/porta_turret)
 	base_icon_state = "standard"
 	stun_projectile = /obj/projectile/energy/electrode
 	stun_projectile_sound = 'sound/weapons/taser.ogg'
+	stun_projectile_distant_sound = null
 	lethal_projectile = /obj/projectile/beam/laser/heavylaser
 	lethal_projectile_sound = 'sound/weapons/lasercannonfire.ogg'
+	lethal_projectile_distant_sound = null
 	desc = "An energy blaster auto-turret."
 
 /obj/machinery/porta_turret/syndicate/energy/raven
 	stun_projectile =  /obj/projectile/beam/laser
 	stun_projectile_sound = 'sound/weapons/laser.ogg'
+	stun_projectile_distant_sound = null
 	faction = list(FACTION_NEUTRAL, FACTION_SILICON, FACTION_TURRET)
 
 /obj/machinery/porta_turret/syndicate/pod
@@ -778,6 +793,8 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/porta_turret)
 	lethal_projectile = /obj/projectile/bullet/p50/penetrator/shuttle
 	lethal_projectile_sound = 'sound/weapons/gunshot_smg.ogg'
 	stun_projectile_sound = 'sound/weapons/gunshot_smg.ogg'
+	lethal_projectile_distant_sound = null
+	stun_projectile_distant_sound = null
 	armor_type = /datum/armor/military_light_armor
 
 /obj/machinery/porta_turret/syndicate/shuttle/target(atom/movable/target)
@@ -1061,8 +1078,10 @@ DEFINE_BUFFER_HANDLER(/obj/machinery/turretid)
 	. = list()
 	.["lethal_projectile"] = null
 	.["lethal_projectile_sound"] = null
+	.["lethal_projectile_distant_sound"] = distant_sound
 	.["stun_projectile"] = null
 	.["stun_projectile_sound"] = null
+	.["stun_projectile_distant_sound"] = distant_sound
 	.["base_icon_state"] = "standard"
 
 /obj/item/gun/energy/get_turret_properties()

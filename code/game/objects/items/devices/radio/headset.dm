@@ -32,6 +32,11 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	dog_fashion = null
 	var/obj/item/encryptionkey/keyslot2 = null
 
+	/// Lazy list of traits which apply multiplicatively to the person that equips this.
+	var/list/multiplicative_traits
+	/// Lazy list of traits which apply additively to the person that equips this.
+	var/list/additive_traits
+
 /obj/item/radio/headset/suicide_act(mob/living/carbon/user)
 	user.visible_message(span_suicide("[user] begins putting \the [src]'s antenna up [user.p_their()] nose! It looks like [user.p_theyre()] trying to give [user.p_them()]self cancer!"))
 	return TOXLOSS
@@ -81,6 +86,25 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	. = ..()
 	.["headset"] = TRUE
 
+/obj/item/radio/headset/dropped(mob/user)
+	..()
+	if(!istype(user))
+		return
+	for (var/trait in multiplicative_traits)
+		REMOVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
+	for (var/trait in additive_traits)
+		REMOVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
+
+/obj/item/radio/headset/equipped(mob/user, slot)
+	. = ..()
+	if (!istype(user))
+		return
+	if(slot_flags & slot)
+		for (var/trait,amount in multiplicative_traits)
+			ADD_MULTIPLICATIVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]", amount)
+		for (var/trait,amount in additive_traits)
+			ADD_CUMULATIVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]", amount)
+
 /obj/item/radio/headset/syndicate //disguised to look like a normal headset for stealth ops
 
 /obj/item/radio/headset/syndicate/alt //undisguised bowman with flash protection
@@ -89,6 +113,9 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "syndie_headset"
 	inhand_icon_state = "syndie_headset"
 	bang_protect = 1
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.5,
+	)
 
 /obj/item/radio/headset/syndicate/alt/leader
 	name = "team leader headset"
@@ -125,6 +152,9 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "sec_headset_alt"
 	worn_icon_state = "sec_headset_alt"
 	bang_protect = 1
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.8,
+	)
 
 /obj/item/radio/headset/headset_medsec
 	name = "medical-security radio headset"
@@ -212,6 +242,9 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "com_headset_alt"
 	worn_icon_state = "com_headset_alt"
 	bang_protect = 1
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.8,
+	)
 
 /obj/item/radio/headset/heads/chief_engineer
 	name = "\proper the chief engineer's headset"

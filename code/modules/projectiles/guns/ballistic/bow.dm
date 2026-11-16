@@ -19,6 +19,7 @@
 	no_pin_required = TRUE
 	trigger_guard = TRIGGER_GUARD_ALLOW_ALL //so ashwalkers can use it
 	custom_price = 200
+	distant_sound = null
 
 /obj/item/gun/ballistic/bow/shoot_with_empty_chamber()
 	return

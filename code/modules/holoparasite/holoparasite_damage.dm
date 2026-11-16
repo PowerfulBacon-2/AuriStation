@@ -105,7 +105,7 @@
 /**
  * A holoparasite does not sense through traditional methods, therefore it is immune to being banged.
  */
-/mob/living/simple_animal/hostile/holoparasite/soundbang_act()
+/mob/living/simple_animal/hostile/holoparasite/soundbang_act(intensity = 1, stun_pwr = 20, damage_pwr = 5, deafen_pwr = 15)
 	return FALSE
 
 /**

@@ -108,6 +108,7 @@
 	tracer_type = /obj/effect/projectile/tracer/pulse
 	muzzle_type = /obj/effect/projectile/muzzle/pulse
 	impact_type = /obj/effect/projectile/impact/pulse
+	suppressive_effect = 20
 
 /obj/projectile/beam/pulse/on_hit(atom/target, def_zone)
 	. = ..()

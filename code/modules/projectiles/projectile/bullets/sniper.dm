@@ -9,6 +9,7 @@
 	sharpness = SHARP_XII
 	// Will penetrate but damage anything not a wall
 	projectile_piercing = PASSMOB | PASSMACHINE | PASSTRANSPARENT | PASSGRILLE | PASSDOORS | PASSFLAPS | PASSSTRUCTURE
+	suppressive_effect = 50
 	var/breakthings = TRUE
 
 /obj/projectile/bullet/p50/on_hit(atom/target, def_zone)

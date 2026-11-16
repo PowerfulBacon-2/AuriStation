@@ -267,6 +267,11 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define SUPPRESSED_QUIET 1 ///standard suppressed
 #define SUPPRESSED_VERY 2 /// no message
 
+#define DISTANT_GUNSHOT_QUIET 30
+#define DISTANT_GUNSHOT_DEFAULT 60
+#define DISTANT_GUNSHOT_POWERFUL 90
+#define DISTANT_GUNSHOT_OVERPOWERED 160
+
 // Projectile Reflect
 #define REFLECT_NORMAL 				(1<<0)
 #define REFLECT_FAKEPROJECTILE		(1<<1)

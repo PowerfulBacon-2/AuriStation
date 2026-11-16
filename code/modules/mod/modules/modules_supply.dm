@@ -548,6 +548,7 @@
 	light_power = 1
 	light_color = COLOR_LIGHT_ORANGE
 	ammo_type = /obj/structure/mining_bomb
+	suppressive_effect = 0
 
 /obj/structure/mining_bomb
 	name = "mining bomb"

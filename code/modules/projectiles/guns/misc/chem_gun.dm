@@ -13,6 +13,7 @@
 	clumsy_check = FALSE
 	fire_sound = 'sound/items/syringeproj.ogg'
 	fire_rate = 1.5
+	distant_sound = null
 	var/time_per_syringe = 250
 	var/syringes_left = 4
 	var/max_syringes = 4

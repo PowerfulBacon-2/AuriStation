@@ -19,6 +19,11 @@
 	light_on = FALSE
 	dog_fashion = /datum/dog_fashion/head
 
+	// Really needs to be strong for such a dangerous workplace. Security should invest in these.
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.3,
+	)
+
 	///Determines used sprites: hardhat[on]_[hat_type] and hardhat[on]_[hat_type]2 (lying down sprite). This is basically a knockoff item_color, great.
 	var/hat_type = "yellow"
 	///Whether the headlamp is on or off.
