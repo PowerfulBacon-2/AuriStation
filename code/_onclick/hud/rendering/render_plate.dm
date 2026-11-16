@@ -39,10 +39,6 @@
 	plane = RENDER_PLANE_EFFECTS
 	render_relay_plane = RENDER_PLANE_MASTER
 
-/atom/movable/screen/plane_master/rendering_plate/effects/backdrop(mob/mymob)
-	. = ..()
-
-
 ///renders general in charachter game objects
 /atom/movable/screen/plane_master/rendering_plate/game_world
 	name = "game rendering plate"
