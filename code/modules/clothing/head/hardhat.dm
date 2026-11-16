@@ -19,6 +19,7 @@
 	light_on = FALSE
 	dog_fashion = /datum/dog_fashion/head
 
+	// Really needs to be strong for such a dangerous workplace. Security should invest in these.
 	multiplicative_traits = list(
 		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.3,
 	)

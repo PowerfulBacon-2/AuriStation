@@ -21,6 +21,11 @@
 	visor_flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	clothing_flags = NOTCONSUMABLE | STOPSPRESSUREDAMAGE | THICKMATERIAL | SNUG_FIT | HEADINTERNALS
 
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.7,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.9,
+	)
+
 	/// Whether or not this hardsuit has a geiger counter installed
 	var/geiger_counter = FALSE
 
@@ -414,6 +419,10 @@
 	visor_flags_inv = HIDEMASK|HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDEEARS|HIDESNOUT
 	visor_flags = STOPSPRESSUREDAMAGE | HEADINTERNALS
 	clothing_flags = NOTCONSUMABLE | STOPSPRESSUREDAMAGE | SNUG_FIT | HEADINTERNALS | THICKMATERIAL
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.3,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.5,
+	)
 
 /obj/item/clothing/head/helmet/space/hardsuit/syndi/update_icon()
 	icon_state = "hardsuit[on]-[hardsuit_type]"
@@ -579,6 +588,10 @@
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	clothing_flags = NOTCONSUMABLE | STOPSPRESSUREDAMAGE | SNUG_FIT | HEADINTERNALS | THICKMATERIAL
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.1,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.2,
+	)
 
 /obj/item/clothing/suit/space/hardsuit/syndi/elite
 	name = "elite syndicate hardsuit"
@@ -774,6 +787,10 @@
 	inhand_icon_state = "sec_helm"
 	hardsuit_type = "sec"
 	armor_type = /datum/armor/security_metal
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.4,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.4,
+	)
 
 /obj/item/clothing/suit/space/hardsuit/security
 	icon_state = "hardsuit-sec"
@@ -795,6 +812,10 @@
 	icon_state = "hardsuit0-hos"
 	hardsuit_type = "hos"
 	armor_type = /datum/armor/security_metal
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.4,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.2,
+	)
 
 /obj/item/clothing/suit/space/hardsuit/security/head_of_security
 	icon_state = "hardsuit-hos"

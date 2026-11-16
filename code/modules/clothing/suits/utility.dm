@@ -82,6 +82,9 @@
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	resistance_flags = NONE
 	custom_price = 50
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.05,
+	)
 
 /obj/item/clothing/suit/utility/bomb_suit
 	name = "bomb suit"
