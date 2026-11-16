@@ -169,7 +169,9 @@
 	/// If we are zone accurate, we always hit the zone we were targeting
 	var/zone_accurate = FALSE
 	/// How much suppressive effect this projectile applies
-	var/suppressive_effect = 20
+	var/suppressive_effect = 0
+	/// Lazy list of the entities that we have suppressed
+	var/list/suppressed_entities = null
 
 /obj/projectile/Initialize(mapload)
 	. = ..()
@@ -188,7 +190,7 @@
 		on_range()
 	if (suppressive_effect > 0)
 		for (var/mob/living/person in view(2, get_turf(src)))
-			if (person == firer)
+			if (person == firer || LAZYFIND(suppressed_entities, person))
 				continue
 			// Calculate suppressive force for this mob
 			var/final_suppressive_force = MODIFY_TRAIT_VALUE(person, TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER, suppressive_effect)
@@ -199,6 +201,7 @@
 			if (final_suppressive_force > 50)
 				person.soundbang_act(intensity = 1, stun_pwr = 0, damage_pwr = 5, deafen_pwr = 5)
 			person.suppress(final_suppressive_force)
+			LAZYADD(suppressed_entities, person)
 
 /obj/projectile/proc/on_range() //if we want there to be effects when they reach the end of their range
 	SEND_SIGNAL(src, COMSIG_PROJECTILE_RANGE_OUT)

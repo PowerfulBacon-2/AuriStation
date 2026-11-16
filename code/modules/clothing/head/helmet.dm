@@ -18,7 +18,7 @@
 	bang_protect = 1
 	custom_price = 100
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.7,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.4,
 		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.75,
 	)
 
@@ -63,7 +63,7 @@
 	inhand_icon_state = "helmetalt"
 	armor_type = /datum/armor/bulletproof
 	multiplicative_traits = list(
-		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.85,
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.7,
 		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0.4,
 	)
 

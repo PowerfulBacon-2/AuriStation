@@ -59,3 +59,4 @@
 /obj/projectile/bullet/shrapnel/bleed
 	damage = 4
 	sharpness = SHARP_VII
+	suppressive_effect = 10

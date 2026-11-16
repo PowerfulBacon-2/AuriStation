@@ -4,6 +4,7 @@
 	var/ammo_type = /obj/item/ammo_casing/caseless
 	var/dropped = FALSE
 	impact_effect_type = null
+	suppressive_effect = 0
 
 /obj/projectile/bullet/reusable/on_hit(atom/target, def_zone)
 	. = ..()

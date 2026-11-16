@@ -728,9 +728,9 @@
 		var/datum/status_effect/incapacitating/suppressed/K = is_suppressed()
 		if(K)
 			K.duration = max(world.time + amount, K.duration)
-			K.trigger()
 		else if(amount > 0)
 			K = apply_status_effect(/datum/status_effect/incapacitating/suppressed, amount)
+		K.trigger(amount)
 		return K
 
 /mob/living/proc/set_suppressed(amount, ignore_immunity = FALSE) //Sets remaining duration
@@ -744,9 +744,9 @@
 		else
 			if(K)
 				K.duration = world.time + amount
-				K.trigger()
 			else
 				K = apply_status_effect(/datum/status_effect/incapacitating/suppressed, amount)
+			K.trigger(amount)
 		return K
 
 /mob/living/proc/adjust_suppressed(amount, ignore_immunity = FALSE) //Adds to remaining duration
@@ -756,7 +756,7 @@
 		var/datum/status_effect/incapacitating/suppressed/K = is_suppressed()
 		if(K)
 			K.duration += amount
-			K.trigger()
 		else if(amount > 0)
 			K = apply_status_effect(/datum/status_effect/incapacitating/suppressed, amount)
+		K.trigger(amount)
 		return K

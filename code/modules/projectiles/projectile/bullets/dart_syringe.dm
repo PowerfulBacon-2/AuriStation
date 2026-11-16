@@ -3,6 +3,7 @@
 	icon_state = "cbbolt"
 	damage = 6
 	sharpness = 80
+	suppressive_effect = 0
 	var/piercing = FALSE
 	var/obj/item/reagent_containers/syringe/syringe = null
 

@@ -9,6 +9,7 @@
 /obj/projectile/bullet/lmg
 	damage = 20
 	sharpness = SHARP_XII
+	suppressive_effect = 40
 
 // Mech FNX-99
 

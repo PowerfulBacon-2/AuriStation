@@ -57,26 +57,35 @@
 /atom/movable/screen/plane_master/rendering_plate/game_world/proc/update_suppression(mob/mymob, enabled, strength_multiplier = 1)
 	if (enabled)
 		// Create a second relay but blur it
-		if (!suppression)
-			suppression = relay_render_to_plane(mymob, RENDER_PLANE_EFFECTS)
-
-			// Apply filters
-			suppression.add_filter("radial_blur", 1, angular_blur_filter(size=1.5))
-
-			var/icon/icon = icon('icons/hud/fullscreen/screen_blur.dmi', "blur")
-
-			suppression.add_filter("alpha_mask", 4, alpha_mask_filter(icon = icon, flags = MASK_INVERSE))
-			suppression.layer += 1
-			// Start transparent and fade in quickly
-			suppression.color = list(
+		if (suppression)
+			animate(suppression, time=0.1 SECONDS, color=list(
 				1, 0, 0, 0,
 				0, 1, 0, 0,
 				0, 0, 1, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
-			)
+			))
+			QDEL_IN(suppression, 10 SECONDS)
+			suppression = null
+		suppression = relay_render_to_plane(mymob, RENDER_PLANE_EFFECTS)
 
-		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(0.4), color_matrix_lightness(-0.2))
+		// Apply filters
+		suppression.add_filter("radial_blur", 1, angular_blur_filter(size=1.5 * strength_multiplier))
+
+		var/icon/icon = icon('icons/hud/fullscreen/screen_blur.dmi', "blur")
+
+		suppression.add_filter("alpha_mask", 4, alpha_mask_filter(icon = icon, flags = MASK_INVERSE))
+		suppression.layer += 1
+		// Start transparent and fade in quickly
+		suppression.color = list(
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 0,
+			0, 0, 0, 0,
+		)
+
+		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(0.4 * strength_multiplier), color_matrix_lightness(-0.2 * strength_multiplier))
 		animate(suppression, time=0.1 SECONDS, color=suppress_effect)
 		animate(time=2.5 SECONDS, color=color_matrix_identity())
 	else if (suppression != null)
