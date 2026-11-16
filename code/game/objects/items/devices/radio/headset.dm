@@ -32,6 +32,11 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	dog_fashion = null
 	var/obj/item/encryptionkey/keyslot2 = null
 
+	/// Lazy list of traits which apply multiplicatively to the person that equips this.
+	var/list/multiplicative_traits
+	/// Lazy list of traits which apply additively to the person that equips this.
+	var/list/additive_traits
+
 /obj/item/radio/headset/suicide_act(mob/living/carbon/user)
 	user.visible_message(span_suicide("[user] begins putting \the [src]'s antenna up [user.p_their()] nose! It looks like [user.p_theyre()] trying to give [user.p_them()]self cancer!"))
 	return TOXLOSS
@@ -80,6 +85,25 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 /obj/item/radio/headset/ui_data(mob/user)
 	. = ..()
 	.["headset"] = TRUE
+
+/obj/item/radio/headset/dropped(mob/user)
+	..()
+	if(!istype(user))
+		return
+	for (var/trait in multiplicative_traits)
+		REMOVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
+	for (var/trait in additive_traits)
+		REMOVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]")
+
+/obj/item/radio/headset/equipped(mob/user, slot)
+	. = ..()
+	if (!istype(user))
+		return
+	if(slot_flags & slot)
+		for (var/trait,amount in multiplicative_traits)
+			ADD_MULTIPLICATIVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]", amount)
+		for (var/trait,amount in additive_traits)
+			ADD_CUMULATIVE_TRAIT(user, trait, "[CLOTHING_TRAIT] [REF(src)]", amount)
 
 /obj/item/radio/headset/syndicate //disguised to look like a normal headset for stealth ops
 
