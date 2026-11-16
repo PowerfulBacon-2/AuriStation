@@ -58,14 +58,14 @@
 	if (enabled)
 		// Create a second relay but blur it
 		if (suppression)
-			animate(suppression, time=0.1 SECONDS, color=list(
+			animate(suppression, time=0.3 SECONDS, color=list(
 				1, 0, 0, 0,
 				0, 1, 0, 0,
 				0, 0, 1, 0,
 				0, 0, 0, 0,
 				0, 0, 0, 0,
 			))
-			QDEL_IN(suppression, 10 SECONDS)
+			QDEL_IN(suppression, 1 SECONDS)
 			suppression = null
 		suppression = relay_render_to_plane(mymob, RENDER_PLANE_EFFECTS)
 
@@ -85,7 +85,7 @@
 			0, 0, 0, 0,
 		)
 
-		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(0.4 * strength_multiplier), color_matrix_lightness(-0.2 * strength_multiplier))
+		var/suppress_effect = color_matrix_multiply(color_matrix_saturation(1 - 0.6 * strength_multiplier), color_matrix_lightness(-0.2 * strength_multiplier))
 		animate(suppression, time=0.1 SECONDS, color=suppress_effect)
 		animate(time=2.5 SECONDS, color=color_matrix_identity())
 	else if (suppression != null)
