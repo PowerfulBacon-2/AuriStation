@@ -54,7 +54,7 @@
 	. = ..()
 	add_filter("displacer", 1, displacement_map_filter(render_source = GRAVITY_PULSE_RENDER_TARGET, size = 10))
 
-/atom/movable/screen/plane_master/rendering_plate/game_world/proc/update_suppression(mob/mymob, enabled)
+/atom/movable/screen/plane_master/rendering_plate/game_world/proc/update_suppression(mob/mymob, enabled, strength_multiplier = 1)
 	if (enabled)
 		// Create a second relay but blur it
 		if (!suppression)
@@ -63,9 +63,9 @@
 			// Apply filters
 			suppression.add_filter("radial_blur", 1, angular_blur_filter(size=1.5))
 
-			var/icon/icon = icon('icons/hud/fullscreen/screen_full.dmi', "oxydamageoverlay7")
+			var/icon/icon = icon('icons/hud/fullscreen/screen_blur.dmi', "blur")
 
-			suppression.add_filter("alpha_mask", 4, alpha_mask_filter(icon = icon))
+			suppression.add_filter("alpha_mask", 4, alpha_mask_filter(icon = icon, flags = MASK_INVERSE))
 			suppression.layer += 1
 			// Start transparent and fade in quickly
 			suppression.color = list(
