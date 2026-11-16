@@ -17,6 +17,9 @@
 	resistance_flags = FLAMMABLE
 	custom_price = 40
 	bang_protect = 2
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.3,
+	)
 
 /obj/item/clothing/ears/earmuffs/Initialize(mapload)
 	. = ..()

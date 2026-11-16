@@ -75,6 +75,10 @@
 	bang_protect = 1 //make this consistent with other plasmaman helmets
 	resistance_flags = NONE
 	dog_fashion = null
+	// Yea you just really don't care that people are shooting at you cause you are CRAZY style
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_OTHER = 0,
+	)
 	///Is the light on?
 	var/on = FALSE
 

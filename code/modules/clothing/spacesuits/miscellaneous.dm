@@ -462,6 +462,7 @@ Contains:
 	clothing_flags = STOPSPRESSUREDAMAGE | SNUG_FIT | HEADINTERNALS
 	max_heat_protection_temperature = 100
 	actions_types = null
+	multiplicative_traits = null
 
 /obj/item/clothing/head/helmet/space/hardsuit/skinsuit/attack_self(mob/user)
 	return

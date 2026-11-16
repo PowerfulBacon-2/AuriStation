@@ -89,6 +89,9 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "syndie_headset"
 	inhand_icon_state = "syndie_headset"
 	bang_protect = 1
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.5,
+	)
 
 /obj/item/radio/headset/syndicate/alt/leader
 	name = "team leader headset"
@@ -125,6 +128,9 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "sec_headset_alt"
 	worn_icon_state = "sec_headset_alt"
 	bang_protect = 1
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.8,
+	)
 
 /obj/item/radio/headset/headset_medsec
 	name = "medical-security radio headset"
@@ -212,6 +218,9 @@ GLOBAL_LIST_INIT(channel_tokens, list(
 	icon_state = "com_headset_alt"
 	worn_icon_state = "com_headset_alt"
 	bang_protect = 1
+	multiplicative_traits = list(
+		TRAIT_VALUE_ARMOR_SUPPRESSION_SELF = 0.8,
+	)
 
 /obj/item/radio/headset/heads/chief_engineer
 	name = "\proper the chief engineer's headset"
